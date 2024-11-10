@@ -74,6 +74,15 @@
 
                             <div class="col">
                                 <div class="form-group">
+                                    <label>Username: </label>
+                                    <input type="username" class="form-control" name="username"  placeholder="Enter username" required>
+                                    <div class="valid-feedback">Valid.</div>
+                                    <div class="invalid-feedback">Please fill out this field.</div>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="form-group">
                                     <label>Email: </label>
                                     <input type="email" class="form-control" name="email"  placeholder="Enter Email" required>
                                     <div class="valid-feedback">Valid.</div>
@@ -84,50 +93,12 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label>Password:</label>
-                                    <input type="password" class="form-control" id="password-field" name="password" placeholder="Enter Password" required>
+                                    <input class="form-control" id="password-field" name="password" value="staff123" placeholder="Enter Password" disabled>
                                     <div class="valid-feedback">Valid.</div>
                                     <div class="invalid-feedback">Please fill out this field.</div>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- <div class="row">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label> House No: </label>
-                                    <input type="text" class="form-control" name="houseno"  placeholder="Enter House No." required>
-                                    <div class="valid-feedback">Valid.</div>
-                                    <div class="invalid-feedback">Please fill out this field.</div>
-                                </div>
-                            </div>
-
-                            <div class="col">
-                                <div class="form-group">
-                                    <label> Street: </label>
-                                    <input type="text" class="form-control" name="street"  placeholder="Enter Street" required>
-                                    <div class="valid-feedback">Valid.</div>
-                                    <div class="invalid-feedback">Please fill out this field.</div>
-                                </div>
-                            </div>
-
-                            <div class="col">
-                                <div class="form-group">
-                                    <label> Barangay: </label>
-                                    <input type="text" class="form-control" name="brgy"  placeholder="Enter Barangay" required>
-                                    <div class="valid-feedback">Valid.</div>
-                                    <div class="invalid-feedback">Please fill out this field.</div>
-                                </div>
-                            </div>
-
-                            <div class="col">
-                                <div class="form-group">
-                                    <label> Municipality: </label>
-                                    <input type="text" class="form-control" name="municipal" placeholder="Enter Municipality" required>
-                                    <div class="valid-feedback">Valid.</div>
-                                    <div class="invalid-feedback">Please fill out this field.</div>
-                                </div>
-                            </div>
-                        </div> -->
 
                         <div class="row">
                             <div class="col"> 
@@ -209,11 +180,11 @@
                     <thead class="alert-info"> 
                         <tr>
                             <th> Actions </th>
+                            <th> Username </th>
                             <th> Email </th>
-                            <th> Password </th>
                             <th> Surname </th>
                             <th> First name </th>
-                            <th> Middle Name </th>
+                            <th> Middle Initial </th>
                             <th> Age </th>
                             <th> Sex </th>
                             <th> Contact </th>
@@ -232,8 +203,8 @@
                                             <button class="btn btn-danger" type="submit" name="delete_staff"style="width: 90px; font-size: 17px; border-radius:30px;"> Archive </button>
                                         </form>
                                     </td>
+                                    <td> <?= $view['username'];?> </td>
                                     <td> <?= $view['email'];?> </td>
-                                    <td> <?= $view['password'];?> </td>
                                     <td> <?= $view['lname'];?> </td>
                                     <td> <?= $view['fname'];?> </td>
                                     <td> <?= $view['mi'];?> </td>
@@ -257,10 +228,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-modal/2.2.6/js/bootstrap-modalmanager.min.js" integrity="sha512-/HL24m2nmyI2+ccX+dSHphAHqLw60Oj5sK8jf59VWtFWZi9vx7jzoxbZmcBeeTeCUc7z1mTs3LfyXGuBU32t+w==" crossorigin="anonymous"></script>
 <!-- responsive tags for screen compatibility -->
 <meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no">
-<!-- custom css --> 
-<link href="../BarangaySystem/customcss/regiformstyle.css" rel="stylesheet" type="text/css">
-<!-- bootstrap css --> 
-<link href="../BarangaySystem/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"> 
 <!-- fontawesome icons -->
 <script src="https://kit.fontawesome.com/67a9b7069e.js" crossorigin="anonymous"></script>
 <script src="../BarangaySystem/bootstrap/js/bootstrap.bundle.js" type="text/javascript"> </script>

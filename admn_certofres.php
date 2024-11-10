@@ -2,26 +2,26 @@
     
     error_reporting(E_ALL ^ E_WARNING);
     ini_set('display_errors',0);
-    require('classes/resident.class.php');
+    require('classes/main.class.php');
 
     require 'phpqrcode/qrlib.php';
     require 'vendor/autoload.php';
 
-    if (isset($_POST['accept_certofres'])) {
-        $id_rescert = $_POST['id_rescert'];
-        $id_resident = $_POST['id_resident'];
+    // if (isset($_POST['accept_certofres'])) {
+    //     $id_rescert = $_POST['id_rescert'];
+    //     $id_resident = $_POST['id_resident'];
 
-        $link = 'rescert_form.php?id_resident='.$id_resident;
+    //     $link = 'rescert_form.php?id_resident='.$id_resident;
 
-        $qrImage = $bmis->generateQRCode($link);
-        $bmis->sendEmailWithQRCode($qrImage, $id_resident);
-    }
+    //     $qrImage = $bmis->generateQRCode($link);
+    //     $bmis->sendEmailWithQRCode($qrImage, $id_resident);
+    // }
 
     $userdetails = $bmis->get_userdata();
     $bmis->validate_admin();
     $bmis->delete_certofres();
     $bmis->accept_certofres();
-    $bmis->archive_certofres();
+    // $bmis->archive_certofres();
 ?>
 
 <?php 

@@ -1,11 +1,23 @@
 <?php
-require('classes/resident.class.php');
-$userdetails = $residentbmis->get_userdata();
-$residentbmis->validate_admin();
-$residentbmis->update_certofres();
+    require('classes/staff.class.php');
 
-$id_resident = $_GET['id_resident'];
-$resident = $residentbmis->get_single_certofres($id_resident);
+    // Check if the 'data' parameter exists in the URL
+    if (isset($_GET['data'])) {
+        // Get the JSON data from the URL parameter
+        $jsonData = $_GET['data'];
+
+        // URL decode the data to make sure it's properly decoded
+        $jsonData = urldecode($jsonData);
+
+        // Decode the JSON data to a PHP associative array
+        $resident = json_decode($jsonData, true); // `true` converts JSON to an associative array
+    }
+
+    $bmis->validate_staff();
+    $bmis->insert_certofres();
+    $bmis->update_certofres();
+
+
   ?>
 
 <!DOCTYPE html>
@@ -40,12 +52,6 @@ $resident = $residentbmis->get_single_certofres($id_resident);
  <body class="skin-black" >
      <!-- header logo: style can be found in header.less -->
     
-    
-     <?php 
-     
-     include "classes/conn.php"; 
-
-     ?> 
        <div class="col-xs-12 col-sm-6 col-md-8"  >
             <div style=" background: black;" >
                 <div class="col-xs-4 col-sm-6 col-md-3" style="background: white; margin-right:10px; border: 2px solid black;">
@@ -107,16 +113,46 @@ $resident = $residentbmis->get_single_certofres($id_resident);
                     <div class="col-xs-12 col-md-12">
                         <p class="text-center" style="font-size: 20px; font-size:bold;">OFFICE OF THE BARANGAY CAPTAIN<br><br><b style="font-size: 25px;"><ins>CERTIFICATE OF RESIDENCY</ins></b></p> <br>
                         <p style="font-size: 18px;">TO WHOM IT MAY CONCERN:</p> <br>
-                        <p style="text-indent:40px;text-align: justify;">This is to certify that <span contenteditable="true" style="font-weight: bold;" id="lname"><?= $resident['lname'];?> </span>, <span contenteditable="true" style="font-weight: bold;" id="fname"><?= $resident['fname'];?></span><span contenteditable="true" style="font-weight: bold;" id="mi"><?= $resident['mi'];?></span>,
-                        <span contenteditable="true" id="age"><?= $resident['age'];?></span> Years Old, <span contenteditable="true" id="nationality"><?= $resident['nationality'];?></span> and a bonafide resident of <span contenteditable="true" id="houseno"><?= $resident['houseno'];?></span> <span contenteditable="true" id="street"><?= $resident['street'];?> </span><span contenteditable="true" id="brgy"><?= $resident['brgy'];?></span> <span contenteditable="true" id="city"><?= $resident['city'];?></span> <span contenteditable="true" id="municipal"><?= $resident['municipal'];?></span>.</p> <br>
+                        <p style="text-indent:40px;text-align: justify;">
+                            This is to certify that 
+                            <span contenteditable="true" style="font-weight: bold; text-decoration: underline;" id="lname">
+                                <?= !empty($resident['lname']) ? $resident['lname'] : '_____________';?> 
+                            </span>, 
+                            <span contenteditable="true" style="font-weight: bold; text-decoration: underline;" id="fname">
+                                <?= !empty($resident['lname']) ? $resident['lname'] : '_____________';?>
+                            </span>
+                            <span contenteditable="true" style="font-weight: bold;" id="mi">
+                                <?= !empty($resident['mi']) ? $resident['mi'] : '_____________';?>
+                            </span>,
+                            <span contenteditable="true" id="age">
+                                <?= !empty($resident['age']) ? $resident['age'] : '_____________';?>
+                            </span> Years Old, <span contenteditable="true" id="nationality">
+                                <?= !empty($resident['nationality']) ? $resident['nationality'] : '_____________';?>
+                            </span> and a bonafide resident of 
+                            <span contenteditable="true" id="houseno">
+                                <?= !empty($resident['houseno']) ? $resident['houseno'] : '_____________';?>
+                            </span> 
+                            <span contenteditable="true" id="street">
+                                <?= !empty($resident['street']) ? $resident['street'] : '_____________';?>
+                            </span>
+                            <span contenteditable="true" id="brgy">
+                                <?= !empty($resident['brgy']) ? $resident['brgy'] : '_____________';?>
+                            </span> 
+                            <span contenteditable="true" id="city">
+                                <?= !empty($resident['city']) ? $resident['city'] : '_____________';?>
+                            </span> 
+                            <span contenteditable="true" id="municipality">
+                                <?= !empty($resident['municipality']) ? $resident['municipality'] : '_____________';?>
+                            </span>
+                        .</p> <br>
 
                         <p style="text-indent:40px;text-align: justify;">Further certify that the above-named subject is of good moral character and has 
                         no derigatory record in this office, law abiding citizen and reliable.</p> <br>
 
                         <p style="text-indent:40px;text-align: justify;">This certification is issued upon the request of the above-named party
-                        as a supporting document needed for <ins contenteditable="true" id="purpose"><?= $resident['purpose'];?></ins>.</p> <br>
+                        as a supporting document needed for <ins contenteditable="true" id="purpose"><?= !empty($resident['purpose']) ? $resident['purpose'] : '_____________';?></ins>.</p> <br>
 
-                        <p style="text-indent:40px;text-align: justify;">Issued this <?= $resident['date'];?> Antipolo City. </p>
+                        <p style="text-indent:40px;text-align: justify;">Issed this Antipolo City. </p>
 
 
                         
@@ -136,9 +172,9 @@ $resident = $residentbmis->get_single_certofres($id_resident);
                 </div>
 
                 <div class="col-xs-8 col-md-4" style="margin-top: 7em;">
-                <b style="font-size:18px;">Rest. Cert. No. <u id="id_rescert"> <?= $resident['id_rescert']?> </u><br>
+                <b style="font-size:18px;">Rest. Cert. No. <u id="id_rescert"> </u><br>
                 <span style=" text-align: center;">Issued at ____________</span><br>
-                <span style=" text-align: center;">Issued on <u><?= $resident['date']?></span></u></b>
+                <span style=" text-align: center;">Issued on  </span></b>
                 </div>
                 
                 
@@ -189,7 +225,7 @@ $resident = $residentbmis->get_single_certofres($id_resident);
                 houseno: $('#houseno').text(),
                 street: $('#street').text(),
                 brgy: $('#brgy').text(),
-                municipal: $('#municipal').text(),
+                municipality: $('#municipality').text(),
                 purpose: $('#purpose').text(),
                 id_rescert: $('#id_rescert').text()
             };

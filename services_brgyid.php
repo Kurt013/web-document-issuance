@@ -1,11 +1,7 @@
 <?php 
     require('classes/main.class.php');
-    require('classes/resident.class.php');
-    
-    $userdetails = $bmis->get_userdata();
-    $view = $residentbmis->get_single_brgyid($userdetails['id']);
-    $bmis->create_brgyid();
-
+    require 'phpqrcode/qrlib.php';
+    require 'vendor/autoload.php';
 ?>
 
 <!DOCTYPE html>

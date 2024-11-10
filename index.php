@@ -1,424 +1,502 @@
 <?php 
-    error_reporting(E_ALL ^ E_WARNING);
-    
-    if (!isset($_SESSION)) {
-        $showdate = date("Y-m-d");
-        date_default_timezone_set('Asia/Manila');
-        $showtime = date("h:i:a");
-        $_SESSION['storedate'] = $showdate;
-        $_SESSION['storetime'] = $showtime;
-        session_start();
+    require './classes/main.class.php';
+
+    $userdetails = $bmis->get_userdata();
+
+    if ($userdetails && $userdetails['role'] == 'administrator') {
+        echo '<script>window.location.href="./admn_dashboard.php"</script>';
     }
 
-    require('classes/main.class.php');
-    $bmis->login();
+    $dt = new DateTime("now", new DateTimeZone('Asia/Manila'));
+    $tm = new DateTime("now", new DateTimeZone('Asia/Manila'));
+    $cdate = $dt->format('Y/m/d');
+    $ctime = $tm->format('H');
+
 ?>
+<!DOCTYPE html> 
+<html>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Barangay Management System</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <head> 
+    <title> Homepage </title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-     <style>
-        @font-face {
-            font-family: 'OSMedium'; 
-            src: url('fonts/OpenSauceSans-Medium.ttf') format('truetype'); 
-        }
+        <!-- responsive tags for screen compatibility -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- custom css --> 
+        <link href="../BarangaySystem/customcss/pagestyle.css" rel="stylesheet" type="text/css">
+        <!-- bootstrap css --> 
+        <link href="../BarangaySystem/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
+        <!-- fontawesome icons --> 
+        <script src="https://kit.fontawesome.com/67a9b7069e.js" crossorigin="anonymous"></script>
 
-        @font-face {
-            font-family: 'OSBold'; 
-            src: url('fonts/OpenSauceSans-Bold.ttf') format('truetype'); 
-        }
-
-        @font-face {
-            font-family: 'OSBlack'; 
-            src: url('fonts/OpenSauceSans-Black.ttf') format('truetype'); 
-        }
-
-        @font-face {
-            font-family: 'OSExBold'; 
-            src: url('fonts/OpenSauceSans-ExtraBold.ttf') format('truetype'); 
-        }
-
-        @font-face {
-            font-family: 'OSBlackIt'; 
-            src: url('fonts/OpenSauceSans-BlackItalic.ttf') format('truetype'); 
-        }
-
-        body {
-            background-image: 
-            linear-gradient(rgba(1, 75, 174, 0.8), rgba(90, 218, 230, 0.9), rgba(1, 75, 174, 0.8)), 
-            url('assets/bgpic.jpg'); /* Replace with your image path */
-            background-size: cover; /* Cover the entire container */
-            background-position: center; /* Center the image */
-            background-repeat: no-repeat; /* Prevent tiling */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            font-family: 'OSBold', sans-serif;
-        }
-
-        .logo-container {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            display: flex;
-            gap: 0px;
-            z-index: 10;
-        }
         
-        .logo-container img {
-            width: 5.5%; /* Adjust size as needed */
-            height: auto;
-        }
 
-        .left-side h3 {
-            font-family: 'OSBlack';
-            color: rgb(1, 75, 174);
-            text-align:center;
-            background-color: white;
-            margin-bottom: 10px;
-            font-size: 2rem;
-        }
+    <style>
 
-        .container-custom {
-            display: flex;
-            width: 100%;
-            height: 100vh;
-            max-width: 100%;
-            padding: 0;
-            margin: 0;
-        }
 
-        .left-side {
-    width: 45%;
-    background-color: white;
-    padding: 85px;
-    display: flex;
-    flex-direction: column;
+    /* Back-to-Top */
+
+    .top-link {
+    transition: all 0.25s ease-in-out;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    display: inline-flex;
+    cursor: pointer;
+    align-items: center;
     justify-content: center;
-    z-index: 5;
-    box-shadow: 10px 0 10px rgba(0, 0, 0, 0.2); /* Right-side shadow */
-
-}
-        
-
-        .left-side p {
-            text-align: center;
-            font-family: 'OSMedium';
-        }
-
-        .right-side {
-            width: 55%;
-            background-image: 
-            linear-gradient(rgba(1, 75, 174, 0.8), rgba(90, 218, 230, 0.9), rgba(1, 75, 174, 0.8)), 
-            url('assets/bgpic.jpg'); 
-            background-size: cover; 
-            background-position: center;
-            background-repeat: no-repeat; 
-            display: flex;
-            justify-content: center; 
-            align-items: flex-end; 
-            position: relative; 
-            padding: 0;
-        }
-
-        .right-side img {
-            position:absolute;
-            bottom:0;
-            right:0;
-            width: 550px; 
-            height: 550px; 
-           
-        }
-
-        .text-overlay {
-            width: 45%; 
-            text-align: left; 
-            color: white; 
-            font-family: 'OSBlackIt'; 
-            font-size: 2.2rem; 
-            z-index: 1; 
-            margin-top: 120px;      
-            margin-left: 40px;    
-            margin-right: auto;    
-            margin-bottom: auto;   
-            text-shadow: 5px 5px 10px rgba(1, 60, 139, 0.9);
-            line-height: 42px;
-            -webkit-text-stroke: 7px rgb(1, 60, 139);
-         
-            paint-order: stroke fill;
-            display: block; 
-        }
-
-        .input-field {
-            margin-top: 1px;
-            width: 100%;
-            padding: 10px;               
-            border: none;                
-            border-bottom: 2px solid black; 
-            border-radius: 0;           
-            font-size: 1rem;        
-            line-height: 1.5;            
-            box-sizing: border-box;     
-            margin-bottom: 20px;         
-            transition: border-color 0.3s, border-radius 0.3s; 
-            background-color: white;     
-            font-family: 'OSMedium', sans-serif;           
-        }
-
-        .input-field:focus {
-            border: 2px solid black;
-            outline: none;
-            border-radius: 5px;
-            background-color: white;
-            color: #535353;
-        }
-
-        .tgl {
-            width: 25px; height: auto; margin-top: 3px;
-        }
-
-        .login-button {
-            background-color: RGB(44, 145, 201);
-            width: 100%;
-            padding: 9px 15px;
-   
-        }
-        .create-button {
-    background-color: rgb(1, 75, 174); 
-    color: white;
-    padding: 9px 15px;
-   
-    width: 100%;
-    
-}
-
-.create-button:hover {
-    background-color: rgb(1, 75, 174);}
-
-    .login-button:hover {
-        background-color: RGB(44, 145, 201);}
-
-        
-        .btn {
-            
-           
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            
-            font-family: 'OSblack';
-            font-size: 16px;
-            letter-spacing: 1px;
-            margin-top: 10px;
-        }
-
-
-
-
-        .registration-section p {
-            color:#535353;
-            margin-bottom: 3px;
-            text-align: center;
-            opacity: 0.6;
-        }
-
-        .btn:hover {
-            opacity: 0.9;
-        }
-
-        .copyright {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            font-family: 'OSBold', sans-serif;
-            color: #333333;
-            font-size: 0.85rem;
-            opacity: 0.7;
-            z-index: 6;
-        }
-
-@media (max-width: 1115px) {
-    .left-side {
-        padding: 50px;
+    margin: 0 3em 3em 0;
+    border-radius: 50%;
+    padding: 0.25em;
+    width: 80px;
+    height: 80px;
+    background-color: #3661D5;
+    }
+    .top-link.show {
+    visibility: visible;
+    opacity: 1;
+    }
+    .top-link.hide {
+    visibility: hidden;
+    opacity: 0;
+    }
+    .top-link svg {
+    fill: white;
+    width: 24px;
+    height: 12px;
+    }
+    .top-link:hover {
+    background-color: #3498DB;
+    }
+    .top-link:hover svg {
+    fill: #000000;
     }
 
-    .text-overlay {
-        margin-top: 100px;
-        margin-left: 30px;
-        margin-right: auto;
-        margin-bottom: 450px;
-        width: 80%;
-        font-size: 1.8rem;
+    .screen-reader-text {
+    position: absolute;
+    clip-path: inset(50%);
+    margin: -1px;
+    border: 0;
+    padding: 0;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    word-wrap: normal !important;
+    clip: rect(1px, 1px, 1px, 1px);
+    }
+    .screen-reader-text:focus {
+    display: block;
+    top: 5px;
+    left: 5px;
+    z-index: 100000;
+    clip-path: none;
+    background-color: #eee;
+    padding: 15px 23px 14px;
+    width: auto;
+    height: auto;
+    text-decoration: none;
+    line-height: normal;
+    color: #444;
+    font-size: 1em;
+    clip: auto !important;
     }
 
-    .right-side img {
-        width: 500px;
-        height: 500px;
-    }
-}
-
-@media (max-width: 1070px) {
-    .text-overlay {
-        margin-top: 100px;
-        margin-left: 30px;
-        margin-right: auto;
-        margin-bottom: 450px;
-        width: 80%;
-    }
-}
-
-@media (max-width: 920px) {
-    .copyright {
-        width: 40%;
-    }
-
-    .left-side h3 {
-        margin-bottom: 0;
-    }
-}
-
-@media (max-width: 831px) {
-    .text-overlay {
-        font-size: 1.7rem;
-        line-height: 35px;
-    }
-}
-
-@media (max-width: 768px) {
-    .container-custom {
-        flex-direction: column;
-        align-items: center;
-        margin: 25px;
-        font-size: smaller;
-    }
-
-    .btn {
-        font-size: 0.9rem;
-    }
-
-.left-side p {
-    font-size: 0.9rem;
-}
-
-.tgl {
-    width: 20px;
-}
-
-
-
-
-.left-side h3 {
-    font-size: 1.7rem;
-    margin-bottom: 10px;;
-}
-
-    .left-side {
-        width: 100%;
-        height: 100%;
-        max-width: 500px;
-        margin: 20px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-        padding: 30px;
-      
-        justify-content: flex-start;
-    }
-
-    .input-field {
-        font-size: 0.9rem;
-    }
-
-    .registration-section p {
-        font-size: 0.9rem;
-
-    }
-
-    .copyright,
-    .right-side,
-    .logo-container {
-        display: none;
-    }
-}
 
 
     </style>
-</head>
-<body>
+    <body> 
+        <p><a href="./login.php">Sign in as ADMIN</a></p>
+        <!-- Back-to-Top and Back Button -->
 
-<div class="logo-container">
-    <img src="assets/sinlogo.png" alt="Logo 1">
-    <img src="assets/sntrlogo.png" alt="Logo 2">
-</div>
+        <a data-toggle="tooltip" title="Back-To-Top" class="top-link hide" href="" id="js-top">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6"><path d="M12 6H0l6-6z"/></svg>
+            <span class="screen-reader-text">Back to top</span>
+        </a>
 
-<div class="container-custom">
-    <div class="left-side">
-        <h3>Welcome Back!</h3>
-        <p>To ensure a seamless and secure experience, please enter your credentials below:</p>
+        <!-- Eto yung navbar -->
 
-        <form method="post">
-            <label>Email</label>
-            <input class="input-field" type="email"  name="email" required>
+        <nav class="navbar navbar-dark bg-primary sticky-top">
+            <a class="navbar-brand" href="index.php">Home</a>
+            <a href="#down2" data-toggle="tooltip" title="Announcement" class="btn1 bg-primary"><i class="fa fa-bullhorn fa-lg"></i></a>
+            <a href="#down1" data-toggle="tooltip" title="E-Services" class="btn2 bg-primary"><i class="fa fa-edit fa-lg"></i></a>
+            <a href="#down" data-toggle="tooltip" title="Contact" class="btn3 bg-primary"><i class="fa fa-phone fa-lg"></i></a>
+            
+           
+            <div class="dropdown ml-auto">
+                <ul class="dropdown-menu" style="width: 175px;" >
+                </ul>
+            </div>
+        </nav>
 
-            <label>Password</label>
-            <div style="position: relative;">
-                <input class="input-field" type="password" id="myInput" name="password" required>
-                <button type="button" onclick="myFunction()" style="position: absolute; right: 10px; top: 10px; background: none; border: none; cursor: pointer;">
-                    <img id="toggleIcon" src="assets/show.png" alt="Show password" class="tgl">
+        <div  id="down2"></div>
+
+        <?php 
+            $view = $bmis->view_announcement();
+
+            if($view > 0 ) { ?>
+            <table class="table table-dark table-responsive">
+                <thead style="display:none"> 
+                    <tr>
+                        <th> Announcement </th>
+                    </tr>
+                </thead>
+                <tbody style="display:none"> 
+                <?php if(is_array($view)) {?>
+                    <?php foreach($view as $view) {?>
+                        <tr>
+                            <td> <?= $view['event'];?> </td>             
+                        </tr>
+                    <?php }?>
+                <?php } ?>
+                </tbody>
+            </table>
+
+            <div class="alert alert-info alert-dismissible fade show" role="alert"
+                 style="margin-top: 4%; 
+                        margin-left: 17.5%;
+                        margin-bottom: 1.5%;
+                        border-radius:30px; 
+                        width:65%;
+                        height:30%;
+                        color: white;
+                        background-color:#3498DB;">
+                <strong><h3>ANNOUNCEMENT!<h3></strong> 
+                <hr> 
+                <br> 
+                <p> 
+                    <?= $view['event'];?> 
+                </p>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
 
-            <button class="btn btn-primary login-button" type="submit" name="login">Login</button>
-        </form>
+        <?php 
+            }
 
-        <hr>
+            else {
+            
+            }
 
-        <div class="registration-section mt-3">
-            <p><strong>Haven't registered yet?</strong></p>
-            <button class="btn btn-success create-button" onclick="trying();">Create Account</button>
-        </div>
-    </div>
+        ?>
 
-    <div class="right-side">
-    <img src="assets/qrdecors3.png" alt="Decorative Image">
+        <div id="down1"></div>
 
-    <div class="text-overlay">
-        <p>Making Document Requests and Processing Faster and Easier!</p>
-    </div>
-</div>
+        <br>
 
-</div>
+        <section class="heading-section"> 
+            <div class="container text-center"> 
+                <div class="row"> 
+                    <div class="col"> 
+                        
+                        <br>
+                        <br>
 
-<div class="copyright">
-    &copy; <?php echo date("Y"); ?> Barangay Management System. All Rights Reserved.
-</div>
+                        <div class="header"> 
+                            <h2> Welcome to Barangay Information & E-Services Management System </h2><bR>
+                            <h3> You may select the following services offered below </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-<script>
-    function myFunction() {
-        const x = document.getElementById("myInput");
-        const icon = document.getElementById("toggleIcon");
-        
-        if (x.type === "password") {
-            x.type = "text";
-            icon.src = "assets/eye.png";
-            icon.alt = "Hide password";
-        } else {
-            x.type = "password";
-            icon.src = "assets/show.png";
-            icon.alt = "Show password";
-        }
-    }
+            <br>
+            <br>
 
-    function trying() {
-        window.location.href = "resident_registration.php";
-    }
-</script>
+            <div class="container"> 
+                <div class="row title-spacing">
+                    <div class="col"> 
+                        <h2 class="text-center"> E-Services</h2>
+                        <hr>
+                    </div> 
+                </div>
+                
+                <div class="row">
+                    <div class="col"> 
+                        <a href="services_business.php ">
+                            <div class="zoom1"> 
+                                <div class="card"> 
+                                    <div class="card-body text-center"> 
+                                        <img src="./icons/ResidentHomepage/busper.png">
+                                        <h4> Business Permit </h4> 
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col"> 
+                        <a href="services_brgyid.php">
+                            <div class="zoom1">
+                                <div class="card"> 
+                                    <div class="card-body text-center"> 
+                                        <img style="height: 139px;" src="./icons/ResidentHomepage/brgyid.png">
+                                        <h4> Barangay ID </h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col"> 
+                        <a href="services_certofindigency.php ">
+                            <div class="zoom1">
+                                <div class="card"> 
+                                    <div class="card-body text-center"> 
+                                        <img src="./icons/ResidentHomepage/indigency.png">
+                                        <h4> Certificate of Indigency </h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
 
-</body>
+                <br>
+                <div class="row card-spacing"> 
+                    <div class="col">
+                        <a href="services_certofres.php "> 
+                        <div class="zoom1">    
+                            <div class="card"> 
+                                <div class="card-body text-center"> 
+                                <img src="./icons/ResidentHomepage/residency.png">
+                                    <h4> Certificate of Residency </h4>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+
+                    <div class="col">
+                        <a href="services_brgyclearance.php "> 
+                        <div class="zoom1">    
+                            <div class="card"> 
+                                <div class="card-body text-center">
+                                <img src="./icons/ResidentHomepage/clearance.png"> 
+                                    <h4> Barangay Clearance </h4>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <br>
+        <br>
+        <br>
+
+        <!-- Footer -->
+
+        <footer id="footer" class="bg-primary text-white d-flex-column text-center">
+            <hr class="mt-0">
+
+            <div class="text-center">
+                <h1 class="text-white">Services</h1>
+                <ul class="list-unstyled list-inline">
+
+                &nbsp;
+
+                <li class="list-inline-item">
+                    <a class="footerlinks" href="#!" class="sbtn btn-large mx-1" title="Documents">
+                    <i class="fas fa-file fa-2x"></i>
+                    </a>
+                </li>
+
+
+                <li class="list-inline-item">
+                    <a href="#!" class="footerlinks sbtn btn-large mx-1" title="Card">
+                    <i class="fas fa-id-card fa-2x"></i>
+                    </a>
+                </li>
+
+
+                <li class="list-inline-item">
+                    <a class="footerlinks" href="#!" class="sbtn btn-large mx-1" title="Friends">
+                    <i class="fas fa-user-friends fa-2x"></i>
+                    </a>
+                </li>
+
+
+                <li class="list-inline-item">
+                    <a class="footerlinks" href="#!" class="sbtn btn-large mx-1" title="Contact">
+                    <i class="fas fa-phone fa-2x"></i>
+                    </a>
+                </li>
+                </ul>
+            </div>
+
+            <hr class="mb-0">
+
+            <!--Footer Links-->
+
+            <div class="container text-left text-md-center">
+                <div class="row">
+
+                    <!--First column-->
+
+                    <div class="col-md-3 mx-auto shfooter">
+                        <h5 class="my-2 font-weight-bold d-none d-md-block">Documentation</h5>
+                        <div class="d-md-none title" data-target="#Documentation" data-toggle="collapse">
+                            <div class="mt-3 font-weight-bold">Documentation
+                                <div class="float-right navbar-toggler">
+                                    <i class="fas fa-angle-down"></i>
+                                    <i class="fas fa-angle-up"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="list-unstyled collapse" id="Documentation">
+                            <li><a class="footerlinks" href="services_certofres.php">Certificate of Residency</a></li>
+                            <li><a class="footerlinks" href="services_brgyclearance.php">Barangay Clearance</a></li>
+                            <li><a class="footerlinks" href="services_certofindigency.php">Certificate of Indigency</a></li>
+                            <li><a class="footerlinks" href="services_business.php">Business Permit</a></li>
+                            <li><a class="footerlinks" href="services_brgyid.php">Barangay ID</a></li>
+                        </ul>
+                    </div>
+
+
+                    <div class="col-md-3 mx-auto shfooter" id="down">
+                        <h5 class="my-2 font-weight-bold d-none d-md-block">Contact Us:</h5>
+                        <div class="d-md-none title" data-target="#Contact-Us">
+                        <div class="mt-3 font-weight-bold">Contact Us:</div>
+                        </div>
+                        <ul class="list-unstyled" id="Contact-Us">
+                            <li>
+                                <div class="zoom">
+                                    <div class="chip" style="font-size:10px;">
+                                        <img src="../BarangaySystem/icons/Contact/mikhos.png" alt="Person" width="96" height="96">
+                                        Mikhos Dungca | 09514053044
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="zoom">
+                                    <div class="chip" style="font-size:10px;">
+                                        <img src="../BarangaySystem/icons/Contact/pj.png" alt="Person" width="96" height="96">
+                                        PJ Mendros | 09179450661
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="zoom">
+                                    <div class="chip" style="font-size:10px;">
+                                        <img src="../BarangaySystem/icons/Contact/vincent.png" alt="Person" width="96" height="96">
+                                        Vincent Vilfamat | 09512873394
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="zoom">
+                                    <div class="chip" style="font-size:10px;">
+                                        <img src="../BarangaySystem/icons/Contact/eugene.png" alt="Person" width="96" height="96">
+                                        Joel Evangelista | 09301112368
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="zoom">
+                                    <div class="chip" style="font-size:10px;">
+                                        <img src="../BarangaySystem/icons/Contact/kyle.png" alt="Person" width="96" height="96">
+                                        Kyle Pilapil | 09618853017
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="py-3 text-center">
+                Copyright 2021 -
+                <script>
+                document.write(new Date().getFullYear())
+                </script> 
+                BI & ESMS | For Educational Purposes Only
+            </div>
+
+        </footer>
+
+        <script>
+            function logout() {
+                window.location.href = "logout.php";
+            }
+
+            // Set a variable for our button element.
+            const scrollToTopButton = document.getElementById('js-top');
+
+            // Let's set up a function that shows our scroll-to-top button if we scroll beyond the height of the initial window.
+            const scrollFunc = () => {
+            // Get the current scroll value
+            let y = window.scrollY;
+            
+            // If the scroll value is greater than the window height, let's add a class to the scroll-to-top button to show it!
+            if (y > 0) {
+                scrollToTopButton.className = "top-link show";
+            } else {
+                scrollToTopButton.className = "top-link hide";
+            }
+            };
+
+            window.addEventListener("scroll", scrollFunc);
+
+            const scrollToTop = () => {
+            // Let's set a variable for the number of pixels we are from the top of the document.
+            const c = document.documentElement.scrollTop || document.body.scrollTop;
+            
+            // If that number is greater than 0, we'll scroll back to 0, or the top of the document.
+            // We'll also animate that scroll with requestAnimationFrame:
+            // https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
+            if (c > 0) {
+                window.requestAnimationFrame(scrollToTop);
+                // ScrollTo takes an x and a y coordinate.
+                // Increase the '10' value to get a smoother/slower scroll!
+                window.scrollTo(0, c - c / 10);
+            }
+            };
+
+            // When the button is clicked, run our ScrolltoTop function above!
+            scrollToTopButton.onclick = function(e) {
+            e.preventDefault();
+            scrollToTop();
+            }
+        </script>
+
+        <script>
+            $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();   
+            });
+        </script>
+
+        <script>
+            $(document).ready(function(){
+            // Add smooth scrolling to all links
+            $("a").on('click', function(event) {
+
+                // Make sure this.hash has a value before overriding default behavior
+                if (this.hash !== "") {
+                // Prevent default anchor click behavior
+                event.preventDefault();
+
+                // Store hash
+                var hash = this.hash;
+
+                // Using jQuery's animate() method to add smooth page scroll
+                // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+                $('html, body').animate({
+                    scrollTop: $(hash).offset().top
+                }, 800, function(){
+
+                    // Add hash (#) to URL when done scrolling (default click behavior)
+                    window.location.hash = hash;
+                });
+                } // End if
+            });
+            });
+        </script>
+
+        <!-- Back to Top -->
+        <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.js" type="text/javascript"> </script>
+    </body>
 </html>

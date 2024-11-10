@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Barangay Services & Healthcare System</title>
+    <title>Barangay Services</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -61,13 +61,6 @@
                 <a class="nav-link" href="admn_staff_crud.php">
                     <i class="fas fa-user-tie"></i>
                     <span>Barangay Staffs</span></a>
-            </li>
-
-            <!-- Resident CRUD -->
-            <li class="nav-item">
-                <a class="nav-link" href="admn_resident_crud.php">
-                    <i class="fas fa-users"></i>
-                    <span>Barangay Residents</span></a>
             </li>
 
             <!-- Divider -->

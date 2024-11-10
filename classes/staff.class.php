@@ -37,8 +37,9 @@
         public function create_staff() {
 
             if(isset($_POST['add_staff'])) {
+                $username = $_POST['username'];
                 $email = $_POST['email'];
-                $password = $_POST['password'];
+                $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
                 $lname = $_POST['lname'];
                 $fname = $_POST['fname'];
                 $mi = $_POST['mi'];
@@ -48,13 +49,13 @@
                 $position = $_POST['position'];
 
 
-                if ($this->check_staff($email) == 0 ) {
+                if (!$this->check_staff($fname, $mi, $lname)) {
 
                     $connection = $this->openConn();
-                    $stmt = $connection->prepare("INSERT INTO tbl_user (`email`,`password`,`lname`,`fname`,
-                        `mi`, `age`, `sex`, `contact`, `position`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    $stmt = $connection->prepare("INSERT INTO tbl_user (`username`, `email`,`password`,`lname`,`fname`,
+                        `mi`, `age`, `sex`, `contact`, `position`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
-                    $stmt->Execute([$email, $password, $lname, $fname, $mi, $age, $sex, $contact, $position]);
+                    $stmt->Execute([$username, $email, $password, $lname, $fname, $mi, $age, $sex, $contact, $position]);
                     $message2 = "New Staff Added";
     
                     echo "<script type='text/javascript'>alert('$message2');</script>";
@@ -63,7 +64,7 @@
                 }
 
                 else {
-                    echo "<script type='text/javascript'>alert('Email Account already exists');</script>";
+                    echo "<script type='text/javascript'>alert('Name already exists');</script>";
                 }
             }
         }
@@ -163,14 +164,19 @@
             }
 
 
-        public function check_staff($id_user) {
+        public function check_staff($fname, $mi, $lname) {
 
             $connection = $this->openConn();
-            $stmt = $connection->prepare("SELECT * FROM tbl_user WHERE id_user = ?");
-            $stmt->Execute([$id_user]);
+            
+            // Prepare the SQL statement to check for existing records with the same first, middle, and last names
+            $stmt = $connection->prepare("SELECT * FROM tbl_user WHERE fname = ? AND mi = ? AND lname = ?");
+            $stmt->execute([$fname, $mi, $lname]);
+            
+            // Count the number of rows found
             $total = $stmt->rowCount(); 
-
-            return $total;
+        
+            // Return true if a duplicate is found, otherwise false
+            return $total > 0;
         }
 
         public function count_staff() {

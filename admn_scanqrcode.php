@@ -1,5 +1,5 @@
 <?php
-  require('classes/resident.class.php');
+  require './classes/main.class.php';
 
   $userdetails = $bmis->get_userdata();
   $bmis->validate_admin();
@@ -39,10 +39,21 @@
       scanner.addListener('scan', function (content) {
         console.log("Scanned content:", content);
         
+        try {
+        // Parse the JSON data to verify it's correct
+        let data = JSON.parse(content);
+
+        // Stringify and URL-encode the JSON data
+        let jsonString = encodeURIComponent(JSON.stringify(data));
+
+        // Create a link with the JSON as a parameter in the URL
         let link = document.createElement("a");
-        link.href = content;
+        link.href = `./${data.doc_type}_form.php?data=${jsonString}`;
         link.target = "_blank";
         link.click();
+        } catch (e) {
+            console.error("Error parsing QR content as JSON:", e);
+        }
       });
 
       // Fetch available cameras and populate the dropdown

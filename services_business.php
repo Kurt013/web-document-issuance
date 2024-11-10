@@ -1,11 +1,7 @@
 <?php 
     require('classes/main.class.php');
-    require('classes/resident.class.php');
-    
-    $userdetails = $bmis->get_userdata();
-    $id_resident = $_GET['id_resident'];
-    $view = $residentbmis->get_single_bspermit($id_resident);
-    $bmis->create_bspermit();
+    require 'phpqrcode/qrlib.php';
+    require 'vendor/autoload.php';
 ?>
 
 <!DOCTYPE html>

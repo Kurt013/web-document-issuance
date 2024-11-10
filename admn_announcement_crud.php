@@ -1,8 +1,8 @@
 <?php
-   error_reporting(E_ALL ^ E_WARNING);
-   ini_set('display_errors',0);
-   require('classes/resident.class.php');
+    require './classes/main.class.php';
+
    $userdetails = $bmis->get_userdata();
+
    $bmis->validate_admin();
    $bmis->create_announcement();
    $bmis->delete_announcement();
@@ -58,8 +58,7 @@
 
                         <div class="row"> 
                             <div class="col"> 
-                                <input type="hidden" name="start_date" value="<?= $cdate?>">
-                                <input name="addedby" type="hidden" value="<?= $userdetails['surname']?>, <?= $userdetails['firstname']?>">
+                                <input name="generated_by" type="hidden" value="<?= $userdetails['id'] ?>">
                                 <button type="submit" name="create_announce" class="btn btn-primary" style="margin-left: 34%; border-radius: 15px; width: 150px; font-size: 18px;"> Submit Entry </button>
                             </div>
                         </div>       
@@ -92,8 +91,8 @@
                                                 </form>
                                             </td>
                                             <td> <?= $view['event'];?> </td>
-                                            <td> <?= $view['start_date'];?> </td>
-                                            <td> <?= $view['addedby'];?> </td>              
+                                            <td> <?= $view['generated_date'];?> </td>
+                                            <td style="text-transform: capitalize;"> <?= $view['fname'];?> <?= $view['mi'];?>. <?= $view['lname'];?></td>              
                                         </tr>
                                     <?php }?>
                                 <?php } ?>
@@ -111,7 +110,9 @@
             <div class="card">
                 <div class="card-header bg-success text-white" style="font-size: 20px;"> Current Announcement Output </div>
                 <div class="card-body">
-
+                <?php 
+                    if ($view) {
+                ?>
                     <div class="alert alert-info alert-dismissible fade show" 
                         style="border-radius:30px;
                         margin-left:13%; 
@@ -124,6 +125,9 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+                <?php 
+                    } 
+                ?>
                 </div>
             </div>
         </div>

@@ -38,40 +38,44 @@ class BMISClass {
 
 
     //------------------------------------------ AUTHENTICATION & SESSION HANDLING --------------------------------------------
-        //authentication function para sa sa tatlong type ng accounts
         public function login() {
-            if(isset($_POST['login'])) {
 
+            // $password = password_hash('admin', PASSWORD_DEFAULT);
+            // $connection = $this->openConn();
+            // $stmt = $connection->prepare("UPDATE tbl_user SET password = ? WHERE id_user = 1");
+
+            // $stmt->execute([$password]);
+
+            if (isset($_POST['login'])) {
                 $username = $_POST['username'];
-                $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-            
+                $password = $_POST['password']; // Keep the raw password input
+                
                 $connection = $this->openConn();
-
-                $stmt = $connection->prepare("SELECT * FROM tbl_user WHERE username = ? AND password = ?");
-
-                $stmt->Execute([$username, $password]);
+                $stmt = $connection->prepare("SELECT * FROM tbl_user WHERE username = ?");
+                $stmt->execute([$username]);
                 $user = $stmt->fetch();
-               
-                if($user['role'] == 'administrator') {
-                    $this->set_userdata($user);
-                    header('Location: admn_dashboard.php');
-                    return (0);
-                }
-
-                else {
-                    if($user['role'] == 'staff') {
+        
+                // Check if user exists and verify the password
+                if ($user && password_verify($password, $user['password'])) {
+                    if ($user['role'] == 'administrator') {
+                        $this->set_userdata($user);
+                        header('Location: admn_dashboard.php');
+                        exit;
+                    } elseif ($user['role'] == 'staff') {
                         $this->set_userdata($user);
                         header('Location: staff_dashboard.php');
-                        return(0);
-                    }
-
-                    elseif($user['role'] != 'staff') {
-                        $message = "You are not an authorized personel!";
+                        exit;
+                    } else {
+                        $message = "You are not authorized personnel!";
                         echo "<script type='text/javascript'>alert('$message');</script>";
                     }
+                } else {
+                    $message = "Invalid username or password!";
+                    echo "<script type='text/javascript'>alert('$message');</script>";
                 }
             }
         }
+        
 
     public function logout(){
         if(!isset($_SESSION)) {
@@ -98,7 +102,7 @@ class BMISClass {
         }
 
         $_SESSION['userdata'] = array(
-            "id" => $array['id'],
+            "id" => $array['id_user'],
             "email" => $array['email'],
             "role" => $array['role'],
             "firstname" => $array['fname'],
@@ -204,59 +208,60 @@ class BMISClass {
 
     public function create_announcement() {
         if(isset($_POST['create_announce'])) {
-            $id_announcement = $_POST['id_announcement'];
             $event = $_POST['event'];
-            $start_date = $_POST['start_date'];
-            $addedby = $_POST['addedby'];
+            // $generated_by = $_POST['generated_by'];
 
             $connection = $this->openConn();
-            $stmt = $connection->prepare("INSERT INTO tbl_announcement (`id_announcement`, 
-            `event`, `start_date`, `addedby`) VALUES ( ?, ?, ?, ?)");
-            $stmt->execute([$id_announcement, $event, $start_date, $addedby]);
+            $stmt = $connection->prepare("INSERT INTO tbl_announcement (`event`, `generated_by`)
+                VALUES (?, ?)");
+            $stmt->execute([$event, 1]);
 
             $message2 = "Announcement Added";
             echo "<script type='text/javascript'>alert('$message2');</script>";
             header('refresh:0');
         }
-
-        else {
-        }
     }
 
     public function view_announcement(){
         $connection = $this->openConn();
-        $stmt = $connection->prepare("SELECT * from tbl_announcement");
+        $stmt = $connection->prepare("SELECT u.lname, u.fname, u.mi, a.event, date(a.generated_on) AS generated_date, a.id_announcement from tbl_user AS
+            u JOIN tbl_announcement AS a ON u.id_user = a.generated_by");
         $stmt->execute();
         $view = $stmt->fetchAll();
-        return $view;
+        $row = $stmt->rowCount();
+
+        if ($row > 0)
+            return $view;
+        else
+            return false;
     }
 
-    public function update_announcement() {
-        if (isset($_POST['update_announce'])) {
-            $id_announcement = $_GET['id_announcement'];
-            $event = $_POST['event'];
-            $start_date = $_POST['start_date'];
-            $end_date = $_POST['end_date'];
-            $addedby = $_POST['addedby'];
+    // public function update_announcement() {
+    //     if (isset($_POST['update_announce'])) {
+    //         $id_announcement = $_GET['id_announcement'];
+    //         $event = $_POST['event'];
+    //         $start_date = $_POST['start_date'];
+    //         $end_date = $_POST['end_date'];
+    //         $addedby = $_POST['addedby'];
 
-            $connection = $this->openConn();
-            $stmt = $connection->prepare("UPDATE tbl_announcement SET event =?, start_date =?, 
-            end_date = ?, addedby =? WHERE id_announcement = ?");
-            $stmt->execute([ $event, $start_date, $end_date, $addedby, $id_announcement]);
+    //         $connection = $this->openConn();
+    //         $stmt = $connection->prepare("UPDATE tbl_announcement SET event =?, start_date =?, 
+    //         end_date = ?, addedby =? WHERE id_announcement = ?");
+    //         $stmt->execute([ $event, $start_date, $end_date, $addedby, $id_announcement]);
                
-            $message2 = "Announcement Updated";
-            echo "<script type='text/javascript'>alert('$message2');</script>";
-             header("refresh: 0");
-        }
+    //         $message2 = "Announcement Updated";
+    //         echo "<script type='text/javascript'>alert('$message2');</script>";
+    //          header("refresh: 0");
+    //     }
 
-        else {
-        }
-    }
+    //     else {
+    //     }
+    // }
 
     public function delete_announcement(){
-        $id_announcement = $_POST['id_announcement'];
-
         if(isset($_POST['delete_announcement'])) {
+            $id_announcement = $_POST['id_announcement'];
+
             $connection = $this->openConn();
             $stmt = $connection->prepare("DELETE FROM tbl_announcement where id_announcement = ?");
             $stmt->execute([$id_announcement]);
@@ -274,26 +279,23 @@ class BMISClass {
     }
 
     //------------------------------------------ Certificate of Residency CRUD -----------------------------------------------
-    public function get_single_certofres($id_resident){        
-
+    public function get_single_certofres($id_rescert){        
         $connection = $this->openConn();
-        $stmt = $connection->prepare("SELECT r.*, c.* FROM tbl_resident AS r LEFT JOIN tbl_rescert AS c ON r.id_resident = c.id_resident WHERE r.id_resident = ?");
-        $stmt->execute([$id_resident]);
-        $resident = $stmt->fetch();
-        // $total = $stmt->rowCount();
+        $stmt = $connection->prepare("SELECT * FROM tbl_rescert WHERE id_rescert = ?");
+        $stmt->execute([$id_rescert]);
+        $rescert = $stmt->fetch();
+        $total = $stmt->rowCount();
 
-        // if($total > 0 )  {
-            return $resident;
-        // }
-        // else{
-        //     return false;
-        // }
+        if($total > 0 )  {
+            return $rescert;
+        } else {
+            return false;
+        }
     }
 
     public function create_certofres() {
-
-        if(isset($_POST['create_certofres'])) {
-            $id_resident = $_POST['id_resident'];
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Gather the form data
             $lname = $_POST['lname'];
             $fname = $_POST['fname'];
             $mi = $_POST['mi'];
@@ -302,42 +304,42 @@ class BMISClass {
             $street = $_POST['street'];
             $brgy = $_POST['brgy'];
             $city = $_POST['city'];
-            $municipal = $_POST['municipal'];
-            // $date = $_POST['date'];
+            $municipality = $_POST['municipality'];
+            $nationality = $_POST['nationality'];
             $purpose = $_POST['purpose'];
+            $doc_type = 'rescert';
+            
+            // Check if "Other" was selected and handle custom purpose
+            if ($purpose === "Other" && !empty($_POST['custom_purpose'])) {
+                $purpose = $_POST['custom_purpose'];
+            }
         
-            $connection = $this->openConn();
+            // Create the data array
+            $data = [
+                'lname' => $lname,
+                'fname' => $fname,
+                'mi' => $mi,
+                'age' => $age,
+                'houseno' => $houseno,
+                'street' => $street,
+                'brgy' => $brgy,
+                'city' => $city,
+                'municipality' => $municipality,
+                'nationality' => $nationality,
+                'purpose' => $purpose,
+                'doc_type' => $doc_type
+            ];
+        
+            // Convert data to JSON
+            $json_data = json_encode($data);
+            
+            $qrCode = $this->generateQRCode($json_data);
 
-            try {
-                $connection->beginTransaction();
-
-                //insert tbl_resident
-                $stmt = $connection->prepare("UPDATE tbl_resident 
-                SET lname = ?, fname = ?, mi = ?, age = ?, houseno = ?, street = ?, brgy = ?, city = ?, municipal = ?
-                WHERE id_resident = ?");
-
-                $stmt->execute([$lname, $fname, $mi, $age, $houseno, $street, $brgy, $city, $municipal, $id_resident]);
-
-                //insert tbl_rescert
-                $stmt = $connection->prepare("INSERT INTO tbl_rescert (id_resident, purpose) VALUES (?, ?)");
-
-                $stmt->execute([$id_resident, $purpose]);
-
-                $connection->commit();
-
-                $message2 = "Application Applied, you will receive our text message for further details";
-                echo "<script type='text/javascript'>alert('$message2');</script>";
-                header("refresh: 0");
-            }
-            catch (PDOException $e) {
-                $connection->rollBack();
-                echo "Failed to update records: " . $e->getMessage();
-            }
+            echo '<script>alert("QR Code Successfully Generated!")</script>
+            <h1>Here is your generated qr code go to the brgy.hall to get your document!"</h1>
+            <img src="'.$qrCode.'" alt="QR Code" />';
         }
-        
-        
     }
-
     // public function get_resident_basicinfo($tbl_name){
     //     $conn = $this->openConn();
     //     $resident_id = $_GET['id'];
@@ -351,6 +353,100 @@ class BMISClass {
     //     return $view;
     // }
 
+    // public function insert_certofres() {
+    //     $input = file_get_contents('php://input');
+    //     $data = json_decode($input, true); // Decode JSON into an associative array
+    
+    //     echo $data;
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //         // Read the JSON input
+    //         $input = file_get_contents('php://input');
+    //         $data = json_decode($input, true); // Decode JSON into an associative array
+        
+
+
+    //         // Make sure the data decoded properly
+    //         if ($data) {
+    //             // Database connection (PDO assumed)
+    //             $connection = $this->openConn();
+        
+    //             try {
+    //                 // Prepare and execute the insert statement
+    //                 $stmt = $connection->prepare("INSERT INTO tbl_rescert (lname, fname, mi, age, houseno, street, brgy, city, municipal, purpose) 
+    //                     VALUES (:lname, :fname, :mi, :age, :houseno, :street, :brgy, :city, :municipal, :purpose)");
+                    
+    //                 // Bind parameters from the decoded JSON data
+    //                 $stmt->execute([
+    //                     ':lname' => $data['lname'],
+    //                     ':fname' => $data['fname'],
+    //                     ':mi' => $data['mi'],
+    //                     ':age' => $data['age'],
+    //                     ':houseno' => $data['houseno'],
+    //                     ':street' => $data['street'],
+    //                     ':brgy' => $data['brgy'],
+    //                     ':city' => $data['city'],
+    //                     ':municipality' => $data['municipality'],
+    //                     ':purpose' => $data['purpose']
+    //                 ]);
+
+    //                 $insertedId = $connection->lastInsertId();
+    //                 echo json_encode(['success' => true, 'inserted_id' => $insertedId]);
+    //                 // Send a JSON response back
+    //                 echo json_encode(['status' => 'success']);
+    //             } catch (PDOException $e) {
+    //                 // Handle and respond with error message
+    //                 echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+    //             }
+    //         } else {
+    //             echo json_encode(['status' => 'error', 'message' => 'Invalid JSON data']);
+    //         }
+    //         exit; // Stop further execution since this is an API response
+    //     }
+    // }
+
+    public function insert_certofres() {
+        if (isset($_GET['data'])) {
+            // Get the JSON data from the URL parameter
+            $jsonData = urldecode($_GET['data']);
+            // Decode the JSON data into an associative array
+            $data = json_decode($jsonData, true); // true converts JSON to an associative array
+    
+            // Database connection (PDO assumed)
+            $connection = $this->openConn();
+        
+            try {
+                // Prepare and execute the insert statement
+                $stmt = $connection->prepare("INSERT INTO tbl_rescert (lname, fname, mi, age, houseno, street, brgy, city, municipality, nationality, purpose, generated_by) 
+                    VALUES (:lname, :fname, :mi, :age, :houseno, :street, :brgy, :city, :municipality, :nationality, :purpose, :generated_by)");
+                
+                // Bind parameters from the decoded JSON data
+                $stmt->execute([
+                    ':lname' => $data['lname'],
+                    ':fname' => $data['fname'],
+                    ':mi' => $data['mi'],
+                    ':age' => $data['age'],
+                    ':houseno' => $data['houseno'],
+                    ':street' => $data['street'],
+                    ':brgy' => $data['brgy'],
+                    ':city' => $data['city'],
+                    ':municipality' => 'laguna',  
+                    ':nationality' => 'filipino',
+                    ':purpose' => $data['purpose'],
+                    ':generated_by' => 1  
+                ]);
+    
+                // Send a JSON response back
+            } catch (PDOException $e) {
+                // Handle and respond with error message
+                echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+            }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid JSON data']);
+        }
+        exit; // Stop further execution since this is an API response
+    }
+    
+
     public function view_certofres(){
         $connection = $this->openConn();
         $stmt = $connection->prepare("SELECT * from tbl_rescert");
@@ -360,9 +456,9 @@ class BMISClass {
     }
 
     public function delete_certofres(){
-        $id_rescert = $_POST['id_rescert'];
-
         if(isset($_POST['delete_certofres'])) {
+            $id_rescert = $_POST['id_rescert'];
+
             $connection = $this->openConn();
             $stmt = $connection->prepare("DELETE FROM tbl_rescert where id_rescert = ?");
             $stmt->execute([$id_rescert]);
@@ -657,39 +753,35 @@ class BMISClass {
     }
     
 
-    public function get_single_certofindigency($id_resident){
-
+    public function get_single_certofindigency($id_indigency){
         $connection = $this->openConn();
-        $stmt = $connection->prepare("SELECT r.*, i.* FROM tbl_resident AS r LEFT JOIN tbl_indigency AS i ON r.id_resident = i.id_resident WHERE r.id_resident = ?");
-        $stmt->execute([$id_resident]);
-        $resident = $stmt->fetch();
-        // $total = $stmt->rowCount();
+        $stmt = $connection->prepare("SELECT * FROM tbl_indigency WHERE id_indigency = ?");
+        $stmt->execute([$id_indigency]);
+        $indigency = $stmt->fetch();
+        $total = $stmt->rowCount();
 
-        // if($total > 0 )  {
-        return $resident;
-        // }
-        // else{
-        //     return false;
-        // }
+        if($total > 0 )  {
+            return $indigency;
+        } else {
+            return false;
+        }
     }
 
 
      //------------------------------------------ BRGY CLEARANCE CRUD -----------------------------------------------
 
-     public function get_single_clearance($id_resident){
-
+     public function get_single_clearance($id_clearance){
         $connection = $this->openConn();
-        $stmt = $connection->prepare("SELECT r.*, c.* FROM tbl_resident AS r LEFT JOIN tbl_clearance AS c ON r.id_resident = c.id_resident WHERE r.id_resident = ?");
-        $stmt->execute([$id_resident]);
-        $resident = $stmt->fetch();
-        // $total = $stmt->rowCount();
+        $stmt = $connection->prepare("SELECT * FROM tbl_clearance WHERE id_clearance = ?");
+        $stmt->execute([$id_clearance]);
+        $clearance = $stmt->fetch();
+        $total = $stmt->rowCount();
 
-        // if($total > 0 )  {
-        return $resident;
-        // }
-        // else{
-        //     return false;
-        // }
+        if($total > 0 )  {
+            return $clearance;
+        } else {
+            return false;
+        }
     }
 
 
@@ -913,22 +1005,18 @@ class BMISClass {
         }  
     }
 
-    public function get_single_bspermit($id_resident){
-
-        $id_resident = $_GET['id_resident'];
-        
+    public function get_single_bspermit($id_bspermit){
         $connection = $this->openConn();
-        $stmt = $connection->prepare("SELECT r.*, b.* FROM tbl_resident AS r LEFT JOIN tbl_bspermit AS b ON r.id_resident = b.id_resident WHERE r.id_resident = ?");
-        $stmt->execute([$id_resident]);
-        $resident = $stmt->fetch();
-        // $total = $stmt->rowCount();
+        $stmt = $connection->prepare("SELECT * FROM tbl_bspermit WHERE id_bspermit = ?");
+        $stmt->execute([$id_bspermit]);
+        $bspermit = $stmt->fetch();
+        $total = $stmt->rowCount();
 
-        // if($total > 0 )  {
-            return $resident;
-        // }
-        // else{
-        //     return false;
-        // }
+        if($total > 0 )  {
+            return $bspermit;
+        } else {
+            return false;
+        }
     }
 
 
@@ -967,7 +1055,6 @@ class BMISClass {
 
     public function update_bspermit() {
         if (isset($_POST['update_bspermit'])) {
-            $id_resident = $_GET['id_resident'];
             $id_bspermit = $_POST['id_bspermit'];
             // $lname = $_POST['lname'];
             $fname = $_POST['fname'];
@@ -986,11 +1073,7 @@ class BMISClass {
             try {
                 $connection->beginTransaction();
 
-                //update tbl_resident
-                $stmt = $connection->prepare("UPDATE tbl_resident 
-                    SET fname = ? WHERE id_resident = ?");
-
-                $stmt->execute([$fname, $id_resident]);
+                $stmt->execute([$fname, $id_bspermit]);
 
                 // $stmt = $connection->prepare("UPDATE tbl_bspermit SET bshouseno = ?, bsstreet = ?, bsbrgy = ?, bscity = ?, bsmunicipal = ?, bsindustry = ?, bsname = ?, aoe = ? WHERE id_bspermit = ?");
 
@@ -1045,11 +1128,6 @@ class BMISClass {
             try {
                 $connection->beginTransaction();
 
-                //update tbl_resident
-                $stmt = $connection->prepare("UPDATE tbl_resident 
-                    SET lname = ?, fname = ?, mi = ?, houseno = ?, street = ?, brgy = ?, city = ?, municipal = ?,
-                    bplace = ?, bdate = ? WHERE id_resident = ?");
-
                 $stmt->execute([$lname, $fname, $mi, $houseno, $street, $brgy, $city, $municipal, $bplace, $bdate, $id_resident]);
 
                 $stmt = $connection->prepare("INSERT INTO tbl_brgyid (id_resident, res_photo, inc_lname, inc_fname, inc_mi, inc_contact, 
@@ -1072,20 +1150,18 @@ class BMISClass {
         }  
     }
 
-    public function get_single_brgyid($id_resident){
-
+    public function get_single_brgyid($id_brgyid){
         $connection = $this->openConn();
-        $stmt = $connection->prepare("SELECT r.*, b.* FROM tbl_resident AS r LEFT JOIN tbl_brgyid AS b ON r.id_resident = b.id_resident WHERE r.id_resident = ?");
-        $stmt->execute([$id_resident]);
-        $resident = $stmt->fetch();
-        // $total = $stmt->rowCount();
+        $stmt = $connection->prepare("SELECT * FROM tbl_brgyid WHERE id_brgyid = ?");
+        $stmt->execute([$id_brgyid]);
+        $brgyid = $stmt->fetch();
+        $total = $stmt->rowCount();
 
-        // if($total > 0 )  {
-        return $resident;
-        // }
-        // else{
-        //     return false;
-        // }
+        if($total > 0 )  {
+            return $brgyid;
+        } else {
+            return false;
+        }
     }
 
 
@@ -1237,7 +1313,7 @@ class BMISClass {
         }
     
         // Check if the user role is either 'administrator' or 'user'
-        if ($userdetails['role'] === "administrator" || $userdetails['role'] === "user") {
+        if ($userdetails['role'] === "administrator") {
             return $userdetails;
         } else {
             // Show a 404 page if the user is neither an administrator nor a regular user
@@ -1249,11 +1325,15 @@ class BMISClass {
 
 // ------------------------------------- ADDITIONAL FUNCTIONS --------------------------------------------------
 
-    function generateQRCode($link) {
+    function generateQRCode($resident_data) {
         ob_start();
-        QRcode::png($link, null, QR_ECLEVEL_L, 10);
+        QRcode::png($resident_data, null, QR_ECLEVEL_L, 10);
         $qrImage = ob_get_clean();
-        return $qrImage;
+            // Convert the image data to base64 encoding
+        $base64Image = base64_encode($qrImage);
+        
+        // Return the data URI for embedding in an <img> tag
+        return 'data:image/png;base64,' . $base64Image;
     }
 
     function sendEmailWithQRCode($qrImage, $id_resident) {
@@ -1299,47 +1379,6 @@ class BMISClass {
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
     }
-
-    // function rejectionMail() {
-    //     $conn = $this->openConn();
-
-    //     // Fetch the recipient email from the database based on recipient ID
-    //     $query = "SELECT email FROM tbl_resident WHERE id_resident = :recipientId";
-    //     $stmt = $conn->prepare($query);
-    //     $stmt->bindParam(":recipientId", $id_resident, PDO::PARAM_INT);
-    //     $stmt->execute();
-
-    //     // Check if email was found
-    //     if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    //         $recipientEmail = $row['email'];
-    //     }
-
-    //     $mail = new PHPMailer(true);
-
-    //     try {
-    //         // SMTP server configuration
-    //         $mail->isSMTP();
-    //         $mail->Host = 'smtp.mailersend.net';  // Set your SMTP server
-    //         $mail->SMTPAuth = true;
-    //         $mail->Username = 'MS_aEACuu@trial-0p7kx4xjwevl9yjr.mlsender.net'; // Your SMTP username
-    //         $mail->Password = 'ZsOeSK3qqlPGnXj7'; // Your SMTP password or app password
-    //         $mail->SMTPSecure = 'tls';
-    //         $mail->Port = 587;
-
-    //         // Email details
-    //         $mail->setFrom('MS_aEACuu@trial-0p7kx4xjwevl9yjr.mlsender.net', 'Brgy. Sinalhan - DOCUMENT ISSUANCE SYSTEM');
-    //         $mail->addAddress($recipientEmail);
-    //         $mail->isHTML(true);
-    //         $mail->Subject = "Your request is declined";
-
-    //         // Attach QR Code as an image
-    //         $mail->Body = "Sorry for the inconvenience. Try again for another time";
-
-    //         $mail->send();
-    //     } catch (Exception $e) {
-    //         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-    //     }
-    // }
 }
     
 

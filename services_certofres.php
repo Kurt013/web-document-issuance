@@ -1,11 +1,8 @@
 <?php 
     require('classes/main.class.php');
-    require('classes/resident.class.php');
     
-    $userdetails = $bmis->get_userdata();
-    $id_resident = $_GET['id_resident'];
-    $view = $residentbmis->get_single_certofres($id_resident);
-    $bmis->create_certofres();
+    require 'phpqrcode/qrlib.php';
+    require 'vendor/autoload.php';
 ?>
 
 <!DOCTYPE html>
@@ -35,23 +32,11 @@
         <!-- Eto yung navbar -->
 
         <nav class="navbar navbar-dark bg-primary sticky-top">
-            <a class="navbar-brand" href="resident_homepage.php">Barangay Information & E-Services Management System</a>
-            <a href="resident_homepage.php" data-toggle="tooltip" title="Home" class="btn1 bg-primary"><i class="fa fa-home fa-lg"></i></a>
+            <a href="index.php" data-toggle="tooltip" title="Home" class="btn1 bg-primary"><i class="fa fa-home fa-lg"></i></a>
             <a href="#down3" data-toggle="tooltip" title="Procedure" class="btn5 bg-primary"><i class="fa fa-question fa-lg"></i></a>
             <a href="#down2" data-toggle="tooltip" title="Information" class="btn4 bg-primary"><i class="fa fa-info fa-lg"></i></a>
             <a href="#down1" data-toggle="tooltip" title="Registration" class="btn3 bg-primary"><i class="fa fa-edit fa-lg"></i></a>
             <a href="#down" data-toggle="tooltip" title="Contact" class="btn2 bg-primary"><i class="fa fa-phone fa-lg"></i></a>
-           
-            <div class="dropdown ml-auto">
-                <button title="Your Account" class="btn btn-primary dropdown-toggle" style="margin-right: 2px;" type="button" data-toggle="dropdown"><?= $userdetails['surname'];?>, <?= $userdetails['firstname'];?>
-                    <span class="caret" style="margin-left: 2px;"></span>
-                </button>
-                <ul class="dropdown-menu" style="width: 175px;" >
-                    <a class="btn" href="resident_profile.php?id_resident=<?= $userdetails['id'];?>"> <i class="fas fa-user"> &nbsp; </i>Personal Profile  </a>
-                    <a class="btn" href="resident_changepass.php?id_resident=<?= $userdetails['id'];?>"> <i class="fas fa-lock" >&nbsp;</i> Change Password  </a>
-                    <a class="btn" href="logout.php"> <i class="fas fa-sign-out-alt">&nbsp;</i> Logout  </a>
-                </ul>
-            </div>
         </nav>
 
         <div class="container-fluid container1"> 
@@ -253,7 +238,7 @@
                                         <div class="form-group">
                                             <label for="lname">Last Name:</label>
                                             <input name="lname" type="text" class="form-control" 
-                                            placeholder="Enter Last Name" value="<?= $view['lname']?>" required>
+                                            placeholder="Enter Last Name"  required>
                                                 <div class="valid-feedback">Valid.</div>
                                                 <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -263,7 +248,7 @@
                                         <div class="form-group">
                                             <label for="fname">First Name:</label>
                                             <input name="fname" type="text" class="form-control" 
-                                            placeholder="Enter First Name" value="<?= $view['fname']?>" required>
+                                            placeholder="Enter First Name"  required>
                                                 <div class="valid-feedback">Valid.</div>
                                                 <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -275,7 +260,7 @@
                                         <div class="form-group">
                                             <label for="mi" class="mtop">Middle Name: </label>
                                             <input name="mi" type="text" class="form-control" 
-                                            placeholder="Enter Middle Name" value="<?= $view['mi']?>" required>
+                                            placeholder="Enter Middle Name" required>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -284,7 +269,7 @@
                                         <div class="form-group">
                                             <label for="age" class="mtop">Age: </label>
                                             <input type="number" name="age" class="form-control" 
-                                            placeholder="Enter your Age" value="<?= $view['age']?>" required>
+                                            placeholder="Enter your Age"  required>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -296,7 +281,7 @@
                                         <div class="form-group">
                                             <label> House No: </label>
                                             <input type="text" class="form-control" name="houseno"  
-                                            placeholder="Enter House No." value="<?= $view['houseno']?>" required>
+                                            placeholder="Enter House No."  required>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -306,7 +291,7 @@
                                         <div class="form-group">
                                             <label> Street: </label>
                                             <input type="text" class="form-control" name="street"  
-                                            placeholder="Enter Street" value="<?= $view['street']?>" required>
+                                            placeholder="Enter Street"  required>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -316,7 +301,7 @@
                                         <div class="form-group">
                                             <label> Barangay: </label>
                                             <input type="text" class="form-control" name="brgy" 
-                                             placeholder="Enter Barangay" value="<?= $view['brgy']?>" required>
+                                             placeholder="Enter Barangay" value="sinalhan" readonly>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -326,7 +311,7 @@
                                         <div class="form-group">
                                             <label> City: </label>
                                             <input type="text" class="form-control" name="city" 
-                                            placeholder="Enter City" value="<?= $view['city']?>" required>
+                                            placeholder="Enter City" value="city of santa rosa" readonly>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -336,7 +321,7 @@
                                         <div class="form-group">
                                             <label> Municipality: </label>
                                             <input type="text" class="form-control" name="municipal" 
-                                            placeholder="Enter Municipality" value="<?= $view['municipal']?>" required>
+                                            placeholder="Enter Municipality" value="laguna" readonly>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -347,19 +332,24 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="purposes">Purpose:</label>
-                                            <select class="form-control" name="purpose" id="purpose" required>
+                                            <select class="form-control" name="purpose" id="purpose" required onchange="toggleCustomPurpose()">
                                                 <option value="">Choose your Purposes</option>
                                                 <option value="Job/Employment">Job/Employment</option>
                                                 <option value="Business Establishment">Business Establishment</option>
                                                 <option value="Financial Transaction">Financial Transaction</option>
                                                 <option value="Certify that you are living in a certain barangay">Certify that you are living in a certain barangay</option>
-                                                <option value="Other important transactions.">Other important transactions.</option>
+                                                <option value="Other">Other (Please specify)</option>
                                             </select>
+                                            <div id="customPurposeContainer" style="display:none; margin-top:10px;">
+                                                <input type="text" class="form-control" name="custom_purpose" id="custom_purpose" placeholder="Enter your purpose">
+                                            </div>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
                                     </div>  
                                 </div>
+
+                                <?php $bmis->create_certofres() ?>
                         
                         </div>
                         <!-- Modal Footer -->
@@ -562,7 +552,7 @@
             </div>
 
         </footer>
-
+        <script src="./js-components/component-js-custompurpose.js"></script>
         <script>
             // Set a variable for our button element.
             const scrollToTopButton = document.getElementById('js-top');
