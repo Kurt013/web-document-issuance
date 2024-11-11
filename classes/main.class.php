@@ -1020,7 +1020,11 @@ class BMISClass {
             $inc_city = $_POST['inc_city'];
             $inc_municipality = $_POST['inc_municipality'];
             $doc_type = 'brgyid';
-            $base64Image = base64_encode($res_photo);
+
+            // Upload the image to ImgBB using the API
+            $imageBase64 = base64_encode($res_photo);
+
+            $tempLink = $this->set_temp_link($imageBase64);
 
             $data = [
                 'lname' => $lname,
@@ -1041,14 +1045,14 @@ class BMISClass {
                 'inc_brgy' => $inc_brgy,
                 'inc_city' => $inc_city,
                 'inc_municipality' => $inc_municipality,
-                'res_photo' => $base64Image,
+                'res_photo' => $tempLink,
                 'doc_type' => $doc_type
             ];
         
             // Convert data to JSON
             $json_data = json_encode($data);
             
-            $qrCode = $this->generateQRCodewithImage($json_data);
+            $qrCode = $this->generateQRCode($json_data);
 
             echo '<script>alert("QR Code Successfully Generated!")</script>
             <h1>Here is your generated qr code go to the brgy.hall to get your document!"</h1>
