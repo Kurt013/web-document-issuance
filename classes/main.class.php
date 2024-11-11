@@ -1088,7 +1088,10 @@ class BMISClass {
 
         if (isset($responseData['data']['url'])) {
             // Return the temporary URL of the uploaded image
-            return $responseData['data']['url'];
+            return [
+                'url' => $responseData['data']['url'],
+                'delete_hash' => $responseData['data']['delete_hash']
+            ];
         } else {
             // Handle errors (if any)
             throw new Exception('Image upload failed: ' . $responseData['error']['message']);
