@@ -11,7 +11,7 @@
         $id_brgyid = $_POST['id_brgyid'];
         $id_resident = $_POST['id_resident'];
 
-        $link = 'barangayid_form.php?id_resident='.$id_resident;
+        $link = 'brgyid_form.php?id_resident='.$id_resident;
 
         $qrImage = $bmis->generateQRCode($link);
         $bmis->sendEmailWithQRCode($qrImage, $id_resident);

@@ -113,7 +113,7 @@
         const residentId = urlParams.get('id_resident');
 
         // Set the URL dynamically based on the 'resident' parameter
-        let ajaxUrl = `barangayid_form.php ${residentId}`;
+        let ajaxUrl = `brgyid_form.php ${residentId}`;
         // if (residentId) {
         //     ajaxUrl += `?resident=${residentId}`;
         // }

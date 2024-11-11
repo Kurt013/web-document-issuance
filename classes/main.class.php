@@ -1000,7 +1000,6 @@ class BMISClass {
     public function create_brgyid() {
 
         if(isset($_POST['create_brgyid'])) {
-            $id_resident = $_POST['id_resident'];
             $lname = $_POST['lname'];
             $fname = $_POST['fname'];
             $mi = $_POST['mi']; 
@@ -1008,46 +1007,88 @@ class BMISClass {
             $street = $_POST['street'];
             $brgy = $_POST['brgy'];
             $city = $_POST['city'];
-            $municipal = $_POST['municipal'];
-            $bplace = $_POST['bplace'];
+            $municipality = $_POST['municipality'];
             $bdate = $_POST['bdate'];
             $res_photo = file_get_contents($_FILES['res_photo']['tmp_name']);
-
             $inc_lname = $_POST['inc_lname']; 
             $inc_fname = $_POST['inc_fname'];
             $inc_mi = $_POST['inc_mi'];
             $inc_contact = $_POST['inc_contact'];
-            $inc_houseno = $_POST['municipal'];
+            $inc_houseno = $_POST['inc_houseno'];
             $inc_street = $_POST['inc_street'];
             $inc_brgy = $_POST['inc_brgy'];
             $inc_city = $_POST['inc_city'];
-            $inc_municipal = $_POST['inc_municipal'];
+            $inc_municipality = $_POST['inc_municipality'];
+            $doc_type = 'brgyid';
+            $base64Image = base64_encode($res_photo);
 
-            $connection = $this->openConn();
+            $data = [
+                'lname' => $lname,
+                'fname' => $fname,
+                'mi' => $mi,
+                'bdate' => $bdate,
+                'houseno' => $houseno,
+                'street' => $street,
+                'brgy' => $brgy,
+                'city' => $city,
+                'municipality' => $municipality,
+                'inc_lname' => $inc_lname,
+                'inc_fname' => $inc_fname,
+                'inc_mi' => $inc_mi,
+                'inc_contact' => $inc_contact,
+                'inc_houseno' => $inc_houseno,
+                'inc_street' => $inc_street,
+                'inc_brgy' => $inc_brgy,
+                'inc_city' => $inc_city,
+                'inc_municipality' => $inc_municipality,
+                'res_photo' => $base64Image,
+                'doc_type' => $doc_type
+            ];
+        
+            // Convert data to JSON
+            $json_data = json_encode($data);
+            
+            $qrCode = $this->generateQRCodewithImage($json_data);
 
-            try {
-                $connection->beginTransaction();
-
-                $stmt->execute([$lname, $fname, $mi, $houseno, $street, $brgy, $city, $municipal, $bplace, $bdate, $id_resident]);
-
-                $stmt = $connection->prepare("INSERT INTO tbl_brgyid (id_resident, res_photo, inc_lname, inc_fname, inc_mi, inc_contact, 
-                    inc_houseno, inc_street, inc_brgy, inc_city, inc_municipal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
-                $stmt->execute([$id_resident, $res_photo, $inc_lname, $inc_fname, $inc_mi, $inc_contact,
-                    $inc_houseno, $inc_street, $inc_brgy, $inc_city, $inc_municipal]);
-
-                $connection->commit();
-
-                $message2 = "Application Applied, you will receive our text message for further details";
-                echo "<script type='text/javascript'>alert('$message2');</script>";
-
-            }
-            catch (PDOException $e) {
-                $connection->rollBack();
-                echo "Failed to update records: " . $e->getMessage();
-            }
+            echo '<script>alert("QR Code Successfully Generated!")</script>
+            <h1>Here is your generated qr code go to the brgy.hall to get your document!"</h1>
+            <img src="'.$qrCode.'" alt="QR Code" />';
         
         }  
+    }
+
+    public function set_temp_link($image) {
+        $url = 'https://api.imgbb.com/1/upload';
+        $api_key = 'e4e5d492a7e93b32274f3280e4df7784';
+        $expiration = 86400;
+
+        $postFields = [
+            'key' => $api_key,
+            'image' => $image,
+            'expiration' => $expiration
+        ];
+
+         // Initialize cURL
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        // Execute the request
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        // Decode the JSON response
+        $responseData = json_decode($response, true);
+
+        if (isset($responseData['data']['url'])) {
+            // Return the temporary URL of the uploaded image
+            return $responseData['data']['url'];
+        } else {
+            // Handle errors (if any)
+            throw new Exception('Image upload failed: ' . $responseData['error']['message']);
+        }
     }
 
     public function get_single_brgyid($id_brgyid){

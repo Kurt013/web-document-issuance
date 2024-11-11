@@ -13,7 +13,6 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-modal/2.2.6/js/bootstrap-modalmanager.min.js" integrity="sha512-/HL24m2nmyI2+ccX+dSHphAHqLw60Oj5sK8jf59VWtFWZi9vx7jzoxbZmcBeeTeCUc7z1mTs3LfyXGuBU32t+w==" crossorigin="anonymous"></script>
       <!-- responsive tags for screen compatibility -->
       <meta name="viewport" content="width=device-width, initial-scale=1"><!-- bootstrap css --> 
-      <link href="../BarangaySystem/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
       <!-- fontawesome icons --> 
       <script src="https://kit.fontawesome.com/67a9b7069e.js" crossorigin="anonymous"></script>
   
@@ -132,17 +131,6 @@
             <a href="#down2" data-toggle="tooltip" title="Information" class="btn4 bg-primary"><i class="fa fa-info fa-lg"></i></a>
             <a href="#down1" data-toggle="tooltip" title="Registration" class="btn3 bg-primary"><i class="fa fa-edit fa-lg"></i></a>
             <a href="#down" data-toggle="tooltip" title="Contact" class="btn2 bg-primary"><i class="fa fa-phone fa-lg"></i></a>
-           
-            <div class="dropdown ml-auto">
-                <button title="Your Account" class="btn btn-primary dropdown-toggle" style="margin-right: 2px;" type="button" data-toggle="dropdown"><?= $userdetails['surname'];?>, <?= $userdetails['firstname'];?>
-                    <span class="caret" style="margin-left: 2px;"></span>
-                </button>
-                <ul class="dropdown-menu" style="width: 175px;" >
-                    <a class="btn" href="resident_profile.php?id_resident=<?= $userdetails['id'];?>"> <i class="fas fa-user"> &nbsp; </i>Personal Profile  </a>
-                    <a class="btn" href="resident_changepass.php?id_resident=<?= $userdetails['id'];?>"> <i class="fas fa-lock" >&nbsp;</i> Change Password  </a>
-                    <a class="btn" href="logout.php"> <i class="fas fa-sign-out-alt">&nbsp;</i> Logout  </a>
-                </ul>
-            </div>
         </nav>
 
         <div class="container-fluid container1"> 
@@ -156,13 +144,13 @@
 
                     <br>
 
-                    <img class="picture" src="../BarangaySystem/icons/Documents/docu1.png">
+                    <img class="picture" src="./Documents/docu1.png">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <img class="picture" src="../BarangaySystem/icons/Documents/docu3.png">
+                    <img class="picture" src="./Documents/docu3.png">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <img class="picture" src="../BarangaySystem/icons/Documents/docu2.png">
+                    <img class="picture" src="./Documents/docu2.png">
                 </div>
             </div>
         </div>
@@ -331,60 +319,54 @@
                             <form method="post" class="was-validated" enctype="multipart/form-data"> 
 
                                 <div class="row"> 
-
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label for="lname">Last Name:</label>
-                                            <input name="lname" type="text" class="form-control" 
-                                            placeholder="Enter Last Name" value="<?= $view['lname']?>" required>
-                                            <div class="valid-feedback">Valid.</div>
-                                            <div class="invalid-feedback">Please fill out this field.</div>
-                                        </div>
-                                    </div>
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="fname">First Name:</label>
                                             <input name="fname" type="text" class="form-control" 
-                                            placeholder="Enter First Name" value="<?= $view['fname']?>" required>
+                                            placeholder="Enter First Name" required>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
                                     </div>
-
                                     <div class="col">
                                         <div class="form-group">
-                                            <label for="mi" class="mtop">Middle Name: </label>
+                                            <label for="mi" class="mtop">Middle Initial: </label>
                                             <input name="mi" type="text" class="form-control" 
-                                            placeholder="Enter Middle Name" value="<?= $view['mi']?>" required>
+                                            placeholder="Enter Middle Initial" required>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
                                     </div>
-
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="lname">Last Name:</label>
+                                            <input name="lname" type="text" class="form-control" 
+                                            placeholder="Enter Last Name"  required>
+                                            <div class="valid-feedback">Valid.</div>
+                                            <div class="invalid-feedback">Please fill out this field.</div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="row">
 
                                     <div class="col">
                                         <div class="form-group">
-                                            <label for="Date"class="mtop">Date of Birth </label>
-                                            <input name="bdate" type="date" class="form-control" 
-                                            value="<?= $view['bdate']?>" required>
+                                            <label for="date"class="mtop">Birthdate: </label>
+                                            <input name="bdate" id="date" type="date" class="form-control" 
+                                             required>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
                                     </div>
-
                                     <div class="col">
                                         <div class="form-group">
-                                            <label class="mtop">Birth Place </label>
-                                            <input type="text" class="form-control" name="bplace"  
-                                            placeholder="Enter Birth Place" value="<?= $view['bplace']?>" required>
+                                            <label for="precint_no">Precint No: </label>
+                                            <input name="precint_no" id="precint_no" class="form-control" required>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
-                                    </div>  
-
+                                    </div>
                                 </div>
                                     
                                 <div class="row">
@@ -392,7 +374,7 @@
                                         <div class="form-group">
                                             <label> House No: </label>
                                             <input type="text" class="form-control" name="houseno"  
-                                            placeholder="Enter House No." value="<?= $view['houseno']?>" required>
+                                            placeholder="Enter House No." required>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -402,7 +384,7 @@
                                         <div class="form-group">
                                             <label> Street: </label>
                                             <input type="text" class="form-control" name="street"  
-                                            placeholder="Enter Street" value="<?= $view['street']?>" required>
+                                            placeholder="Enter Street" required>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -412,7 +394,7 @@
                                         <div class="form-group">
                                             <label> Barangay: </label>
                                             <input type="text" class="form-control" name="brgy"  
-                                            placeholder="Enter Barangay" value="<?= $view['brgy']?>" required>
+                                            placeholder="Enter Barangay" value="Sinalhan" required>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -422,7 +404,7 @@
                                         <div class="form-group">
                                             <label> City: </label>
                                             <input type="text" class="form-control" name="city"  
-                                            placeholder="Enter City" value="<?= $view['city']?>" required>
+                                            placeholder="Enter City" value="City of Santa Rosa" required>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -431,8 +413,20 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label> Municipality: </label>
-                                            <input type="text" class="form-control" name="municipal" 
-                                            placeholder="Enter Municipality" value="<?= $view['municipal']?>" required>
+                                            <input type="text" class="form-control" name="municipality" 
+                                            placeholder="Enter Municipality" value="Laguna" required>
+                                            <div class="valid-feedback">Valid.</div>
+                                            <div class="invalid-feedback">Please fill out this field.</div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="status"> Civil Status: </label>
+                                            <select class="form-control" name="status" id="status" onchange="toggleCustomPurpose()" required>
+                                                <option value="">Choose your status</option>
+                                                <option value="Single">Single</option>
+                                                <option value="Married">Married</option>
+                                            </select>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -513,20 +507,10 @@
                                 <hr>
 
                                 <div class="row">
-
                                     <div class="col">
                                         <div class="form-group">
-                                            <label for="lname">Last Name:</label>
-                                            <input name="inc_lname" type="text" class="form-control" placeholder="Enter Last Name" required>
-                                            <div class="valid-feedback">Valid.</div>
-                                            <div class="invalid-feedback">Please fill out this field.</div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label for="fname">First Name:</label>
-                                            <input name="inc_fname" type="text" class="form-control" placeholder="Enter First Name" required>
+                                            <label for="inc_fname">First Name:</label>
+                                            <input id="inc_fname" name="inc_fname" type="text" class="form-control" placeholder="Enter First Name" required>
                                                 <div class="valid-feedback">Valid.</div>
                                                 <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -538,17 +522,25 @@
 
                                     <div class="col">
                                         <div class="form-group">
-                                            <label for="mi" class="mtop">Middle Name </label>
-                                            <input name="inc_mi" type="text" class="form-control" placeholder="Enter Middle Name" required>
+                                            <label for="inc_mi" class="mtop">Middle Name </label>
+                                            <input id="inc_mi" name="inc_mi" type="text" class="form-control" placeholder="Enter Middle Name" required>
                                                 <div class="valid-feedback">Valid.</div>
                                                 <div class="invalid-feedback">Please fill out this field.</div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="inc_lname">Last Name:</label>
+                                            <input name="inc_lname" id="inc_lname" type="text" class="form-control" placeholder="Enter Last Name" required>
+                                            <div class="valid-feedback">Valid.</div>
+                                            <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
                                     </div>
 
                                     <div class="col">
                                         <div class="form-group">            
                                             <label for="cno">Contact Number:</label>
-                                            <input name="inc_contact" type="text" maxlength="11" class="form-control" pattern="[0-9]{11}" placeholder="Enter Contact Number" required>
+                                            <input id="cno" name="inc_contact" type="text" maxlength="11" class="form-control" pattern="[0-9]{11}" placeholder="Enter Contact Number" required>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -596,19 +588,18 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label> Municipality: </label>
-                                            <input type="text" class="form-control" name="inc_municipal" placeholder="Enter Municipality" required>
+                                            <input type="text" class="form-control" name="inc_municipality" placeholder="Enter Municipality" required>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
                                     </div>
                                 </div>
                         </div>
-
+                        <?php $bmis->create_brgyid(); ?>
                         <!-- Modal Footer -->
             
                         <div class="modal-footer">
                             <div class="paa">
-                                <input name="id_resident" type="hidden" class="form-control" value="<?= $userdetails['id']?>">
                                 <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
                                 <button name ="create_brgyid" type="submit" class="btn btn-primary">Submit Request</button>
                             </div>
@@ -745,7 +736,7 @@
                             <li>
                                 <div class="zoom">
                                     <div class="chip" style="font-size:10px;">
-                                        <img src="../BarangaySystem/icons/Contact/mikhos.png" alt="Person" width="96" height="96">
+                                        <img src="./Contact/mikhos.png" alt="Person" width="96" height="96">
                                         Mikhos Dungca | 09514053044
                                     </div>
                                 </div>
@@ -753,7 +744,7 @@
                             <li>
                                 <div class="zoom">
                                     <div class="chip" style="font-size:10px;">
-                                        <img src="../BarangaySystem/icons/Contact/pj.png" alt="Person" width="96" height="96">
+                                        <img src="./Contact/pj.png" alt="Person" width="96" height="96">
                                         PJ Mendros | 09179450661
                                     </div>
                                 </div>
@@ -761,7 +752,7 @@
                             <li>
                                 <div class="zoom">
                                     <div class="chip" style="font-size:10px;">
-                                        <img src="../BarangaySystem/icons/Contact/vincent.png" alt="Person" width="96" height="96">
+                                        <img src="./Contact/vincent.png" alt="Person" width="96" height="96">
                                         Vincent Vilfamat | 09512873394
                                     </div>
                                 </div>
@@ -769,7 +760,7 @@
                             <li>
                                 <div class="zoom">
                                     <div class="chip" style="font-size:10px;">
-                                        <img src="../BarangaySystem/icons/Contact/eugene.png" alt="Person" width="96" height="96">
+                                        <img src="./Contact/eugene.png" alt="Person" width="96" height="96">
                                         Joel Evangelista | 09301112368
                                     </div>
                                 </div>
@@ -777,7 +768,7 @@
                             <li>
                                 <div class="zoom">
                                     <div class="chip" style="font-size:10px;">
-                                        <img src="../BarangaySystem/icons/Contact/kyle.png" alt="Person" width="96" height="96">
+                                        <img src="./Contact/kyle.png" alt="Person" width="96" height="96">
                                         Kyle Pilapil | 09618853017
                                     </div>
                                 </div>
