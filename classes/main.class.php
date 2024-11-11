@@ -209,10 +209,10 @@ class BMISClass {
     public function create_announcement() {
         if(isset($_POST['create_announce'])) {
             $event = $_POST['event'];
-            // $generated_by = $_POST['generated_by'];
+            // $created_by = $userdetails['id_user'];
 
             $connection = $this->openConn();
-            $stmt = $connection->prepare("INSERT INTO tbl_announcement (`event`, `generated_by`)
+            $stmt = $connection->prepare("INSERT INTO tbl_announcement (`event`, `created_by`)
                 VALUES (?, ?)");
             $stmt->execute([$event, 1]);
 
@@ -224,8 +224,8 @@ class BMISClass {
 
     public function view_announcement(){
         $connection = $this->openConn();
-        $stmt = $connection->prepare("SELECT u.lname, u.fname, u.mi, a.event, date(a.generated_on) AS generated_date, a.id_announcement from tbl_user AS
-            u JOIN tbl_announcement AS a ON u.id_user = a.generated_by");
+        $stmt = $connection->prepare("SELECT u.lname, u.fname, u.mi, a.event, date(a.created_on) AS created_date, a.id_announcement from tbl_user AS
+            u JOIN tbl_announcement AS a ON u.id_user = a.created_by");
         $stmt->execute();
         $view = $stmt->fetchAll();
         $row = $stmt->rowCount();
@@ -287,15 +287,14 @@ class BMISClass {
             mi,
             lname,
             age,
-            nationality,
             houseno,
             street,
             brgy,
             city,
             municipality,
             purpose,
-            generated_by,
-            DATE_FORMAT(STR_TO_DATE(generated_on, '%Y-%m-%d'), '%b. %d, %Y') AS `date` 
+            created_by,
+            DATE_FORMAT(STR_TO_DATE(created_on, '%Y-%m-%d'), '%b. %d, %Y') AS `date` 
             FROM tbl_rescert 
             WHERE id_rescert = ?");
         $stmt->execute([$id_rescert]);
@@ -321,7 +320,6 @@ class BMISClass {
             $brgy = $_POST['brgy'];
             $city = $_POST['city'];
             $municipality = $_POST['municipality'];
-            $nationality = $_POST['nationality'];
             $purpose = $_POST['purpose'];
             $doc_type = 'rescert';
             
@@ -341,7 +339,6 @@ class BMISClass {
                 'brgy' => $brgy,
                 'city' => $city,
                 'municipality' => $municipality,
-                'nationality' => $nationality,
                 'purpose' => $purpose,
                 'doc_type' => $doc_type
             ];
@@ -356,69 +353,6 @@ class BMISClass {
             <img src="'.$qrCode.'" alt="QR Code" />';
         }
     }
-    // public function get_resident_basicinfo($tbl_name){
-    //     $conn = $this->openConn();
-    //     $resident_id = $_GET['id'];
-
-    //     $stmt = $conn->prepare("SELECT tbl_resident.* FROM tbl_resident JOIN $tbl_name ON tbl_resident.id_resident = $tbl_name.id_rescert
-    //         WHERE tbl_rescert.resident_id = ?;
-    //     ");
-
-    //     $stmt->Execute([$resident_id]);
-    //     $view = $stmt->fetch();
-    //     return $view;
-    // }
-
-    // public function insert_certofres() {
-    //     $input = file_get_contents('php://input');
-    //     $data = json_decode($input, true); // Decode JSON into an associative array
-    
-    //     echo $data;
-    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    //         // Read the JSON input
-    //         $input = file_get_contents('php://input');
-    //         $data = json_decode($input, true); // Decode JSON into an associative array
-        
-
-
-    //         // Make sure the data decoded properly
-    //         if ($data) {
-    //             // Database connection (PDO assumed)
-    //             $connection = $this->openConn();
-        
-    //             try {
-    //                 // Prepare and execute the insert statement
-    //                 $stmt = $connection->prepare("INSERT INTO tbl_rescert (lname, fname, mi, age, houseno, street, brgy, city, municipal, purpose) 
-    //                     VALUES (:lname, :fname, :mi, :age, :houseno, :street, :brgy, :city, :municipal, :purpose)");
-                    
-    //                 // Bind parameters from the decoded JSON data
-    //                 $stmt->execute([
-    //                     ':lname' => $data['lname'],
-    //                     ':fname' => $data['fname'],
-    //                     ':mi' => $data['mi'],
-    //                     ':age' => $data['age'],
-    //                     ':houseno' => $data['houseno'],
-    //                     ':street' => $data['street'],
-    //                     ':brgy' => $data['brgy'],
-    //                     ':city' => $data['city'],
-    //                     ':municipality' => $data['municipality'],
-    //                     ':purpose' => $data['purpose']
-    //                 ]);
-
-    //                 $insertedId = $connection->lastInsertId();
-    //                 echo json_encode(['success' => true, 'inserted_id' => $insertedId]);
-    //                 // Send a JSON response back
-    //                 echo json_encode(['status' => 'success']);
-    //             } catch (PDOException $e) {
-    //                 // Handle and respond with error message
-    //                 echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
-    //             }
-    //         } else {
-    //             echo json_encode(['status' => 'error', 'message' => 'Invalid JSON data']);
-    //         }
-    //         exit; // Stop further execution since this is an API response
-    //     }
-    // }
 
     public function insert_certofres() {
         ob_start();
@@ -428,8 +362,8 @@ class BMISClass {
             if (isset($data) && $data['doc_type'] === 'rescert') {
                 try {
                     $connection = $this->openConn();
-                    $stmt = $connection->prepare("INSERT INTO tbl_rescert (lname, fname, mi, age, houseno, street, brgy, city, municipality, nationality, purpose, generated_by) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    $stmt = $connection->prepare("INSERT INTO tbl_rescert (lname, fname, mi, age, houseno, street, brgy, city, municipality, purpose, created_by) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
                     $stmt->execute([
                         $data['lname'],
@@ -441,7 +375,6 @@ class BMISClass {
                         $data['brgy'],
                         $data['city'],
                         $data['municipality'],  
-                        $data['nationality'],
                         $data['purpose'],
                         $_POST['added_by']
                     ]);
@@ -508,7 +441,6 @@ class BMISClass {
                 $fname = $_POST['fname'];
                 $mi = $_POST['mi'];
                 $age = $_POST['age'];
-                $nationality = $_POST['nationality'];
                 $houseno = $_POST['houseno'];
                 $street = $_POST['street'];
                 $brgy = $_POST['brgy'];
@@ -521,7 +453,6 @@ class BMISClass {
                     fname = ?,
                     mi = ?,
                     age = ?,
-                    nationality = ?,
                     houseno = ?,
                     street = ?,
                     brgy = ?,
@@ -537,7 +468,6 @@ class BMISClass {
                     $fname,
                     $mi,
                     $age,
-                    $nationality,
                     $houseno,
                     $street,
                     $brgy,
@@ -555,47 +485,16 @@ class BMISClass {
     }
 
     public function archive_certofres() {
-        $id_rescert = $_POST['id_rescert'];
-        $id_resident = $_POST['id_resident'];
-
         if (isset($_POST['archive_certofres'])) {
+            $id_rescert = $_POST['id_rescert'];
+
             try {
-                $connection = $this->openConn();
+                // $connection = $this->openConn();
 
-                $connection->beginTransaction();
-
-                $stmt = $connection->prepare("
-                    SELECT
-                        r.*, c.*
-                    FROM
-                        tbl_resident AS r
-                    JOIN
-                        tbl_rescert AS c ON r.id_resident = c.id_resident
-                    WHERE
-                        c.id_rescert = ? AND r.id_resident = ?
-                ");
-                $stmt->execute([$id_rescert, $id_resident]);
-
-                $view = $stmt->fetch();
-
-                $stmt1 = $connection->prepare("
-                    INSERT INTO tbl_archive_rescert(id_rescert, lname, fname, mi, age, houseno,
-                        street, brgy, city, municipal, purpose) VALUES (?, ?, ?, ?, ?, ?,
-                        ?, ?, ?, ?, ?)
-                ");
-
-                $stmt1->execute([$view['id_rescert'], $view['lname'], $view['fname'], $view['mi'], $view['age'], 
-                    $view['houseno'], $view['street'], $view['brgy'], $view['city'], $view['municipal'], 
-                    $view['purpose']]);
                 
-                $stmt2 = $connection->prepare("DELETE FROM tbl_rescert where id_rescert = ?");
-                $stmt2->execute([$id_rescert]);
-
-                $connection->commit();
 
                 echo "<script>alert(" . json_encode('Record archived successfully.') . ");</script>";
             } catch (PDOException $e) {
-                $connection->rollBack();
                 echo "<script>alert('Failed to update records: " . $e->getMessage() . "')</script>";
                 exit;
             }

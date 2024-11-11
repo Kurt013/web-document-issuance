@@ -22,16 +22,16 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE tbl_user (
-    id_user INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    id_user INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(30) NOT NULL,
     email VARCHAR(50) UNIQUE NOT NULL,
     `password` VARCHAR(255) NOT NULL,
     lname VARCHAR(20) NOT NULL,
     fname VARCHAR(20) NOT NULL,
-    mi VARCHAR(1) NOT NULL,
-    sex VARCHAR(10) NOT NULL,
-    contact VARCHAR(11) NOT NULL,
-    position VARCHAR(20) NOT NULL,
+    mi CHAR(1),
+    sex VARCHAR(10),
+    contact VARCHAR(11),
+    position VARCHAR(20) DEFAULT NULL,
     `role` VARCHAR(15) DEFAULT 'staff'
 );
 
@@ -39,118 +39,117 @@ CREATE TABLE tbl_user (
 INSERT INTO `tbl_user` (username, `email`, `password`, `lname`, `fname`, `mi`, `position`, `role`) VALUES
 ('admin', 'almodovarkurt64@gmail.com', '$2y$10$clkI7tjDcF3LzMN0a8bN1e/Ad0/pHl2oBlWlFxdQEkCjyHdt3H4Py', 'almodovar', 'kurt', 'a', 'chairman', 'administrator');
 
-CREATE TABLE tbl_records (
-    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by VARCHAR(30) NOT NULL,
-    doc_type VARCHAR(20) NOT NULL
-);
 
+-- Table: tbl_brgyid
 CREATE TABLE tbl_brgyid (
-    id_brgyid VARCHAR(20) PRIMARY KEY UNIQUE NOT NULL,
-    res_photo MEDIUMBLOB NOT NULL,
+    id_brgyid VARCHAR(20) PRIMARY KEY UNIQUE,
+    res_photo MEDIUMBLOB,
     fname VARCHAR(20) NOT NULL,
-    mi VARCHAR(1) NOT NULL,
+    mi VARCHAR(1),
     lname VARCHAR(20) NOT NULL,
-    houseno VARCHAR(20) NOT NULL,
-    street VARCHAR(20) NOT NULL,
-    brgy VARCHAR(20) NOT NULL,
-    city VARCHAR(20) NOT NULL,
-    municipality VARCHAR(20) NOT NULL,
-    bdate DATE NOT NULL,
-    `status` VARCHAR(20) NOT NULL,
-    precint_no VARCHAR(20) NOT NULL,
-    inc_lname VARCHAR(20) NOT NULL,
-    inc_fname VARCHAR(20) NOT NULL,
-    inc_mi VARCHAR(1) NOT NULL,
-    inc_contact VARCHAR(11) NOT NULL,
+    houseno VARCHAR(20),
+    street VARCHAR(20),
+    brgy VARCHAR(20),
+    city VARCHAR(20),
+    municipality VARCHAR(20),
+    bdate DATE,
+    `status` VARCHAR(20),
+    precint_no VARCHAR(20),
+    inc_lname VARCHAR(20),
+    inc_fname VARCHAR(20),
+    inc_mi CHAR(1),
+    inc_contact VARCHAR(11),
     inc_houseno VARCHAR(20) DEFAULT NULL,
-    inc_street VARCHAR(20) NOT NULL,
-    inc_brgy VARCHAR(20) NOT NULL,
-    inc_city VARCHAR(20) NOT NULL,
-    inc_municipal VARCHAR(20) NOT NULL,
-    valid_until DATE NOT NULL,
-    generated_by INT NOT NULL,
-    generated_on DATE DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (generated_by) REFERENCES tbl_user(id_user)
+    inc_street VARCHAR(20),
+    inc_brgy VARCHAR(20),
+    inc_city VARCHAR(20),
+    inc_municipal VARCHAR(20),
+    valid_until DATE,
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by INT,
+    FOREIGN KEY (created_by) REFERENCES tbl_user(id_user)
 );
 
+-- Table: tbl_bspermit
 CREATE TABLE tbl_bspermit (
-    id_bspermit VARCHAR(20) PRIMARY KEY UNIQUE NOT NULL,
+    id_bspermit VARCHAR(20) PRIMARY KEY UNIQUE,
     fname VARCHAR(20) NOT NULL,
-    mi VARCHAR(1) NOT NULL,
+    mi VARCHAR(1),
     lname VARCHAR(20) NOT NULL,
-    bshouseno VARCHAR(20) NOT NULL,
-    bsstreet VARCHAR(20) NOT NULL,
-    bsbrgy VARCHAR(20) NOT NULL,
-    bscity VARCHAR(20) NOT NULL,
-    bsmunicipality VARCHAR(20) NOT NULL,
-    bsindustry VARCHAR(20) NOT NULL,
-    aoe INT NOT NULL,
-    generated_by INT NOT NULL,
-    generated_on DATE DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (generated_by) REFERENCES tbl_user(id_user)
+    bshouseno VARCHAR(20),
+    bsstreet VARCHAR(20),
+    bsbrgy VARCHAR(20),
+    bscity VARCHAR(20),
+    bsmunicipality VARCHAR(20),
+    bsindustry VARCHAR(20),
+    aoe INT,
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by INT,
+    FOREIGN KEY (created_by) REFERENCES tbl_user(id_user)
 );
 
+-- Table: tbl_clearance
 CREATE TABLE tbl_clearance (
-    id_clearance VARCHAR(20) PRIMARY KEY UNIQUE NOT NULL,
+    id_clearance VARCHAR(20) PRIMARY KEY UNIQUE,
     fname VARCHAR(20) NOT NULL,
-    mi VARCHAR(1) NOT NULL,
+    mi VARCHAR(1),
     lname VARCHAR(20) NOT NULL,
-    age INT NOT NULL,
-    houseno VARCHAR(20) NOT NULL,
-    street VARCHAR(20) NOT NULL,
-    brgy VARCHAR(20) NOT NULL,
-    city VARCHAR(20) NOT NULL,
-    municipality VARCHAR(20) NOT NULL,
-    purpose VARCHAR(20) NOT NULL,
-    generated_by INT NOT NULL,
-    generated_on DATE DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (generated_by) REFERENCES tbl_user(id_user)
+    age INT,
+    houseno VARCHAR(20),
+    street VARCHAR(20),
+    brgy VARCHAR(20),
+    city VARCHAR(20),
+    municipality VARCHAR(20),
+    purpose VARCHAR(20),
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by INT,
+    FOREIGN KEY (created_by) REFERENCES tbl_user(id_user)
 );
 
+-- Table: tbl_indigency
 CREATE TABLE tbl_indigency (
-    id_indigency VARCHAR(20) PRIMARY KEY UNIQUE NOT NULL,
+    id_indigency VARCHAR(20) PRIMARY KEY UNIQUE,
     fname VARCHAR(20) NOT NULL,
-    mi VARCHAR(1) NOT NULL,
+    mi VARCHAR(1),
     lname VARCHAR(20) NOT NULL,
-    age INT NOT NULL,
-    nationality VARCHAR(20) NOT NULL,
-    houseno VARCHAR(20) NOT NULL,
-    street VARCHAR(20) NOT NULL,
-    brgy VARCHAR(20) NOT NULL,
-    city VARCHAR(20) NOT NULL,
-    municipality VARCHAR(20) NOT NULL,
-    purpose VARCHAR(20) NOT NULL,
-    generated_by INT NOT NULL,
-    generated_on DATE DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (generated_by) REFERENCES tbl_user(id_user)
+    age INT,
+    nationality VARCHAR(20),
+    houseno VARCHAR(20),
+    street VARCHAR(20),
+    brgy VARCHAR(20),
+    city VARCHAR(20),
+    municipality VARCHAR(20),
+    purpose VARCHAR(20),
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by INT,
+    FOREIGN KEY (created_by) REFERENCES tbl_user(id_user)
 );
 
+-- Table: tbl_rescert
 CREATE TABLE tbl_rescert (
-    id_rescert VARCHAR(20) PRIMARY KEY UNIQUE NOT NULL,
+    id_rescert VARCHAR(20) PRIMARY KEY UNIQUE,
     fname VARCHAR(20) NOT NULL,
-    mi VARCHAR(1) NOT NULL,
+    mi VARCHAR(1),
     lname VARCHAR(20) NOT NULL,
-    age INT NOT NULL,
-    nationality VARCHAR(20) NOT NULL,
-    houseno VARCHAR(20) NOT NULL,
-    street VARCHAR(20) NOT NULL,
-    brgy VARCHAR(20) NOT NULL,
-    city VARCHAR(20) NOT NULL,
-    municipality VARCHAR(20) NOT NULL,
-    purpose VARCHAR(20) NOT NULL,
-    generated_by INT NOT NULL,
-    generated_on DATE DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (generated_by) REFERENCES tbl_user(id_user)
+    age INT,
+    houseno VARCHAR(20),
+    street VARCHAR(20),
+    brgy VARCHAR(20),
+    city VARCHAR(20),
+    municipality VARCHAR(20),
+    purpose VARCHAR(20),
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by INT,
+    FOREIGN KEY (created_by) REFERENCES tbl_user(id_user)
 );
 
+-- Table: tbl_announcement
 CREATE TABLE tbl_announcement (
-    id_announcement INT(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    event VARCHAR(255) NOT NULL,
-    generated_on TIMESTAMP NOT NULL,
-    generated_by INT NOT NULL,
-    FOREIGN KEY (generated_by) REFERENCES tbl_user(id_user)
+    id_announcement INT(11) PRIMARY KEY AUTO_INCREMENT,
+    `event` VARCHAR(255) NOT NULL,
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by INT,
+    FOREIGN KEY (created_by) REFERENCES tbl_user(id_user)
 );
 
 -- Set the delimiter to //

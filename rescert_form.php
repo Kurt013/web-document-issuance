@@ -17,20 +17,7 @@
     <meta charset="UTF-8">
     <title>Barangay Information System</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- bootstrap 3.0.2 -->
-    <link href="../BarangaySystem/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <!-- font Awesome -->
-    <link href="../BarangaySystem/bootstrap/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-    <!-- Ionicons -->
-    <link href="../BarangaySystem/bootstrap/css/ionicons.min.css" rel="stylesheet" type="text/css" />
-    <link href="../BarangaySystem/bootstrap/css/morris-0.4.3.min.css" rel="stylesheet" type="text/css" />
-    <!-- Theme style -->
-    <link href="../BarangaySystem/bootstrap/css/AdminLTE.css" rel="stylesheet" type="text/css" />
-    <link href="./BarangaySystem/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
-    <link href="../BarangaySystem/bootstrap/css/select2.css" rel="stylesheet" type="text/css" />
-    <script src="../BarangaySystem/bootstrap/css/jquery-1.12.3.js" type="text/javascript"></script>  
     <style>
         @media print {
             .noprint {
@@ -51,7 +38,7 @@
 
     <h1 style="text-transform: uppercase;">Certificate of Residency</h1>
 
-    <p>ISSUANCE NO.: <u><?= $resident['id_rescert'] ?></u></p>
+    <p>ISSUANCE NO.: <u id="id_rescert"><?= $resident['id_rescert'] ?></u></p>
     <p>TO WHOM IT MAY CONCERN:</p>
     <p> This document hereby certifies that
         <span contenteditable="true" id="fname">
@@ -104,6 +91,15 @@
     <button class="btn btn-primary noprint" id="printpagebutton" onclick="PrintElem()">Print</button>
     <button class="noprint btn-update">Update</button>
     <script>
+
+    if (window.opener) {
+        // Add an event listener for when the new tab (this window) is closed
+        window.addEventListener('beforeunload', function () {
+        // Refresh the parent window
+        window.opener.location.reload();
+        });
+    }
+
          function PrintElem()
     {
         window.print();
@@ -141,7 +137,6 @@
                 fname: $('#fname').text().trim(),
                 mi: $('#mi').text().trim(),
                 age: $('#age').text().trim(),
-                nationality: $('#nationality').text().trim(),
                 houseno: $('#houseno').text().trim(),
                 street: $('#street').text().trim(),
                 brgy: $('#brgy').text().trim(),
