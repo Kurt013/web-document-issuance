@@ -137,17 +137,6 @@
             <a href="#down2" data-toggle="tooltip" title="Information" class="btn4 bg-primary"><i class="fa fa-info fa-lg"></i></a>
             <a href="#down1" data-toggle="tooltip" title="Registration" class="btn3 bg-primary"><i class="fa fa-edit fa-lg"></i></a>
             <a href="#down" data-toggle="tooltip" title="Contact" class="btn2 bg-primary"><i class="fa fa-phone fa-lg"></i></a>
-           
-            <div class="dropdown ml-auto">
-                <button title="Your Account" class="btn btn-primary dropdown-toggle" style="margin-right: 2px;" type="button" data-toggle="dropdown"><?= $userdetails['surname'];?>, <?= $userdetails['firstname'];?>
-                    <span class="caret" style="margin-left: 2px;"></span>
-                </button>
-                <ul class="dropdown-menu" style="width: 175px;" >
-                    <a class="btn" href="resident_profile.php?id_resident=<?= $userdetails['id'];?>"> <i class="fas fa-user"> &nbsp; </i>Personal Profile  </a>
-                    <a class="btn" href="resident_changepass.php?id_resident=<?= $userdetails['id'];?>"> <i class="fas fa-lock" >&nbsp;</i> Change Password  </a>
-                    <a class="btn" href="logout.php"> <i class="fas fa-sign-out-alt">&nbsp;</i> Logout  </a>
-                </ul>
-            </div>
         </nav>
 
         <div class="container-fluid container1"> 
@@ -162,13 +151,13 @@
 
                     <br>
 
-                    <img class="picture" src="../BarangaySystem/icons/Documents/docu1.png">
+                    <img class="picture" src="./Documents/docu1.png">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <img class="picture" src="../BarangaySystem/icons/Documents/docu3.png">
+                    <img class="picture" src="./Documents/docu3.png">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <img class="picture" src="../BarangaySystem/icons/Documents/docu2.png">
+                    <img class="picture" src="./Documents/docu2.png">
                 </div>
             </div>
         </div>
@@ -353,7 +342,7 @@
                                         <div class="form-group">
                                             <label for="fname">First Name:</label>
                                             <input name="fname" type="text" class="form-control" 
-                                            placeholder="Enter First Name" value="<?= $view['fname']?>" required>
+                                            placeholder="Enter First Name" required>
                                                 <div class="valid-feedback">Valid.</div>
                                                 <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -363,7 +352,7 @@
                                         <div class="form-group">
                                             <label for="mi" class="mtop">Middle Name: </label>
                                             <input name="mi" type="text" class="form-control" 
-                                            placeholder="Enter Middle Name" value="<?= $view['mi']?>" required>
+                                            placeholder="Enter Middle Name" required>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -376,7 +365,7 @@
                                         <div class="form-group">
                                             <label for="lname">Last Name:</label>
                                             <input name="lname" type="text" class="form-control" 
-                                            placeholder="Enter Last Name" value="<?= $view['lname']?>" required>
+                                            placeholder="Enter Last Name" required>
                                                 <div class="valid-feedback">Valid.</div>
                                                 <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -384,9 +373,9 @@
                                     
                                     <div class="col">
                                         <div class="form-group">
-                                            <label class="mtop">Nationality: </label>
+                                            <label class="mtop">Age: </label>
                                             <input type="text" class="form-control" name="age"   
-                                            placeholder="Enter age" value="<?= $view['age']?>" required>
+                                            placeholder="Enter age" required>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -396,7 +385,7 @@
                                         <div class="form-group">
                                             <label class="mtop">Nationality: </label>
                                             <input type="text" class="form-control" name="nationality"   
-                                            placeholder="Enter Nationality" value="<?= $view['nationality']?>" required>
+                                            placeholder="Enter Nationality" required>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -409,7 +398,7 @@
                                         <div class="form-group">
                                             <label> House No: </label>
                                             <input type="text" class="form-control" name="houseno"  
-                                            placeholder="Enter House No." value="<?= $view['houseno']?>" required>
+                                            placeholder="Enter House No." required>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -419,7 +408,7 @@
                                         <div class="form-group">
                                             <label> Street: </label>
                                             <input type="text" class="form-control" name="street"  
-                                            placeholder="Enter Street" value="<?= $view['street']?>" required>
+                                            placeholder="Enter Street" required>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -429,7 +418,7 @@
                                         <div class="form-group">
                                             <label> Barangay: </label>
                                             <input type="text" class="form-control" name="brgy"  
-                                            placeholder="Enter Barangay" value="<?= $view['brgy']?>" required>
+                                            placeholder="Enter Barangay" value="sinalhan" readonly>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -439,7 +428,7 @@
                                         <div class="form-group">
                                             <label> Barangay: </label>
                                             <input type="text" class="form-control" name="city"  
-                                            placeholder="Enter City" value="<?= $view['city']?>" required>
+                                            placeholder="Enter City" value="city of santa rosa" readonly>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -448,8 +437,8 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label> Municipality: </label>
-                                            <input type="text" class="form-control" name="municipal" 
-                                            placeholder="Enter Municipality" value="<?=$view['municipal']?>" required>
+                                            <input type="text" class="form-control" name="municipality" 
+                                            placeholder="Enter Municipality" value="laguna" readonly>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -474,29 +463,14 @@
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
                                     </div>  
-
-
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label class="mtop">Date: </label>
-                                            <input type="date" class="form-control" name="date" required>
-                                            <div class="valid-feedback">Valid.</div>
-                                            <div class="invalid-feedback">Please fill out this field.</div>
-                                        </div>
-                                    </div>
-
                                 </div>
-                                
-                            
                         </div>
-
-                
+                        <?php $bmis->create_certofindigency() ?>
                 
                         <!-- Modal Footer -->
                         
                         <div class="modal-footer">
                             <div class="paa">
-                                <input name="id_resident" type="hidden" class="form-control" value="<?= $userdetails['id']?>">
                                 <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
                                 <button name="create_certofindigency" type="submit" class="btn btn-primary">Submit Request</button>
                             </div>
@@ -632,7 +606,7 @@
                             <li>
                                 <div class="zoom">
                                     <div class="chip" style="font-size:10px;">
-                                        <img src="../BarangaySystem/icons/Contact/mikhos.png" alt="Person" width="96" height="96">
+                                        <img src="./Contact/mikhos.png" alt="Person" width="96" height="96">
                                         Mikhos Dungca | 09514053044
                                     </div>
                                 </div>
@@ -640,7 +614,7 @@
                             <li>
                                 <div class="zoom">
                                     <div class="chip" style="font-size:10px;">
-                                        <img src="../BarangaySystem/icons/Contact/pj.png" alt="Person" width="96" height="96">
+                                        <img src="./Contact/pj.png" alt="Person" width="96" height="96">
                                         PJ Mendros | 09179450661
                                     </div>
                                 </div>
@@ -648,7 +622,7 @@
                             <li>
                                 <div class="zoom">
                                     <div class="chip" style="font-size:10px;">
-                                        <img src="../BarangaySystem/icons/Contact/vincent.png" alt="Person" width="96" height="96">
+                                        <img src="./Contact/vincent.png" alt="Person" width="96" height="96">
                                         Vincent Vilfamat | 09512873394
                                     </div>
                                 </div>
@@ -656,7 +630,7 @@
                             <li>
                                 <div class="zoom">
                                     <div class="chip" style="font-size:10px;">
-                                        <img src="../BarangaySystem/icons/Contact/eugene.png" alt="Person" width="96" height="96">
+                                        <img src="./Contact/eugene.png" alt="Person" width="96" height="96">
                                         Joel Evangelista | 09301112368
                                     </div>
                                 </div>
@@ -664,7 +638,7 @@
                             <li>
                                 <div class="zoom">
                                     <div class="chip" style="font-size:10px;">
-                                        <img src="../BarangaySystem/icons/Contact/kyle.png" alt="Person" width="96" height="96">
+                                        <img src="./Contact/kyle.png" alt="Person" width="96" height="96">
                                         Kyle Pilapil | 09618853017
                                     </div>
                                 </div>

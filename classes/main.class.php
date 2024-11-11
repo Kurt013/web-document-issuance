@@ -309,7 +309,7 @@ class BMISClass {
     }
 
     public function create_certofres() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_POST['create_certofres'])) {
             // Gather the form data
             $lname = $_POST['lname'];
             $fname = $_POST['fname'];
@@ -507,46 +507,49 @@ class BMISClass {
      public function create_certofindigency() {
 
         if(isset($_POST['create_certofindigency'])) {
-            $id_resident = $_POST['id_resident'];
-            $lname = $_POST['lname'];
-            $fname = $_POST['fname'];
-            $mi = $_POST['mi'];
-            $age = $_POST['age'];
-            $nationality = $_POST['nationality']; 
-            $houseno = $_POST['houseno'];
-            $street = $_POST['street'];
-            $brgy = $_POST['brgy'];
-            $city = $_POST['city'];
-            $municipal = $_POST['municipal'];
-            $date = $_POST['date'];
-            $purpose = $_POST['purpose'];
-        
-            $connection = $this->openConn();
-
-            try {
-                $connection->beginTransaction();
-
-                //update tbl_resident
-                $stmt = $connection->prepare("UPDATE tbl_resident 
-                    SET lname = ?, fname = ?, mi = ?, age = ?, nationality = ?, houseno = ?, street = ?, brgy = ?, city = ?, municipal = ?
-                    WHERE id_resident = ?");
-
-                $stmt->execute([$lname, $fname, $mi, $age, $nationality, $houseno, $street, $brgy, $city, $municipal, $id_resident]);
-
-                $stmt = $connection->prepare("INSERT INTO tbl_indigency (id_resident, `date`, purpose) VALUES (?, ?, ?)");
-
-                $stmt->execute([$id_resident, $date, $purpose]);
-
-                $connection->commit();
-
-                $message2 = "Application Applied, you will receive our text message for further details";
-                echo "<script type='text/javascript'>alert('$message2');</script>";
-                header("refresh: 0");
-            }
-            catch (PDOException $e) {
-                $connection->rollBack();
-                echo "Failed to update records: " . $e->getMessage();
-            }
+                // Gather the form data
+                $lname = $_POST['lname'];
+                $fname = $_POST['fname'];
+                $mi = $_POST['mi'];
+                $age = $_POST['age'];
+                $nationality = $_POST['nationality'];
+                $houseno = $_POST['houseno'];
+                $street = $_POST['street'];
+                $brgy = $_POST['brgy'];
+                $city = $_POST['city'];
+                $municipality = $_POST['municipality'];
+                $purpose = $_POST['purpose'];
+                $doc_type = 'indigency';
+                
+                // Check if "Other" was selected and handle custom purpose
+                if ($purpose === "Other" && !empty($_POST['custom_purpose'])) {
+                    $purpose = $_POST['custom_purpose'];
+                }
+            
+                // Create the data array
+                $data = [
+                    'lname' => $lname,
+                    'fname' => $fname,
+                    'mi' => $mi,
+                    'age' => $age,
+                    'nationality' => $nationality,
+                    'houseno' => $houseno,
+                    'street' => $street,
+                    'brgy' => $brgy,
+                    'city' => $city,
+                    'municipality' => $municipality,
+                    'purpose' => $purpose,
+                    'doc_type' => $doc_type
+                ];
+            
+                // Convert data to JSON
+                $json_data = json_encode($data);
+                
+                $qrCode = $this->generateQRCode($json_data);
+    
+                echo '<script>alert("QR Code Successfully Generated!")</script>
+                <h1>Here is your generated qr code go to the brgy.hall to get your document!"</h1>
+                <img src="'.$qrCode.'" alt="QR Code" />';
         }
         
         
@@ -702,10 +705,8 @@ class BMISClass {
 
 
      public function create_brgyclearance() {
-
-
         if(isset($_POST['create_brgyclearance'])) {
-            $id_resident = $_POST['id_resident'];
+            // Gather the form data
             $lname = $_POST['lname'];
             $fname = $_POST['fname'];
             $mi = $_POST['mi'];
@@ -714,35 +715,38 @@ class BMISClass {
             $street = $_POST['street'];
             $brgy = $_POST['brgy'];
             $city = $_POST['city'];
-            $municipal = $_POST['municipal'];
+            $municipality = $_POST['municipality'];
             $purpose = $_POST['purpose'];
+            $doc_type = 'clearance';
+            
+            // Check if "Other" was selected and handle custom purpose
+            if ($purpose === "Other" && !empty($_POST['custom_purpose'])) {
+                $purpose = $_POST['custom_purpose'];
+            }
         
-            $connection = $this->openConn();
+            // Create the data array
+            $data = [
+                'lname' => $lname,
+                'fname' => $fname,
+                'mi' => $mi,
+                'age' => $age,
+                'houseno' => $houseno,
+                'street' => $street,
+                'brgy' => $brgy,
+                'city' => $city,
+                'municipality' => $municipality,
+                'purpose' => $purpose,
+                'doc_type' => $doc_type
+            ];
+        
+            // Convert data to JSON
+            $json_data = json_encode($data);
+            
+            $qrCode = $this->generateQRCode($json_data);
 
-            try {
-                $connection->beginTransaction();
-
-                //update tbl_resident
-                $stmt = $connection->prepare("UPDATE tbl_resident 
-                    SET lname = ?, fname = ?, mi = ?, age = ?, houseno = ?, street = ?, brgy = ?, city = ?, municipal = ?
-                    WHERE id_resident = ?");
-
-                $stmt->execute([$lname, $fname, $mi, $age, $houseno, $street, $brgy, $city, $municipal, $id_resident]);
-
-                $stmt = $connection->prepare("INSERT INTO tbl_clearance (id_resident, purpose) VALUES (?, ?)");
-
-                $stmt->execute([$id_resident, $purpose]);
-
-                $connection->commit();
-
-                $message2 = "Application Applied, you will receive our text message for further details";
-                echo "<script type='text/javascript'>alert('$message2');</script>";
-                header("refresh: 0");
-            }
-            catch (PDOException $e) {
-                $connection->rollBack();
-                echo "Failed to update records: " . $e->getMessage();
-            }
+            echo '<script>alert("QR Code Successfully Generated!")</script>
+            <h1>Here is your generated qr code go to the brgy.hall to get your document!"</h1>
+            <img src="'.$qrCode.'" alt="QR Code" />';
         }
         
     }

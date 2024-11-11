@@ -659,7 +659,6 @@
             
                         <div class="modal-footer">
                             <div class="paa">
-                                <input name="id_resident" type="hidden" class="form-control" value="<?= $userdetails['id']?>">
                                 <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
                                 <button name ="create_brgyclearance" type="submit" class="btn btn-primary">Submit Request</button>
                             </div>
