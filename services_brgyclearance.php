@@ -573,7 +573,7 @@
                                         <div class="form-group">
                                             <label> Barangay: </label>
                                             <input type="text" class="form-control" name="brgy"  
-                                            placeholder="Enter Barangay" value="sinalhan" required>
+                                            placeholder="Enter Barangay" value="Sinalhan" readonly>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -583,7 +583,7 @@
                                         <div class="form-group">
                                             <label> City: </label>
                                             <input type="text" class="form-control" name="city" 
-                                            placeholder="Enter city" value="santa rosa city" required>
+                                            placeholder="Enter city" value="City of Santa Rosa" readonly>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -593,7 +593,7 @@
                                         <div class="form-group">
                                             <label> Municipality: </label>
                                             <input type="text" class="form-control" name="municipality" 
-                                            placeholder="Enter Municipality" value="laguna" required>
+                                            placeholder="Enter Municipality" value="Laguna" readonly>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>

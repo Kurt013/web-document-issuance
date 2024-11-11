@@ -418,7 +418,7 @@
                                         <div class="form-group">
                                             <label> Barangay: </label>
                                             <input type="text" class="form-control" name="brgy"  
-                                            placeholder="Enter Barangay" value="sinalhan" readonly>
+                                            placeholder="Enter Barangay" value="Sinalhan" readonly>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -428,7 +428,7 @@
                                         <div class="form-group">
                                             <label> Barangay: </label>
                                             <input type="text" class="form-control" name="city"  
-                                            placeholder="Enter City" value="city of santa rosa" readonly>
+                                            placeholder="Enter City" value="City of Santa Rosa" readonly>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
@@ -438,7 +438,7 @@
                                         <div class="form-group">
                                             <label> Municipality: </label>
                                             <input type="text" class="form-control" name="municipality" 
-                                            placeholder="Enter Municipality" value="laguna" readonly>
+                                            placeholder="Enter Municipality" value="Laguna" readonly>
                                             <div class="valid-feedback">Valid.</div>
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
