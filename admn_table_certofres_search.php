@@ -10,8 +10,8 @@
     <thead class="alert-info">
         
         <tr>
-            <th> Actions</th>
-            <th> Resident ID </th>
+            <th>  </th>
+            <th> Clearance No. </th>
             <th> Surname </th>
             <th> First Name </th>
             <th> Middle Name </th>
@@ -33,21 +33,21 @@
             FROM
                 tbl_rescert
             WHERE
-                id_rescert = ?,
-                fname = ?,
-                mi = ?,
-                lname = ?,
-                age = ?,
-                nationality = ?,
-                houseno = ?,
-                street = ?,
-                brgy = ?,
-                city = ?,
-                municipality = ?,
-                purpose = ?,
-                generated_by = ?,
-                generated_on = ?
-                ");
+                id_rescert LIKE ? AND
+                fname LIKE ? AND
+                mi LIKE ? AND
+                lname LIKE ? AND
+                age LIKE ? AND
+                nationality LIKE ? AND
+                houseno LIKE ? AND
+                street LIKE ? AND
+                brgy LIKE ? AND
+                city LIKE ? AND
+                municipality LIKE ? AND
+                purpose LIKE ? AND
+                generated_by LIKE ? AND
+                generated_on LIKE ?
+            ");
         
         $keywordLike = "%$keyword%";
 
@@ -117,32 +117,37 @@
 		<tbody>
 		    <?php 
             $stmnt = $conn->prepare("SELECT * FROM tbl_rescert");
-
-            while ($view = $stmnt->fetch()) {
-            ?>
-                    <tr>
-                        <td>    
-                            <form action="" method="post">
-                                <a class="btn btn-success" target="_blank" style="width: 90px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" href="rescert_form.php?id_resident=<?= $view['id_resident'];?>">Generate</a> 
-                                <input type="hidden" name="id_rescert" value="<?= $view['id_rescert'];?>">
-                        <button class="btn btn-danger" type="submit" style="width: 90px; font-size: 17px; border-radius:30px;" name="delete_certofres"> Archive </button>
-                            </form>
-                        </td>
-                        <td> <?= $view['id_rescert'];?> </td> 
-                        <td> <?= $view['lname'];?> </td>
-                        <td> <?= $view['fname'];?> </td>
-                        <td> <?= $view['mi'];?> </td>
-                        <td> <?= $view['age'];?> </td>
-                        <td> <?= $view['nationality'];?> </td>
-                        <td> <?= $view['houseno'];?> </td>
-                        <td> <?= $view['street'];?> </td>
-                        <td> <?= $view['brgy'];?> </td>
-                        <td> <?= $view['city'];?> </td>
-                        <td> <?= $view['municipal'];?> </td>
-                        <td> <?= $view['purpose'];?> </td>
-                    </tr>
-			<?php
-				}
+            $views = $stmt->fetchAll();
+            if ($stmnt->rowCount() > 0) {
+                foreach ($view as $views) {
+                ?>
+                        <tr>
+                            <td>    
+                                <form action="" method="post">
+                                    <a class="btn btn-success" target="_blank" style="width: 90px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" href="rescert_form.php?id_resident=<?= $view['id_resident'];?>">Generate</a> 
+                                    <input type="hidden" name="id_rescert" value="<?= $view['id_rescert'];?>">
+                            <button class="btn btn-danger" type="submit" style="width: 90px; font-size: 17px; border-radius:30px;" name="delete_certofres"> Archive </button>
+                                </form>
+                            </td>
+                            <td> <?= $view['id_rescert'];?> </td> 
+                            <td> <?= $view['lname'];?> </td>
+                            <td> <?= $view['fname'];?> </td>
+                            <td> <?= $view['mi'];?> </td>
+                            <td> <?= $view['age'];?> </td>
+                            <td> <?= $view['nationality'];?> </td>
+                            <td> <?= $view['houseno'];?> </td>
+                            <td> <?= $view['street'];?> </td>
+                            <td> <?= $view['brgy'];?> </td>
+                            <td> <?= $view['city'];?> </td>
+                            <td> <?= $view['municipal'];?> </td>
+                            <td> <?= $view['purpose'];?> </td>
+                        </tr>
+                <?php
+                }
+            }
+            else {
+                echo "<tr><td colspan='13'>No existing list</td></tr>";
+            }
 			?>
 		</tbody>
 

@@ -1,40 +1,24 @@
 <?php
     require('classes/staff.class.php');
 
-    // Check if the 'data' parameter exists in the URL
-    if (isset($_GET['data'])) {
-        // Get the JSON data from the URL parameter
-        $jsonData = $_GET['data'];
+    $user = $staffbmis->get_userdata();
 
-        // URL decode the data to make sure it's properly decoded
-        $jsonData = urldecode($jsonData);
+    $staffbmis->validate_staff();
 
-        // Decode the JSON data to a PHP associative array
-        $resident = json_decode($jsonData, true); // `true` converts JSON to an associative array
-    }
+    $id = $_GET['id_rescert'];
 
-    $bmis->validate_staff();
-    $bmis->insert_certofres();
-    $bmis->update_certofres();
-
-
+    $resident = $staffbmis->get_single_certofres($id);
+    $staffbmis->update_certofres();
   ?>
 
 <!DOCTYPE html>
 <html id="rescert">
-<style>
-    @media print {
-        .noprint {
-        visibility: hidden;
-         }
-    }
-    @page { size: auto;  margin: 4mm; }
-</style>
-
  <head>
     <meta charset="UTF-8">
     <title>Barangay Information System</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- bootstrap 3.0.2 -->
     <link href="../BarangaySystem/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <!-- font Awesome -->
@@ -47,142 +31,78 @@
     <link href="./BarangaySystem/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="../BarangaySystem/bootstrap/css/select2.css" rel="stylesheet" type="text/css" />
     <script src="../BarangaySystem/bootstrap/css/jquery-1.12.3.js" type="text/javascript"></script>  
-    
+    <style>
+        @media print {
+            .noprint {
+            visibility: hidden;
+            }
+        }
+        @page { size: auto;  margin: 4mm; }
+
+        span {
+            /* text-decoration: underline; */
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+    </style>
 </head>
- <body class="skin-black" >
-     <!-- header logo: style can be found in header.less -->
+ <body>
+    <?php include './form_header.php' ?>
+
+    <h1 style="text-transform: uppercase;">Certificate of Residency</h1>
+
+    <p>ISSUANCE NO.: <u><?= $resident['id_rescert'] ?></u></p>
+    <p>TO WHOM IT MAY CONCERN:</p>
+    <p> This document hereby certifies that
+        <span contenteditable="true" id="fname">
+            <?= $resident['fname']; ?>
+        </span>
+        <span contenteditable="true" id="mi">
+            <?= $resident['mi']; ?>.
+        </span>
+        <span contenteditable="true" id="lname">
+            <?= $resident['lname']; ?> 
+        </span>, aged
+        <span contenteditable="true" id="age">
+            <?= $resident['age']; ?>
+        </span>, is officially recognized as a legitimate resident of
+        <span contenteditable="true" id="houseno">
+            <?= $resident['houseno']; ?>
+        </span> 
+        <span contenteditable="true" id="street">
+            <?= $resident['street']; ?>
+        </span>
+        <span contenteditable="true" id="brgy">
+            <?= $resident['brgy']; ?>
+        </span> 
+        <span contenteditable="true" id="city">
+            <?= $resident['city']; ?>
+        </span> 
+        <span contenteditable="true" id="municipality">
+            <?= $resident['municipality']; ?>
+        </span>
+        The said person is of good moral character and an active member of the community.
+    .</p>
+
+    <p>
+        This certification is being issued upon the request of the above mentioned person for
+        <span contenteditable="true" id="purpose"><?= $resident['purpose']?></span>.
+    </p>
+
+    <br><br>
+
+    <p>
+        Signed this date <?= $resident['date'] ?> at Barangay Sinalhan, Santa Rosa City, Laguna.
+    </p>
     
-       <div class="col-xs-12 col-sm-6 col-md-8"  >
-            <div style=" background: black;" >
-                <div class="col-xs-4 col-sm-6 col-md-3" style="background: white; margin-right:10px; border: 2px solid black;">
-                    <center><image src="../BarangaySystem/icons/beverlylogo.png" style="width:90%;height:164px;"/></center>
-                    <div style="margin-top:20px; text-align: center; word-wrap: break-word;">
-                        
-                                    <p style="margin-top: 2em;">
-                                    <b>Vincent Vilfamat</b><br>
-                                    <span style="font-size:12px;">PUNONG BARANGAY</span>
-                                    </p><br>
-                                    <p>
-                                    KAG. Mikhos Dungca<br>
-                                    <span style="font-size:12px;">Sports / Law / Ordinance</span>
-                                    </p><br>
-                                    
-                                    <p>
-                                    KAG. PJ Mendros<br>
-                                    <span style="font-size:12px;">Public Safety / Peace and Order</span>
-                                    </p><br>
-                                    
-                                    <p>
-                                    KAG. Eugene Evangelista<br>
-                                    <span style="font-size:12px;">Culture & Arts / Tourism / Womens Sector</span>
-                                    </p><br>
-                                    <p>
-                                    KAG. Kyle Pilapil<br>
-                                    <span style="font-size:12px;">Budget & Finance / Electrification</span>
-                                    </p><br>
-                                   
-                                    <p>
-                                    KAG. Jr Gapas<br>
-                                    <span style="font-size:12px;">Agriculture / Livelihood / Farmers Sector / PWD Sector</span>
-                                    </p><br>
-                                   
-                                    <p>
-                                    KAG. Kjell Ibabao<br>
-                                    <span style="font-size:12px;">Health & Sanitation / Education</span>
-                                    </p><br>
-                                  
-                                    <p>
-                                    KAG. Remedios<br>
-                                    <span style="font-size:12px;">Infrastracture / Labor Sector/ Environment / Beautification</span>
-                                    </p>
-                                    
-                    </div>
-                </div>
-                <div class="col-xs-7 col-sm-5 col-md-8" style="background: white;  ">`
-                    <div class="pull-center" style="font-size: 16px; text-align:center;"><b>
-                        Republic of the Philippines<br>
-                        Municipality of Antipolo<br>
-                        Province of Metro Manila<br>
-                        BARANGAY BEVERLY HILLS<br>
-                        Tel. +632 633-9667<br><br></b>
-                    </div>
-                  
-                    <div class="pull-right" style="border: 2px ;">
-                       
-                    </div>
-                    <div class="col-xs-12 col-md-12">
-                        <p class="text-center" style="font-size: 20px; font-size:bold;">OFFICE OF THE BARANGAY CAPTAIN<br><br><b style="font-size: 25px;"><ins>CERTIFICATE OF RESIDENCY</ins></b></p> <br>
-                        <p style="font-size: 18px;">TO WHOM IT MAY CONCERN:</p> <br>
-                        <p style="text-indent:40px;text-align: justify;">
-                            This is to certify that 
-                            <span contenteditable="true" style="font-weight: bold; text-decoration: underline;" id="lname">
-                                <?= !empty($resident['lname']) ? $resident['lname'] : '_____________';?> 
-                            </span>, 
-                            <span contenteditable="true" style="font-weight: bold; text-decoration: underline;" id="fname">
-                                <?= !empty($resident['lname']) ? $resident['lname'] : '_____________';?>
-                            </span>
-                            <span contenteditable="true" style="font-weight: bold;" id="mi">
-                                <?= !empty($resident['mi']) ? $resident['mi'] : '_____________';?>
-                            </span>,
-                            <span contenteditable="true" id="age">
-                                <?= !empty($resident['age']) ? $resident['age'] : '_____________';?>
-                            </span> Years Old, <span contenteditable="true" id="nationality">
-                                <?= !empty($resident['nationality']) ? $resident['nationality'] : '_____________';?>
-                            </span> and a bonafide resident of 
-                            <span contenteditable="true" id="houseno">
-                                <?= !empty($resident['houseno']) ? $resident['houseno'] : '_____________';?>
-                            </span> 
-                            <span contenteditable="true" id="street">
-                                <?= !empty($resident['street']) ? $resident['street'] : '_____________';?>
-                            </span>
-                            <span contenteditable="true" id="brgy">
-                                <?= !empty($resident['brgy']) ? $resident['brgy'] : '_____________';?>
-                            </span> 
-                            <span contenteditable="true" id="city">
-                                <?= !empty($resident['city']) ? $resident['city'] : '_____________';?>
-                            </span> 
-                            <span contenteditable="true" id="municipality">
-                                <?= !empty($resident['municipality']) ? $resident['municipality'] : '_____________';?>
-                            </span>
-                        .</p> <br>
+    <br>
 
-                        <p style="text-indent:40px;text-align: justify;">Further certify that the above-named subject is of good moral character and has 
-                        no derigatory record in this office, law abiding citizen and reliable.</p> <br>
-
-                        <p style="text-indent:40px;text-align: justify;">This certification is issued upon the request of the above-named party
-                        as a supporting document needed for <ins contenteditable="true" id="purpose"><?= !empty($resident['purpose']) ? $resident['purpose'] : '_____________';?></ins>.</p> <br>
-
-                        <p style="text-indent:40px;text-align: justify;">Issed this Antipolo City. </p>
-
-
-                        
-                        
-                        <br><br><br><br><br><br>
-                    
-                        <label style="font-size:18px;">____________</label>    <label style="font-size:18px;margin-left:4em;">VINCENT VILFAMAT</label><br> 
-                        <label style=" text-align: center;">Signature </label>     <label style=" text-align: center;margin-left:10em;">Punong Barangay</label>
-                       
-                        
-                    </div>
-                    
-                </div>
-                
-                <div class="col-xs-offset-8 col-xs-5 col-md-offset-8 col-md-4 "  >
-                
-                </div>
-
-                <div class="col-xs-8 col-md-4" style="margin-top: 7em;">
-                <b style="font-size:18px;">Rest. Cert. No. <u id="id_rescert"> </u><br>
-                <span style=" text-align: center;">Issued at ____________</span><br>
-                <span style=" text-align: center;">Issued on  </span></b>
-                </div>
-                
-                
-            </div>
-        </div>
+    <img src="" alt="Insert Signature Image here.">
+    <p>HON. LADISLAO B. ALICBUSAN</p>
+    <p>Punong Barangay</p>
+                 
     <button class="btn btn-primary noprint" id="printpagebutton" onclick="PrintElem()">Print</button>
     <button class="noprint btn-update">Update</button>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
          function PrintElem()
     {
@@ -217,25 +137,28 @@
             // Capture the editable content
             const data = {
                 update_rescert: true,
-                lname: $('#lname').text(),
-                fname: $('#fname').text(),
-                mi: $('#mi').text(),
-                age: $('#age').text(),
-                nationality: $('#nationality').text(),
-                houseno: $('#houseno').text(),
-                street: $('#street').text(),
-                brgy: $('#brgy').text(),
-                municipality: $('#municipality').text(),
-                purpose: $('#purpose').text(),
-                id_rescert: $('#id_rescert').text()
+                lname: $('#lname').text().trim(),
+                fname: $('#fname').text().trim(),
+                mi: $('#mi').text().trim(),
+                age: $('#age').text().trim(),
+                nationality: $('#nationality').text().trim(),
+                houseno: $('#houseno').text().trim(),
+                street: $('#street').text().trim(),
+                brgy: $('#brgy').text().trim(),
+                city: $('#city').text().trim(),
+                municipality: $('#municipality').text().trim(),
+                purpose: $('#purpose').text().trim(),  // Using trim() to clean the text
+                id_rescert: $('#id_rescert').text().trim()
             };
+
+            console.log(data);
 
             $.ajax({
                 type: "POST",
                 url: window.location.href,
                 data: data,
                 success: function (response) {
-                    alert("updated succesfully!");
+                    alert("updated successfully!");
                     location.reload();
              },
                 error: function () {

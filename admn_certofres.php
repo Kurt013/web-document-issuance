@@ -7,16 +7,6 @@
     require 'phpqrcode/qrlib.php';
     require 'vendor/autoload.php';
 
-    // if (isset($_POST['accept_certofres'])) {
-    //     $id_rescert = $_POST['id_rescert'];
-    //     $id_resident = $_POST['id_resident'];
-
-    //     $link = 'rescert_form.php?id_resident='.$id_resident;
-
-    //     $qrImage = $bmis->generateQRCode($link);
-    //     $bmis->sendEmailWithQRCode($qrImage, $id_resident);
-    // }
-
     $userdetails = $bmis->get_userdata();
     $bmis->validate_admin();
     $bmis->delete_certofres();

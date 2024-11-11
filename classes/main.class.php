@@ -281,7 +281,23 @@ class BMISClass {
     //------------------------------------------ Certificate of Residency CRUD -----------------------------------------------
     public function get_single_certofres($id_rescert){        
         $connection = $this->openConn();
-        $stmt = $connection->prepare("SELECT * FROM tbl_rescert WHERE id_rescert = ?");
+        $stmt = $connection->prepare("SELECT 
+            id_rescert,
+            fname,
+            mi,
+            lname,
+            age,
+            nationality,
+            houseno,
+            street,
+            brgy,
+            city,
+            municipality,
+            purpose,
+            generated_by,
+            DATE_FORMAT(STR_TO_DATE(generated_on, '%Y-%m-%d'), '%b. %d, %Y') AS `date` 
+            FROM tbl_rescert 
+            WHERE id_rescert = ?");
         $stmt->execute([$id_rescert]);
         $rescert = $stmt->fetch();
         $total = $stmt->rowCount();
@@ -405,46 +421,61 @@ class BMISClass {
     // }
 
     public function insert_certofres() {
-        if (isset($_GET['data'])) {
-            // Get the JSON data from the URL parameter
-            $jsonData = urldecode($_GET['data']);
-            // Decode the JSON data into an associative array
-            $data = json_decode($jsonData, true); // true converts JSON to an associative array
+        ob_start();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = isset($_POST['qr_data']) ? json_decode($_POST['qr_data'], true) : null;
     
-            // Database connection (PDO assumed)
-            $connection = $this->openConn();
-        
-            try {
-                // Prepare and execute the insert statement
-                $stmt = $connection->prepare("INSERT INTO tbl_rescert (lname, fname, mi, age, houseno, street, brgy, city, municipality, nationality, purpose, generated_by) 
-                    VALUES (:lname, :fname, :mi, :age, :houseno, :street, :brgy, :city, :municipality, :nationality, :purpose, :generated_by)");
-                
-                // Bind parameters from the decoded JSON data
-                $stmt->execute([
-                    ':lname' => $data['lname'],
-                    ':fname' => $data['fname'],
-                    ':mi' => $data['mi'],
-                    ':age' => $data['age'],
-                    ':houseno' => $data['houseno'],
-                    ':street' => $data['street'],
-                    ':brgy' => $data['brgy'],
-                    ':city' => $data['city'],
-                    ':municipality' => 'laguna',  
-                    ':nationality' => 'filipino',
-                    ':purpose' => $data['purpose'],
-                    ':generated_by' => 1  
-                ]);
+            if (isset($data) && $data['doc_type'] === 'rescert') {
+                try {
+                    $connection = $this->openConn();
+                    $stmt = $connection->prepare("INSERT INTO tbl_rescert (lname, fname, mi, age, houseno, street, brgy, city, municipality, nationality, purpose, generated_by) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
-                // Send a JSON response back
-            } catch (PDOException $e) {
-                // Handle and respond with error message
-                echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+                    $stmt->execute([
+                        $data['lname'],
+                        $data['fname'],
+                        $data['mi'],
+                        $data['age'],
+                        $data['houseno'],
+                        $data['street'],
+                        $data['brgy'],
+                        $data['city'],
+                        $data['municipality'],  
+                        $data['nationality'],
+                        $data['purpose'],
+                        $_POST['added_by']
+                    ]);
+    
+                    $stmt = $connection->prepare("SELECT id_rescert FROM tbl_rescert ORDER BY id_rescert DESC LIMIT 1");
+                    $stmt->execute();
+                    $lastRecord = $stmt->fetch();
+    
+                    if ($lastRecord) {
+                        $response = [
+                            'status' => 'success',
+                            'message' => 'Data Inserted Successfully!',
+                            'lastId' => $lastRecord['id_rescert']
+                        ];
+                    } else {
+                        $response = [
+                            'status' => 'success',
+                            'message' => 'Data not inserted',
+                            'lastId' => null
+                        ];
+                    }
+                    ob_clean();
+                    echo json_encode($response);
+                    exit;
+    
+                } catch (PDOException $e) {
+                    ob_clean();
+                    echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $e->getMessage()]);
+                    exit;
+                }
             }
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'Invalid JSON data']);
-        }
-        exit; // Stop further execution since this is an API response
+        } 
     }
+    
     
 
     public function view_certofres(){
@@ -467,26 +498,12 @@ class BMISClass {
         }
     }
 
-    public function accept_certofres() {
-        $id_rescert = $_POST['id_rescert'];
-
-        if(isset($_POST['accept_certofres'])) {
-            $connection = $this->openConn();
-            $stmt = $connection->prepare("UPDATE tbl_rescert SET `req_status`='accepted' WHERE id_rescert = ?");
-            $stmt->execute([$id_rescert]);
-
-            header("Refresh:0");
-        }
-    }
-
     public function update_certofres() {
         if (isset($_POST['update_rescert'])) {  // Checks if update was triggered
             $connection = $this->openConn();
     
-            try {
-                $id_resident = $_GET['id_resident'];
-                
-                // Retrieving data from POST request
+            try {                
+                $id_rescert = $_POST['id_rescert'];
                 $lname = $_POST['lname'];
                 $fname = $_POST['fname'];
                 $mi = $_POST['mi'];
@@ -496,30 +513,41 @@ class BMISClass {
                 $street = $_POST['street'];
                 $brgy = $_POST['brgy'];
                 $city = $_POST['city'];
-                $municipal = $_POST['municipal'];
+                $municipality = $_POST['municipality'];
                 $purpose = $_POST['purpose'];
 
-                $connection->beginTransaction();
-        
-                $stmt = $connection->prepare("UPDATE tbl_resident SET 
-                        lname = ?, fname = ?, mi = ?, age = ?, 
-                        nationality = ?, houseno = ?, street = ?, 
-                        brgy = ?, city = ?, municipal = ?
-                        WHERE id_resident = ?");
-        
-                // Attempt to execute the query
-                $stmt->execute([$lname, $fname, $mi, $age, $nationality, $houseno, 
-                    $street, $brgy, $city, $municipal, $id_resident]);
+                $stmt = $connection->prepare("UPDATE tbl_rescert SET 
+                    lname = ?,
+                    fname = ?,
+                    mi = ?,
+                    age = ?,
+                    nationality = ?,
+                    houseno = ?,
+                    street = ?,
+                    brgy = ?,
+                    city = ?,
+                    municipality = ?,
+                    purpose = ? 
+                    WHERE
+                    id_rescert = ?
+                ");
 
-                $stmt = $connection->prepare("UPDATE tbl_rescert SET purpose = ? WHERE id_resident = ?");
-        
-                // Attempt to execute the query
-                $stmt->execute([$purpose, $id_resident]);
-
-                $connection->commit();
+                $stmt->execute([
+                    $lname,
+                    $fname,
+                    $mi,
+                    $age,
+                    $nationality,
+                    $houseno,
+                    $street,
+                    $brgy,
+                    $city,
+                    $municipality,
+                    $purpose,
+                    $id_rescert
+                ]);
             }
             catch (PDOException $e) {
-                $connection->rollBack();
                 echo "<script>alert('Failed to update records: " . $e->getMessage() . "')</script>";
                 exit;
             }
@@ -646,17 +674,6 @@ class BMISClass {
         }
     }
 
-    public function accept_certofindigency() {
-        $id_indigency = $_POST['id_indigency'];
-
-        if(isset($_POST['accept_certofindigency'])) {
-            $connection = $this->openConn();
-            $stmt = $connection->prepare("UPDATE tbl_indigency SET `req_status`='accepted' WHERE id_indigency = ?");
-            $stmt->execute([$id_indigency]);
-
-            header("Refresh:0");
-        }
-    }
 
     public function update_certofindigency() {
         if (isset($_POST['update_indigency'])) {  // Checks if update was triggered
@@ -853,18 +870,6 @@ class BMISClass {
         }
     }
 
-    public function accept_clearance() {
-        $id_clearance = $_POST['id_clearance'];
-
-        if(isset($_POST['accept_clearance'])) {
-            $connection = $this->openConn();
-            $stmt = $connection->prepare("UPDATE tbl_clearance SET `req_status`='accepted' WHERE id_clearance = ?");
-            $stmt->execute([$id_clearance]);
-
-            header("Refresh:0");
-        }
-    }
-
     public function update_clearance() {
         if (isset($_POST['update_clearance'])) {  // Checks if update was triggered
           $connection = $this->openConn();
@@ -1041,18 +1046,6 @@ class BMISClass {
         }
     }
 
-    public function accept_bspermit() {
-        if(isset($_POST['accept_bspermit'])) {
-            $id_bspermit = $_POST['id_bspermit'];
-
-            $connection = $this->openConn();
-            $stmt = $connection->prepare("UPDATE tbl_bspermit SET `req_status`='accepted' WHERE id_bspermit = ?");
-            $stmt->execute([$id_bspermit]);
-
-            header("Refresh:0");
-        }
-    }
-
     public function update_bspermit() {
         if (isset($_POST['update_bspermit'])) {
             $id_bspermit = $_POST['id_bspermit'];
@@ -1185,19 +1178,6 @@ class BMISClass {
             header("Refresh:0");
         }
     } 
-
-
-    public function accept_brgyid() {
-        $id_brgyid = $_POST['id_brgyid'];
-
-        if(isset($_POST['accept_brgyid'])) {
-            $connection = $this->openConn();
-            $stmt = $connection->prepare("UPDATE tbl_brgyid SET `req_status`='accepted' WHERE id_brgyid = ?");
-            $stmt->execute([$id_brgyid]);
-
-            header("Refresh:0");
-        }
-    }
 
     public function update_brgyid() {
         if (isset($_POST['update_brgyid'])) {  // Checks if update was triggered

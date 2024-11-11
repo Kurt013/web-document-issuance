@@ -175,6 +175,11 @@ BEGIN
 
     -- Format the new ID
     SET newId = CONCAT(currentDate, '-', LPAD(dailyCount, 3, '0'));
+    
+    WHILE EXISTS (SELECT 1 FROM tbl_rescert WHERE id_rescert = newId) DO
+        SET dailyCount = dailyCount + 1;
+        SET newId = CONCAT(currentDate, '-', dailyCount);
+    END WHILE;
 
     -- Assign the generated ID to the new row
     SET NEW.id_rescert = newId;
