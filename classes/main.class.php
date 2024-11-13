@@ -1335,6 +1335,74 @@ class BMISClass {
         }
     }
 
+    // -------------------------- DOCUMENTS EXTRA FUNCTIONS ----------------------
+
+    public function count_rescert() {
+        $connection = $this->openConn();
+
+        $stmt = $connection->prepare("SELECT COUNT(*) from tbl_rescert");
+        $stmt->execute();
+        $rescertcount = $stmt->fetchColumn();
+
+        return $rescertcount;
+    }
+
+    public function count_indigency() {
+        $connection = $this->openConn();
+
+        $stmt = $connection->prepare("SELECT COUNT(*) from tbl_indigency");
+        $stmt->execute();
+        $indigencycount = $stmt->fetchColumn();
+
+        return $indigencycount;
+    }
+
+    public function count_clearance() {
+        $connection = $this->openConn();
+
+        $stmt = $connection->prepare("SELECT COUNT(*) from tbl_clearance");
+        $stmt->execute();
+        $clearancecount = $stmt->fetchColumn();
+
+        return $clearancecount;
+    }
+
+    public function count_bspermit() {
+        $connection = $this->openConn();
+
+        $stmt = $connection->prepare("SELECT COUNT(*) from tbl_bspermit");
+        $stmt->execute();
+        $bspermitcount = $stmt->fetchColumn();
+
+        return $bspermitcount;
+    }
+
+    public function count_brgyid() {
+        $connection = $this->openConn();
+
+        $stmt = $connection->prepare("SELECT COUNT(*) from tbl_brgyid");
+        $stmt->execute();
+        $brgyidcount = $stmt->fetchColumn();
+
+        return $brgyidcount;
+    }
+
+
+    public function count_total_month() {
+        $connection = $this->openConn();
+
+        $stmt = $connection->prepare("
+            SELECT * 
+            FROM tbl_rescert
+            WHERE 
+                MONTH(booking_date) = ? AND YEAR(booking_date) = YEAR(CURDATE()) 
+            ORDER BY booking_date DESC;
+            ");
+        $stmt->execute();
+        $brgyidcount = $stmt->fetchColumn();
+
+        return $brgyidcount;
+    }
 }
     
 

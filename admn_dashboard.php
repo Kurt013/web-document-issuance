@@ -5,11 +5,41 @@
     $userdetails = $bmis->get_userdata();
     $bmis->validate_admin();
 
+    $current_month = isset($_POST['month']) ? $_POST['month'] : date('n');
+    $total_pending = 0;
+    $total_reservations = 0;
+
+    $total_days_in_month = cal_days_in_month(CAL_GREGORIAN, $current_month, date('Y'));
+
+    $brgyidcount = $staffbmis->count_brgyid();
+    $indigencycount = $staffbmis->count_indigency();
+    $clearancecount = $staffbmis->count_clearance();
+    $rescertcount = $staffbmis->count_rescert();
+    $bspermitcount = $staffbmis->count_bspermit();
 
 
     $staffcount = $staffbmis->count_staff();
     $staffcountm = $staffbmis->count_mstaff();
     $staffcountf = $staffbmis->count_fstaff();
+
+
+
+        // Example: Fetch daily document issuance counts for the selected month
+    // $documentIssuanceCounts = [];
+    // for ($day = 1; $day <= $total_days_in_month; $day++) {
+    //     $date = date('Y-m-d', strtotime(date('Y') . '-' . $current_month . '-' . $day));
+    //     // You would replace this with your logic to fetch the document count for the specific day
+    //     $documentIssuanceCounts[] = $staffbmis->count_documents_issued_on_date($date);
+    // }
+
+    // Pass PHP data into JavaScript
+    $documentIssuanceTrendData = json_encode($documentIssuanceCounts);
+    $monthLabels = [];
+    for ($day = 1; $day <= $total_days_in_month; $day++) {
+        $monthLabels[] = date('d', strtotime(date('Y') . '-' . $current_month . '-' . $day));
+    }
+    $monthLabelsJson = json_encode($monthLabels);
+
 ?>
 
 <style> 
@@ -32,9 +62,22 @@
 
 <!-- Page Heading -->
 
-<canvas id="documentIssuanceTrendChart" width="100px" height="100px"></canvas>
+<div class="select-wrapper">
+        <form class="select-month" method="POST" action="">
+            <label for="month">Select Month:</label>
+            <select id="month" name="month" onchange="this.form.submit()">
+                <?php
+                for ($i = 1; $i <= 12; $i++) {
+                    $selected = ($i == $current_month) ? 'selected' : '';
+                    echo '<option value="' . $i . '" ' . $selected . '>' . date('F', mktime(0, 0, 0, $i, 10)) . '</option>';
+                }
+                ?>
+            </select>
+        </form>
+    </div>
+<canvas id="documentIssuanceTrendChart" style="width: 100%; height: auto;"></canvas>
 
-<canvas id="documentTypesDistributionChart" width="400" height="200"></canvas>
+<canvas id="documentTypesDistributionChart" style="width: 300px; height: auto;"></canvas>
 
     <div class="row"> 
     <div class="col-md-4">
@@ -110,22 +153,22 @@
 <br>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
- // Data for Document Issuance Trends (example: monthly data)
+// Dynamic Data for Document Issuance Trends (based on the current month)
 const documentIssuanceTrendData = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June'], // Example months
+    labels: <?php echo $monthLabelsJson; ?>, // Dynamic months (or days in the month)
     datasets: [{
-        label: 'Documents Issued',
-        data: [50, 100, 150, 200, 250, 300], // Example values for documents issued
-        fill: false,  // No filling for line chart
-        borderColor: 'rgba(75, 192, 192, 1)', // Line color
+        label: 'Total Documents Issued',
+        data: <?php echo $documentIssuanceTrendData; ?>, // Dynamic values from PHP
+        fill: false,
+        borderColor: 'rgba(75, 192, 192, 1)',
         tension: 0.1
     }]
 };
 
-// Create the line chart
+// Create the line chart for document issuance trends
 const ctx1 = document.getElementById('documentIssuanceTrendChart').getContext('2d');
 const documentIssuanceTrendChart = new Chart(ctx1, {
-    type: 'line', // 'line' or 'area'
+    type: 'line', // 'line' chart
     data: documentIssuanceTrendData,
     options: {
         responsive: true,
@@ -139,35 +182,42 @@ const documentIssuanceTrendChart = new Chart(ctx1, {
 
 
 
+
 // Data for Document Types Distribution (example: document types)
+// Data for Document Types Distribution (using dynamic PHP data)
 const documentTypesDistributionData = {
-    labels: ['Certificate', 'Permit', 'Clearance'], // Example document types
+    labels: ['Certificate of Residency', 'Barangay ID', 'Business Permit', 'Barangay Clearance', 'Certificate of Indigency'],
     datasets: [{
-        label: 'Document Types',
-        data: [45, 35, 20], // Example proportions for each document type
+        label: 'Documents Issued (By Types)',
+        data: [<?= $rescertcount ?>, <?= $brgyidcount ?>, <?= $bspermitcount ?>, <?= $clearancecount ?>, <?= $indigencycount ?>],
         backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
             'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)'
         ],
         borderColor: [
             'rgba(255, 99, 132, 1)',
             'rgba(54, 162, 235, 1)',
-            'rgba(255, 159, 64, 1)'
+            'rgba(255, 159, 64, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)'
         ],
         borderWidth: 1
     }]
 };
 
-// Create the pie chart
+// Create the pie chart for document types distribution
 const ctx2 = document.getElementById('documentTypesDistributionChart').getContext('2d');
 const documentTypesDistributionChart = new Chart(ctx2, {
-    type: 'pie', // 'pie' or 'doughnut'
+    type: 'pie', // 'pie' chart
     data: documentTypesDistributionData,
     options: {
         responsive: true
     }
 });
+
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-modal/2.2.6/js/bootstrap-modalmanager.min.js" integrity="sha512-/HL24m2nmyI2+ccX+dSHphAHqLw60Oj5sK8jf59VWtFWZi9vx7jzoxbZmcBeeTeCUc7z1mTs3LfyXGuBU32t+w==" crossorigin="anonymous"></script>
