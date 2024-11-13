@@ -3,6 +3,8 @@
     require 'phpqrcode/qrlib.php';
     require 'vendor/autoload.php';
 
+    $userdetails = $bmis->get_userdata();
+
     if (!$bmis->get_userdata()) {
         $bmis->set_userdata();
     }

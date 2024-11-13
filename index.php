@@ -17,7 +17,7 @@
     $cdate = $dt->format('Y/m/d');
     $ctime = $tm->format('H');
 
-
+    echo $
 ?>
 
 
