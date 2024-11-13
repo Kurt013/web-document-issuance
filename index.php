@@ -40,8 +40,7 @@
 ?>   
 
         <?php include('user-header.php'); ?>
-
-
+        
 
 
     <style>
@@ -85,11 +84,11 @@
     cursor: pointer;
     align-items: center;
     justify-content: center;
-    margin: 0 3em 3em 0;
+    margin: 0 1rem 6rem 0;
     border-radius: 50%;
-    padding: 0.25em;
-    width: 80px;
-    height: 80px;
+    
+    width: 5%;
+    height: 10%;
     background-color: #3661D5;
     }
     .btncontainer {
@@ -456,7 +455,9 @@ if ($view && is_array($view) && count($view) > 0) { ?>
                     <i class="fa fa-file-alt"></i> Barangay ID
                 </button>
 </div>
-                            
+</div> 
+</div>                        
+<?php include('user-footer.php'); ?>
 
              <!-- Footer -->
 
