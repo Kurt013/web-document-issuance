@@ -174,6 +174,7 @@
         color: #012049;
         width: 85%;
         line-height: 25px;
+       
 
     }
 
@@ -236,6 +237,22 @@
     font-family: "OSBold";
 }
 
+.steps {
+    margin-top: 10px;
+    padding: 20px;
+    display: flex;
+   
+    align-items: center; /* Align items vertically */
+    gap: 5px; /* Space between images */
+    
+}
+
+.steps img {
+    width: 29%; /* Adjust width as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+
+
 /* Close Button Styling */
 
 
@@ -294,7 +311,12 @@
                         <div class="header"> 
                             <h2> We make document request faster and easier for you! </h2><bR>
                             <h3> Our system makes it simple to get official documents. Just pick the document you need, fill out a quick form, and get a unique QR code. Use this code at the Barangay Office for fast and easy processing—no more long waits or extra paperwork. Get the documents you need, faster and easier!
-
+                        <div class = "steps">
+                        <img src="assets/step1.png" alt="Image 1">
+                        <img src="assets/step2.png" alt="Image 2">
+                        <img src="assets/step3.png" alt="Image 3">
+                        <img src="assets/step4.png" alt="Image 4">
+                        </div>
 
 
 
