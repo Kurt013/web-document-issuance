@@ -16,6 +16,7 @@
 
 ?>
 
+
 <!DOCTYPE html> 
 <html>
 
@@ -91,7 +92,41 @@
     height: 80px;
     background-color: #3661D5;
     }
-
+    .btncontainer {
+        display: flex;
+        padding: 20px 10px;
+        flex-direction: column;
+    }
+    .col button {
+        background-color: transparent;  /* Green background */
+            margin-left: 10px;
+            margin-bottom: 15px;
+            
+            letter-spacing: 1px;
+            color: #012049;               /* White text color */
+            font-size: 1rem;            /* Font size */
+            padding: 8px 15px !important;         /* Padding around the text */
+            border: 3px solid #012049;               /* Remove default border */
+            border-radius: 10px;         /* Rounded corners */
+            cursor: pointer;   
+            font-family: "OSBlack";        /* Pointer cursor on hover */
+            transition: background-color 0.3s ease; /* Smooth background color transition */
+    }
+    .header button {
+        background-color: transparent;  /* Green background */
+            margin-left: 10px;
+            margin-bottom: 15px;
+            
+            letter-spacing: 1px;
+            color: #012049;               /* White text color */
+            font-size: 1rem;            /* Font size */
+            padding: 8px 15px !important;         /* Padding around the text */
+            border: 3px solid #012049;               /* Remove default border */
+            border-radius: 20px;         /* Rounded corners */
+            cursor: pointer;   
+            font-family: "OSBlack";        /* Pointer cursor on hover */
+            transition: background-color 0.3s ease; /* Smooth background color transition */
+    }
     .content {
         margin-left: 270px;
     }
@@ -149,27 +184,24 @@
         text-align: left; 
             color: white; 
             font-family: 'OSBlackIt' !important; 
-            font-size: 2.2rem; 
+            font-size: 2.1rem; 
             z-index: 1; 
             width: 85%;
             letter-spacing: 3px;
             margin-left: 10px;
             margin-bottom: 1px;
-            margin-top: 70px;
-               
-             
+            margin-top: 50px;  
             text-shadow: 5px 5px 10px rgba(1, 60, 139, 0.9);
             line-height: 42px;
             -webkit-text-stroke: 7px #012049;
-         
             paint-order: stroke fill;
-            line-height: 40px;
+         
            
     }
 
     .header h3 {
         font-family: "OSMedium";
-        font-size: 1.1rem;
+        font-size: 1rem;
         margin-left: 10px;
         color: #012049;
         width: 85%;
@@ -188,13 +220,13 @@
 
 /* Container for Announcements */
 .announcement-container {
-    margin-top: 1%;
+    margin-top: 3%;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 1.5%;
     border-radius: 15px;
     width: 65%;
-    background-color: #2C3E50; /* Darker background */
+   
     color: #ECF0F1; /* Softer white text */
     padding: 0; /* Remove padding from container */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -238,8 +270,10 @@
 }
 
 .steps {
+    width: 85%;
     margin-top: 10px;
     padding: 20px;
+    margin-left: -15px;
     display: flex;
    
     align-items: center; /* Align items vertically */
@@ -248,7 +282,7 @@
 }
 
 .steps img {
-    width: 29%; /* Adjust width as needed */
+    width: 27%; /* Adjust width as needed */
     height: auto; /* Maintain aspect ratio */
 }
 
@@ -256,9 +290,7 @@
 /* Close Button Styling */
 
 
-.announcement-container .close:hover {
-    opacity: 1;
-}
+
 
 /* No Announcement Styling */
 
@@ -307,40 +339,52 @@
                         
                         <br>
                         <br>
-
+                       
                         <div class="header"> 
                             <h2> We make document request faster and easier for you! </h2><bR>
-                            <h3> Our system makes it simple to get official documents. Just pick the document you need, fill out a quick form, and get a unique QR code. Use this code at the Barangay Office for fast and easy processing—no more long waits or extra paperwork. Get the documents you need, faster and easier!
+                            <button  onclick="window.location.href='index.php#docsec'">
+                    <i class="fa-solid fa-arrow-circle-right"></i> Request Now
+                </button>
+                            
+                            <h3> Our system makes it simple to get official documents. Just pick the document you need, fill out a quick form, and get a unique QR code. Use this code at the Barangay Office for fast and easy processing—no more long waits or extra paperwork. Get the documents you need, faster and easier! </h3>
+                            
                         <div class = "steps">
                         <img src="assets/step1.png" alt="Image 1">
                         <img src="assets/step2.png" alt="Image 2">
                         <img src="assets/step3.png" alt="Image 3">
                         <img src="assets/step4.png" alt="Image 4">
+                        <section id="annsec"></section>
                         </div>
+                        
+
+                       
+
+        
 
 
-
-
-
-</h3>
                         </div>
                     </div>
+                    
                 </div>
             </div>
-
+            
             <br>
             <br>
 
-            <div id="down2"></div>
-
+            
+            <div class="header" > 
+                            <h2 style = "margin-top: 0px" > Latest Announcements </h2><bR>
+                            <h3> Important updates and notices will be posted here. Please check regularly for the latest information.</h3>
+            </div>
+            <div id="docsec"></div>   
 <?php 
-$view = $bmis->view_announcement();
 
+$view = $bmis->view_announcement();
 if ($view && is_array($view) && count($view) > 0) { ?>
     <!-- Announcement Section -->
     <div class="announcement-container alert alert-info alert-dismissible fade show" role="alert">
         <!-- Announcement Title -->
-        <h3 class="announcement-title">
+        <h3 class ="announcement-title">
             <span class="icon"><i class="fa fa-bullhorn" aria-hidden="true"></i></span>
             Announcement
         </h3>
@@ -353,11 +397,13 @@ if ($view && is_array($view) && count($view) > 0) { ?>
         <!-- Close Button -->
 
     </div>
+    
 <?php 
 } else { ?>
     <!-- No Announcement Section -->
     <div class="announcement-container alert alert-info alert-dismissible fade show" role="alert">
         <!-- Announcement Title -->
+
         <h3 class="announcement-title">
             <span class="icon"><i class="fa fa-bullhorn" aria-hidden="true"></i></span>
             Announcement
@@ -368,216 +414,53 @@ if ($view && is_array($view) && count($view) > 0) { ?>
     </div>
 <?php } ?>
 
+          
 
-
-
-
-            <div class="container"> 
-                <div class="row title-spacing">
-                    <div class="col"> 
-                        <h2 class="text-center"> E-Services</h2>
-                        <hr>
-                    </div> 
-                </div>
-                
-                <div class="row">
-                    <div class="col"> 
-                        <a href="services_business.php ">
-                            <div class="zoom1"> 
-                                <div class="card"> 
-                                    <div class="card-body text-center"> 
-                                        <img src="./icons/ResidentHomepage/busper.png">
-                                        <h4> Business Permit </h4> 
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col"> 
-                        <a href="services_brgyid.php">
-                            <div class="zoom1">
-                                <div class="card"> 
-                                    <div class="card-body text-center"> 
-                                        <img style="height: 139px;" src="./icons/ResidentHomepage/brgyid.png">
-                                        <h4> Barangay ID </h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col"> 
-                        <a href="services_certofindigency.php ">
-                            <div class="zoom1">
-                                <div class="card"> 
-                                    <div class="card-body text-center"> 
-                                        <img src="./icons/ResidentHomepage/indigency.png">
-                                        <h4> Certificate of Indigency </h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <br>
-                <div class="row card-spacing"> 
-                    <div class="col">
-                        <a href="services_certofres.php "> 
-                        <div class="zoom1">    
-                            <div class="card"> 
-                                <div class="card-body text-center"> 
-                                <img src="./icons/ResidentHomepage/residency.png">
-                                    <h4> Certificate of Residency </h4>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-
-                    <div class="col">
-                        <a href="services_brgyclearance.php "> 
-                        <div class="zoom1">    
-                            <div class="card"> 
-                                <div class="card-body text-center">
-                                <img src="./icons/ResidentHomepage/clearance.png"> 
-                                    <h4> Barangay Clearance </h4>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                </div>
+<div class="header" > 
+                            <h2 style = "margin-top: 50px" > Document Services </h2><bR>
+                            <h3> Please select the specific document that you would like to request from the list below. Make sure to review your choice carefully to ensure that it matches your requirements.</h3>
             </div>
+
+            <div class="btncontainer"> 
+                <div class="col">
+                    
+                    <button  onclick="window.location.href='services_certofres.php'">
+                    <i class="fa fa-file-alt"></i> Certificate  of Residency
+                </button>
+</div>
+
+<div class="col">
+                    
+                    <button  onclick="window.location.href='services_brgyclearance.php'">
+                    <i class="fa fa-file-alt"></i> Barangay Clearance
+                </button>
+</div>
+
+<div class="col">
+                    
+                    <button  onclick="window.location.href='services_certofindigency.php'">
+                    <i class="fa fa-file-alt"></i> Certificate  of Indigency
+                </button>
+</div>
+
+<div class="col">
+                    
+                    <button  onclick="window.location.href='services_business.php'">
+                    <i class="fa fa-file-alt"></i> Business Permit
+                </button>
+</div>
+
+<div class="col">
+                    
+                    <button  onclick="window.location.href='services_brgyid.php'">
+                    <i class="fa fa-file-alt"></i> Barangay ID
+                </button>
+</div>
+                            
+
              <!-- Footer -->
 
-        <footer id="footer" class="bg-primary text-white">
-            <hr class="mt-0">
 
-            <div class="text-center">
-                <h1 class="text-white">Services</h1>
-                <ul class="list-unstyled list-inline">
-
-                &nbsp;
-
-                <li class="list-inline-item">
-                    <a class="footerlinks" href="#!" class="sbtn btn-large mx-1" title="Documents">
-                    <i class="fas fa-file fa-2x"></i>
-                    </a>
-                </li>
-
-
-                <li class="list-inline-item">
-                    <a href="#!" class="footerlinks sbtn btn-large mx-1" title="Card">
-                    <i class="fas fa-id-card fa-2x"></i>
-                    </a>
-                </li>
-
-
-                <li class="list-inline-item">
-                    <a class="footerlinks" href="#!" class="sbtn btn-large mx-1" title="Friends">
-                    <i class="fas fa-user-friends fa-2x"></i>
-                    </a>
-                </li>
-
-
-                <li class="list-inline-item">
-                    <a class="footerlinks" href="#!" class="sbtn btn-large mx-1" title="Contact">
-                    <i class="fas fa-phone fa-2x"></i>
-                    </a>
-                </li>
-                </ul>
-            </div>
-        </section>
-            <hr class="mb-0">
-
-            <!--Footer Links-->
-
-            <div class="container text-left text-md-center">
-                <div class="row">
-
-                    <!--First column-->
-
-                    <div class="col-md-3 mx-auto shfooter">
-                        <h5 class="my-2 font-weight-bold d-none d-md-block">Documentation</h5>
-                        <div class="d-md-none title" data-target="#Documentation" data-toggle="collapse">
-                            <div class="mt-3 font-weight-bold">Documentation
-                                <div class="float-right navbar-toggler">
-                                    <i class="fas fa-angle-down"></i>
-                                    <i class="fas fa-angle-up"></i>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                    <div class="col-md-3 mx-auto shfooter" id="down">
-                        <h5 class="my-2 font-weight-bold d-none d-md-block">Contact Us:</h5>
-                        <div class="d-md-none title" data-target="#Contact-Us">
-                        <div class="mt-3 font-weight-bold">Contact Us:</div>
-                        </div>
-                        <ul class="list-unstyled" id="Contact-Us">
-                            <li>
-                                <div class="zoom">
-                                    <div class="chip" style="font-size:10px;">
-                                        <img src="../BarangaySystem/icons/Contact/mikhos.png" alt="Person" width="96" height="96">
-                                        Mikhos Dungca | 09514053044
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="zoom">
-                                    <div class="chip" style="font-size:10px;">
-                                        <img src="../BarangaySystem/icons/Contact/pj.png" alt="Person" width="96" height="96">
-                                        PJ Mendros | 09179450661
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="zoom">
-                                    <div class="chip" style="font-size:10px;">
-                                        <img src="../BarangaySystem/icons/Contact/vincent.png" alt="Person" width="96" height="96">
-                                        Vincent Vilfamat | 09512873394
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="zoom">
-                                    <div class="chip" style="font-size:10px;">
-                                        <img src="../BarangaySystem/icons/Contact/eugene.png" alt="Person" width="96" height="96">
-                                        Joel Evangelista | 09301112368
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="zoom">
-                                    <div class="chip" style="font-size:10px;">
-                                        <img src="../BarangaySystem/icons/Contact/kyle.png" alt="Person" width="96" height="96">
-                                        Kyle Pilapil | 09618853017
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-
-
-                </div>
-            </div>
-
-            <div class="py-3 text-center">
-                Copyright 2021 -
-                <script>
-                document.write(new Date().getFullYear())
-                </script> 
-                BI & ESMS | For Educational Purposes Only
-            </div>
-
-        </footer>
-        </div>
-        
-
-        <br>
-        <br>
-        <br>
 
        
 

@@ -14,7 +14,7 @@
         <header>
             <div class="wrapper">
                 <!-- Add Font Awesome icon inside the button -->
-                <button onclick="window.location.href='login.php';">
+                <button id = "adminbtn" onclick="window.location.href='login.php';">
                     <i class="fa fa-user"></i> Sign in as Admin
                 </button>
             </div>
@@ -30,7 +30,7 @@
             src: url('fonts/OpenSauceSans-ExtraBold.ttf') format('truetype'); 
         }
         /* Basic reset for elements inside user-header */
-        button i {
+        #adminbtn i {
             margin-right: 5px !important;
             /* Adds space between the icon and the text */
 }
@@ -49,7 +49,7 @@
         /* Header Styling */
         #user-header header {
             height: 70px;
-            background: #00357b;
+            background: linear-gradient(to left,  #014bae,#2c91c9) ;
 
             width: 100%;
             z-index: 1;
@@ -71,7 +71,7 @@
         }
 
         /* Button Styling */
-        button {
+        #adminbtn {
             background-color: transparent;  /* Green background */
             position: absolute;
             right: 30px;
@@ -88,12 +88,12 @@
         }
 
         /* Hover effect for the button */
-        button:hover {
+        #adminbtn:hover {
             background-color: #3661D5;  
         }
 
         /* Focus effect for accessibility */
-        button:focus {
+        #adminbtn:focus {
             outline: none;  /* Remove outline */
             box-shadow: 0 0 5px rgba(72, 161, 99, 0.8); /* Greenish glow around the button */
         }

@@ -1,4 +1,8 @@
-
+<?php
+    // Dynamically set the section you want to link to
+    $section = "annsec"; // This could be dynamic, e.g., from a database or user input
+    $baseUrl = "http://localhost/sinalhan/index.php";
+?>
 <!DOCTYPE html> 
 <html>
 
@@ -656,7 +660,7 @@ a {
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="#">
+                <a href="#" onclick="window.location.href='index.php#annsec'; return false;">
                     <span class="menu-icon">
                       <i class="fas fa-bullhorn"></i>
                     </span>
@@ -744,6 +748,11 @@ a {
       </aside>
       
       </div>
+  
+
+
+
+
 
     </div>
     </html>

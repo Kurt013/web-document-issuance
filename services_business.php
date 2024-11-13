@@ -2,6 +2,13 @@
     require('classes/main.class.php');
     require 'phpqrcode/qrlib.php';
     require 'vendor/autoload.php';
+   
+?>
+
+<?php
+    // Dynamically set the section you want to link to
+    $section = "annsec"; // This could be dynamic, e.g., from a database or user input
+    $baseUrl = "http://localhost/sinalhan/index.php";
 ?>
 
 <!DOCTYPE html>
