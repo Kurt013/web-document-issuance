@@ -24,7 +24,15 @@
 *{
     margin: 0
     ;}
-    .content {margin-left: 270px;}
+    .content {
+    display: flex;
+    flex-direction: column;
+    margin-left: 270px;
+    margin-right: 20px;
+    max-width: 100%; /* Ensure it doesn't overflow */
+    box-sizing: border-box; /* Ensures padding is included in total width */
+    }
+
     .top-link.show {
     visibility: visible;
     opacity: 1;
@@ -36,9 +44,10 @@
    
     .top-link svg {
     fill: white;
-    width: 24px;
-    height: 12px;
+    width: 40%;
+    height: 40%;
     }
+    
     .top-link:hover {
     background-color: #00357b;
     }
@@ -89,9 +98,8 @@
     justify-content: center;
     margin: 0 1rem 5em 0;
     border-radius: 50%;
-    
-    width: 5%;
-    height: 10%;
+    width: 70px;
+    height: 70px;
     background-color: #3661D5;
     }
 

@@ -25,11 +25,84 @@
       <meta name="viewport" content="width=device-width, initial-scale=1"><!-- bootstrap css --> 
       <!-- fontawesome icons --> 
       <script src="https://kit.fontawesome.com/67a9b7069e.js" crossorigin="anonymous"></script>
-  
+
+<?php 
+    include('user-sidebar.php');
+?>
+
+<?php 
+    include('user-header.php');
+?>
+
         <style>
+        @font-face {
+            font-family: 'OSMedium'; 
+            src: url('fonts/OpenSauceSans-Medium.ttf') format('truetype'); 
+        }
 
+        @font-face {
+            font-family: 'OSBold'; 
+            src: url('fonts/OpenSauceSans-Bold.ttf') format('truetype'); 
+        }
+
+        @font-face {
+            font-family: 'OSBlack'; 
+            src: url('fonts/OpenSauceSans-Black.ttf') format('truetype'); 
+        }
+
+        @font-face {
+            font-family: 'OSExBold'; 
+            src: url('fonts/OpenSauceSans-ExtraBold.ttf') format('truetype'); 
+        }
+
+        @font-face {
+            font-family: 'OSBlackIt'; 
+            src: url('fonts/OpenSauceSans-BlackItalic.ttf') format('truetype'); 
+        }
             /* Back-to-Top */
+            .content {
+            display: flex;
+            flex-direction: column;
+            margin-left: 270px;
+            margin-right: 20px;
+            max-width: 100%; /* Ensure it doesn't overflow */
+            box-sizing: border-box; /* Ensures padding is included in total width */
+            }
 
+            .header {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            }
+
+            .header h1 {
+            color: white;
+            font-family: 'OSBlack' !important;
+            font-size: 2.2rem;
+            width: 85%;
+            letter-spacing: 3px;
+            margin-bottom: 1px;
+            margin-top: 115px; /* Remove margin to fully center */
+            text-shadow: 5px 5px 10px rgba(1, 60, 139, 0.9);
+            line-height: 42px;
+            -webkit-text-stroke: 7px #012049;
+            paint-order: stroke fill;
+             }
+
+            .header h5 {
+            font-family: "OSMedium";
+            font-size: 1rem;
+            margin-top: 15px;
+            color: #012049;
+            width: 85%;
+            line-height: 25px;
+            }
+
+            * {
+                margin:0;
+            }
             .top-link {
             transition: all 0.25s ease-in-out;
             position: fixed;
@@ -39,11 +112,10 @@
             cursor: pointer;
             align-items: center;
             justify-content: center;
-            margin: 0 3em 3em 0;
+            margin: 0 1rem 5em 0;
             border-radius: 50%;
-            padding: 0.25em;
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
             background-color: #3661D5;
             }
             .top-link.show {
@@ -54,16 +126,17 @@
             visibility: hidden;
             opacity: 0;
             }
+        
             .top-link svg {
             fill: white;
-            width: 24px;
-            height: 12px;
+            width: 40%;
+            height: 40%;
             }
             .top-link:hover {
-            background-color: #3498DB;
+            background-color: #00357b;
             }
             .top-link:hover svg {
-            fill: #000000;
+            fill: white;
             }
 
             .screen-reader-text {
@@ -95,28 +168,13 @@
             clip: auto !important;
             }
 
-            .container1
-            {
-                background-color: #3498DB;
-                height: 342px;
-                color: black;
-                font-family: Arial, Helvetica, sans-serif;
-                text-align: center;
-            }
+
 
             .idpicture{
                 border: 1px solid black;
             }
 
-            .text1{
-                margin-top: 30px;
-                font-size: 50px;
-            }
 
-            .picture{
-                height: 120px;
-                width: 120px;
-            }
 
 
 
@@ -124,24 +182,17 @@
   </head>
 
     <body>
-
+        <div class = "content">
         <!-- Back-to-Top and Back Button -->
 
-        <a data-toggle="tooltip" title="Back-To-Top" class="top-link hide" href="" id="js-top">
+        <a data-toggle="tooltip"  class="top-link hide" href="" id="js-top">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6"><path d="M12 6H0l6-6z"/></svg>
             <span class="screen-reader-text">Back to top</span>
         </a>
 
         <!-- Eto yung navbar -->
 
-        <nav class="navbar navbar-dark bg-primary sticky-top">
-            <a class="navbar-brand" href="resident_homepage.php">Barangay Information & E-Services Management System</a>
-            <a href="resident_homepage.php" data-toggle="tooltip" title="Home" class="btn1 bg-primary"><i class="fa fa-home fa-lg"></i></a>
-            <a href="#down3" data-toggle="tooltip" title="Procedure" class="btn5 bg-primary"><i class="fa fa-question fa-lg"></i></a>
-            <a href="#down2" data-toggle="tooltip" title="Information" class="btn4 bg-primary"><i class="fa fa-info fa-lg"></i></a>
-            <a href="#down1" data-toggle="tooltip" title="Registration" class="btn3 bg-primary"><i class="fa fa-edit fa-lg"></i></a>
-            <a href="#down" data-toggle="tooltip" title="Contact" class="btn2 bg-primary"><i class="fa fa-phone fa-lg"></i></a>
-        </nav>
+        
 
         <div class="container-fluid container1"> 
             <div class="row"> 
@@ -149,71 +200,17 @@
                     <div class="header">
                         <h1 class="text1">Barangay ID </h1>
                         <h5> A Barangay ID is a proof for your personal information that can
-                        <br> be issued by the Barangay Staff.</h5>
+                         be issued by the Barangay Staff.</h5>
                     </div>
 
                     <br>
 
-                    <img class="picture" src="./Documents/docu1.png">
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <img class="picture" src="./Documents/docu3.png">
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <img class="picture" src="./Documents/docu2.png">
+
                 </div>
             </div>
         </div>
 
-        <div id="down3"></div>
-
-        <br>
-        <br>
-        <br>
-
-        <div class="container text-center">
-            <div class="row">
-                <div class="col">
-                    <h1>Procedure</h1>
-                    <hr style="background-color: black;">
-                </div>
-            </div>
-
-            <br>
-
-            <div class="row">
-                <div class="col">
-                    <i class="fas fa-laptop fa-7x"></i>
-
-                    <br>
-                    <br>
-
-                    <h3>Step 1: Fill-Up</h3>
-                    <p>First step is to Fill-Up the entire form in our system.</p>
-                </div>
-
-                <div class="col">
-                    <i class="fas fa-user-check fa-7x"></i>
-
-                    <br>
-                    <br>
-
-                    <h3>Step 2: Assessment</h3>
-                    <p>Second step is to verify all of the information you've been given
-                    in our system that we can use to make the information of your document
-                    accurately.</p>
-                </div>
-
-                <div class="col">
-                    <i class="fas fa-file fa-7x"></i>
-
-                    <br>
-                    <br>
-
-                    <h3>Step 3: Release</h3>
-                    <p>Third step is for releasing of your document.</p>
-                </div>
-            </div>
+        
 
             <div id="down2"></div>
 
@@ -289,7 +286,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+       
 
         <div id="down1"></div>
 
@@ -624,189 +621,11 @@
         <br>
         <br>
         <br>
-
+        </div>
         <!-- Footer -->
 
-        <footer id="footer" class="bg-primary text-white d-flex-column text-center">
-            <hr class="mt-0">
-
-            <div class="text-center">
-                <h1>Services</h1>
-                <ul class="list-unstyled list-inline">
-
-                &nbsp;
-
-                <li class="list-inline-item">
-                    <a href="#!" class="sbtn btn-large mx-1" title="Documents">
-                    <i class="fas fa-file fa-2x"></i>
-                    </a>
-                </li>
-
-                &nbsp;
-
-                <li class="list-inline-item">
-                    <a href="#!" class="sbtn btn-large mx-1" title="Card">
-                    <i class="fas fa-id-card fa-2x"></i>
-                    </a>
-                </li>
-
-                &nbsp;
-
-                <li class="list-inline-item">
-                    <a href="#!" class="sbtn btn-large mx-1" title="Friend">
-                    <i class="fas fa-user-friends fa-2x"></i>
-                    </a>
-                </li>
-
-                &nbsp;
-
-                <li class="list-inline-item">
-                    <a href="#!" class="sbtn btn-large mx-1" title="Blotter">
-                    <i class="fas fa-user-shield fa-2x"></i>
-                    </a>
-                </li>
-
-                &nbsp;
-
-                <li class="list-inline-item">
-                    <a href="#!" class="sbtn btn-large mx-1" title="Contact">
-                    <i class="fas fa-phone fa-2x"></i>
-                    </a>
-                </li>
-                </ul>
-            </div>
-
-            <hr class="mb-0">
-
-            <!--Footer Links-->
-
-            <div class="container text-left text-md-center">
-                <div class="row">
-
-                    <!--First column-->
-
-                    <div class="col-md-3 mx-auto shfooter">
-                        <h5 class="my-2 font-weight-bold d-none d-md-block">Documentation</h5>
-                        <div class="d-md-none title" data-target="#Documentation" data-toggle="collapse">
-                            <div class="mt-3 font-weight-bold">Documentation
-                                <div class="float-right navbar-toggler">
-                                    <i class="fas fa-angle-down"></i>
-                                    <i class="fas fa-angle-up"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <ul class="list-unstyled collapse" id="Documentation">
-                            <li><a href="services_certofres.php">Certificate of Residency</a></li>
-                            <li><a href="services_brgyclearance.php">Barangay Clearance</a></li>
-                            <li><a href="services_certofindigency.php">Certificate of Indigency</a></li>
-                            <li><a href="services_business.php">Business Permit</a></li>
-                            <li><a href="services_brgyid.php">Barangay ID</a></li>
-                        </ul>
-                    </div>
-
-                    <!--/.First column-->
-
-                    <hr class="clearfix w-100 d-md-none mb-0">
-
-                    <!--Third column-->
-
-                    <div class="col-md-3 mx-auto shfooter">
-                        <h5 class="my-2 font-weight-bold d-none d-md-block">Other Services</h5>
-                        <div class="d-md-none title" data-target="#OtherServices" data-toggle="collapse">
-                            <div class="mt-3 font-weight-bold">Other Services
-                                <div class="float-right navbar-toggler">
-                                    <i class="fas fa-angle-down"></i>
-                                    <i class="fas fa-angle-up"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <ul class="list-unstyled collapse" id="OtherServices">
-                            <li><a href="services_blotter.php">Peace and Order</a></li>
-                        </ul>
-                    </div>
-
-                    <!--/.Third column-->
-
-                    <hr class="clearfix w-100 d-md-none mb-0">
- 
-                    <!--Fourth column-->
-
-                    <div class="col-md-3 mx-auto shfooter" id="down">
-                        <h5 class="my-2 font-weight-bold d-none d-md-block">Contact Us:</h5>
-                        <div class="d-md-none title" data-target="#Get-Help" data-toggle="collapse">
-                        <div class="mt-3 font-weight-bold">Contact Us:
-                            <div class="float-right navbar-toggler">
-                            <i class="fas fa-angle-down"></i>
-                            <i class="fas fa-angle-up"></i>
-                            </div>
-                        </div>
-                        </div>
-                        <ul class="list-unstyled collapse" id="Get-Help">
-                            <li>
-                                <div class="zoom">
-                                    <div class="chip" style="font-size:10px;">
-                                        <img src="./Contact/mikhos.png" alt="Person" width="96" height="96">
-                                        Mikhos Dungca | 09514053044
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="zoom">
-                                    <div class="chip" style="font-size:10px;">
-                                        <img src="./Contact/pj.png" alt="Person" width="96" height="96">
-                                        PJ Mendros | 09179450661
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="zoom">
-                                    <div class="chip" style="font-size:10px;">
-                                        <img src="./Contact/vincent.png" alt="Person" width="96" height="96">
-                                        Vincent Vilfamat | 09512873394
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="zoom">
-                                    <div class="chip" style="font-size:10px;">
-                                        <img src="./Contact/eugene.png" alt="Person" width="96" height="96">
-                                        Joel Evangelista | 09301112368
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="zoom">
-                                    <div class="chip" style="font-size:10px;">
-                                        <img src="./Contact/kyle.png" alt="Person" width="96" height="96">
-                                        Kyle Pilapil | 09618853017
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!--/.Fourth column-->
-
-                </div>
-            </div>
-
-            <!--/.Footer Links-->
-
-            <hr class="mb-0">
-
-            <!--Copyright-->
-
-            <div class="py-3 text-center">
-                Copyright 2021 -
-                <script>
-                document.write(new Date().getFullYear())
-                </script> 
-                BI & ESMS | For Educational Purposes Only
-            </div>
-
-        </footer>
-
+        
+        <?php include('user-footer.php'); ?>
         <script>
             function readURL(input) {
                 if (input.files && input.files[0]) {

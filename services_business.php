@@ -31,7 +31,7 @@
       <!-- fontawesome icons --> 
       <script src="https://kit.fontawesome.com/67a9b7069e.js" crossorigin="anonymous"></script>
     
-    <?php 
+<?php 
     include('user-sidebar.php');
 ?>
 
@@ -67,7 +67,14 @@
             src: url('fonts/OpenSauceSans-BlackItalic.ttf') format('truetype'); 
         }
             /* Back-to-Top */
-            .content {margin-left: 270px;}
+    .content {
+    display: flex;
+    flex-direction: column;
+    margin-left: 270px;
+    margin-right: 20px;
+    max-width: 100%; /* Ensure it doesn't overflow */
+    box-sizing: border-box; /* Ensures padding is included in total width */
+    }
 
 .header {
     display: flex;
@@ -119,8 +126,8 @@
     margin: 0 1rem 5em 0;
     border-radius: 50%;
     
-    width: 5%;
-    height: 10%;
+    width: 70px;
+    height: 70px;
     background-color: #3661D5;
     }
     .top-link.show {
@@ -134,8 +141,8 @@
    
     .top-link svg {
     fill: white;
-    width: 24px;
-    height: 12px;
+    width: 40%;
+    height: 40%;
     }
     .top-link:hover {
     background-color: #00357b;
@@ -173,14 +180,7 @@
     clip: auto !important;
     }
 
-            .container1
-            {
-                background-color: transparent;
-                height: 342px;
-                color: black;
-                font-family: Arial, Helvetica, sans-serif;
-                text-align: center;
-            }
+
 
             /* Back-To-Top Button */
 
@@ -192,10 +192,7 @@
 
 
 
-.dropdown {
-    display: flex;
-    justify-content: flex-end; /* Aligns to the right */
-}
+
 
 
             .applybutton
@@ -209,15 +206,9 @@
                 letter-spacing: 3px;
             }
 
-            .text1{
-                margin-top: 80px;
-                font-size: 50px;
-            }
 
-            .picture{
-                height: 120px;
-                width: 120px;
-            }
+
+
 
         </style>
   </head>
