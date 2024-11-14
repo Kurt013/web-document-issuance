@@ -11,7 +11,8 @@
     $conn = $bmis->openConn();
     $bmis->validate_admin();
     $bmis->delete_certofres();
-    // $bmis->archive_certofres();
+    $bmis->archive_certofres();
+    $bmis->unarchive_certofres();
 ?>
 
 <?php 
@@ -65,7 +66,7 @@
                 <button class="btn btn-success" name="search_certofres" style="width: 90px; font-size: 17px; border-radius:30px; margin-left:41.5%;">
                     Search
                 </button>
-                <a href="admn_certofres.php" class="btn btn-info" style="width: 90px; font-size: 17px; border-radius:30px;">Reload</a>
+                <a href="admn_certofres.php?list=active" class="btn btn-info" style="width: 90px; font-size: 17px; border-radius:30px;">Reload</a>
             </form>
             <br>
         </div>

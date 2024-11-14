@@ -1,8 +1,16 @@
 <?php    
+    $list = $_GET['list'];
+
 	if(isset($_POST['search_certofres'])){
 		$keyword = $_POST['keyword'];
 ?>
-
+ <form method="GET" action="">
+        <label for="list">Select List: </label>
+        <select name="list" id="list" onchange="this.form.submit()">
+            <option value="active" <?= (isset($_GET['list']) && $_GET['list'] == 'active') ? 'selected' : ''; ?>>Active</option>
+            <option value="archived" <?= (isset($_GET['list']) && $_GET['list'] == 'archived') ? 'selected' : ''; ?>>Archived</option>
+        </select>
+    </form>
 <table class="table table-hover text-center table-bordered table-responsive" >
     <thead class="alert-info">
         
@@ -24,6 +32,7 @@
 
     <tbody>    
         <?php
+            $list === 'active' ?
             $stmt = $conn->prepare("
             SELECT *
             FROM
@@ -43,16 +52,42 @@
                 created_by LIKE ? OR
                 created_on LIKE ? OR
                 doc_status LIKE ?
+            "):
+            $stmt = $conn->prepare("
+            SELECT *
+            FROM
+                tbl_rescert_archive
+            WHERE
+                id_rescert LIKE ? OR
+                fname LIKE ? OR
+                mi LIKE ? OR
+                lname LIKE ? OR
+                age LIKE ? OR
+                houseno LIKE ? OR
+                street LIKE ? OR
+                brgy LIKE ? OR
+                city LIKE ? OR
+                municipality LIKE ? OR
+                purpose LIKE ? OR
+                archived_on LIKE ? OR
+                archived_by LIKE ?
             ");
         
         $keywordLike = "%$keyword%";
-
+        $list === 'active' ?
         $stmt->execute([
             $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
             $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
             $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
             $keywordLike, $keywordLike
-        ]);
+        ]):
+        $stmt->execute([
+            $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
+            $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
+            $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
+            $keywordLike
+        ])
+        ;
             
             while($view = $stmt->fetch()){
         ?>
@@ -60,8 +95,14 @@
                 <td>    
                     <form action="" method="post">
                         <a class="btn btn-success" target="_blank" style="width: 90px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" href="rescert_form.php?id_rescert=<?= $view['id_rescert'];?>">Generate</a> 
-                        <input type="hidden" name="id_rescert" value="<?= $view['id_rescert'];?>">
-                        <button class="btn btn-danger" type="submit" style="width: 90px; font-size: 17px; border-radius:30px;" name="archive_certofres"> Archive </button>
+                                    <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
+                                    <input type="hidden" name="id_rescert" value="<?= $view['id_rescert'];?>">
+                                    <?php 
+                                echo $list === 'active' ? 
+                                    '<button class="btn btn-danger" type="submit" style="width: 90px; font-size: 17px; border-radius:30px;" name="archive_certofres"> Archive </button>' :
+                                    '<button class="btn btn-danger" type="submit" style="width: 90px; font-size: 17px; border-radius:30px;" name="unarchive_certofres"> Retrieve </button>'
+                                    ;
+                            ?>    
                     </form>
                 </td>
                 <td> <?= $view['id_rescert'];?> </td> 
@@ -89,6 +130,13 @@
 <?php		
 	}else{
 ?>
+    <form method="GET" action="">
+        <label for="list">Select List: </label>
+        <select name="list" id="list" onchange="this.form.submit()">
+            <option value="active" <?= (isset($_GET['list']) && $_GET['list'] == 'active') ? 'selected' : ''; ?>>Active</option>
+            <option value="archived" <?= (isset($_GET['list']) && $_GET['list'] == 'archived') ? 'selected' : ''; ?>>Archived</option>
+        </select>
+    </form>
     <table class="table table-hover text-center table-bordered table-responsive">
 		<thead class="alert-info">
 			<tr>
@@ -108,7 +156,10 @@
 		</thead>
 		<tbody>
 		    <?php 
-            $stmt = $conn->prepare("SELECT * FROM tbl_rescert");
+            $list === 'active' ? 
+                $stmt = $conn->prepare("SELECT * FROM tbl_rescert") : 
+                $stmt = $conn->prepare("SELECT * FROM tbl_rescert_archive");
+
             $stmt->execute();
             $views = $stmt->fetchAll();
             if ($stmt->rowCount() > 0) {
@@ -118,8 +169,15 @@
                             <td>    
                                 <form action="" method="post">
                                     <a class="btn btn-success" target="_blank" style="width: 90px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" href="rescert_form.php?id_rescert=<?= $view['id_rescert'];?>">Generate</a> 
+                                    <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
                                     <input type="hidden" name="id_rescert" value="<?= $view['id_rescert'];?>">
-                            <button class="btn btn-danger" type="submit" style="width: 90px; font-size: 17px; border-radius:30px;" name="delete_certofres"> Archive </button>
+                            <?php 
+                                echo $list === 'active' ? 
+                                    '<button class="btn btn-danger" type="submit" style="width: 90px; font-size: 17px; border-radius:30px;" name="archive_certofres"> Archive </button>' :
+                                    '<button class="btn btn-danger" type="submit" style="width: 90px; font-size: 17px; border-radius:30px;" name="unarchive_certofres"> Retrieve </button>'
+                                    ;
+                            ?>    
+                            
                                 </form>
                             </td>
                             <td> <?= $view['id_rescert'];?> </td> 

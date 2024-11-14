@@ -482,6 +482,8 @@ class BMISClass {
     public function archive_certofres() {
         if (isset($_POST['archive_certofres'])) {
             $id_rescert = $_POST['id_rescert'];
+            $id = $_POST['id'];
+
             $connection = $this->openConn();
         
             try {
@@ -490,12 +492,17 @@ class BMISClass {
         
                 // Step 1: Insert into archive table
                 $insertStmt = $connection->prepare("
-                    INSERT INTO tbl_archive_rescert (id_rescert, fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, created_on, created_by)
-                    SELECT id_rescert, fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, created_on, created_by
-                    FROM tbl_rescert
-                    WHERE id_rescert = :id_rescert
+                INSERT INTO tbl_rescert_archive (id_rescert, fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, archived_by)
+                SELECT id_rescert, fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, :archived_by
+                FROM tbl_rescert
+                WHERE id_rescert = :id_rescert
                 ");
+                
+                // Bind parameters
+                $insertStmt->bindParam(':archived_by', $id); // Bind the archived_by parameter
                 $insertStmt->bindParam(':id_rescert', $id_rescert);
+                
+                // Execute the query
                 $insertStmt->execute();
         
                 // Step 2: Delete from original table
@@ -518,6 +525,50 @@ class BMISClass {
             }
         }
     }
+
+    public function unarchive_certofres() {
+        if (isset($_POST['unarchive_certofres'])) {
+            $id_rescert = $_POST['id_rescert'];
+            $id = $_POST['id'];
+            $connection = $this->openConn();
+            // echo "<script>alert('Archived Successfully{$id}');</script>";
+    
+            try {
+                // // Begin transaction
+                $connection->beginTransaction();
+    
+                // Step 1: Insert the record back into tbl_rescert from tbl_archive_rescert
+                $insertStmt = $connection->prepare("
+                    INSERT INTO tbl_rescert (id_rescert, fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, created_by, doc_status)
+                    SELECT id_rescert, fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, :created_by, 'accepted'
+                    FROM tbl_rescert_archive
+                    WHERE id_rescert = :id_rescert
+                ");
+                $insertStmt->bindParam(':created_by', $id);
+                $insertStmt->bindParam(':id_rescert', $id_rescert);
+                $insertStmt->execute();
+    
+                // Step 2: Delete the record from tbl_archive_rescert
+                $deleteStmt = $connection->prepare("
+                    DELETE FROM tbl_rescert_archive
+                    WHERE id_rescert = :id_rescert
+                ");
+                $deleteStmt->bindParam(':id_rescert', $id_rescert);
+                $deleteStmt->execute();
+    
+                // // Commit the transaction
+                $connection->commit();
+    
+                echo "<script>alert('Unarchived Successfully');</script>";
+    
+            } catch (Exception $e) {
+                // Rollback if there is an error
+                $connection->rollBack();
+                echo "Failed to unarchive record: " . $e->getMessage();
+            }
+        }
+    }
+    
     
     
  

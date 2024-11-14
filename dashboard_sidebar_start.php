@@ -117,21 +117,21 @@
 
             <!-- Certificate of Residency -->
             <li class="nav-item">
-                <a class="nav-link" href="admn_certofres.php">
+                <a class="nav-link" href="admn_certofres.php?list=active">
                     <i class="fas fa-file-word"></i>
                     <span>Certificate of Residency</span></a>
                 <span class="notif"><?= $rescertcount ?></span>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="admn_brgyid.php">
+                <a class="nav-link" href="admn_brgyid.php?list=active">
                     <i class="fas fa-id-card"></i>
                     <span>Barangay ID </span></a>
                     <span class="notif"><?= $brgyidcount ?></span>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="admn_bspermit.php">
+                <a class="nav-link" href="admn_bspermit.php?list=active">
                     <i class="fas fa-file-contract"></i>
                     <span>Business Permit</span></a>
                     <span class="notif"><?= $bspermitcount ?></span>
@@ -141,7 +141,7 @@
 
             <!-- Barangay Clearance -->
             <li class="nav-item">
-                <a class="nav-link" href="admn_brgyclearance.php">
+                <a class="nav-link" href="admn_brgyclearance.php?list=active">
                     <i class="fas fa-file"></i>
                     <span>Barangay Clearance</span></a>
                     <span class="notif"><?= $clearancecount ?></span>
@@ -149,7 +149,7 @@
 
             <!-- Certificate of Indigency -->
             <li class="nav-item">
-                <a class="nav-link" href="admn_certofindigency.php">
+                <a class="nav-link" href="admn_certofindigency.php?list=active">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Certificate of Indigency</span></a>
                     <span class="notif"><?= $indigencycount ?></span>
