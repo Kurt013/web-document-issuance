@@ -66,7 +66,7 @@ CREATE TABLE tbl_brgyid (
     valid_until DATE,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by INT,
-    doc_status VARCHAR(20)
+    doc_status VARCHAR(20) DEFAULT 'pending'
 );
 
 -- Table: tbl_bspermit
@@ -84,7 +84,7 @@ CREATE TABLE tbl_bspermit (
     aoe INT,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by INT,
-    doc_status VARCHAR(20)
+    doc_status VARCHAR(20) DEFAULT 'pending'
 );
 
 -- Table: tbl_clearance
@@ -102,7 +102,7 @@ CREATE TABLE tbl_clearance (
     purpose VARCHAR(20),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by INT,
-    doc_status VARCHAR(20)
+    doc_status VARCHAR(20) DEFAULT 'pending'
 );
 
 -- Table: tbl_indigency
@@ -121,7 +121,7 @@ CREATE TABLE tbl_indigency (
     purpose VARCHAR(20),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by INT,
-    doc_status VARCHAR(20)
+    doc_status VARCHAR(20) DEFAULT 'pending'
 );
 
 -- Table: tbl_rescert
@@ -139,7 +139,7 @@ CREATE TABLE tbl_rescert (
     purpose VARCHAR(20),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by INT,
-    doc_status VARCHAR(20)
+    doc_status VARCHAR(20) DEFAULT 'pending'
 );
 
 -- Table: tbl_announcement
@@ -415,49 +415,49 @@ DELIMITER ;
 
 
 -- Dumping data for tbl_brgyid
-INSERT INTO tbl_brgyid (res_photo, fname, mi, lname, houseno, bdate, status, precint_no, inc_lname, inc_fname, inc_mi, inc_contact, inc_houseno, inc_street, inc_brgy, inc_city, inc_municipality, valid_until, created_by, doc_status)
+INSERT INTO tbl_brgyid (res_photo, fname, mi, lname, houseno, bdate, `status`, precint_no, inc_lname, inc_fname, inc_mi, inc_contact, inc_houseno, inc_street, inc_brgy, inc_city, inc_municipality, valid_until, created_by, doc_status)
 VALUES
-(NULL, 'John', 'A', 'Doe', '123', '1990-01-01', 'Active', '123A', 'Smith', 'Jane', 'B', '09123456789', '456', 'Main St', 'Sinalhan', 'City of Santa Rosa', 'Laguna', '2025-01-01', 1, 'Active'),
-(NULL, 'Jane', 'B', 'Smith', '456', '1985-02-02', 'Inactive', '456B', 'Doe', 'John', 'A', '09876543210', '789', 'Second St', 'Sinalhan', 'City of Santa Rosa', 'Laguna', '2025-02-02', 2, 'Inactive'),
-(NULL, 'Alice', 'C', 'Johnson', '789', '1992-03-03', 'Active', '789C', 'Brown', 'Emma', 'C', '09765432109', '321', 'Third St', 'Sinalhan', 'City of Santa Rosa', 'Laguna', '2025-03-03', 3, 'Active'),
-(NULL, 'Robert', 'D', 'Brown', '321', '1988-04-04', 'Inactive', '321D', 'Johnson', 'Alice', 'C', '09654321098', '654', 'Fourth St', 'Sinalhan', 'City of Santa Rosa', 'Laguna', '2025-04-04', 4, 'Inactive'),
-(NULL, 'Emma', 'E', 'Wilson', '654', '1995-05-05', 'Active', '654E', 'Lee', 'Chris', 'D', '09543210987', '987', 'Fifth St', 'Sinalhan', 'City of Santa Rosa', 'Laguna', '2025-05-05', 5, 'Active');
+(NULL, 'John', 'A', 'Doe', '123', '1990-01-01', 'Single', '123A', 'Smith', 'Jane', 'B', '09123456789', '456', 'Main St', 'Sinalhan', 'City of Santa Rosa', 'Laguna', '2025-01-01', 1, 'accepted'),
+(NULL, 'Jane', 'B', 'Smith', '456', '1985-02-02', 'Single', '456B', 'Doe', 'John', 'A', '09876543210', '789', 'Second St', 'Sinalhan', 'City of Santa Rosa', 'Laguna', '2025-02-02', 2, 'accepted'),
+(NULL, 'Alice', 'C', 'Johnson', '789', '1992-03-03', 'Married', '789C', 'Brown', 'Emma', 'C', '09765432109', '321', 'Third St', 'Sinalhan', 'City of Santa Rosa', 'Laguna', '2025-03-03', 3, 'accepted'),
+(NULL, 'Robert', 'D', 'Brown', '321', '1988-04-04', 'Married', '321D', 'Johnson', 'Alice', 'C', '09654321098', '654', 'Fourth St', 'Sinalhan', 'City of Santa Rosa', 'Laguna', '2025-04-04', 4, 'accepted'),
+(NULL, 'Emma', 'E', 'Wilson', '654', '1995-05-05', 'Single', '654E', 'Lee', 'Chris', 'D', '09543210987', '987', 'Fifth St', 'Sinalhan', 'City of Santa Rosa', 'Laguna', '2025-05-05', 5, 'accepted');
 
 -- Dumping data for tbl_bspermit
 INSERT INTO tbl_bspermit (fname, mi, lname, bshouseno, bsstreet, bsbrgy, bscity, bsmunicipality, bsindustry, aoe, created_by, doc_status)
 VALUES
-('Michael', 'F', 'White', '123', 'Business St', 'Sinalhan', 'City of Santa Rosa', 'Laguna', 'Retail', 5, 1, 'Active'),
-('Sarah', 'G', 'Green', '456', 'Market Ave', 'Sinalhan', 'City of Santa Rosa', 'Laguna', 'Services', 10, 2, 'Inactive'),
-('David', 'H', 'Black', '789', 'Commerce Blvd', 'Sinalhan', 'City of Santa Rosa', 'Laguna', 'Wholesale', 3, 3, 'Active'),
-('Laura', 'I', 'Gray', '321', 'Trade Dr', 'Sinalhan', 'City of Santa Rosa', 'Laguna', 'Manufacturing', 8, 4, 'Inactive'),
-('Tom', 'J', 'Silver', '654', 'Industry Cir', 'Sinalhan', 'City of Santa Rosa', 'Laguna', 'Construction', 15, 5, 'Active');
+('Michael', 'F', 'White', '123', 'Business St', 'Sinalhan', 'City of Santa Rosa', 'Laguna', 'Retail', 5, 1, 'accepted'),
+('Sarah', 'G', 'Green', '456', 'Market Ave', 'Sinalhan', 'City of Santa Rosa', 'Laguna', 'Services', 10, 2, 'accepted'),
+('David', 'H', 'Black', '789', 'Commerce Blvd', 'Sinalhan', 'City of Santa Rosa', 'Laguna', 'Wholesale', 3, 3, 'accepted'),
+('Laura', 'I', 'Gray', '321', 'Trade Dr', 'Sinalhan', 'City of Santa Rosa', 'Laguna', 'Manufacturing', 8, 4, 'accepted'),
+('Tom', 'J', 'Silver', '654', 'Industry Cir', 'Sinalhan', 'City of Santa Rosa', 'Laguna', 'Construction', 15, 5, 'accepted');
 
 -- Dumping data for tbl_clearance
 INSERT INTO tbl_clearance (fname, mi, lname, age, houseno, street, purpose, created_by, doc_status)
 VALUES
-('Anna', 'K', 'Martin', 28, '101', 'Maple St', 'Employment', 1, 'Active'),
-('Jake', 'L', 'Garcia', 34, '202', 'Pine St', 'Travel', 2, 'Inactive'),
-('Sophia', 'M', 'Lopez', 25, '303', 'Cedar St', 'Education', 3, 'Active'),
-('Liam', 'N', 'Perez', 40, '404', 'Birch St', 'Housing', 4, 'Inactive'),
-('Olivia', 'O', 'Ramirez', 22, '505', 'Oak St', 'Other', 5, 'Active');
+('Anna', 'K', 'Martin', 28, '101', 'Maple St', 'Employment', 1, 'accepted'),
+('Jake', 'L', 'Garcia', 34, '202', 'Pine St', 'Travel', 2, 'accepted'),
+('Sophia', 'M', 'Lopez', 25, '303', 'Cedar St', 'Education', 3, 'accepted'),
+('Liam', 'N', 'Perez', 40, '404', 'Birch St', 'Housing', 4, 'accepted'),
+('Olivia', 'O', 'Ramirez', 22, '505', 'Oak St', 'Other', 5, 'accepted');
 
 -- Dumping data for tbl_indigency
 INSERT INTO tbl_indigency (fname, mi, lname, age, nationality, houseno, street, purpose, created_by, doc_status)
 VALUES
-('James', 'P', 'Hernandez', 32, 'Filipino', '201', 'First Ave', 'Financial Aid', 1, 'Active'),
-('Maria', 'Q', 'Smith', 27, 'Filipino', '202', 'Second Ave', 'Medical Assistance', 2, 'Inactive'),
-('Ethan', 'R', 'Johnson', 29, 'Filipino', '203', 'Third Ave', 'Scholarship', 3, 'Active'),
-('Ella', 'S', 'Davis', 35, 'Filipino', '204', 'Fourth Ave', 'Housing', 4, 'Inactive'),
-('Henry', 'T', 'Brown', 24, 'Filipino', '205', 'Fifth Ave', 'Food Assistance', 5, 'Active');
+('James', 'P', 'Hernandez', 32, 'Filipino', '201', 'First Ave', 'Financial Aid', 1, 'accepted'),
+('Maria', 'Q', 'Smith', 27, 'Filipino', '202', 'Second Ave', 'Medical Assistance', 2, 'accepted'),
+('Ethan', 'R', 'Johnson', 29, 'Filipino', '203', 'Third Ave', 'Scholarship', 3, 'accepted'),
+('Ella', 'S', 'Davis', 35, 'Filipino', '204', 'Fourth Ave', 'Housing', 4, 'accepted'),
+('Henry', 'T', 'Brown', 24, 'Filipino', '205', 'Fifth Ave', 'Food Assistance', 5, 'accepted');
 
 -- Dumping data for tbl_rescert
 INSERT INTO tbl_rescert (fname, mi, lname, age, houseno, street, purpose, created_by, doc_status)
 VALUES
-('John', 'U', 'Nguyen', 31, '701', 'Lakeside St', 'Identification', 1, 'Active'),
-('Emma', 'V', 'Patel', 26, '702', 'Hilltop Rd', 'Proof of Residency', 2, 'Inactive'),
-('Lily', 'W', 'Wang', 22, '703', 'Sunset Blvd', 'Work Permit', 3, 'Active'),
-('Noah', 'X', 'Kim', 33, '704', 'Park Ave', 'School Requirements', 4, 'Inactive'),
-('Grace', 'Y', 'Chen', 29, '705', 'Downtown St', 'Banking', 5, 'Active');
+('John', 'U', 'Nguyen', 31, '701', 'Lakeside St', 'Identification', 1, 'accepted'),
+('Emma', 'V', 'Patel', 26, '702', 'Hilltop Rd', 'Proof of Residency', 2, 'accepted'),
+('Lily', 'W', 'Wang', 22, '703', 'Sunset Blvd', 'Work Permit', 3, 'accepted'),
+('Noah', 'X', 'Kim', 33, '704', 'Park Ave', 'School Requirements', 4, 'accepted'),
+('Grace', 'Y', 'Chen', 29, '705', 'Downtown St', 'Banking', 5, 'accepted');
 
 -- Dumping data for tbl_announcement
 INSERT INTO tbl_announcement (`event`, created_by)

@@ -38,7 +38,7 @@
             FROM
                 tbl_rescert
             WHERE
-                id_rescert LIKE ? OR
+                (id_rescert LIKE ? OR
                 fname LIKE ? OR
                 mi LIKE ? OR
                 lname LIKE ? OR
@@ -50,8 +50,8 @@
                 municipality LIKE ? OR
                 purpose LIKE ? OR
                 created_by LIKE ? OR
-                created_on LIKE ? OR
-                doc_status LIKE ?
+                created_on LIKE ?) AND
+                doc_status = 'accepted')
             "):
             $stmt = $conn->prepare("
             SELECT *
@@ -157,7 +157,7 @@
 		<tbody>
 		    <?php 
             $list === 'active' ? 
-                $stmt = $conn->prepare("SELECT * FROM tbl_rescert") : 
+                $stmt = $conn->prepare("SELECT * FROM tbl_rescert WHERE doc_status = 'accepted'") : 
                 $stmt = $conn->prepare("SELECT * FROM tbl_rescert_archive");
 
             $stmt->execute();

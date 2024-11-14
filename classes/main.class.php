@@ -539,8 +539,8 @@ class BMISClass {
     
                 // Step 1: Insert the record back into tbl_rescert from tbl_archive_rescert
                 $insertStmt = $connection->prepare("
-                    INSERT INTO tbl_rescert (id_rescert, fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, created_by, doc_status)
-                    SELECT id_rescert, fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, :created_by, 'accepted'
+                    INSERT INTO tbl_rescert (fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, created_by, doc_status)
+                    SELECT fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, :created_by, 'accepted'
                     FROM tbl_rescert_archive
                     WHERE id_rescert = :id_rescert
                 ");
