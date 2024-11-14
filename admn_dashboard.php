@@ -62,22 +62,28 @@
 
 <!-- Page Heading -->
 
-<div class="select-wrapper">
-        <form class="select-month" method="POST" action="">
-            <label for="month">Select Month:</label>
-            <select id="month" name="month" onchange="this.form.submit()">
-                <?php
-                for ($i = 1; $i <= 12; $i++) {
-                    $selected = ($i == $current_month) ? 'selected' : '';
-                    echo '<option value="' . $i . '" ' . $selected . '>' . date('F', mktime(0, 0, 0, $i, 10)) . '</option>';
-                }
-                ?>
-            </select>
-        </form>
-    </div>
-<canvas id="documentIssuanceTrendChart" style="width: 100%; height: auto;"></canvas>
+<div class="container-graph" style="display: flex;">
+    
+    
+    <div class="select-wrapper">
+            <form class="select-month" method="POST" action="">
+                <label for="month">Select Month:</label>
+                <select id="month" name="month" onchange="this.form.submit()">
+                    <?php
+                    for ($i = 1; $i <= 12; $i++) {
+                        $selected = ($i == $current_month) ? 'selected' : '';
+                        echo '<option value="' . $i . '" ' . $selected . '>' . date('F', mktime(0, 0, 0, $i, 10)) . '</option>';
+                    }
+                    ?>
+                </select>
+            </form>
+        <canvas id="documentIssuanceTrendChart" style="width: 500px; height: 280px; display: inline-block;"></canvas>
+        </div>
 
-<canvas id="documentTypesDistributionChart" style="width: 300px; height: auto;"></canvas>
+        <canvas id="documentTypesDistributionChart" style="width: 300px; height: 300px; display: inline-block;"></canvas>
+
+</div>
+
 
     <div class="row"> 
     <div class="col-md-4">
@@ -155,10 +161,10 @@
 <script>
 // Dynamic Data for Document Issuance Trends (based on the current month)
 const documentIssuanceTrendData = {
-    labels: <?php echo $monthLabelsJson; ?>, // Dynamic months (or days in the month)
+    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November'], // Dynamic months (or days in the month)
     datasets: [{
         label: 'Total Documents Issued',
-        data: <?php echo $documentIssuanceTrendData; ?>, // Dynamic values from PHP
+        data: [10, 20, 30, 40, 20, 20, 20, 10, 20, 30, 20], // Dynamic values from PHP
         fill: false,
         borderColor: 'rgba(75, 192, 192, 1)',
         tension: 0.1
@@ -171,7 +177,7 @@ const documentIssuanceTrendChart = new Chart(ctx1, {
     type: 'line', // 'line' chart
     data: documentIssuanceTrendData,
     options: {
-        responsive: true,
+        responsive: false,
         scales: {
             x: {
                 beginAtZero: true
@@ -214,7 +220,7 @@ const documentTypesDistributionChart = new Chart(ctx2, {
     type: 'pie', // 'pie' chart
     data: documentTypesDistributionData,
     options: {
-        responsive: true
+        responsive: false
     }
 });
 

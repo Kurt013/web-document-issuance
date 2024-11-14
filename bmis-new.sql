@@ -23,15 +23,15 @@ SET time_zone = "+00:00";
 
 CREATE TABLE tbl_user (
     id_user INT PRIMARY KEY AUTO_INCREMENT,
-    username VARCHAR(30) NOT NULL,
-    email VARCHAR(50) UNIQUE NOT NULL,
-    `password` VARCHAR(255) NOT NULL,
-    lname VARCHAR(20) NOT NULL,
-    fname VARCHAR(20) NOT NULL,
+    username VARCHAR(30),
+    email VARCHAR(50),
+    `password` VARCHAR(255),
+    lname VARCHAR(20),
+    fname VARCHAR(20),
     mi CHAR(1),
     sex VARCHAR(10),
     contact VARCHAR(11),
-    position VARCHAR(20) DEFAULT NULL,
+    position VARCHAR(20),
     `role` VARCHAR(15) DEFAULT 'staff'
 );
 
@@ -42,16 +42,15 @@ INSERT INTO `tbl_user` (username, `email`, `password`, `lname`, `fname`, `mi`, `
 
 -- Table: tbl_brgyid
 CREATE TABLE tbl_brgyid (
-    id_brgyid VARCHAR(20) PRIMARY KEY UNIQUE,
+    id_brgyid VARCHAR(20) PRIMARY KEY,
     res_photo MEDIUMBLOB,
-    fname VARCHAR(20) NOT NULL,
+    fname VARCHAR(20),
     mi VARCHAR(1),
-    lname VARCHAR(20) NOT NULL,
+    lname VARCHAR(20),
     houseno VARCHAR(20),
-    street VARCHAR(20),
-    brgy VARCHAR(20),
-    city VARCHAR(20),
-    municipality VARCHAR(20),
+    brgy VARCHAR(20) DEFAULT 'sinalhan',
+    city VARCHAR(20) DEFAULT 'city of santa rosa',
+    municipality VARCHAR(20) DEFAULT 'laguna',
     bdate DATE,
     `status` VARCHAR(20),
     precint_no VARCHAR(20),
@@ -59,23 +58,23 @@ CREATE TABLE tbl_brgyid (
     inc_fname VARCHAR(20),
     inc_mi CHAR(1),
     inc_contact VARCHAR(11),
-    inc_houseno VARCHAR(20) DEFAULT NULL,
+    inc_houseno VARCHAR(20),
     inc_street VARCHAR(20),
     inc_brgy VARCHAR(20),
     inc_city VARCHAR(20),
-    inc_municipal VARCHAR(20),
+    inc_municipality VARCHAR(20),
     valid_until DATE,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by INT,
-    FOREIGN KEY (created_by) REFERENCES tbl_user(id_user)
+    doc_status VARCHAR(20)
 );
 
 -- Table: tbl_bspermit
 CREATE TABLE tbl_bspermit (
-    id_bspermit VARCHAR(20) PRIMARY KEY UNIQUE,
-    fname VARCHAR(20) NOT NULL,
+    id_bspermit VARCHAR(20) PRIMARY KEY,
+    fname VARCHAR(20),
     mi VARCHAR(1),
-    lname VARCHAR(20) NOT NULL,
+    lname VARCHAR(20),
     bshouseno VARCHAR(20),
     bsstreet VARCHAR(20),
     bsbrgy VARCHAR(20),
@@ -85,62 +84,62 @@ CREATE TABLE tbl_bspermit (
     aoe INT,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by INT,
-    FOREIGN KEY (created_by) REFERENCES tbl_user(id_user)
+    doc_status VARCHAR(20)
 );
 
 -- Table: tbl_clearance
 CREATE TABLE tbl_clearance (
-    id_clearance VARCHAR(20) PRIMARY KEY UNIQUE,
-    fname VARCHAR(20) NOT NULL,
+    id_clearance VARCHAR(20) PRIMARY KEY,
+    fname VARCHAR(20),
     mi VARCHAR(1),
-    lname VARCHAR(20) NOT NULL,
+    lname VARCHAR(20),
     age INT,
     houseno VARCHAR(20),
     street VARCHAR(20),
-    brgy VARCHAR(20),
-    city VARCHAR(20),
-    municipality VARCHAR(20),
+    brgy VARCHAR(20) DEFAULT 'sinalhan',
+    city VARCHAR(20) DEFAULT 'city of santa rosa',
+    municipality VARCHAR(20) DEFAULT 'laguna',
     purpose VARCHAR(20),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by INT,
-    FOREIGN KEY (created_by) REFERENCES tbl_user(id_user)
+    doc_status VARCHAR(20)
 );
 
 -- Table: tbl_indigency
 CREATE TABLE tbl_indigency (
-    id_indigency VARCHAR(20) PRIMARY KEY UNIQUE,
-    fname VARCHAR(20) NOT NULL,
+    id_indigency VARCHAR(20) PRIMARY KEY,
+    fname VARCHAR(20),
     mi VARCHAR(1),
-    lname VARCHAR(20) NOT NULL,
+    lname VARCHAR(20),
     age INT,
     nationality VARCHAR(20),
     houseno VARCHAR(20),
     street VARCHAR(20),
-    brgy VARCHAR(20),
-    city VARCHAR(20),
-    municipality VARCHAR(20),
+    brgy VARCHAR(20) DEFAULT 'sinalhan',
+    city VARCHAR(20) DEFAULT 'city of santa rosa',
+    municipality VARCHAR(20) DEFAULT 'laguna',
     purpose VARCHAR(20),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by INT,
-    FOREIGN KEY (created_by) REFERENCES tbl_user(id_user)
+    doc_status VARCHAR(20)
 );
 
 -- Table: tbl_rescert
 CREATE TABLE tbl_rescert (
-    id_rescert VARCHAR(20) PRIMARY KEY UNIQUE,
-    fname VARCHAR(20) NOT NULL,
+    id_rescert VARCHAR(20) PRIMARY KEY,
+    fname VARCHAR(20),
     mi VARCHAR(1),
-    lname VARCHAR(20) NOT NULL,
+    lname VARCHAR(20),
     age INT,
     houseno VARCHAR(20),
     street VARCHAR(20),
-    brgy VARCHAR(20),
-    city VARCHAR(20),
-    municipality VARCHAR(20),
+    brgy VARCHAR(20) DEFAULT 'sinalhan',
+    city VARCHAR(20) DEFAULT 'city of santa rosa',
+    municipality VARCHAR(20) DEFAULT 'laguna',
     purpose VARCHAR(20),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by INT,
-    FOREIGN KEY (created_by) REFERENCES tbl_user(id_user)
+    doc_status VARCHAR(20)
 );
 
 -- Table: tbl_announcement
@@ -151,6 +150,111 @@ CREATE TABLE tbl_announcement (
     created_by INT,
     FOREIGN KEY (created_by) REFERENCES tbl_user(id_user)
 );
+
+
+-- Archive table for tbl_brgyid
+CREATE TABLE tbl_brgyid_archive (
+    id_brgyid VARCHAR(20) PRIMARY KEY,
+    res_photo MEDIUMBLOB,
+    fname VARCHAR(20),
+    mi VARCHAR(1),
+    lname VARCHAR(20),
+    houseno VARCHAR(20),
+    brgy VARCHAR(20) DEFAULT 'sinalhan',
+    city VARCHAR(20) DEFAULT 'city of santa rosa',
+    municipality VARCHAR(20) DEFAULT 'laguna',
+    bdate DATE,
+    `status` VARCHAR(20),
+    precint_no VARCHAR(20),
+    inc_lname VARCHAR(20),
+    inc_fname VARCHAR(20),
+    inc_mi CHAR(1),
+    inc_contact VARCHAR(11),
+    inc_houseno VARCHAR(20),
+    inc_street VARCHAR(20),
+    inc_brgy VARCHAR(20),
+    inc_city VARCHAR(20),
+    inc_municipality VARCHAR(20),
+    valid_until DATE,
+    archived_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    archived_by INT,
+    FOREIGN KEY (archived_by) REFERENCES tbl_user(id_user)
+);
+
+-- Archive table for tbl_bspermit
+CREATE TABLE tbl_bspermit_archive (
+    id_bspermit VARCHAR(20) PRIMARY KEY,
+    fname VARCHAR(20),
+    mi VARCHAR(1),
+    lname VARCHAR(20),
+    bshouseno VARCHAR(20),
+    bsstreet VARCHAR(20),
+    bsbrgy VARCHAR(20),
+    bscity VARCHAR(20),
+    bsmunicipality VARCHAR(20),
+    bsindustry VARCHAR(20),
+    aoe INT,
+    archived_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    archived_by INT,
+    FOREIGN KEY (archived_by) REFERENCES tbl_user(id_user)
+);
+
+-- Archive table for tbl_clearance
+CREATE TABLE tbl_clearance_archive (
+    id_clearance VARCHAR(20) PRIMARY KEY,
+    fname VARCHAR(20),
+    mi VARCHAR(1),
+    lname VARCHAR(20),
+    age INT,
+    houseno VARCHAR(20),
+    street VARCHAR(20),
+    brgy VARCHAR(20) DEFAULT 'sinalhan',
+    city VARCHAR(20) DEFAULT 'city of santa rosa',
+    municipality VARCHAR(20) DEFAULT 'laguna',
+    purpose VARCHAR(20),
+    archived_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    archived_by INT,
+    FOREIGN KEY (archived_by) REFERENCES tbl_user(id_user)
+);
+
+-- Archive table for tbl_indigency
+CREATE TABLE tbl_indigency_archive (
+    id_indigency VARCHAR(20) PRIMARY KEY,
+    fname VARCHAR(20),
+    mi VARCHAR(1),
+    lname VARCHAR(20),
+    age INT,
+    nationality VARCHAR(20),
+    houseno VARCHAR(20),
+    street VARCHAR(20),
+    brgy VARCHAR(20) DEFAULT 'sinalhan',
+    city VARCHAR(20) DEFAULT 'city of santa rosa',
+    municipality VARCHAR(20) DEFAULT 'laguna',
+    purpose VARCHAR(20),
+    archived_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    archived_by INT,
+    FOREIGN KEY (archived_by) REFERENCES tbl_user(id_user)
+);
+
+-- Archive table for tbl_rescert
+CREATE TABLE tbl_rescert_archive (
+    id_rescert VARCHAR(20) PRIMARY KEY,
+    fname VARCHAR(20),
+    mi VARCHAR(1),
+    lname VARCHAR(20),
+    age INT,
+    houseno VARCHAR(20),
+    street VARCHAR(20),
+    brgy VARCHAR(20) DEFAULT 'sinalhan',
+    city VARCHAR(20) DEFAULT 'city of santa rosa',
+    municipality VARCHAR(20) DEFAULT 'laguna',
+    purpose VARCHAR(20),
+    archived_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    archived_by INT,
+    FOREIGN KEY (archived_by) REFERENCES tbl_user(id_user)
+);
+
+
 
 -- Set the delimiter to //
 DELIMITER //
@@ -307,3 +411,60 @@ END;
 
 -- Reset the delimiter back to ;
 DELIMITER ;
+
+
+
+-- Dumping data for tbl_brgyid
+INSERT INTO tbl_brgyid (res_photo, fname, mi, lname, houseno, bdate, status, precint_no, inc_lname, inc_fname, inc_mi, inc_contact, inc_houseno, inc_street, inc_brgy, inc_city, inc_municipality, valid_until, created_by, doc_status)
+VALUES
+(NULL, 'John', 'A', 'Doe', '123', '1990-01-01', 'Active', '123A', 'Smith', 'Jane', 'B', '09123456789', '456', 'Main St', 'Sinalhan', 'City of Santa Rosa', 'Laguna', '2025-01-01', 1, 'Active'),
+(NULL, 'Jane', 'B', 'Smith', '456', '1985-02-02', 'Inactive', '456B', 'Doe', 'John', 'A', '09876543210', '789', 'Second St', 'Sinalhan', 'City of Santa Rosa', 'Laguna', '2025-02-02', 2, 'Inactive'),
+(NULL, 'Alice', 'C', 'Johnson', '789', '1992-03-03', 'Active', '789C', 'Brown', 'Emma', 'C', '09765432109', '321', 'Third St', 'Sinalhan', 'City of Santa Rosa', 'Laguna', '2025-03-03', 3, 'Active'),
+(NULL, 'Robert', 'D', 'Brown', '321', '1988-04-04', 'Inactive', '321D', 'Johnson', 'Alice', 'C', '09654321098', '654', 'Fourth St', 'Sinalhan', 'City of Santa Rosa', 'Laguna', '2025-04-04', 4, 'Inactive'),
+(NULL, 'Emma', 'E', 'Wilson', '654', '1995-05-05', 'Active', '654E', 'Lee', 'Chris', 'D', '09543210987', '987', 'Fifth St', 'Sinalhan', 'City of Santa Rosa', 'Laguna', '2025-05-05', 5, 'Active');
+
+-- Dumping data for tbl_bspermit
+INSERT INTO tbl_bspermit (fname, mi, lname, bshouseno, bsstreet, bsbrgy, bscity, bsmunicipality, bsindustry, aoe, created_by, doc_status)
+VALUES
+('Michael', 'F', 'White', '123', 'Business St', 'Sinalhan', 'City of Santa Rosa', 'Laguna', 'Retail', 5, 1, 'Active'),
+('Sarah', 'G', 'Green', '456', 'Market Ave', 'Sinalhan', 'City of Santa Rosa', 'Laguna', 'Services', 10, 2, 'Inactive'),
+('David', 'H', 'Black', '789', 'Commerce Blvd', 'Sinalhan', 'City of Santa Rosa', 'Laguna', 'Wholesale', 3, 3, 'Active'),
+('Laura', 'I', 'Gray', '321', 'Trade Dr', 'Sinalhan', 'City of Santa Rosa', 'Laguna', 'Manufacturing', 8, 4, 'Inactive'),
+('Tom', 'J', 'Silver', '654', 'Industry Cir', 'Sinalhan', 'City of Santa Rosa', 'Laguna', 'Construction', 15, 5, 'Active');
+
+-- Dumping data for tbl_clearance
+INSERT INTO tbl_clearance (fname, mi, lname, age, houseno, street, purpose, created_by, doc_status)
+VALUES
+('Anna', 'K', 'Martin', 28, '101', 'Maple St', 'Employment', 1, 'Active'),
+('Jake', 'L', 'Garcia', 34, '202', 'Pine St', 'Travel', 2, 'Inactive'),
+('Sophia', 'M', 'Lopez', 25, '303', 'Cedar St', 'Education', 3, 'Active'),
+('Liam', 'N', 'Perez', 40, '404', 'Birch St', 'Housing', 4, 'Inactive'),
+('Olivia', 'O', 'Ramirez', 22, '505', 'Oak St', 'Other', 5, 'Active');
+
+-- Dumping data for tbl_indigency
+INSERT INTO tbl_indigency (fname, mi, lname, age, nationality, houseno, street, purpose, created_by, doc_status)
+VALUES
+('James', 'P', 'Hernandez', 32, 'Filipino', '201', 'First Ave', 'Financial Aid', 1, 'Active'),
+('Maria', 'Q', 'Smith', 27, 'Filipino', '202', 'Second Ave', 'Medical Assistance', 2, 'Inactive'),
+('Ethan', 'R', 'Johnson', 29, 'Filipino', '203', 'Third Ave', 'Scholarship', 3, 'Active'),
+('Ella', 'S', 'Davis', 35, 'Filipino', '204', 'Fourth Ave', 'Housing', 4, 'Inactive'),
+('Henry', 'T', 'Brown', 24, 'Filipino', '205', 'Fifth Ave', 'Food Assistance', 5, 'Active');
+
+-- Dumping data for tbl_rescert
+INSERT INTO tbl_rescert (fname, mi, lname, age, houseno, street, purpose, created_by, doc_status)
+VALUES
+('John', 'U', 'Nguyen', 31, '701', 'Lakeside St', 'Identification', 1, 'Active'),
+('Emma', 'V', 'Patel', 26, '702', 'Hilltop Rd', 'Proof of Residency', 2, 'Inactive'),
+('Lily', 'W', 'Wang', 22, '703', 'Sunset Blvd', 'Work Permit', 3, 'Active'),
+('Noah', 'X', 'Kim', 33, '704', 'Park Ave', 'School Requirements', 4, 'Inactive'),
+('Grace', 'Y', 'Chen', 29, '705', 'Downtown St', 'Banking', 5, 'Active');
+
+-- Dumping data for tbl_announcement
+INSERT INTO tbl_announcement (`event`, created_by)
+VALUES
+('Community Meeting', 1),
+('Public Health Drive', 1),
+('Fire Safety Seminar', 1),
+('Disaster Preparedness', 1),
+('Clean-Up Drive', 1);
+

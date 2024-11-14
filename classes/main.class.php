@@ -482,19 +482,43 @@ class BMISClass {
     public function archive_certofres() {
         if (isset($_POST['archive_certofres'])) {
             $id_rescert = $_POST['id_rescert'];
-
+            $connection = $this->openConn();
+        
             try {
-                // $connection = $this->openConn();
+                // Begin transaction
+                $connection->beginTransaction();
+        
+                // Step 1: Insert into archive table
+                $insertStmt = $connection->prepare("
+                    INSERT INTO tbl_archive_rescert (id_rescert, fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, created_on, created_by)
+                    SELECT id_rescert, fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, created_on, created_by
+                    FROM tbl_rescert
+                    WHERE id_rescert = :id_rescert
+                ");
+                $insertStmt->bindParam(':id_rescert', $id_rescert);
+                $insertStmt->execute();
+        
+                // Step 2: Delete from original table
+                $deleteStmt = $connection->prepare("
+                    DELETE FROM tbl_rescert
+                    WHERE id_rescert = :id_rescert
+                ");
+                $deleteStmt->bindParam(':id_rescert', $id_rescert);
+                $deleteStmt->execute();
+        
+                // Commit transaction
+                $connection->commit();
 
-                
-
-                echo "<script>alert(" . json_encode('Record archived successfully.') . ");</script>";
-            } catch (PDOException $e) {
-                echo "<script>alert('Failed to update records: " . $e->getMessage() . "')</script>";
-                exit;
+                echo "<script>alert('Archived Successfully');</script>";
+        
+            } catch (Exception $e) {
+                // Rollback if there is an error
+                $connection->rollBack();
+                echo "Failed to archive record: " . $e->getMessage();
             }
         }
     }
+    
     
  
      //------------------------------------------ CERT OF INIDIGENCY CRUD -----------------------------------------------
