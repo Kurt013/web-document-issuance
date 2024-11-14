@@ -26,12 +26,14 @@
       <!-- fontawesome icons --> 
       <script src="https://kit.fontawesome.com/67a9b7069e.js" crossorigin="anonymous"></script>
 
-<?php 
-    include('user-sidebar.php');
-?>
+
 
 <?php 
     include('user-header.php');
+?>
+
+<?php 
+    include('user-sidebar.php');
 ?>
 
         <style>
@@ -68,6 +70,8 @@
             max-width: 100%; /* Ensure it doesn't overflow */
             box-sizing: border-box; /* Ensures padding is included in total width */
             }
+
+
 
             .header {
             display: flex;
@@ -182,6 +186,9 @@
   </head>
 
     <body>
+       
+
+      
         <div class = "content">
         <!-- Back-to-Top and Back Button -->
 
@@ -192,7 +199,7 @@
 
         <!-- Eto yung navbar -->
 
-        
+      
 
         <div class="container-fluid container1"> 
             <div class="row"> 
@@ -621,6 +628,7 @@
         <br>
         <br>
         <br>
+        </div>
         </div>
         <!-- Footer -->
 
