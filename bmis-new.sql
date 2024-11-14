@@ -65,7 +65,7 @@ CREATE TABLE tbl_brgyid (
     inc_municipality VARCHAR(20),
     valid_until DATE,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by INT,
+    created_by VARCHAR(20),
     doc_status VARCHAR(20) DEFAULT 'pending'
 );
 
@@ -83,7 +83,7 @@ CREATE TABLE tbl_bspermit (
     bsindustry VARCHAR(20),
     aoe INT,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by INT,
+    created_by VARCHAR(20),
     doc_status VARCHAR(20) DEFAULT 'pending'
 );
 
@@ -101,7 +101,7 @@ CREATE TABLE tbl_clearance (
     municipality VARCHAR(20) DEFAULT 'laguna',
     purpose VARCHAR(20),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by INT,
+    created_by VARCHAR(20),
     doc_status VARCHAR(20) DEFAULT 'pending'
 );
 
@@ -120,7 +120,7 @@ CREATE TABLE tbl_indigency (
     municipality VARCHAR(20) DEFAULT 'laguna',
     purpose VARCHAR(20),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by INT,
+    created_by VARCHAR(20),
     doc_status VARCHAR(20) DEFAULT 'pending'
 );
 
@@ -138,7 +138,7 @@ CREATE TABLE tbl_rescert (
     municipality VARCHAR(20) DEFAULT 'laguna',
     purpose VARCHAR(20),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by INT,
+    created_by VARCHAR(20),
     doc_status VARCHAR(20) DEFAULT 'pending'
 );
 
