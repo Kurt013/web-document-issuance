@@ -379,10 +379,10 @@
 
         <hr>
 
-        <div class="registration-section mt-3">
+        <!-- <div class="registration-section mt-3">
             <p><strong>Haven't registered yet?</strong></p>
             <button class="btn btn-success create-button" onclick="trying();">Create Account</button>
-        </div>
+        </div> -->
     </div>
 
     <div class="right-side">

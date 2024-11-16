@@ -1,11 +1,11 @@
 <?php 
 include_once('classes/staff.class.php');
 
-$brgyidcount = $staffbmis->count_brgyid();
-$indigencycount = $staffbmis->count_indigency();
-$clearancecount = $staffbmis->count_clearance();
-$rescertcount = $staffbmis->count_rescert();
-$bspermitcount = $staffbmis->count_bspermit();
+    $brgyidcount = $staffbmis->count_brgyid();
+    $indigencycount = $staffbmis->count_indigency();
+    $clearancecount = $staffbmis->count_clearance();
+    $rescertcount = $staffbmis->count_rescert();
+    $bspermitcount = $staffbmis->count_bspermit();
 ?>
 
 <!DOCTYPE html>

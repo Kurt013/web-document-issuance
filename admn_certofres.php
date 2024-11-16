@@ -51,9 +51,6 @@
         </div>
     </div>
 
-    <button onclick="window.open('./rescert_form.php', '_blank');"  class="btn btn-success">GENERATE RESIDENCY FORM</button>
-    
-    <hr>
     <br><br>
 
     <div class="row">

@@ -102,13 +102,14 @@ class BMISClass {
         }
     
         $_SESSION['userdata'] = array(
-            "id" => isset($array['id_user']) ? $array['id_user'] : uniqid('guest_', true),
+            "id" => isset($array['id_user']) ? $array['id_user'] : uniqid('guest_'),
             "email" => isset($array['email']) ? $array['email'] : '',
             "role" => isset($array['role']) ? $array['role'] : 'guest',
             "firstname" => isset($array['fname']) ? $array['fname'] : '',
             "surname" => isset($array['lname']) ? $array['lname'] : '',
             "mname" => isset($array['mi']) ? $array['mi'] : ''
         );
+
     
         return $_SESSION['userdata'];
     }
@@ -309,9 +310,10 @@ class BMISClass {
     }
 
     public function get_latest_certofres($id) {
-        $connection = $this->openConn();
+        $connection = $this->openConn();            
+
         $stmt = $connection->prepare('
-            SELECT id_rescert FROM tbl_rescert WHERE created_by = ? ORDER BY created_on DESC LIMIT 1
+            SELECT * FROM tbl_rescert WHERE created_by = ? ORDER BY created_on DESC LIMIT 1
         ');
         $stmt->execute([$id]);
 
@@ -340,7 +342,7 @@ class BMISClass {
             }
         
             $connection = $this->openConn();
-            
+
             // Insert new data
             $stmt = $connection->prepare('
                 INSERT INTO tbl_rescert(fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, created_by)
@@ -365,42 +367,14 @@ class BMISClass {
 
             $residentId = $this->get_latest_certofres($created_by);
             
+
             $qrCode = $this->generateQRCode($residentId['id_rescert'], 'rescert');
 
             echo '<script>alert("QR Code Successfully Generated!")</script>
             <h1>Here is your generated qr code go to the brgy.hall to get your document!"</h1>
             <img src="'.$qrCode.'" alt="QR Code" />';
         }
-    }
-
-    
-
-    public function insert_certofres($user) {
-        $connection = $this->openConn();
-        $stmt = $connection->prepare("INSERT INTO tbl_rescert (lname, fname, mi, age, houseno, street, purpose, created_by, doc_status) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
-        $stmt->execute([
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            $user['firstname'] . '_' . $user['surname'],
-            'temporary'
-        ]);
-        
-        $stmt = $connection->prepare("SELECT id_rescert FROM tbl_rescert WHERE created_by = ? ORDER BY created_on DESC LIMIT 1");
-
-        $stmt->execute([$user['firstname'] . '_' . $user['surname']]);
-        $resident_id = $stmt->fetch();
-
-        return './rescert_form.php?id_rescert='.$resident_id['id_rescert'];
-    }
-    
-    
+    }    
 
     public function view_certofres(){
         $connection = $this->openConn();
@@ -531,7 +505,6 @@ class BMISClass {
             $id_rescert = $_POST['id_rescert'];
             $id = $_POST['id'];
             $connection = $this->openConn();
-            // echo "<script>alert('Archived Successfully{$id}');</script>";
     
             try {
                 // // Begin transaction
@@ -539,8 +512,8 @@ class BMISClass {
     
                 // Step 1: Insert the record back into tbl_rescert from tbl_archive_rescert
                 $insertStmt = $connection->prepare("
-                    INSERT INTO tbl_rescert (fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, created_by, doc_status)
-                    SELECT fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, :created_by, 'accepted'
+                    INSERT INTO tbl_rescert (id_rescert, fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, created_by, doc_status)
+                    SELECT id_rescert, fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, :created_by, 'accepted'
                     FROM tbl_rescert_archive
                     WHERE id_rescert = :id_rescert
                 ");
@@ -1415,7 +1388,7 @@ class BMISClass {
     public function count_rescert() {
         $connection = $this->openConn();
 
-        $stmt = $connection->prepare("SELECT COUNT(*) from tbl_rescert");
+        $stmt = $connection->prepare("SELECT COUNT(*) from tbl_rescert WHERE doc_status = 'accepted'");
         $stmt->execute();
         $rescertcount = $stmt->fetchColumn();
 
