@@ -1043,6 +1043,18 @@ class BMISClass {
 
   //------------------------------------------ Business Permit CRUD -----------------------------------------------
 
+  public function get_latest_bspermit($id) {
+    $connection = $this->openConn();            
+
+    $stmt = $connection->prepare('
+        SELECT * FROM tbl_bspermit WHERE created_by = ? ORDER BY created_on DESC LIMIT 1
+    ');
+    $stmt->execute([$id]);
+
+    $latestRecord = $stmt->fetch();
+    return $latestRecord;
+}
+
     public function create_bspermit() {
         if(isset($_POST['create_bspermit'])) {
             $lname = $_POST['lname'];
@@ -1056,32 +1068,38 @@ class BMISClass {
             $bsindustry = $_POST['bsindustry'];
             $bsname = $_POST['bsname'];
             $aoe = $_POST['aoe'];
-            $doc_type = 'bspermit';
+            $created_by = $_POST['created_by'];
 
             // Check if "Other" was selected and handle custom purpose
             if ($bsindustry === "Other" && !empty($_POST['custom_purpose'])) {
                 $bsindustry = $_POST['custom_purpose'];
             }
-            // Create the data array
-            $data = [
-                'lname' => $lname,
-                'fname' => $fname,
-                'mi' => $mi,
-                'bshouseno' => $bshouseno,
-                'bsstreet' => $bsstreet,
-                'bsbrgy' => $bsbrgy,
-                'bscity' => $bscity,
-                'bsmunicipality' => $bsmunicipality,
-                'bsindustry' => $bsindustry,
-                'bsname' => $bsname,
-                'aoe' => $aoe,
-                'doc_type' => $doc_type
-            ];
         
-            // Convert data to JSON
-            $json_data = json_encode($data);
+            $connection = $this->openConn();
+
+            // Insert new data
+            $stmt = $connection->prepare('
+                INSERT INTO tbl_bspermit(fname, mi, lname, bshouseno, bsstreet, bsbrgy, bscity, bsmunicipality, bsname, bsindustry, aoe, created_by)
+                 VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ');
             
-            $qrCode = $this->generateQRCode($json_data);
+            $stmt->execute([
+                $fname, 
+                $mi,
+                $lname,
+                $bshouseno,
+                $bsstreet,
+                $bsbrgy,
+                $bscity,
+                $bsmunicipality,
+                $bsname,
+                $bsindustry,
+                $aoe,
+                $created_by
+            ]);
+
+            $residentId = $this->get_latest_bspermit($created_by);
+            $qrCode = $this->generateQRCode($residentId['id_bspermit'], 'bspermit');
 
             echo '<script>alert("QR Code Successfully Generated!")</script>
             <h1>Here is your generated qr code go to the brgy.hall to get your document!"</h1>

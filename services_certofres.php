@@ -405,7 +405,7 @@
                         </div>
                         <!-- Modal Footer -->
     
-<?php $bmis->create_certofres();  ?>
+                        <?php $bmis->create_certofres();  ?>
                         <div class="modal-footer">
                             <div class="paa">
                                 <input type="hidden" name="created_by" value="<?= $userdetails['id'] ?>">

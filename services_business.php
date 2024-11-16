@@ -4,7 +4,7 @@
     require 'vendor/autoload.php';
     $userdetails = $bmis->get_userdata();
    
-    if (!$bmis->get_userdata()) {
+    if (!$userdetails) {
         $bmis->set_userdata();
     }
 
@@ -31,13 +31,7 @@
       <!-- fontawesome icons --> 
       <script src="https://kit.fontawesome.com/67a9b7069e.js" crossorigin="anonymous"></script>
     
-<?php 
-    include('user-sidebar.php');
-?>
 
-<?php 
-    include('user-header.php');
-?>
 
 
         <style>
@@ -214,6 +208,12 @@
   </head>
 
     <body>
+
+        <?php 
+            include('user-sidebar.php');
+            include('user-header.php');
+        ?>
+
         <div class = "content">
 
         <!-- Back-to-Top and Back Button -->
@@ -529,6 +529,7 @@
             
                         <div class="modal-footer">
                             <div class="paa">                                
+                                <input type="hidden" name="created_by" value="<?= $userdetails['id'] ?>">
                                 <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
                                 <button name ="create_bspermit" type="submit" class="btn btn-primary">Submit Request</button>
                             </div>

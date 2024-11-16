@@ -75,6 +75,7 @@ CREATE TABLE tbl_bspermit (
     fname VARCHAR(20),
     mi VARCHAR(1),
     lname VARCHAR(20),
+    bsname VARCHAR(20),
     bshouseno VARCHAR(20),
     bsstreet VARCHAR(20),
     bsbrgy VARCHAR(20),
