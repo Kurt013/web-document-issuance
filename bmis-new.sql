@@ -64,7 +64,7 @@ CREATE TABLE tbl_brgyid (
     inc_brgy VARCHAR(20),
     inc_city VARCHAR(20),
     inc_municipality VARCHAR(20),
-    valid_until TIMESTAMP DEFAULT CURRENT_TIMESTAMP + 1, --- FIX THIS
+    valid_until TIMESTAMP DEFAULT (CURRENT_TIMESTAMP + INTERVAL 1 YEAR),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by VARCHAR(20),
     doc_status VARCHAR(20) DEFAULT 'pending'

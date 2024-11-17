@@ -391,8 +391,11 @@ class BMISClass {
             $qrCode = $this->generateQRCode($residentId['id_rescert'], 'rescert');
 
             echo '<script>alert("QR Code Successfully Generated!")</script>
-            <h1>Here is your generated qr code go to the brgy.hall to get your document!"</h1>
-            <img src="'.$qrCode.'" alt="QR Code" />';
+                <h1>Your QR code has been generated. Please download it and bring it to the barangay hall to get your document!</h1>
+                <img src="' . $qrCode . '" alt="QR Code" style="display:block; margin-bottom:10px;"/>
+                <a href="' . $qrCode . '" download="qr_code_certofres.png">
+                    <button type="button" style="padding:10px 20px; font-size:16px; cursor:pointer;">Download QR Code</button>
+                </a>';
         }
     }    
 
@@ -719,8 +722,11 @@ console.log('Page has been refreshed ' + sessionStorage.getItem('refreshCount') 
             $qrCode = $this->generateQRCode($residentId['id_indigency'], 'indigency');
 
             echo '<script>alert("QR Code Successfully Generated!")</script>
-            <h1>Here is your generated qr code go to the brgy.hall to get your document!"</h1>
-            <img src="'.$qrCode.'" alt="QR Code" />';
+                <h1>Your QR code has been generated. Please download it and bring it to the barangay hall to get your document!</h1>
+                <img src="' . $qrCode . '" alt="QR Code" style="display:block; margin-bottom:10px;"/>
+                <a href="' . $qrCode . '" download="qr_code_certofindigency.png">
+                    <button type="button" style="padding:10px 20px; font-size:16px; cursor:pointer;">Download QR Code</button>
+                </a>';
         }
         
         
@@ -932,8 +938,11 @@ console.log('Page has been refreshed ' + sessionStorage.getItem('refreshCount') 
             $qrCode = $this->generateQRCode($residentId['id_clearance'], 'clearance');
 
             echo '<script>alert("QR Code Successfully Generated!")</script>
-            <h1>Here is your generated qr code go to the brgy.hall to get your document!"</h1>
-            <img src="'.$qrCode.'" alt="QR Code" />';
+                <h1>Your QR code has been generated. Please download it and bring it to the barangay hall to get your document!</h1>
+                <img src="' . $qrCode . '" alt="QR Code" style="display:block; margin-bottom:10px;"/>
+                <a href="' . $qrCode . '" download="qr_code_brgyclearance.png">
+                    <button type="button" style="padding:10px 20px; font-size:16px; cursor:pointer;">Download QR Code</button>
+                </a>';
         }
         
     }
@@ -1116,8 +1125,11 @@ console.log('Page has been refreshed ' + sessionStorage.getItem('refreshCount') 
             $qrCode = $this->generateQRCode($residentId['id_bspermit'], 'bspermit');
 
             echo '<script>alert("QR Code Successfully Generated!")</script>
-            <h1>Here is your generated qr code go to the brgy.hall to get your document!"</h1>
-            <img src="'.$qrCode.'" alt="QR Code" />';
+                <h1>Your QR code has been generated. Please download it and bring it to the barangay hall to get your document!</h1>
+                <img src="' . $qrCode . '" alt="QR Code" style="display:block; margin-bottom:10px;"/>
+                <a href="' . $qrCode . '" download="qr_code_bspermit.png">
+                    <button type="button" style="padding:10px 20px; font-size:16px; cursor:pointer;">Download QR Code</button>
+                </a>';
         }  
     }
 
@@ -1280,8 +1292,11 @@ console.log('Page has been refreshed ' + sessionStorage.getItem('refreshCount') 
             $qrCode = $this->generateQRCode($residentId['id_brgyid'], 'brgyid');
 
             echo '<script>alert("QR Code Successfully Generated!")</script>
-            <h1>Here is your generated qr code go to the brgy.hall to get your document!"</h1>
-            <img src="'.$qrCode.'" alt="QR Code" />';
+                <h1>Your QR code has been generated. Please download it and bring it to the barangay hall to get your document!</h1>
+                <img src="' . $qrCode . '" alt="QR Code" style="display:block; margin-bottom:10px;"/>
+                <a href="' . $qrCode . '" download="qr_code_brgyid.png">
+                    <button type="button" style="padding:10px 20px; font-size:16px; cursor:pointer;">Download QR Code</button>
+                </a>';
         
         }  
     }

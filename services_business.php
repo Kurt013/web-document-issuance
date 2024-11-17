@@ -523,7 +523,6 @@
                                 </div>
                            
                         </div>
-                        <?php $bmis->create_bspermit(); ?>
 
                         <!-- Modal Footer -->
             
@@ -539,8 +538,7 @@
             </div>
         
         </form>
-
-
+        <?php $bmis->create_bspermit(); ?>
         </div>
         </div>
       
