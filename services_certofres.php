@@ -17,6 +17,30 @@
 ?>
 
 <style>
+        @font-face {
+            font-family: 'PMedium'; 
+            src: url('fonts/Poppins-Medium.ttf') format('truetype'); 
+        }
+
+        @font-face {
+            font-family: 'PBold'; 
+            src: url('fonts/Poppins-Bold.ttf') format('truetype'); 
+        }
+
+        @font-face {
+            font-family: 'PBlack'; 
+            src: url('fonts/Poppins-Black.ttf') format('truetype'); 
+        }
+
+        @font-face {
+            font-family: 'PExBold'; 
+            src: url('fonts/Poppins-ExtraBold.ttf') format('truetype'); 
+        }
+
+        @font-face {
+            font-family: 'PBlackIt'; 
+            src: url('fonts/Poppins-BlackItalic.ttf') format('truetype'); 
+        }
 *{
     margin: 0
     ;}
@@ -61,7 +85,7 @@
 
     .header h1 {
     color: white;
-    font-family: 'OSBlack' !important;
+    font-family: 'PExBold' !important;
     font-size: 2.2rem;
 
     width: 85%;
@@ -75,7 +99,7 @@
 }
 
 .header h5 {
-    font-family: "OSMedium";
+    font-family: "PMedium";
         font-size: 1rem;
         margin-top: 15px;
         color: #012049;
@@ -293,8 +317,7 @@
                                             <label for="lname">Last Name:</label>
                                             <input name="lname" type="text" class="form-control" 
                                             placeholder="Enter Last Name"  required>
-                                                <div class="valid-feedback">Valid.</div>
-                                                <div class="invalid-feedback">Please fill out this field.</div>
+                        
                                         </div>
                                     </div>
 
@@ -303,8 +326,7 @@
                                             <label for="fname">First Name:</label>
                                             <input name="fname" type="text" class="form-control" 
                                             placeholder="Enter First Name"  required>
-                                                <div class="valid-feedback">Valid.</div>
-                                                <div class="invalid-feedback">Please fill out this field.</div>
+                                 
                                         </div>
                                     </div>
                                 </div>

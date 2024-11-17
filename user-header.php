@@ -26,8 +26,8 @@
     <!-- Scoped styles inside the unique container -->
     <style>
             @font-face {
-            font-family: 'OSBlack'; 
-            src: url('fonts/OpenSauceSans-Black.ttf') format('truetype'); 
+            font-family: 'PExBold'; 
+            src: url('fonts/Poppins-ExtraBold.ttf') format('truetype'); 
         }
         /* Basic reset for elements inside user-header */
         #adminbtn i {
@@ -42,9 +42,7 @@
         }
         
         /* Font family */
-        #user-header {
-            font-family: 'Poppins', sans-serif;
-        }
+
 
         /* Header Styling */
         #user-header header {
@@ -84,7 +82,7 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
             border: 2px solid white;               /* Remove default border */
             border-radius: 5px;         /* Rounded corners */
             cursor: pointer;   
-            font-family: "OSBlack";        /* Pointer cursor on hover */
+            font-family: "PExBold";        /* Pointer cursor on hover */
             transition: background-color 0.3s ease; /* Smooth background color transition */
         }
 

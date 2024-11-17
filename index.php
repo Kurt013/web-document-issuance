@@ -52,30 +52,42 @@
 
 
 
-@font-face {
-            font-family: 'OSMedium'; 
-            src: url('fonts/OpenSauceSans-Medium.ttf') format('truetype'); 
+        @font-face {
+            font-family: 'PMedium'; 
+            src: url('fonts/Poppins-Medium.ttf') format('truetype'); 
         }
 
         @font-face {
-            font-family: 'OSBold'; 
-            src: url('fonts/OpenSauceSans-Bold.ttf') format('truetype'); 
+            font-family: 'PBold'; 
+            src: url('fonts/Poppins-Bold.ttf') format('truetype'); 
         }
 
         @font-face {
-            font-family: 'OSBlack'; 
-            src: url('fonts/OpenSauceSans-Black.ttf') format('truetype'); 
+            font-family: 'PBlack'; 
+            src: url('fonts/Poppins-Black.ttf') format('truetype'); 
         }
 
         @font-face {
-            font-family: 'OSExBold'; 
-            src: url('fonts/OpenSauceSans-ExtraBold.ttf') format('truetype'); 
+            font-family: 'PExBold'; 
+            src: url('fonts/Poppins-ExtraBold.ttf') format('truetype'); 
         }
 
         @font-face {
-            font-family: 'OSBlackIt'; 
-            src: url('fonts/OpenSauceSans-BlackItalic.ttf') format('truetype'); 
+          font-family: 'PExBoldIt'; 
+          src: url('fonts/Poppins-ExtraBoldItalic.ttf') format('truetype'); 
         }
+
+        @font-face {
+            font-family: 'PBlackIt'; 
+            src: url('fonts/Poppins-BlackItalic.ttf') format('truetype'); 
+        }
+
+        @font-face {
+            font-family: 'PSemiBold'; 
+            src: url('fonts/Poppins-SemiBold.ttf') format('truetype'); 
+        }
+
+
        
   
 
@@ -112,7 +124,7 @@
             border: 3px solid #012049;               /* Remove default border */
             border-radius: 10px;         /* Rounded corners */
             cursor: pointer;   
-            font-family: "OSBlack";        /* Pointer cursor on hover */
+            font-family: "PExBold";        /* Pointer cursor on hover */
             transition: background-color 0.3s ease; /* Smooth background color transition */
     }
     .header button {
@@ -127,7 +139,7 @@
             border: 3px solid #012049;               /* Remove default border */
             border-radius: 20px;         /* Rounded corners */
             cursor: pointer;   
-            font-family: "OSBlack";        /* Pointer cursor on hover */
+            font-family: "PExBold";        /* Pointer cursor on hover */
             transition: background-color 0.3s ease; /* Smooth background color transition */
     }
     .content {
@@ -160,7 +172,7 @@
     .header h2 {
         text-align: left; 
             color: white; 
-            font-family: 'OSBlackIt' !important; 
+            font-family: 'PExBoldIt' !important; 
             font-size: 2.1rem; 
             z-index: 1; 
             width: 85%;
@@ -177,7 +189,7 @@
     }
 
     .header h3 {
-        font-family: "OSMedium";
+        font-family: "PMedium";
         font-size: 1rem;
         margin-left: 10px;
         color: #012049;
@@ -231,7 +243,7 @@
     line-height: 1.5; /* Improved readability */
     background-color: white; /* Same background as the container */
     color:#014bae;
-    font-family: "OSBold";
+    font-family: "PBold";
 }
 
 .announcement-content2 {
@@ -243,7 +255,7 @@
     background-color: white; /* Same background as the container */
     
     color: rgba(44, 62, 80, 0.7);
-    font-family: "OSBold";
+    font-family: "PBold";
 }
 
 .steps {

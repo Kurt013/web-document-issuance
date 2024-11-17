@@ -19,8 +19,8 @@
 
 /* Main content section */
 @font-face {
-            font-family: 'OSMedium'; 
-            src: url('fonts/OpenSauceSans-Medium.ttf') format('truetype'); 
+            font-family: 'PMedium'; 
+            src: url('fonts/Poppins-Medium.ttf') format('truetype'); 
         }
 
 #idhtml, #idbody {
@@ -43,7 +43,7 @@
   margin-left: 250px;
   margin-top: 50px; /* Ensures the footer is pushed to the bottom */
   box-sizing: border-box; /* Prevents overflow by including padding and borders in width */
-  font-family: "OSMedium";
+  font-family: "PMedium";
 }
 
 /* Footer container, icons, and layout styling remain the same */

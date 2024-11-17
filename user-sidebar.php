@@ -24,28 +24,28 @@
 
 
 @font-face {
-            font-family: 'OSMedium'; 
-            src: url('fonts/OpenSauceSans-Medium.ttf') format('truetype'); 
+            font-family: 'PMedium'; 
+            src: url('fonts/Poppins-Medium.ttf') format('truetype'); 
         }
 
         @font-face {
-            font-family: 'OSBold'; 
-            src: url('fonts/OpenSauceSans-Bold.ttf') format('truetype'); 
+            font-family: 'PBold'; 
+            src: url('fonts/Poppins-Bold.ttf') format('truetype'); 
         }
 
         @font-face {
-            font-family: 'OSBlack'; 
-            src: url('fonts/OpenSauceSans-Black.ttf') format('truetype'); 
+            font-family: 'PBlack'; 
+            src: url('fonts/Poppins-Black.ttf') format('truetype'); 
         }
 
         @font-face {
-            font-family: 'OSExBold'; 
-            src: url('fonts/OpenSauceSans-ExtraBold.ttf') format('truetype'); 
+            font-family: 'PExBold'; 
+            src: url('fonts/Poppins-ExtraBold.ttf') format('truetype'); 
         }
 
         @font-face {
-            font-family: 'OSBlackIt'; 
-            src: url('fonts/OpenSauceSans-BlackItalic.ttf') format('truetype'); 
+            font-family: 'PBlackIt'; 
+            src: url('fonts/Poppins-BlackItalic.ttf') format('truetype'); 
         }
         .layout {
   z-index: 1;
@@ -213,7 +213,7 @@
         letter-spacing: 2px;
         transition: opacity 0.3s;
         opacity: 0.7;
-        font-family: "OSBlack"
+        font-family: 'PBlack';
       }
     }
   }
@@ -224,6 +224,7 @@
           height: 50px;
           padding: 0 20px;
           color: #7d84ab;
+       
 
           .menu-icon {
             font-size: 1.2rem;
@@ -249,7 +250,7 @@
             white-space: nowrap;
             flex-grow: 1;
             transition: color 0.3s;
-            font-family: "OSMedium";
+            font-family: "PMedium";
           }
           .menu-prefix,
           .menu-suffix {
