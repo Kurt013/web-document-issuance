@@ -235,7 +235,6 @@ h2 {
     justify-content: center;
     margin: 0 1rem 5em 0;
     border-radius: 50%;
-    
     width: 70px;
     height: 70px;
     background-color: #3661D5;
@@ -264,7 +263,7 @@ h2 {
     }
 
     .screen-reader-text {
-    position: absolute;
+  
     clip-path: inset(50%);
     margin: -1px;
     border: 0;
@@ -621,9 +620,9 @@ h2 {
     ?>
         <!-- Back-to-Top and Back Button -->
 <div class = "content">
-        <a data-toggle="tooltip" title="Back-To-Top" class="top-link hide" href="" id="js-top">
+        <a data-toggle="" title="Back-To-Top" class="top-link hide" href="" id="js-top">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6"><path d="M12 6H0l6-6z"/></svg>
-            <span class="screen-reader-text">Back to top</span>
+            
         </a>
 
         <!-- Eto yung navbar -->
@@ -943,7 +942,7 @@ h2 {
 
 
 
-</div>
+
 </div>
 </div>
         </div>
@@ -954,11 +953,11 @@ h2 {
 
 </div>
 
-        <br>
-        <br>
-        <br>
+  
         </div>
-</div>
+
+
+
 
      
         <!-- Footer -->
@@ -1005,16 +1004,16 @@ h2 {
             scrollToTop();
             }
 
-            window.addEventListener('resize', function () {
-    // Avoid excessive recalculations
-});
+          
 
         </script>
-
+            
         <script>
             $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip();   
             });
+
+            
         </script>
     <script>
         function togglePopup() {

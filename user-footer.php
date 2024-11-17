@@ -22,7 +22,9 @@
             font-family: 'PMedium'; 
             src: url('fonts/Poppins-Medium.ttf') format('truetype'); 
         }
-
+* {
+  margin: 0;
+}
 #idhtml, #idbody {
   height: 100%;
   margin: 0;
@@ -44,6 +46,7 @@
   margin-top: 50px; /* Ensures the footer is pushed to the bottom */
   box-sizing: border-box; /* Prevents overflow by including padding and borders in width */
   font-family: "PMedium";
+ 
 }
 
 /* Footer container, icons, and layout styling remain the same */
