@@ -853,7 +853,6 @@ h2 {
                                     </div>  
                                 </div>
                         </div>
-                        <?php $bmis->create_certofindigency() ?>
                 
                         <!-- Modal Footer -->
                         
@@ -949,6 +948,7 @@ h2 {
 
 
 </form>
+<?php $bmis->create_certofindigency() ?>
 
 
 </div>

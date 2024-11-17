@@ -606,7 +606,6 @@
                                     </div>
                                 </div>
                         </div>
-                        <?php $bmis->create_brgyid(); ?>
                         <!-- Modal Footer -->
             
                         <div class="modal-footer">
@@ -621,6 +620,7 @@
             </div>
         </div>
         </form>
+        <?php $bmis->create_brgyid(); ?>
         
 
         <br>

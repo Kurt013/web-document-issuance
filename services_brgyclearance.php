@@ -464,7 +464,6 @@
                                     </div>  
                                 </div>
                         </div>
-                        <?php $bmis->create_brgyclearance(); ?>
 
                         <!-- Modal Footer -->
             
@@ -480,6 +479,7 @@
             </div>
         </div>
         </form>
+        <?php $bmis->create_brgyclearance(); ?>
         
 
         <br>
