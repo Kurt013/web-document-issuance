@@ -17,36 +17,27 @@
     <title>Barangay Information System</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
     <style>
-        @media print {
-            .noprint {
-            visibility: hidden;
-            }
-        }
-        @page { size: auto;  margin: 4mm; }
+    @page { size: auto;  margin: 4mm; }
 
-        span {
-            /* text-decoration: underline; */
-            font-weight: bold;
-            text-transform: uppercase;
-        }
+    [contenteditable] {
+      border: 2px solid black;
+      min-width: 10px;
+      display: inline-block;
+    }
 
-        .empty-field {
-            display: inline-block;
-            padding: 2px;
-            border: 1px solid #ccc;
-            background-color: #f9f9f9;
-            color: black;
+    @media print {
+      .noprint {
+        visibility: hidden;
         }
 
-        span[contenteditable="true"]:empty {
-            display: inline-block;
-            padding: 5px;
-            border: 1px solid #ccc;
-            background-color: #f9f9f9;
-            color: #aaa;
-        }
-
+      [contenteditable] {
+        border: none;
+        min-width: 0;
+      }
+      
+    }
     </style>
 </head>
  <body>
@@ -55,50 +46,33 @@
 
 <h1 style="text-transform: uppercase;">Certificate of Residency</h1>
 
-    <p>ISSUANCE NO.: <u id="id_rescert"><?= !empty($resident['id_rescert']) ?$resident['id_rescert'] : 'N/A'?></u></p>
+    <p>ISSUANCE NO.: <u id="id_rescert"><?= $resident['id_rescert'] ?></u></p>
     <p>TO WHOM IT MAY CONCERN:</p>
     <p> This document hereby certifies that
-        <span contenteditable="true" id="fname" class="<?= empty($resident['fname']) ? 'empty-field' : '' ?>">
-            <?= !empty($resident['fname']) ? $resident['fname'] : '[Enter First Name]'; ?>
-        </span>
-        <span contenteditable="true" id="mi" class="<?= empty($resident['mi']) ? 'empty-field' : '' ?>">
-            <?= !empty($resident['mi']) ? $resident['mi'] : '[Enter MI]'; ?>.
-        </span>
-        <span contenteditable="true" id="lname" class="<?= empty($resident['lname']) ? 'empty-field' : '' ?>">
-            <?= !empty($resident['lname']) ? $resident['lname'] : '[Enter Last Name]'; ?>
-        </span>, aged
-        <span contenteditable="true" id="age" class="<?= empty($resident['age']) ? 'empty-field' : '' ?>">
-            <?= !empty($resident['age']) ? $resident['age'] : '[Enter Age]'; ?>
-        </span>, is officially recognized as a legitimate resident of
-        <span contenteditable="true" id="houseno" class="<?= empty($resident['houseno']) ? 'empty-field' : '' ?>">
-            <?= !empty($resident['houseno']) ? $resident['houseno'] : '[Enter House No]'; ?>
-        </span> 
-        <span contenteditable="true" id="street" class="<?= empty($resident['street']) ? 'empty-field' : '' ?>">
-            <?= !empty($resident['street']) ? $resident['street'] : '[Enter Street]'; ?>
-        </span>
-        <span contenteditable="true" id="brgy" class="<?= empty($resident['brgy']) ? 'empty-field' : '' ?>">
-            <?= $resident['brgy']; ?>
-        </span> 
-        <span contenteditable="true" id="city" class="<?= empty($resident['city']) ? 'empty-field' : '' ?>">
-            <?= $resident['city']; ?>
-        </span> 
-        <span contenteditable="true" id="municipality" class="<?= empty($resident['municipality']) ? 'empty-field' : '' ?>">
-            <?= $resident['municipality'] ?>
-        </span>
+        <span contenteditable="true" id="fname"><?= $resident['fname'];?></span>
+        <span contenteditable="true" id="mi"><?= $resident['mi']?></span>.
+        <span contenteditable="true" id="lname"><?= $resident['lname'] ?></span>, aged
+        <span contenteditable="true" id="age"><?= $resident['age'] ?></span>,
+        is officially recognized as a legitimate resident of
+        <span contenteditable="true" id="houseno"><?= $resident['houseno']?></span> 
+        <span contenteditable="true" id="street"><?= $resident['street'] ?></span> Brgy.
+        <span contenteditable="true" id="brgy"><?= $resident['brgy']; ?></span>
+        <span contenteditable="true" id="city"><?= $resident['city']; ?></span> 
+        <span contenteditable="true" id="municipality"><?= $resident['municipality'] ?></span>
         The said person is of good moral character and an active member of the community.
-    .</p>
-
-    <p>
-        This certification is being issued upon the request of the above mentioned person for
-        <span contenteditable="true" id="purpose" class="<?= empty($resident['purpose']) ? 'empty-field' : '' ?>">
-            <?= !empty($resident['purpose']) ? $resident['purpose'] : '[Enter Purpose]'; ?>
-        </span>.
     </p>
 
     <br><br>
 
     <p>
-        Signed this date <?= !empty($resident['date']) ? $resident['date'] : 'Enter Date'; ?> at Barangay Sinalhan, Santa Rosa City, Laguna.
+        This certification is being issued upon the request of the above mentioned person for
+        <span contenteditable=" true" id="purpose"><?= $resident['purpose'] ?></span>.
+    </p>
+
+    <br><br>
+
+    <p>
+        Signed this date <?= $resident['date'] ?> at Barangay Sinalhan, Santa Rosa City, Laguna.
     </p>
 
     <br>

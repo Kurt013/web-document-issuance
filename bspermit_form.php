@@ -8,6 +8,17 @@
     $resident = $staffbmis->get_single_bspermit();
 
     $staffbmis->update_bspermit();
+
+  // try {
+  //   foreach ($resident as $key => $value) {
+  //     if (empty($key)) {
+  //       throw new Exception("Field {$resident} is missing in the data.");
+  //     }
+  //   }
+  // } catch(Exception $e) {
+  //   echo "<script>document.querySelector('body').innerText = '{$e->getMessage()}'";
+  // }
+
   ?>
 <!DOCTYPE html>
 <html id="bspermit">
@@ -15,6 +26,7 @@
     <meta charset="UTF-8">
     <title>Barangay Information System</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>  
     
     <style>
     @page { size: auto;  margin: 4mm; }
@@ -42,7 +54,7 @@
  <?php include './form_header.php' 
     ?>
 
-  <h1 style="text-transform: uppercase;">Certificate of Indigency</h1>
+  <h1 style="text-transform: uppercase;">Business Permit</h1>
 
     <p>ISSUANCE NO.: <u id="id_bspermit"><?= $resident['id_bspermit'] ?></u></p>
     <p>TO WHOM IT MAY CONCERN:</p>
@@ -63,7 +75,7 @@
         This certification is being issued upon the request of the above mentioned person for
         <span contenteditable="true" id="bsname"><?= $resident['bsname']?></span> in the sector of
         <span contenteditable="true" id="bsindustry"><?= $resident['bsindustry'] ?></span>. With an area of
-        <span contenteditable="true" id="aoe"><?= $resident['aoe'] ?> sqm</span>.
+        <span contenteditable="true" id="aoe"><?= $resident['aoe'] ?></span>sqm.
     </p>
 
     <br><br>
@@ -71,6 +83,8 @@
     <p>
         Signed this date <?= $resident['date'] ?> at Barangay Sinalhan, Santa Rosa City, Laguna.
     </p>
+
+  
 
     <br>
 
@@ -85,7 +99,6 @@
         <button class="btn btn-primary noprint" id="printpagebutton" onclick="PrintElem('#clearance')">Print</button>
         <button class="noprint btn-update">Update</button>
     <?php } ?>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>  
   
   </body>
     <?php
