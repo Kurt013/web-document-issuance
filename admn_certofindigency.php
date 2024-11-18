@@ -1,33 +1,17 @@
 <?php
+    include('dashboard_sidebar_start.php');
     
-    error_reporting(E_ALL ^ E_WARNING);
-    ini_set('display_errors',0);
-    require('classes/resident.class.php');
+    $list = $_GET['list'];
 
     require 'phpqrcode/qrlib.php';
     require 'vendor/autoload.php';
 
-    if (isset($_POST['accept_certofindigency'])) {
-        $id_indigency = $_POST['id_indigency'];
-        $id_resident = $_POST['id_resident'];
-
-        $link = 'indigency_form.php?id_resident='.$id_resident;
-
-        $qrImage = $bmis->generateQRCode($link);
-        $bmis->sendEmailWithQRCode($qrImage, $id_resident);
-    }
-
-    $userdetails = $bmis->get_userdata();
-    $bmis->validate_admin();
-    $bmis->delete_certofindigency();
-    $bmis->accept_certofindigency();
-    $bmis->archive_certofindigency();
-   
+    $conn = $staffbmis->openConn();
+    $staffbmis->validate_admin();
+    $staffbmis->unarchive_certofindigency();
+    $staffbmis->archive_certofindigency();
 ?>
 
-<?php 
-    include('dashboard_sidebar_start.php');
-?>
 <style>
     .input-icons i {
         position: absolute;

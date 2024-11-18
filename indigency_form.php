@@ -1,11 +1,13 @@
 <?php
-require('classes/resident.class.php');
-$userdetails = $residentbmis->get_userdata();
-$residentbmis->validate_admin();
-$residentbmis->update_certofindigency();
+    require('classes/staff.class.php');
 
-$id_resident = $_GET['id_resident'];
-$resident = $residentbmis->get_single_certofindigency($id_resident);
+    $user = $staffbmis->get_userdata();
+
+    $staffbmis->validate_staff();
+
+    $resident = $staffbmis->get_single_certofindigency();
+
+    $staffbmis->update_certofindigency();
   ?>
 <!DOCTYPE html>
 <html id="indigency">
@@ -22,85 +24,71 @@ $resident = $residentbmis->get_single_certofindigency($id_resident);
     <meta charset="UTF-8">
     <title>Barangay Information System</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-    <!-- bootstrap 3.0.2 -->
-    <link href="../BarangaySystem/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <!-- font Awesome -->
-    <link href="../BarangaySystem/bootstrap/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-    <!-- Ionicons -->
-    <link href="../BarangaySystem/bootstrap/css/ionicons.min.css" rel="stylesheet" type="text/css" />
-    <link href="../BarangaySystem/bootstrap/css/morris-0.4.3.min.css" rel="stylesheet" type="text/css" />
-    <!-- Theme style -->
-    <link href="../BarangaySystem/bootstrap/css/AdminLTE.css" rel="stylesheet" type="text/css" />
-    <link href="./BarangaySystem/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
-    <link href="../BarangaySystem/bootstrap/css/select2.css" rel="stylesheet" type="text/css" />
-    <script src="../BarangaySystem/bootstrap/css/jquery-1.12.3.js" type="text/javascript"></script>  
-    
+
 </head>
  <body class="skin-black" >
-     <!-- header logo: style can be found in header.less -->
-    
-    
-     <?php 
-     
-     include "classes/conn.php"; 
+ <?php include './form_header.php' 
+    ?>
 
-     ?>         
-                
-                <div class="col-xs-12 col-sm-5 col-md-8" style="background: white;  ">`
-              
-                   
-                    <div class="pull-center" style="font-size: 16px;text-align: center;"><b>
-                    <image src="../BarangaySystem/icons/beverlylogo.png"  ALIGN="left" style="width:150px;height:120px;"></image>
-                    <image src="../BarangaySystem/icons/beverlylogo.png"  ALIGN="right" style="width:150px;height:120px;"></image> 
-                        Republic of the Philippines<br>
-                        Province of Laguna<br>
-                        City of Santa Rosa<br>
-                        BARANGAY SINALHAN<br>
-                        Telephone Number (049) 534-2696<br></b> <!-- Add a db here that when automatically change the telephone this also changes -->
-                    </div>
+<h1 style="text-transform: uppercase;">Certificate of Indigency</h1>
 
-                    <hr>
+    <p>ISSUANCE NO.: <u id="id_indigency"><?= !empty($resident['id_indigency']) ?$resident['id_indigency'] : 'N/A'?></u></p>
+    <p>TO WHOM IT MAY CONCERN:</p>
+    <p> This document hereby certifies that
+        <span contenteditable="true" id="fname" class="<?= empty($resident['fname']) ? 'empty-field' : '' ?>">
+            <?= !empty($resident['fname']) ? $resident['fname'] : '[Enter First Name]'; ?>
+        </span>
+        <span contenteditable="true" id="mi" class="<?= empty($resident['mi']) ? 'empty-field' : '' ?>">
+            <?= !empty($resident['mi']) ? $resident['mi'] : '[Enter MI]'; ?>.
+        </span>
+        <span contenteditable="true" id="lname" class="<?= empty($resident['lname']) ? 'empty-field' : '' ?>">
+            <?= !empty($resident['lname']) ? $resident['lname'] : '[Enter Last Name]'; ?>
+        </span>, aged
+        <span contenteditable="true" id="age" class="<?= empty($resident['age']) ? 'empty-field' : '' ?>">
+            <?= !empty($resident['age']) ? $resident['age'] : '[Enter Age]'; ?>
+        </span>, is officially recognized as a legitimate resident of
+        <span contenteditable="true" id="houseno" class="<?= empty($resident['houseno']) ? 'empty-field' : '' ?>">
+            <?= !empty($resident['houseno']) ? $resident['houseno'] : '[Enter House No]'; ?>
+        </span> 
+        <span contenteditable="true" id="street" class="<?= empty($resident['street']) ? 'empty-field' : '' ?>">
+            <?= !empty($resident['street']) ? $resident['street'] : '[Enter Street]'; ?>
+        </span>
+        <span contenteditable="true" id="brgy" class="<?= empty($resident['brgy']) ? 'empty-field' : '' ?>">
+            <?= $resident['brgy']; ?>
+        </span> 
+        <span contenteditable="true" id="city" class="<?= empty($resident['city']) ? 'empty-field' : '' ?>">
+            <?= $resident['city']; ?>
+        </span> 
+        <span contenteditable="true" id="municipality" class="<?= empty($resident['municipality']) ? 'empty-field' : '' ?>">
+            <?= $resident['municipality'] ?>
+        </span>
+        The said person is of good moral character and an active member of the community.
+    .</p>
 
-                    <div class="col-xs-12 col-sm-6 col-md-12" style="padding-left: 96px;padding-right: 96px;" >
-                        <p class="text-center" style="font-size: 20px; font-size:bold;">OFFICE OF THE BARANGAY CAPTAIN<br><br><b style="font-size: 28px;"><ins>CERTIFICATE OF INDIGENCY</ins></b></p> <br><br><br>
-                        <p style="font-size: 18px; padding-left:3em;">TO WHOM IT MAY CONCERN:</p> <br><br>
-                        <p style="text-indent:40px;text-align: justify;">This is to certify that <span contenteditable="true" id="lname" style="font-weight: bold;"><?= $resident['lname'];?></span>, <span contenteditable="true" id="fname" style="font-weight: bold;"><?=$resident['fname'];?></span> <span contenteditable="true" id="mi" style="font-weight: bold;"><?= $resident['mi'];?></span>, of legal age, <span contenteditable="true" id="nationality"><?= $resident['nationality'];?></span> and
-                        a bonifide resident at <span contenteditable="true" id="houseno"><?= $resident['houseno'];?></span> <span contenteditable="true" id="fname"><?= $resident['street'];?></span> <span contenteditable="true" id="brgy"><?= $resident['brgy'];?></span> <span contenteditable="true" id="municipal"><?= $resident['municipal'];?></span>.</p><br>
-                        <p style="text-indent:40px;text-align: justify;">Further Certify that the above named subject is of good moral character and has
-                        good community standing, but unfortunately to the indigent family in this barangay.
-                        </p><br>
-                        <p style="text-indent:40px;text-align: justify;">This certification is issued upon the request of the above named party as a 
-                        requirement needed for <b><ins contenteditable="true" id="purpose"><?= $resident['purpose'];?></ins></b>.
-                        </p>
-                        
-                        
-                        <br><br><br><br><br><br><br><br>
-                        
-                    
-                        <label style="font-size:17px;margin-left:70%;"><b>VINCENT VILFAMAT</b>  </label><br> 
-                        <label style=" text-align: center;margin-left:73%">Punong Barangay</label>
-                       
-                        
-                    </div>
-                    
-                
-                
-                <div class="col-xs-offset-8 col-xs-5 col-md-offset-8 col-md-4 "  >
-                
-                </div>
+    <p>
+        This certification is being issued upon the request of the above mentioned person for
+        <span contenteditable="true" id="purpose" class="<?= empty($resident['purpose']) ? 'empty-field' : '' ?>">
+            <?= !empty($resident['purpose']) ? $resident['purpose'] : '[Enter Purpose]'; ?>
+        </span>.
+    </p>
 
-                <div class="col-xs-8 col-md-4" style="margin-top: 5em;">
-                <b style="font-size:18px;">Rest. Cert. No.<u id="id_indigency"> <?= $resident['id_indigency']?></u><br>
-                <span style=" text-align: center;">Issued at ____________</span><br>
-                <span style=" text-align: center;">Issued on ___________</span></b>
-                </div>
-                
-                
-            </div>
-        </div>
-</div>
-    <button class="btn btn-primary noprint" id="printpagebutton" onclick="PrintElem()">Print</button>
-    <button class="noprint btn-update">Update</button>
+    <br><br>
+
+    <p>
+        Signed this date <?= !empty($resident['date']) ? $resident['date'] : 'Enter Date'; ?> at Barangay Sinalhan, Santa Rosa City, Laguna.
+    </p>
+
+    <br>
+
+    <img src="" alt="Insert Signature Image here.">
+    <p>HON. LADISLAO B. ALICBUSAN</p>
+    <p>Punong Barangay</p>      
+
+    <?php if (empty($_GET['status'])) { ?>
+        <button class="btn btn-primary noprint" id="printpagebutton" onclick="PrintElem()">Print</button>
+        <button class="noprint btn-update">Update</button>
+    <?php } ?>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </body>
     <?php
@@ -142,17 +130,17 @@ $resident = $residentbmis->get_single_certofindigency($id_resident);
             // Capture the editable content
             const data = {
                 update_indigency: true,
-                lname: $('#lname').text(),
-                fname: $('#fname').text(),
-                mi: $('#mi').text(),
-                age: $('#age').text(),
-                nationality: $('#nationality').text(),
-                houseno: $('#houseno').text(),
-                street: $('#street').text(),
-                brgy: $('#brgy').text(),
-                municipal: $('#municipal').text(),
-                purpose: $('#purpose').text(),
-                id_indigency: $('#id_indigency').text()
+                lname: $('#lname').text().trim(),
+                fname: $('#fname').text().trim(),
+                mi: $('#mi').text().trim(),
+                age: $('#age').text().trim(),
+                nationality: $('#nationality').text().trim(),
+                houseno: $('#houseno').text().trim(),
+                street: $('#street').text().trim(),
+                brgy: $('#brgy').text().trim(),
+                municipal: $('#municipal').text().trim(),
+                purpose: $('#purpose').text().trim(),
+                id_indigency: $('#id_indigency').text().trim()
             };
 
             $.ajax({
