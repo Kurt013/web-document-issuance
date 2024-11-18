@@ -9,7 +9,7 @@
             <option value="active" <?= (isset($_GET['list']) && $_GET['list'] == 'active') ? 'selected' : ''; ?>>Active</option>
             <option value="archived" <?= (isset($_GET['list']) && $_GET['list'] == 'archived') ? 'selected' : ''; ?>>Archived</option>
         </select>
-    </form>
+</form>
 <table class="table table-hover text-center table-bordered table-responsive" >
     <thead class="alert-info">
         
@@ -38,20 +38,20 @@
                 tbl_rescert
             WHERE
                 (id_rescert LIKE ? OR
-                fname LIKE ? OR
-                mi LIKE ? OR
-                lname LIKE ? OR
-                age LIKE ? OR
-                houseno LIKE ? OR
-                street LIKE ? OR
-                brgy LIKE ? OR
-                city LIKE ? OR
-                municipality LIKE ? OR
-                purpose LIKE ? OR
-                created_by LIKE ? OR
-                created_on LIKE ?) AND
-                doc_status = 'accepted')
-            "):
+                    fname LIKE ? OR
+                    mi LIKE ? OR
+                    lname LIKE ? OR
+                    age LIKE ? OR
+                    houseno LIKE ? OR
+                    street LIKE ? OR
+                    brgy LIKE ? OR
+                    city LIKE ? OR
+                    municipality LIKE ? OR
+                    purpose LIKE ? OR
+                    created_by LIKE ? OR
+                    created_on LIKE ?) AND
+                doc_status = ?)
+            ") :
             $stmt = $conn->prepare("
             SELECT *
             FROM
@@ -73,19 +73,21 @@
             ");
         
         $keywordLike = "%$keyword%";
+        $pendingStatus = "accepted";
+
         $list === 'active' ?
-        $stmt->execute([
-            $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
-            $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
-            $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
-            $keywordLike, $keywordLike
-        ]):
-        $stmt->execute([
-            $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
-            $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
-            $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
-            $keywordLike
-        ])
+            $stmt->execute([
+                $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
+                $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
+                $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
+                $keywordLike, $keywordLike, $pendingStatus
+            ]):
+            $stmt->execute([
+                $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
+                $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
+                $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
+                $keywordLike
+            ])
         ;
             
             while($view = $stmt->fetch()){
@@ -155,11 +157,15 @@
 		</thead>
 		<tbody>
 		    <?php 
-            $list === 'active' ? 
-                $stmt = $conn->prepare("SELECT * FROM tbl_rescert WHERE doc_status = 'accepted'") : 
-                $stmt = $conn->prepare("SELECT * FROM tbl_rescert_archive");
+            $pendingStatus = 'accepted';
 
-            $stmt->execute();
+            if ($list === 'active') {
+                $stmt = $conn->prepare("SELECT * FROM tbl_rescert WHERE doc_status = ?");
+                $stmt->execute([$pendingStatus]);
+            } else {
+                $stmt = $conn->prepare("SELECT * FROM tbl_rescert_archive");
+                $stmt->execute();
+            }
             $views = $stmt->fetchAll();
             if ($stmt->rowCount() > 0) {
                 foreach ($views as $view) {

@@ -1,28 +1,15 @@
 <?php
-    require('classes/resident.class.php');
+    include('dashboard_sidebar_start.php');
+
+    $list = $_GET['list'];
 
     require 'phpqrcode/qrlib.php';
     require 'vendor/autoload.php';
 
-    if (isset($_POST['accept_bspermit'])) {
-        $id_bspermit = $_POST['id_bspermit'];
-        $id_resident = $_POST['id_resident'];
-
-        $link = 'bspermit_form.php?id_resident='.$id_resident;
-
-        $qrImage = $bmis->generateQRCode($link);
-        $bmis->sendEmailWithQRCode($qrImage, $id_resident);
-    }
-
-
-    $userdetails = $bmis->get_userdata();
-    $bmis->validate_admin();
-    $bmis->delete_bspermit();
-    $bmis->accept_bspermit();
-?>
-
-<?php 
-    include('dashboard_sidebar_start.php');
+    $conn = $staffbmis->openConn();
+    $staffbmis->validate_admin();
+    $staffbmis->archive_bspermit();
+    $staffbmis->unarchive_bspermit();
 ?>
 
 <style>
@@ -69,7 +56,7 @@
                     <input type="search" class="form-control" name="keyword" value="" style="border-radius: 30px;" required=""/>
                 </div>
                 <button class="btn btn-success" name="search_bspermit" style="width: 90px; font-size: 18px; border-radius:30px; margin-left:41.5%;">Search</button>
-                <a href="admn_bspermit.php" class="btn btn-info" style="width: 90px; font-size: 18px; border-radius:30px;">Reload</a>
+                <a href="admn_bspermit.php?list=<?= $list ?>" class="btn btn-info" style="width: 90px; font-size: 18px; border-radius:30px;">Reload</a>
             </form>
             <br>
         </div>
@@ -89,19 +76,6 @@
     
 </div>
 <!-- End of Main Content -->
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-modal/2.2.6/js/bootstrap-modalmanager.min.js" integrity="sha512-/HL24m2nmyI2+ccX+dSHphAHqLw60Oj5sK8jf59VWtFWZi9vx7jzoxbZmcBeeTeCUc7z1mTs3LfyXGuBU32t+w==" crossorigin="anonymous"></script>
-<!-- responsive tags for screen compatibility -->
-<meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no">
-<!-- custom css --> 
-<link href="../BarangaySystem/customcss/regiformstyle.css" rel="stylesheet" type="text/css">
-<!-- bootstrap css --> 
-<link href="../BarangaySystem/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"> 
-<!-- fontawesome icons -->
-<script src="https://kit.fontawesome.com/67a9b7069e.js" crossorigin="anonymous"></script>
-<script src="../BarangaySystem/bootstrap/js/bootstrap.bundle.js" type="text/javascript"> </script>
-
 <?php 
     include('dashboard_sidebar_end.php');
 ?>

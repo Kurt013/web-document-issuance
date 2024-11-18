@@ -105,10 +105,12 @@
 
     <img src="" alt="Insert Signature Image here.">
     <p>HON. LADISLAO B. ALICBUSAN</p>
-    <p>Punong Barangay</p>                 
+    <p>Punong Barangay</p>      
 
-    <button class="btn btn-primary noprint" id="printpagebutton" onclick="PrintElem()">Print</button>
-    <button class="noprint btn-update">Update</button>
+    <?php if (empty($_GET['status'])) { ?>
+        <button class="btn btn-primary noprint" id="printpagebutton" onclick="PrintElem()">Print</button>
+        <button class="noprint btn-update">Update</button>
+    <?php } ?>
 
     <script>
 

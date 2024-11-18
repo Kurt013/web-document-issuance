@@ -194,6 +194,7 @@ CREATE TABLE tbl_bspermit_archive (
     bsbrgy VARCHAR(20),
     bscity VARCHAR(20),
     bsmunicipality VARCHAR(20),
+    bsname VARCHAR(20),
     bsindustry VARCHAR(20),
     aoe INT,
     archived_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

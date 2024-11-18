@@ -8,7 +8,6 @@
 
     $conn = $staffbmis->openConn();
     $staffbmis->validate_admin();
-    $staffbmis->delete_certofres();
     $staffbmis->unarchive_certofres();
 ?>
 
@@ -85,8 +84,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-modal/2.2.6/js/bootstrap-modalmanager.min.js" integrity="sha512-/HL24m2nmyI2+ccX+dSHphAHqLw60Oj5sK8jf59VWtFWZi9vx7jzoxbZmcBeeTeCUc7z1mTs3LfyXGuBU32t+w==" crossorigin="anonymous"></script>
 <!-- responsive tags for screen compatibility -->
 <meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no">
-<link rel="stylesheet" href="./css/general.css">
-<script src="./js-components/component-js-popup.js"></script>
+
 <!-- fontawesome icons -->
 <script src="https://kit.fontawesome.com/67a9b7069e.js" crossorigin="anonymous"></script>
 <script src="../BarangaySystem/bootstrap/js/bootstrap.bundle.js" type="text/javascript"> </script>

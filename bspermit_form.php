@@ -1,11 +1,13 @@
 <?php
-require('classes/resident.class.php');
-$userdetails = $residentbmis->get_userdata();
-$residentbmis->validate_admin();
-$residentbmis->update_bspermit();
+    require('classes/staff.class.php');
 
-$id_resident = $_GET['id_resident'];
-$resident = $residentbmis->get_single_bspermit($id_resident);
+    $user = $staffbmis->get_userdata();
+
+    $staffbmis->validate_staff();
+
+    $resident = $staffbmis->get_single_bspermit();
+
+    $staffbmis->update_bspermit();
   ?>
 <!DOCTYPE html>
 <html id="bspermit">
@@ -120,13 +122,6 @@ position: absolute;
 </head>
  <body class="skin-black" >
      <!-- header logo: style can be found in header.less -->
-    
-    
-     <?php 
-     
-     include "classes/conn.php"; 
-
-     ?>         
                 
                 <div class="col-xs-12 col-sm-5 col-md-8" style="background: white;  ">`
               
@@ -185,8 +180,10 @@ position: absolute;
             </div>
         </div>
 </div>
-    <button class="btn btn-primary noprint" id="printpagebutton" onclick="PrintElem('#clearance')">Print</button>
-    <button class="noprint btn-update">Update</button>
+    <?php if (empty($_GET['status'])) { ?>
+        <button class="btn btn-primary noprint" id="printpagebutton" onclick="PrintElem('#clearance')">Print</button>
+        <button class="noprint btn-update">Update</button>
+    <?php } ?>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>  
   
   </body>
@@ -230,17 +227,17 @@ position: absolute;
             // Capture the editable content
             const data = {
                 update_bspermit: true,
-                // lname: $('#lname').text(),
-                fname: $('#fname').text(),
-                // mi: $('#mi').text(),
-                // age: $('#age').text(),
-                // nationality: $('#nationality').text(),
-                // houseno: $('#houseno').text(),
-                // street: $('#street').text(),
-                // brgy: $('#brgy').text(),
-                // municipal: $('#municipal').text(),
-                // purpose: $('#purpose').text(),
-                id_bspemit: $('#id_bspermit').text()
+                // lname: $('#lname').text().trim(),
+                fname: $('#fname').text().trim(),
+                // mi: $('#mi').text().trim(),
+                // age: $('#age').text().trim(),
+                // nationality: $('#nationality').text().trim(),
+                // houseno: $('#houseno').text().trim(),
+                // street: $('#street').text().trim(),
+                // brgy: $('#brgy').text().trim(),
+                // municipal: $('#municipal').text().trim(),
+                // purpose: $('#purpose').text().trim(),
+                id_bspemit: $('#id_bspermit').text().trim()
             };
 
             $.ajax({
