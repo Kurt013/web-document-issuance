@@ -485,8 +485,23 @@ class BMISClass {
 
             }
             catch (PDOException $e) {
-                echo "<script>alert('Failed to update records: " . $e->getMessage() . "')</script>";
-                
+                echo '
+                    <dialog class="message-popup success" >
+                        <div class="pop-up">
+                            <div class="left-side">
+                                <div class="left-side-wrapper"><i class="bx bxs-x-circle error-circle"></i></div>
+                            </div>
+                            <div class="right-side">
+                                <div class="right-group">
+                                <div class="content">
+                                    <h1>'.$e->getMessage().'</h1>
+                                </div>
+                                <button onclick="closeDialog()" onclick="closeDialog()" class="exit-btn">X</button>
+                                </div>
+                            </div>
+                        </div>
+                    </dialog>
+                ';
             }
         }
     }
@@ -497,16 +512,24 @@ class BMISClass {
             $id_rescert = $_POST['id_rescert'];
             $id = $_POST['id'];
 
-            $connection = $this->openConn();
         
             try {
+                $connection = $this->openConn();
+
                 $connection->beginTransaction();
         
                 $insertStmt = $connection->prepare("
-                INSERT INTO tbl_rescert_archive (id_rescert, fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, archived_by)
-                SELECT id_rescert, fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, :archived_by
-                FROM tbl_rescert
-                WHERE id_rescert = :id_rescert
+                INSERT INTO tbl_rescert_archive (
+                    id_rescert, fname, mi, lname, age, houseno, 
+                    street, brgy, city, municipality, purpose, archived_by
+                )
+                SELECT 
+                    id_rescert, fname, mi, lname, age, houseno, street, 
+                    brgy, city, municipality, purpose, :archived_by
+                FROM 
+                    tbl_rescert
+                WHERE 
+                    id_rescert = :id_rescert
                 ");
                 
                 $insertStmt->bindParam(':archived_by', $id);
@@ -745,41 +768,72 @@ class BMISClass {
 
     public function update_certofindigency() {
         if (isset($_POST['update_indigency'])) {  // Checks if update was triggered
-            $connection = $this->openConn();
+            $id_indigency = $_POST['id_indigency'];
+            $lname = $_POST['lname'];
+            $fname = $_POST['fname'];
+            $mi = $_POST['mi'];
+            $age = $_POST['age'];
+            $nationality = $_POST['nationality'];
+            $houseno = $_POST['houseno'];
+            $street = $_POST['street'];
+            $brgy = $_POST['brgy'];
+            $city = $_POST['city'];
+            $municipality = $_POST['municipality'];
+            $purpose = $_POST['purpose'];
+            $doc_status = 'pending';
     
-            try {
-                $id_resident = $_GET['id_resident'];
-                // Retrieving data from POST request
-                $lname = $_POST['lname'];
-                $fname = $_POST['fname'];
-                $mi = $_POST['mi'];
-                $age = $_POST['age'];
-                $nationality = $_POST['nationality'];
-                $houseno = $_POST['houseno'];
-                $street = $_POST['street'];
-                $brgy = $_POST['brgy'];
-                $city = $_POST['city'];
-                $municipal = $_POST['municipal'];
-                $purpose = $_POST['purpose'];
+            try {                
+                $connection = $this->openConn();
+                $stmt = $connection->prepare("UPDATE tbl_indigency SET 
+                    lname = ?,
+                    fname = ?,
+                    mi = ?,
+                    age = ?,
+                    nationality = ?,
+                    houseno = ?,
+                    street = ?,
+                    brgy = ?,
+                    city = ?,
+                    municipality = ?,
+                    purpose = ?,
+                    doc_status = ?
+                    WHERE
+                    id_indigency = ?
+                ");
 
-                $connection->beginTransaction();
-        
-                $stmt = $connection->prepare("UPDATE tbl_resident SET 
-                        lname = ?, fname = ?, mi = ?, age = ?, 
-                        nationality = ?, houseno = ?, street = ?, 
-                        brgy = ?, city = ?, municipal = ?
-                        WHERE id_resident = ?");
-        
-                // Attempt to execute the query
-                $stmt->execute([$lname, $fname, $mi, $age, $nationality, $houseno, 
-                    $street, $brgy, $city, $municipal, $id_resident]);
+                $stmt->execute([
+                    $lname,
+                    $fname,
+                    $mi,
+                    $age,
+                    $nationality,
+                    $houseno,
+                    $street,
+                    $brgy,
+                    $city,
+                    $municipality,
+                    $purpose,
+                    $doc_status,
+                    $id_indigency
+                ]);
 
-                $stmt = $connection->prepare("UPDATE tbl_indigency SET purpose = ? WHERE id_resident = ?");
-        
-                // Attempt to execute the query
-                $stmt->execute([$purpose, $id_resident]);
-
-                $connection->commit();
+                echo '
+                    <dialog class="message-popup success" >
+                        <div class="pop-up">
+                            <div class="left-side">
+                                <div class="left-side-wrapper"><i class="bx bxs-x-circle error-circle"></i></div>
+                            </div>
+                            <div class="right-side">
+                                <div class="right-group">
+                                <div class="content">
+                                    <h1>Updated Successfully!</h1>
+                                </div>
+                                <button onclick="closeDialog()" onclick="closeDialog()" class="exit-btn">X</button>
+                                </div>
+                            </div>
+                        </div>
+                    </dialog>
+                ';
             }
             catch (PDOException $e) {
                 $connection->rollBack();
@@ -790,57 +844,211 @@ class BMISClass {
     }
 
     public function archive_certofindigency() {
-        $id_indigency = $_POST['id_indigency'];
-        $id_resident = $_POST['id_resident'];
-
         if (isset($_POST['archive_certofindigency'])) {
+            $id_indigency = $_POST['id_indigency'];
+            $id = $_POST['id'];
+
             try {
                 $connection = $this->openConn();
 
                 $connection->beginTransaction();
 
-                $stmt = $connection->prepare("
-                    SELECT
-                        r.*, c.*
-                    FROM
-                        tbl_resident AS r
-                    JOIN
-                        tbl_indigency AS c ON r.id_resident = c.id_resident
-                    WHERE
-                        c.id_indigency = ? AND r.id_resident = ?
+                $insertStmt = $connection->prepare("
+                INSERT INTO tbl_indigency_archive (
+                    id_indigency, fname, mi, lname, age, nationality, houseno, 
+                    street, brgy, city, municipality, purpose, archived_by
+                )
+                SELECT 
+                    id_indigency, fname, mi, lname, age, nationality, houseno, street, 
+                    brgy, city, municipality, purpose, :archived_by
+                FROM 
+                    tbl_indigency
+                WHERE 
+                    id_indigency = :id_indigency
                 ");
-                $stmt->execute([$id_indigency, $id_resident]);
+             
+                $insertStmt->bindParam(':archived_by', $id);
+                $insertStmt->bindParam(':id_indigency', $id_indigency);
 
-                $view = $stmt->fetch();
-
-                $stmt1 = $connection->prepare("
-                    INSERT INTO tbl_archive_indigency(id_indigency, lname, fname, mi, age, houseno,
-                        street, brgy, city, municipal, purpose) VALUES (?, ?, ?, ?, ?, ?,
-                        ?, ?, ?, ?, ?)
+                $insertStmt->execute();
+        
+                $deleteStmt = $connection->prepare("
+                    DELETE FROM tbl_indigency
+                    WHERE id_indigency = :id_indigency
                 ");
 
-                $stmt1->execute([$view['id_indigency'], $view['lname'], $view['fname'], $view['mi'], $view['age'], 
-                    $view['houseno'], $view['street'], $view['brgy'], $view['city'], $view['municipal'], 
-                    $view['purpose']]);
-                
-                $stmt2 = $connection->prepare("DELETE FROM tbl_indigency where id_indigency = ?");
-                $stmt2->execute([$id_indigency]);
-
+                $deleteStmt->bindParam(':id_indigency', $id_indigency);
+                $deleteStmt->execute();
+        
                 $connection->commit();
 
-                echo "<script>alert(" . json_encode('Record archived successfully.') . ");</script>";
+                echo '
+                    <dialog class="message-popup success" >
+                        <div class="pop-up">
+                            <div class="left-side">
+                                <div class="left-side-wrapper"><i class="bx bxs-x-circle error-circle"></i></div>
+                            </div>
+                            <div class="right-side">
+                                <div class="right-group">
+                                <div class="content">
+                                    <h1>Archived Successfully!</h1>
+                                </div>
+                                <button onclick="closeDialog()" onclick="closeDialog()" class="exit-btn">X</button>
+                                </div>
+                            </div>
+                        </div>
+                    </dialog>
+                    ';
+
+
             } catch (PDOException $e) {
                 $connection->rollBack();
-                echo "<script>alert('Failed to update records: " . $e->getMessage() . "')</script>";
-                exit;
+                echo '
+                <dialog class="message-popup error" >
+                    <div class="pop-up">
+                        <div class="left-side">
+                            <div class="left-side-wrapper"><i class="bx bxs-x-circle error-circle"></i></div>
+                        </div>
+                        <div class="right-side">
+                            <div class="right-group">
+                            <div class="content">
+                                <h1>
+                                    Failed to retrieve record:
+                                    '.$e->getMessage().'
+                                </h1>
+                            </div>
+                            <button onclick="closeDialog()" onclick="closeDialog()" class="exit-btn">X</button>
+                            </div>
+                        </div>
+                    </div>
+                </dialog>
+                ';
+            }
+        }
+    }
+
+    public function unarchive_certofindigency() {
+        if (isset($_POST['unarchive_certofindigency'])) {
+            $id_indigency = $_POST['id_indigency'];
+            $id = $_POST['id'];
+            $doc_status = 'accepted';
+
+            $connection = $this->openConn();
+    
+            try {
+                $connection->beginTransaction();
+    
+                $insertStmt = $connection->prepare("
+                    INSERT INTO tbl_indigency (id_indigency, fname, mi, lname, age, nationality, houseno, street, brgy, city, municipality, purpose, created_by, doc_status)
+                    SELECT id_indigency, fname, mi, lname, age, nationality, houseno, street, brgy, city, municipality, purpose, :created_by, :doc_status
+                    FROM tbl_indigency_archive
+                    WHERE id_indigency = :id_indigency
+                ");
+                $insertStmt->bindParam(':created_by', $id);
+                $insertStmt->bindParam(':id_indigency', $id_indigency);
+                $insertStmt->bindParam(':doc_status', $doc_status);
+                $insertStmt->execute();
+    
+                $deleteStmt = $connection->prepare("
+                    DELETE FROM tbl_indigency_archive
+                    WHERE id_indigency = :id_indigency
+                ");
+                $deleteStmt->bindParam(':id_indigency', $id_indigency);
+                $deleteStmt->execute();
+    
+                $connection->commit();
+
+                
+                echo '
+                    <dialog class="message-popup success" >
+                        <div class="pop-up">
+                            <div class="left-side">
+                                <div class="left-side-wrapper"><i class="bx bxs-x-circle error-circle"></i></div>
+                            </div>
+                            <div class="right-side">
+                                <div class="right-group">
+                                <div class="content">
+                                    <h1>Retrieved Successfully!</h1>
+                                </div>
+                                <button onclick="closeDialog()" onclick="closeDialog()" class="exit-btn">X</button>
+                                </div>
+                            </div>
+                        </div>
+                    </dialog>
+                    ';
+                
+    
+            } catch (Exception $e) {
+                $connection->rollBack();
+                echo '
+                 <dialog class="message-popup error" >
+                        <div class="pop-up">
+                            <div class="left-side">
+                                <div class="left-side-wrapper"><i class="bx bxs-x-circle error-circle"></i></div>
+                            </div>
+                            <div class="right-side">
+                                <div class="right-group">
+                                <div class="content">
+                                    <h1>
+                                        Failed to retrieve record:
+                                        '.$e->getMessage().'
+                                    </h1>
+                                </div>
+                                <button onclick="closeDialog()" onclick="closeDialog()" class="exit-btn">X</button>
+                                </div>
+                            </div>
+                        </div>
+                    </dialog>
+                ';
             }
         }
     }
     
 
-    public function get_single_certofindigency($id_indigency){
+    public function get_single_certofindigency(){
+        $id_indigency = $_GET['id_indigency'];
+        $status = isset($_GET['status']) ? $_GET['status'] : null ;
+        
         $connection = $this->openConn();
-        $stmt = $connection->prepare("SELECT * FROM tbl_indigency WHERE id_indigency = ?");
+
+        $stmt = $connection->prepare("SELECT 
+            id_indigency,
+            fname,
+            mi,
+            lname,
+            age,
+            nationality,
+            houseno,
+            street,
+            brgy,
+            city,
+            municipality,
+            purpose,
+            created_by,
+            DATE_FORMAT(STR_TO_DATE(created_on, '%Y-%m-%d'), '%b. %d, %Y') AS `date` 
+            FROM tbl_indigency 
+            WHERE id_indigency = ?");
+
+       if ($status === 'archived') {
+            $stmt = $connection->prepare("SELECT 
+                id_indigency,
+                fname,
+                mi,
+                lname,
+                age,
+                nationality,
+                houseno,
+                street,
+                brgy,
+                city,
+                municipality,
+                purpose,
+                archived_by,
+                DATE_FORMAT(STR_TO_DATE(archived_on, '%Y-%m-%d'), '%b. %d, %Y') AS `date` 
+                FROM tbl_indigency_archive
+                WHERE id_indigency = ?");
+        }
+        
         $stmt->execute([$id_indigency]);
         $indigency = $stmt->fetch();
         $total = $stmt->rowCount();
@@ -1669,7 +1877,7 @@ class BMISClass {
                 $stmt->execute([$lname, $fname, $mi, $houseno, 
                     $street, $brgy, $city, $municipal, $status, $valid_until, $id_resident]);
 
-                $stmt = $connection->prepare("UPDATE tbl_rescert SET         
+                $stmt = $connection->prepare("UPDATE tbl_indigency SET         
                     inc_lname = ?, inc_fname = ?, inc_mi = ?, inc_houseno = ?, inc_street = ?, 
                         inc_brgy = ?, inc_city = ?, inc_municipal = ?, `inc_status` = ?
                         WHERE id_resident = ?");

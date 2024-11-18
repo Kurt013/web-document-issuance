@@ -2,7 +2,13 @@
 	if(isset($_POST['search_certofindigency'])){
 		$keyword = $_POST['keyword'];
 ?>
-
+<form method="GET" action="">
+        <label for="list">Select List: </label>
+        <select name="list" id="list" onchange="this.form.submit()">
+            <option value="active" <?= (isset($_GET['list']) && $_GET['list'] == 'active') ? 'selected' : ''; ?>>Active</option>
+            <option value="archived" <?= (isset($_GET['list']) && $_GET['list'] == 'archived') ? 'selected' : ''; ?>>Archived</option>
+        </select>
+    </form>
 <table class="table table-hover text-center table-bordered table-responsive" >
 
     <thead class="alert-info">
@@ -12,6 +18,7 @@
             <th> Surname </th>
             <th> First Name </th>
             <th> Middle Name </th>
+            <th> Age </th>
             <th> Nationality </th>
             <th> House Number </th>
             <th> Street </th>
@@ -19,7 +26,6 @@
             <th> Barangay </th>
             <th> Municipality </th>
             <th> Purpose </th>
-            <th> Date </th>
         </tr>
     </thead>
 
@@ -35,6 +41,7 @@
                     fname LIKE ? OR
                     mi LIKE ? OR
                     lname LIKE ? OR
+                    age LIKE ? OR   
                     nationality LIKE ? OR
                     houseno LIKE ? OR
                     street LIKE ? OR
@@ -44,7 +51,7 @@
                     purpose LIKE ? OR
                     created_by LIKE ? OR
                     created_on LIKE ?) AND
-                doc_status = ?)
+                doc_status = ?
             ") :
             $stmt = $conn->prepare("
             SELECT *
@@ -55,6 +62,7 @@
                 fname LIKE ? OR
                 mi LIKE ? OR
                 lname LIKE ? OR
+                age LIKE ? OR
                 nationality LIKE ? OR
                 houseno LIKE ? OR
                 street LIKE ? OR
@@ -74,16 +82,16 @@
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
-                $keywordLike, $pendingStatus
+                $keywordLike, $keywordLike, $pendingStatus
             ]):
             $stmt->execute([
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
-                $keywordLike
+                $keywordLike, $keywordLike
             ]);
             
-            while($view = $stmnt->fetch()){
+            while($view = $stmt->fetch()){
         ?>
             <tr>
                 <td>    
@@ -93,8 +101,8 @@
                         <input type="hidden" name="id_indigency" value="<?= $view['id_indigency'];?>">
                         <?php 
                             echo $list === 'active' ? 
-                                '<button class="btn btn-danger" type="submit" style="width: 90px; font-size: 17px; border-radius:30px;" name="archive_certofres"> Archive </button>' :
-                                '<button class="btn btn-danger" type="submit" style="width: 90px; font-size: 17px; border-radius:30px;" name="unarchive_certofres"> Retrieve </button>'
+                                '<button class="btn btn-danger" type="submit" style="width: 90px; font-size: 17px; border-radius:30px;" name="archive_certofindigency"> Archive </button>' :
+                                '<button class="btn btn-danger" type="submit" style="width: 90px; font-size: 17px; border-radius:30px;" name="unarchive_certofindigency"> Retrieve </button>'
                                 ;
                         ?>    
                     </form>
@@ -103,6 +111,7 @@
                 <td> <?= $view['lname'];?> </td>
                 <td> <?= $view['fname'];?> </td>
                 <td> <?= $view['mi'];?> </td>
+                <td> <?= $view['age'];?> </td>
                 <td> <?= $view['nationality'];?> </td>
                 <td> <?= $view['houseno'];?> </td>
                 <td> <?= $view['street'];?> </td>
@@ -110,7 +119,6 @@
                 <td> <?= $view['city'];?> </td>
                 <td> <?= $view['municipality'];?> </td>
                 <td> <?= $view['purpose'];?> </td>
-                <td> <?= $view['date'];?> </td>
             </tr>
         <?php
         }
@@ -122,7 +130,13 @@
 <?php		
 	}else{
 ?>
-
+    <form method="GET" action="">
+        <label for="list">Select List: </label>
+        <select name="list" id="list" onchange="this.form.submit()">
+            <option value="active" <?= (isset($_GET['list']) && $_GET['list'] == 'active') ? 'selected' : ''; ?>>Active</option>
+            <option value="archived" <?= (isset($_GET['list']) && $_GET['list'] == 'archived') ? 'selected' : ''; ?>>Archived</option>
+        </select>
+    </form>
 <table class="table table-hover text-center table-bordered table-responsive">
     <thead class="alert-info">
         <tr>
@@ -131,6 +145,7 @@
             <th> Surname </th>
             <th> First Name </th>
             <th> Middle Name </th>
+            <th> Age </th>
             <th> Nationality </th>
             <th> House Number </th>
             <th> Street </th>
@@ -138,7 +153,6 @@
             <th> City </th>
             <th> Municipality </th>
             <th> Purpose </th>
-            <th> Date </th>
         </tr>
     </thead>
     
@@ -147,10 +161,10 @@
         $pendingStatus = 'accepted';
 
         if ($list === 'active') {
-            $stmt = $conn->prepare("SELECT * FROM tbl_rescert WHERE doc_status = ?");
+            $stmt = $conn->prepare("SELECT * FROM tbl_indigency WHERE doc_status = ?");
             $stmt->execute([$pendingStatus]);
         } else {
-            $stmt = $conn->prepare("SELECT * FROM tbl_rescert_archive");
+            $stmt = $conn->prepare("SELECT * FROM tbl_indigency_archive");
             $stmt->execute();
         }
 
@@ -166,25 +180,25 @@
                         <input type="hidden" name="id_indigency" value="<?= $view['id_indigency'];?>">
                     <?php 
                         echo $list === 'active' ? 
-                            '<button class="btn btn-danger" type="submit" style="width: 90px; font-size: 17px; border-radius:30px;" name="archive_certofres"> Archive </button>' :
-                            '<button class="btn btn-danger" type="submit" style="width: 90px; font-size: 17px; border-radius:30px;" name="unarchive_certofres"> Retrieve </button>'
+                            '<button class="btn btn-danger" type="submit" style="width: 90px; font-size: 17px; border-radius:30px;" name="archive_certofindigency"> Archive </button>' :
+                            '<button class="btn btn-danger" type="submit" style="width: 90px; font-size: 17px; border-radius:30px;" name="unarchive_certofindigency"> Retrieve </button>'
                             ;
                     ?>    
                             
                     </form>
                 </td>
-                <td> <?= $view['id_resident'];?> </td> 
+                <td> <?= $view['id_indigency'];?> </td> 
                 <td> <?= $view['lname'];?> </td>
                 <td> <?= $view['fname'];?> </td>
                 <td> <?= $view['mi'];?> </td>
+                <td> <?= $view['age'];?> </td>
                 <td> <?= $view['nationality'];?> </td>
                 <td> <?= $view['houseno'];?> </td>
                 <td> <?= $view['street'];?> </td>
                 <td> <?= $view['brgy'];?> </td>
                 <td> <?= $view['city'];?> </td>
-                <td> <?= $view['municipal'];?> </td>
+                <td> <?= $view['municipality'];?> </td>
                 <td> <?= $view['purpose'];?> </td>
-                <td> <?= $view['date'];?> </td>
             </tr>
         <?php
             }
