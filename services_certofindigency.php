@@ -841,6 +841,8 @@ h2 {
         </div>
     </div>
 </div>
+
+
           
         <div id="down1"></div>
 
@@ -999,7 +1001,7 @@ h2 {
             I accept the 
             <a href="javascript:void(0);" onclick="openModal()"><b>Terms and Conditions</b></a> 
             and 
-            <a href="javascript:void(0);" onclick="openPrivacyModal()"><b>Privacy Policy</b></a>.
+            <a id = openpriv href="javascript:void(0);" onclick="openPrivacyModal()"><b>Privacy Policy</b></a>.
         </label>
     </div>
 
@@ -1052,7 +1054,7 @@ h2 {
         <hr style = "margin-top: 10px;">
         <div class = "pnp-footer">
        
-        <button class="btn-close-pnp" 
+        <button id = "privpop" class="btn-close-pnp" 
                     onclick="openPrivacyModal()">
               CLOSE
               </button>
@@ -1091,6 +1093,16 @@ h2 {
         <!-- Footer -->
 
         <?php include('user-footer.php'); ?>
+
+        <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // After the page content is fully loaded, make the body visible
+      document.body.style.visibility = "visible";
+    });
+    
+    // Initially hide the body until the content is fully loaded
+    document.body.style.visibility = "hidden";
+  </script>
         <script>
     // Function to close the modal
     function closeModal() {
@@ -1149,10 +1161,24 @@ h2 {
 
             
         </script>
-     <script>
+<script>
+    // Prevent page reload when the page is loaded or refreshed
     if (window.history.replaceState) {
         window.history.replaceState(null, null, window.location.href);
     }
+
+    // Get the close button for privacy policy modal
+    document.getElementById('privpop').addEventListener('click', function(event) {
+        event.preventDefault();  // Prevent any default action like page reload
+        // Hide the privacy policy modal when the button is clicked
+        document.getElementById('pnp').style.display = 'none';  
+    })
+    
+    document.getElementById('openpriv').addEventListener('click', function(event) {
+        event.preventDefault();  // Prevent any default action like page reload
+        // Hide the privacy policy modal when the button is clicked
+        document.getElementById('pnp').style.display = 'flex';  
+    });
 </script>
 
     <script>
