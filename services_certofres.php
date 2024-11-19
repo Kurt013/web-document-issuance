@@ -9,6 +9,7 @@
     if (!$userdetails) {
         $bmis->set_userdata();
     }
+    
 
     if ($userdetails && $userdetails['role'] == 'administrator') {
         echo '<script>window.location.href="./admn_dashboard.php"</script>';

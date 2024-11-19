@@ -1,5 +1,5 @@
 <?php
-require('classes/resident.class.php');
+require('classes/resident].class.php');
 $userdetails = $residentbmis->get_userdata();
 $residentbmis->validate_admin();
 $residentbmis->update_certofindigency();

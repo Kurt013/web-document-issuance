@@ -1,19 +1,46 @@
 <?php 
-    require('classes/main.class.php');
+// Include necessary classes and libraries
+require('classes/main.class.php');
+require 'phpqrcode/qrlib.php';
+require 'vendor/autoload.php';
 
-    require 'phpqrcode/qrlib.php';
-    require 'vendor/autoload.php';
-    $userdetails = $bmis->get_userdata();
+// Fetch user details
+$userdetails = $bmis->get_userdata();
 
-    if (!$bmis->get_userdata()) {
-        $bmis->set_userdata();
+// Redirect if user is not authenticated
+if (!$userdetails) {
+    $bmis->set_userdata();
+}
+
+// Check if the user is an administrator and redirect to the admin dashboard
+if ($userdetails && $userdetails['role'] == 'administrator') {
+    echo '<script>window.location.href="./admn_dashboard.php"</script>';
+    exit;
+}
+
+// Form handling for creating Certificate of Indigency
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['create_certofindigency'])) {
+        // Ensure the object and method exist
+        if (isset($bmis) && method_exists($bmis, 'create_certofindigency')) {
+            try {
+                // Call the method to create the certificate
+                $bmis->create_certofindigency();
+            } catch (Exception $e) {
+                // Handle any exceptions that may occur during execution
+                echo '<script>alert("Error: ' . $e->getMessage() . '");</script>';
+            }
+        } else {
+            // Handle the case when the object or method is not available
+            echo '<script>alert("Error: Method or object not found.");</script>';
+        }
     }
-
-    if ($userdetails && $userdetails['role'] == 'administrator') {
-        echo '<script>window.location.href="./admn_dashboard.php"</script>';
-        exit;
-    }
+}
 ?>
+
+
+
+
 
 <!DOCTYPE html>
 
@@ -66,7 +93,96 @@
             src: url('fonts/Poppins-BlackItalic.ttf') format('truetype'); 
         }
 
+        .overlay-qr {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+            z-index: 1000000;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
 
+        .overlay-qr.show {
+    display: flex; 
+    opacity: 1; 
+    visibility: visible; 
+}
+        
+        .popup-qr {
+            background-color: #fff;
+            width: 25%;
+            height: 85%;
+            position: relative;
+            border-top: 25px solid;
+            border-bottom: 25px solid;
+            border-color: #2c91c9;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 30px;
+        }
+
+        .popup-qr img {
+            display:block; 
+            margin-bottom:10px;
+            width: 80%;
+        }
+
+        .popup-qr a {
+            display: block;
+            width: 100%;
+        }
+
+        .popup-qr p {
+            margin-top: 12px;
+            font-size: 0.85rem;
+            font-family: "PSemiBold";
+            font-style: italic;
+            
+        }
+
+        .popup-qr h3 {
+            font-family: "PBold";
+            text-align: center;
+            color: #2c91c9;
+            line-height: 20px;
+        }
+
+        .btn-close-qr, .btn-dl-qr {
+            width:100%;
+            padding: 10px;
+            border: none;
+            background-color: #2c91c9;
+            border-radius: 20px;
+            color: white;
+            font-family: "PBold";
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .btn-close-qr:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        .btn-dl-qr:hover {
+            background-color: #014BAE;
+        }
+        .btn-close-qr {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .btn-dl-qr {
+            margin-bottom: 15px;
+           
+        }
+        
 
         * {
     box-sizing: border-box; /* Ensures padding and border are included in width/height calculations */
@@ -202,7 +318,7 @@ h2 {
 
             .pnp-content h2 {
                 font-family: "PBold";
-                color: #014BAE;
+                color: rgba(0, 0, 0, 0.8);
             }
 
             .pnp-content p, .pnp-content h4 {
@@ -310,20 +426,21 @@ h2 {
 
             .btn-open-popup {
     padding: 12px 24px;
-    font-size: 18px;
-    background-color: green;
+    font-size: 1.2rem;
+    background-color: #014BAE;
     width: 50%; /* This defines the width of the button */
     margin: 0 auto; /* Centers the button horizontally */
     color: #fff;
     border: none;
-    border-radius: 8px;
+    font-family: "PBold";
+    border-radius: 15px;
     cursor: pointer;
     transition: background-color 0.3s ease;
     display: block; /* Ensures the button behaves like a block element */
 }
 
         .btn-open-popup:hover {
-            background-color: #4caf50;
+            background-color: #2c91c9;
         }
 
         .overlay-pnp,.overlay-container {
@@ -614,6 +731,7 @@ h2 {
   </head>
 
     <body>
+    
     <?php 
         include('user-sidebar.php');
         include('user-header.php');
@@ -706,6 +824,22 @@ h2 {
             <h2>• It is recommended to submit applications during <b>service hours</b> for faster processing.</h2>
         </div>
     </div>
+
+    <div class="qa-card">
+        <div class="question">
+            <div class="icon-container">
+                <span class="fas fa-file-alt"></span>
+            </div>
+            <h2>What You Need</h2>
+        </div>
+        <div class="answer">
+            <h1>To obtain a Certificate of Indigency, you need to bring the following documents together with your QR code:</h1>
+            <h2>• Barangay Clearance or Certificate of Residency</h2>
+            <h2>• Valid Identification (ID)</h2>
+            <h2>• Proof of Income or Affidavit of No Income</h2>
+            <h2>• Authorization Letter <i>(if applicable)</i></h2>
+        </div>
+    </div>
 </div>
           
         <div id="down1"></div>
@@ -714,19 +848,13 @@ h2 {
         <br>
         <br>
 
-        <!-- Button trigger modal -->
-
-
-
-
-
-
-
-                <!-- Modal -->
 
                 <button class="btn-open-popup" onclick="togglePopup()">
-      Open Popup Form
+      Request Form
       </button>
+
+    
+     
 
     <div id="popupOverlay" 
          class="overlay-container">
@@ -834,6 +962,15 @@ h2 {
             <input type="text" class="form-input" name="city"  
             placeholder="Enter City" value="City of Santa Rosa" readonly>
 
+            <div class="col">
+                                        <div class="form-group">
+                                            <label class = "form-label"> Municipality: </label>
+                                            <input type="text" class="form-input" name="municipality" 
+                                            placeholder="Enter Municipality" value="Laguna" readonly>
+                                           
+                                        </div>
+                                    </div>
+
                                     <div class="col">
                                         <div class="form-group">
                                             <label class = "form-label" for="purposes">Purposes:</label>
@@ -852,19 +989,9 @@ h2 {
                                         </div>
                                     </div>  
                                 </div>
+
                         </div>
-                
-                        <!-- Modal Footer -->
-                        
-                        
-                               
-                                
-                                
-                
-          
-
-
-
+                        <input type="hidden" name="created_by" value="<?= $userdetails['id'] ?>">
 
 <div class="tncpnp">
         <input type="checkbox" id="terms" name="terms" required>
@@ -875,6 +1002,11 @@ h2 {
             <a href="javascript:void(0);" onclick="openPrivacyModal()"><b>Privacy Policy</b></a>.
         </label>
     </div>
+
+    <button class="btn-submit" 
+                        type="submit" name="create_certofindigency">
+                  SUBMIT
+                  </button>
 
     <div id="pnp" 
          class="overlay-pnp">
@@ -919,7 +1051,7 @@ h2 {
         </div>
         <hr style = "margin-top: 10px;">
         <div class = "pnp-footer">
-        <input type="hidden" name="created_by" value="<?= $userdetails['id'] ?>">
+       
         <button class="btn-close-pnp" 
                     onclick="openPrivacyModal()">
               CLOSE
@@ -933,22 +1065,18 @@ h2 {
 <!-- Modal Footer -->
 
 
-<button class="btn-submit" 
-                        type="submit">
-                  SUBMIT
-                  </button>
-         
 
 
-
-
+                
 </div>
 </div>
         </div>
 
 
 </form>
-<?php $bmis->create_certofindigency() ?>
+
+
+
 
 
 </div>
@@ -956,13 +1084,19 @@ h2 {
   
         </div>
 
-
+       
 
 
      
         <!-- Footer -->
 
         <?php include('user-footer.php'); ?>
+        <script>
+    // Function to close the modal
+    function closeModal() {
+        document.querySelector('.overlay-qr').style.display = 'none';
+    }
+</script>
         <script src="./js-components/component-js-custompurpose.js"></script>
         <script>
             // Set a variable for our button element.
@@ -1015,6 +1149,12 @@ h2 {
 
             
         </script>
+     <script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+</script>
+
     <script>
         function togglePopup() {
             const overlay = document.getElementById('popupOverlay');
@@ -1026,6 +1166,25 @@ h2 {
             overlay.classList.toggle('show');
         }
     </script>
+
+    <script>
+       window.addEventListener("load", function() {
+           document.getElementById("qr").style.display = "flex";
+       });
+
+         function closeModal() {
+        document.querySelector(".overlay-qr").style.display = "none";
+    }
+   </script>
+
+<script>
+       // Wait for the DOM to be fully loaded before showing the pop-up
+       window.addEventListener('load', function() {
+           // Show the pop-up by setting display to 'flex'
+           document.getElementById('qr').style.display = 'flex';
+       });
+   </script>
+
         <script>
             $(document).ready(function(){
             // Add smooth scrolling to all links
