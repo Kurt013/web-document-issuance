@@ -1,4 +1,8 @@
 <?php
+session_start();
+
+include './classes/staff.class.php';
+$conn = $staffbmis->openConn();
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -15,30 +19,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     $recipient_email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     $username = $_POST['username'];
 
-    $email_reg = mysqli_real_escape_string($dbconfig, $_POST['email']);
-    $username_reg = mysqli_real_escape_string($dbconfig, $_POST['username']);
-    $details = mysqli_query($dbconfig, "SELECT `First Name`, `Last Name`, email FROM `user accounts` WHERE email='$email_reg' AND `username`='$username_reg'");
-    
-    $detailFetch = $details->fetch_assoc();
+    $stmt = $conn->prepare('
+      SELECT fname, lname, email FROM tbl_user WHERE username = ? AND email = ?
+    ');
 
-    if (mysqli_num_rows($details) > 0) {
-        mysqli_query($dbconfig, "DELETE FROM forget_password WHERE email='$email_reg'");
-        $verification_code = mt_rand(100000, 999999);
-        $sql_insert = mysqli_query($dbconfig, "INSERT INTO forget_password(email, temp_key) VALUES('$email_reg', '$verification_code')");
+    $stmt->execute([$username, $recipient_email]);
+    
+    $detailFetch = $stmt->fetch();
+
+    if ($detailFetch) {
+      $stmt = $conn->prepare('
+        DELETE FROM tbl_forget_password WHERE email = ?
+      ');
+      $stmt->execute([$recipient_email]);
+
+      $verification_code = mt_rand(100000, 999999);
+
+      $stmt = $conn->prepare('
+        INSERT INTO tbl_forget_password(email, temp_key) VALUES(?, ?)
+      ');
+      $stmt->execute([$recipient_email, $verification_code]);
 
           try {
                 //Server settings
-                $mail->isSMTP();                                            // Send using SMTP
-                $mail->Host       = 'smtp.gmail.com';                     // Set the SMTP server to send through
-                $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-                $mail->Username   = 'ResortVillaGilda@gmail.com';               // SMTP username
-                $mail->Password   = '@CelineAlmodovar';                        // SMTP password
-                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-                $mail->Port       = 587;     
-                
+                $mail->isSMTP();
+                $mail->Host = 'smtp.mailersend.net';  // Set your SMTP server
+                $mail->SMTPAuth = true;
+                $mail->Username = 'MS_aEACuu@trial-0p7kx4xjwevl9yjr.mlsender.net'; // Your SMTP username
+                $mail->Password = 'ZsOeSK3qqlPGnXj7'; // Your SMTP password or app password
+                $mail->SMTPSecure = 'tls';
+                $mail->Port = 587;
+
                 // Sender and recipient settings
-                $mail->setFrom('resortvillagilda@donotreply.com', 'Villa Gilda Resort');
-                $mail->addAddress($detailFetch['email'], $detailFetch[`First Name`]);
+                $mail->setFrom('MS_aEACuu@trial-0p7kx4xjwevl9yjr.mlsender.net', 'Brgy. Sinalhan');
+                $mail->addAddress($detailFetch['email'], $detailFetch['fname']);
 
                 $mail->isHTML(true);
                 $mail->Subject = 'Verification Code -- DO NOT SHARE';
@@ -152,7 +166,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                         <img class="logo" src="https://scontent.fmnl33-5.fna.fbcdn.net/v/t1.15752-9/448719767_828880522525898_6091539274430163876_n.png?_nc_cat=105&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeE6YdCc0x9jPYeyi28KzECuIvAw4C22rBUi8DDgLbasFVBjbjgnw15IgJGzlWW1pYwgBEJMc8tzmog5ZRma_PI2&_nc_ohc=LbHntbutHp4Q7kNvgHKBqfL&_nc_ht=scontent.fmnl33-5.fna&oh=03_Q7cD1QEibZYmJGLG4oiXTvsC_1FDjI23cqQlJP9Zat3KGlPnQg&oe=66A6F266" alt="Villa Gilda Logo">
                       </div>
                       <div class="body-card">
-                        <h1>Hi '.$detailFetch['First Name'].' '.$detailFetch['Last Name'].',</h1>
+                        <h1>Hi '.$detailFetch['fname'].' '.$detailFetch['lname'].',</h1>
                         <p>We&apos;d been told that you&apos;d like to reset the password for your account.</p>
                         <p>If you made such request, go back to the website and enter the verification code below.</p>
                         <div class="verification__code">'.$verification_code.'</div>
@@ -165,7 +179,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                       <hr>
                       <div class="footer-card">
                         <p class="first-p">@ Gilda Private Resort, Purok 2, Brgy. Caingin, Santa Rosa, Laguna</p>
-                        <p class="second-p">This message was sent to <a href="mailto:'.$email_reg.'">'.$email_reg.'</a></p>
+                        <p class="second-p">This message was sent to <a href="mailto:'.$recipient_email.'">'.$recipient_email.'</a></p>
                         <p>To help keep your account secure, please don&apos;t forward this email.</p>
                       </div>
                     </div>
@@ -179,7 +193,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                 } else {
                   $message_success = 'Email sent successfully';
                   $showVerificationForm = true;
-                  $_SESSION['email'] = $email_reg;
+                  $_SESSION['email'] = $recipient_email;
                   $_SESSION['verification_code'] = $verification_code;
                 }
 
@@ -198,14 +212,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Villa Gilda Resort || Forgot Password</title>
 
-  <meta name="robots" content="noindex, nofollow" />
-
   <!-- Favicon -->
   <link rel="icon" href="images/villa-gilda-logo3.png">
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" type="text/css" href="styles/general.css">
-  <link rel="stylesheet" type="text/css" href="styles/forget-password.css">
+  <link rel="stylesheet" type="text/css" href="css/general.css">
+  <link rel="stylesheet" type="text/css" href="css/forget-password.css">
 
   <!-- Boxicon Link -->
   <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
@@ -246,7 +258,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                         echo "<div class='message-success'>" . $message_success . "</div>";
                     } ?>
                     <div class="bottom-part">
-                        <a class="btn" href="index.php">Back</a>
+                        <a class="btn" href="login.php">Back</a>
                         <button type="submit" class="btn-2" name="submit">Submit</button>
                     </div>
                 </form>

@@ -2335,49 +2335,50 @@ public function unarchive_brgyclearance() {
         return 'data:image/png;base64,' . $base64Image;
     }
 
-    function sendEmailWithQRCode($qrImage, $id_resident) {
-        $conn = $this->openConn();
-            // Fetch the recipient email from the database based on recipient ID
-        $query = "SELECT email FROM tbl_resident WHERE id_resident = ?";
-        $stmt = $conn->prepare($query);
-        $stmt->execute([$id_resident]);
+    // function sendEmailWithQRCode($qrImage, $id_resident) {
+    //     $conn = $this->openConn();
+    //         // Fetch the recipient email from the database based on recipient ID
+    //     $query = "SELECT email FROM tbl_resident WHERE id_resident = ?";
+    //     $stmt = $conn->prepare($query);
+    //     $stmt->execute([$id_resident]);
 
-        // Check if email was found
-        if ($row = $stmt->fetch()) {
-            $recipientEmail = $row['email'];
-        } else {
-            echo "<script>alert('Error: No email found for this ID.')</script>";
-            return; // Stop further execution if email is missing
-        }
+    //     // Check if email was found
+    //     if ($row = $stmt->fetch()) {
+    //         $recipientEmail = $row['email'];
+    //     } else {
+    //         echo "<script>alert('Error: No email found for this ID.')</script>";
+    //         return; // Stop further execution if email is missing
+    //     }
 
 
-        $mail = new PHPMailer(true);
-        try {
-            // SMTP server configuration
-            $mail->isSMTP();
-            $mail->Host = 'smtp.mailersend.net';  // Set your SMTP server
-            $mail->SMTPAuth = true;
-            $mail->Username = 'MS_aEACuu@trial-0p7kx4xjwevl9yjr.mlsender.net'; // Your SMTP username
-            $mail->Password = 'ZsOeSK3qqlPGnXj7'; // Your SMTP password or app password
-            $mail->SMTPSecure = 'tls';
-            $mail->Port = 587;
+    //     $mail = new PHPMailer(true);
+    //     try {
+    //         // SMTP server configuration
+    //         $mail->isSMTP();
+    //         $mail->Host = 'smtp.mailersend.net';  // Set your SMTP server
+    //         $mail->SMTPAuth = true;
+    //         $mail->Username = 'MS_aEACuu@trial-0p7kx4xjwevl9yjr.mlsender.net'; // Your SMTP username
+    //         $mail->Password = 'ZsOeSK3qqlPGnXj7'; // Your SMTP password or app password
+    //         $mail->SMTPSecure = 'tls';
+    //         $mail->Port = 587;
     
-            // Email details
-            $mail->setFrom('MS_aEACuu@trial-0p7kx4xjwevl9yjr.mlsender.net', 'Brgy. Sinalhan');
-            $mail->addAddress($recipientEmail);
-            $mail->isHTML(true);
-            $mail->Subject = "Your QR Code";
+    //         // Email details
+    //         $mail->setFrom('MS_aEACuu@trial-0p7kx4xjwevl9yjr.mlsender.net', 'Brgy. Sinalhan');
+    //         $mail->addAddress($recipientEmail);
+    //         $mail->isHTML(true);
+    //         $mail->Subject = "Your QR Code";
     
-            // Attach QR Code as an image
-            $mail->Body = "Here is your QR code!";
-            $mail->addStringAttachment($qrImage, 'qrcode.png', 'base64', 'image/png');
+    //         // Attach QR Code as an image
+    //         $mail->Body = "Here is your QR code!";
+    //         $mail->addStringAttachment($qrImage, 'qrcode.png', 'base64', 'image/png');
     
-            $mail->send();
-            echo "Email sent successfully.";
-        } catch (Exception $e) {
-            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-        }
-    }
+    //         $mail->send();
+    //         echo "Email sent successfully.";
+    //     } catch (Exception $e) {
+    //         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    //     }
+    // }
+
 
     public function deleteTemporaryDocs() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

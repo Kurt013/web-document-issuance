@@ -1,29 +1,30 @@
 <?php
 session_start();
 $message = "";
+// $_SESSION['message'] = "";
 $modal = false;
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'villa gilda'; // Adjusted to remove the space
-$dbconfig = mysqli_connect($host, $username, $password, $database);
 
-if (!$dbconfig) {
-    die("An error occurred when connecting to the database: " . mysqli_connect_error());
-}
+include './classes/staff.class.php';
+$conn = $staffbmis->openConn();
 
 // Handle verification code submission
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_verification_code'])) {
     $key = $_POST['verification_code'];
     $email = $_SESSION['email'];
-    $check = mysqli_query($dbconfig, "SELECT * FROM forget_password WHERE email='$email' and temp_key='$key'");
+
+    $check = $conn->prepare("
+        SELECT * FROM tbl_forget_password WHERE email= ? and temp_key= ?
+    ");
+    $check->execute([$email, $key]);
+    // $check = $stmt->fetch();
 
     if (!$check) {
-        $message = "Database query failed: " . mysqli_error($dbconfig);
-    } else if (mysqli_num_rows($check) != 1) {
+        $message = "Database query failed: ";
+    } else if ($check->rowCount() != 1) {
+        $_SESSION['message'] = 'Invalid verification code';
         header('Location: forget_password.php');
         exit;
-      } else {
+      } else { 
         $_SESSION['verification_code'] = $key;
         $message_success = "Verification code accepted. Please enter your new password.";
     }
@@ -51,22 +52,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
       $email = $_SESSION['email'];
       $key = $_SESSION['verification_code'];
 
-      $password1 = mysqli_real_escape_string($dbconfig, $_POST['password1']);
-      $password2 = mysqli_real_escape_string($dbconfig, $_POST['password2']);
+      $password1 = $_POST['password1'];
+      $password2 = $_POST['password2'];
 
-      if ($password1 == $password2) {
+      if ($password1 === $password2) {
         if(is_valid_password($password1)){
-            $result = mysqli_query($dbconfig, "SELECT * FROM `user accounts` WHERE `email`='$email'");
-            if ($result && mysqli_num_rows($result) == 1) {
-                $row = mysqli_fetch_assoc($result);
-                // Verify if the entered password matches the stored hashed password
-                if (password_verify($password1, $row['Password'])) {
+            $stmt = $conn->prepare("SELECT * FROM tbl_user WHERE `email`= ?");
+
+            $stmt->execute([$email]);
+            $result = $stmt->fetch();
+            if ($result && $stmt->rowCount() == 1) {
+                if (password_verify($password1, $result['password'])) {
                     $message = "You cannot reuse the same password.";
                 } else {
                     // Proceed with updating the password
                     $password_hash = password_hash($password1, PASSWORD_DEFAULT);
-                    $delete_query = mysqli_query($dbconfig, "DELETE FROM forget_password WHERE email='$email' AND temp_key='$key'");
-                    $update_query = mysqli_query($dbconfig, "UPDATE `user accounts` SET `Password`='$password_hash' WHERE `email`='$email'");
+
+                    $deleteQuery = $conn->prepare("DELETE FROM tbl_forget_password WHERE email= ? AND temp_key= ?");
+                    $deleteQuery->execute([$email, $key]);
+
+                    $update_query = $conn->prepare("UPDATE tbl_user SET `password`= ? WHERE `email`= ?");
+                    $update_query->execute([$password_hash, $email]);
 
                     if ($update_query) {
                         $modal = true;
@@ -74,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                         session_unset();
                         session_destroy();
                     } else {
-                        $message = "Error updating password: " . mysqli_error($dbconfig);
+                        $message = "Error updating password: ";
                     }
                 }
          } else {
@@ -88,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
           $message = "Passwords do not match.";
       }
   } else {
-      header('Location: index.php');
+      header('Location: login.php');
   }
 }
 ?>
@@ -101,14 +107,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Villa Gilda Resort || Reset Password</title>
 
-  <meta name="robots" content="noindex, nofollow" />
-
   <!-- Favicon -->
   <link rel="icon" href="images/villa-gilda-logo3.png">
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" type="text/css" href="styles/general.css">
-  <link rel="stylesheet" type="text/css" href="styles/forgot_password_reset.css">
+  <link rel="stylesheet" type="text/css" href="css/forgot_password_reset.css">
+  <link rel="stylesheet" type="text/css" href="css/general.css">
 
   <!-- Boxicon Link -->
   <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
@@ -140,12 +144,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                 <input type="password" class="form-control" id="confirm-pwd" name="password2">
             </div>
         </div>
-        <?php if ($message != "") {
-            echo "<div class='error-message'>" . $message . "</div>";
-        } ?>
-        <?php if (isset($message_success)) {
-            echo "<div class='success-message'>" . $message_success . "</div>";
-        } ?>
+        <?php if ($message <> "") {
+                        echo "<div class='error-message'>" . $message . "</div>";
+                    } ?>
+                    <?php if (isset($message_success)) {
+                        echo "<div class='message-success'>" . $message_success . "</div>";
+                    } ?>
         <div class="bottom-part-3"><button type="submit" class="btn-save" name="submit">Save Password</button></div>
     </form>
 </div>
@@ -158,7 +162,7 @@ if ($modal) {
                     <p>Your password has been reset successfully. You can now use your new password to login!</p>
                 </div>
                 <div class="bottom-part">
-                    <a class="btn" href="index.php">Back to Login Page</a>
+                    <a class="btn" href="login.php">Back to Login Page</a>
                 </div>
         </dialog>
             
@@ -168,7 +172,5 @@ if ($modal) {
             </script>';
 }
 ?>
-
-
 </body>
 </html>

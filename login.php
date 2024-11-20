@@ -379,10 +379,10 @@
 
         <hr>
 
-        <!-- <div class="registration-section mt-3">
-            <p><strong>Haven't registered yet?</strong></p>
-            <button class="btn btn-success create-button" onclick="trying();">Create Account</button>
-        </div> -->
+        <div class="registration-section mt-3">
+            <p><strong>Forgot Password?</strong></p>
+            <button class="btn btn-success create-button" onclick="trying();">Change Password</button>
+        </div>
     </div>
 
     <div class="right-side">
@@ -416,7 +416,7 @@
     }
 
     function trying() {
-        window.location.href = "resident_registration.php";
+        window.location.href = "forget_password.php";
     }
 </script>
 
