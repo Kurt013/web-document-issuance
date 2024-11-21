@@ -92,7 +92,9 @@
                 $keywordLike, $keywordLike
             ]);
         
-        while($view = $stmnt->fetch()){
+        $views = $stmt->fetchAll();
+        if ($stmt->rowCount() > 0) {
+            foreach ($views as $view) {
     ?>
         <tr>
             <td>    
@@ -123,6 +125,10 @@
         </tr>
     <?php
     }
+}
+else {
+    echo "<tr><td colspan='13'>No existing list</td></tr>";
+}
     ?>
 </tbody>
 
@@ -215,5 +221,22 @@
 
 <?php
 	}
-$con = null;
+
+    $viewsJson = json_encode($views);
+    $list === 'archived' ?
+        $tableName = 'tbl_bspermit_archive' :
+        $tableName = 'tbl_bspermit';
 ?>
+
+<?php if ($list === 'archived') {?>
+    <form action="./export_to_pdf.php" method="POST" target="_blank">
+        <button name="export_pdf">Export to PDF</button>
+        <input type="hidden" name="views_data" value="<?php echo htmlspecialchars($viewsJson, ENT_QUOTES, 'UTF-8'); ?>">
+        <input type="hidden" name="table_name" value="<?= $tableName ?>">
+    </form>
+    <form action="./export_to_excel.php" method="POST" target="_blank">
+        <button name="export_excel">Export to Excel</button>
+        <input type="hidden" name="views_data" value="<?php echo htmlspecialchars($viewsJson, ENT_QUOTES, 'UTF-8'); ?>">
+        <input type="hidden" name="table_name" value="<?= $tableName ?>">
+    </form>
+<?php } ?>

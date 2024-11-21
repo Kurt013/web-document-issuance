@@ -6,7 +6,6 @@
         </select>
 </form>
 <?php    
-
 	if(isset($_POST['search_certofres'])){
 		$keyword = $_POST['keyword'];
 ?>
@@ -215,7 +214,6 @@
 <?php
 
 	}
-
 
     $viewsJson = json_encode($views);
     $list === 'archived' ?
