@@ -150,7 +150,7 @@
             color: #012040;               /* White text color */
             font-size: 1rem;            /* Font size */
             padding: 6px 15px !important;         /* Padding around the text */
-            border: 4px solid #012049;            /* Remove default border */
+            border: 3px solid #012049;            /* Remove default border */
             border-radius: 20px;         /* Rounded corners */
             cursor: pointer;   
             font-family: "PExBold";        /* Pointer cursor on hover */
@@ -362,7 +362,7 @@
                        
                         <div class="header"> 
                             <h2> We make document request faster and easier for you! </h2><bR>
-                            <button class = "reqbtn"  onclick="window.location.href='index.php#docsec'">
+                            <button  onclick="window.location.href='index.php#docsec'">
                             <i class="fa-solid fa-arrow-circle-right icon"></i>
 Request Now
                 </button>

@@ -462,6 +462,7 @@ h2 {
             font-size: 1rem;
             width: 100%;
             box-sizing: border-box;
+            font-family: "PRegular";
         }
 
         .btn-submit {
@@ -631,7 +632,7 @@ h2 {
             <div class="row"> 
                 <div class="col"> 
                     <div class="header">
-                        <h1 class = "docuname">Certificate Of Residency </h1>
+                        <h1 class = "docuname">Certificate of Residency </h1>
                         <h5>Certificate of Residency is one the Philippine government issued identification documents 
                         needed for many important business, job, or personal transactions. You might need it for 
                          the following reasons: when you apply a job/employment. when you apply or open a bank account. </h5>

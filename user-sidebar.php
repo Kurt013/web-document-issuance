@@ -28,6 +28,11 @@
         }
 
         @font-face {
+            font-family: 'PSemiBold'; 
+            src: url('fonts/Poppins-SemiBold.ttf') format('truetype'); 
+        }
+
+        @font-face {
             font-family: 'PBlackIt'; 
             src: url('fonts/Poppins-BlackItalic.ttf') format('truetype'); 
         }
@@ -49,6 +54,7 @@
     margin-top: auto;
     margin-bottom: 20px;
     padding: 20px;
+    
   }
 }
 
@@ -146,6 +152,7 @@
       min-height: 230px;
       display: flex;
       align-items: center;
+      font-family: "PSemiBold";
       padding: 0 20px;
       > span {
         overflow: hidden;
@@ -201,64 +208,69 @@
       }
     }
   }
-      .menu-item {
-        a {
-          display: flex;
-          align-items: center;
-          height: 50px;
-          padding: 0 20px;
-          color: #7d84ab;
-       
+  .menu-item {
+    a {
+        display: flex;
+        align-items: center; /* Ensures vertical alignment */
+        height: 50px;
+        padding: 0 20px;
+        color: #7d84ab;
 
-          .menu-icon {
+        .menu-icon {
             font-size: 1.2rem;
             width: 35px;
             min-width: 35px;
             height: 35px;
             line-height: 35px;
             text-align: center;
-            display: inline-block;
+            display: flex; /* Flex for better alignment */
+            justify-content: center; /* Center icon horizontally */
+            align-items: center; /* Center icon vertically */
             margin-right: 10px;
             border-radius: 2px;
             transition: color 0.3s;
+
             i {
-              display: inline-block;
+                display: inline-block;
             }
-          }
         }
 
-          .menu-title {
+        .menu-title {
             font-size: 0.9em;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            flex-grow: 1;
+            flex: 1; /* Take remaining space */
             transition: color 0.3s;
             font-family: "PMedium";
-          }
-          .menu-prefix,
-          .menu-suffix {
+        }
+
+        .menu-prefix,
+        .menu-suffix {
             display: inline-block;
             padding: 5px;
             opacity: 1;
             transition: opacity 0.3s;
-          }
-          &:hover {
+        }
+
+        &:hover {
             .menu-title {
-              color: #dee2ec;
+                color: #dee2ec;
             }
             .menu-icon {
-              color: #dee2ec;
-              i {
-                animation: swing ease-in-out 0.5s 1 alternate;
-              }
+                color: #dee2ec;
+
+                i {
+                    animation: swing ease-in-out 0.5s 1 alternate;
+                }
             }
             &::after {
-              border-color: #dee2ec !important;
+                border-color: #dee2ec !important;
             }
-          }
         }
     }
+}
+}
  
 
 
@@ -630,7 +642,10 @@ a {
           <div class="sidebar-content">
             <nav class="menu open-current-submenu">
               <ul>
+             
+
                 <li class="menu-header"><span> GENERAL </span></li>
+                
                 <li class="menu-item sub-menu">
                 <a href="index.php">
                     <span class="menu-icon">
@@ -648,16 +663,9 @@ a {
                     <span class="menu-title">Announcement</span>
                   </a>
                 </li>
-                <li class="menu-item">
-                  <a href="#">
-                    <span class="menu-icon">
-                      <i class="fas fa-address-book"></i>
-                    </span>
-                    <span class="menu-title">Contacts</span>
-                  </a>
-                </li>
+
                  
-                <li class="menu-header" style="padding-top: 20px"><span> DOCUMENT SERVICES </span></li>
+                <li class="menu-header" style="padding-top: 25px"><span> DOCUMENT SERVICES </span></li>
                 <li class="menu-item">
                 <a href="services_certofres.php">
                     <span class="menu-icon">

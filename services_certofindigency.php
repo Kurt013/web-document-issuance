@@ -506,6 +506,7 @@ h2 {
             font-size: 1rem;
             width: 100%;
             box-sizing: border-box;
+            font-family: "PRegular";
         }
 
         .btn-submit {
