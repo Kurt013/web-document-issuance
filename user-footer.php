@@ -88,7 +88,7 @@
 }
 
 #social-icons a:hover {
-  color: #4CAF50; /* Change color on hover */
+  color: #5adae6; 
 }
 
 /* Copyright */

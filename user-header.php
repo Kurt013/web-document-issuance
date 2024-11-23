@@ -79,7 +79,7 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 
         /* Hover effect for the button */
         #adminbtn:hover {
-            background-color: #3661D5;  
+            background-color: #2c91c9;  
         }
 
         /* Focus effect for accessibility */

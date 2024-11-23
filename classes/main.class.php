@@ -225,7 +225,7 @@ class BMISClass {
 
     public function view_announcement(){
         $connection = $this->openConn();
-        $stmt = $connection->prepare("SELECT u.lname, u.fname, u.mi, a.event, date(a.created_on) AS created_date, a.id_announcement from tbl_user AS
+        $stmt = $connection->prepare("SELECT u.lname, u.fname, u.mi, a.event, date(a.created_on) AS created_date, TIME_FORMAT(a.created_on, '%h:%i %p') AS created_time, a.id_announcement from tbl_user AS
             u JOIN tbl_announcement AS a ON u.id_user = a.created_by");
         $stmt->execute();
         $view = $stmt->fetchAll();
@@ -1986,12 +1986,25 @@ public function unarchive_brgyclearance() {
             $residentId = $this->get_latest_brgyid($created_by);
             $qrCode = $this->generateQRCode($residentId['id_brgyid'], 'brgyid');
 
-            echo '<script>alert("QR Code Successfully Generated!")</script>
-                <h1>Your QR code has been generated. Please download it and bring it to the barangay hall to get your document!</h1>
-                <img src="' . $qrCode . '" alt="QR Code" style="display:block; margin-bottom:10px;"/>
-                <a href="' . $qrCode . '" download="qr_code_brgyid.png">
-                    <button type="button" style="padding:10px 20px; font-size:16px; cursor:pointer;">Download QR Code</button>
-                </a>';
+            echo '
+
+                                  <div id="qr" class="overlay-qr">
+        <div class="popup-qr">
+          <h3>Your QR Code has been generated!</h3>
+<p>Download or take a screenshot of it, and bring it to the barangay hall along with the required documents to claim your certificate.</p>
+
+<p class = "qrid">BGID - ' .strtoupper($lname). ' - ' .$residentId['id_brgyid']. '</p>
+
+<img src="' . $qrCode . '" alt="QR Code" />
+
+                <a href="' . $qrCode . '" download="qr_code_certofindigency.png">
+                    <button type="button" class ="btn-dl-qr">Download QR Code</button>
+                </a>
+
+            <button class="btn-close-qr" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+            ';
         
         }  
     }

@@ -28,7 +28,7 @@
     
       <meta name="viewport" content="width=device-width, initial-scale=1"><!-- bootstrap css --> 
       <link href="../BarangaySystem/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
-      <!-- fontawesome icons --> 
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
       <script src="https://kit.fontawesome.com/67a9b7069e.js" crossorigin="anonymous"></script>
     
 
