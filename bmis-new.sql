@@ -101,7 +101,7 @@ CREATE TABLE tbl_clearance (
     brgy VARCHAR(20) DEFAULT 'sinalhan',
     city VARCHAR(20) DEFAULT 'city of santa rosa',
     municipality VARCHAR(20) DEFAULT 'laguna',
-    purpose VARCHAR(20),
+    purpose VARCHAR(100),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by VARCHAR(20),
     doc_status VARCHAR(20) DEFAULT 'pending'
@@ -120,7 +120,7 @@ CREATE TABLE tbl_indigency (
     brgy VARCHAR(20) DEFAULT 'sinalhan',
     city VARCHAR(20) DEFAULT 'city of santa rosa',
     municipality VARCHAR(20) DEFAULT 'laguna',
-    purpose VARCHAR(20),
+    purpose VARCHAR(100),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by VARCHAR(20),
     doc_status VARCHAR(20) DEFAULT 'pending'
@@ -138,7 +138,7 @@ CREATE TABLE tbl_rescert (
     brgy VARCHAR(20) DEFAULT 'sinalhan',
     city VARCHAR(20) DEFAULT 'city of santa rosa',
     municipality VARCHAR(20) DEFAULT 'laguna',
-    purpose VARCHAR(20),
+    purpose VARCHAR(100),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by VARCHAR(20),
     doc_status VARCHAR(20) DEFAULT 'pending'
@@ -215,7 +215,7 @@ CREATE TABLE tbl_clearance_archive (
     brgy VARCHAR(20) DEFAULT 'sinalhan',
     city VARCHAR(20) DEFAULT 'city of santa rosa',
     municipality VARCHAR(20) DEFAULT 'laguna',
-    purpose VARCHAR(20),
+    purpose VARCHAR(100),
     archived_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     archived_by INT,
     FOREIGN KEY (archived_by) REFERENCES tbl_user(id_user)
@@ -234,7 +234,7 @@ CREATE TABLE tbl_indigency_archive (
     brgy VARCHAR(20) DEFAULT 'sinalhan',
     city VARCHAR(20) DEFAULT 'city of santa rosa',
     municipality VARCHAR(20) DEFAULT 'laguna',
-    purpose VARCHAR(20),
+    purpose VARCHAR(100),
     archived_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     archived_by INT,
     FOREIGN KEY (archived_by) REFERENCES tbl_user(id_user)
@@ -252,7 +252,7 @@ CREATE TABLE tbl_rescert_archive (
     brgy VARCHAR(20) DEFAULT 'sinalhan',
     city VARCHAR(20) DEFAULT 'city of santa rosa',
     municipality VARCHAR(20) DEFAULT 'laguna',
-    purpose VARCHAR(20),
+    purpose VARCHAR(100),
     archived_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     archived_by INT,
     FOREIGN KEY (archived_by) REFERENCES tbl_user(id_user)
