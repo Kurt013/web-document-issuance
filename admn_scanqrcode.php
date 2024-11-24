@@ -10,6 +10,52 @@
     <title>QR Code Scanner</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="./js-components/instascan.min.js"></script>
+  <style>
+    @font-face {
+  font-family: 'PMedium'; 
+  src: url('fonts/Poppins-Medium.ttf') format('truetype'); 
+}
+  
+  h1 {
+    color: white;
+            font-family: 'PExBold' !important;
+            font-size: 2.2rem;
+            text-shadow: 5px 5px 10px rgba(1, 60, 139, 0.9);
+        
+            letter-spacing: 3px;
+
+            line-height: 42px;
+            -webkit-text-stroke: 7px #012049;
+            paint-order: stroke fill;
+  }
+  video {
+    margin-top: 20px;
+  }
+
+  label {
+         
+         font-size: 1rem;
+         color: #012049;
+         font-family: "PSemiBold";
+         margin-top: 10px;
+
+     }
+
+     select  {
+            font-family: "PMedium" !important;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: 2px solid #012049;
+            padding: 0 5px;
+            cursor: pointer;
+            width: 20%;
+            margin-left: 5px;
+            text-align: center;
+            color: #012049;
+          
+            
+        }
+  </style>
   </head>
   <body style="text-align: center;">
     

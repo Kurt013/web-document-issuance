@@ -1,3 +1,86 @@
+<style>
+form label {
+         
+         font-size: 1rem;
+         color: #012049;
+         font-family: "PSemiBold";
+         text-align: left;
+     }
+
+     form select  {
+            font-family: "PMedium" !important;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: 2px solid #012049;
+            padding: 0 5px;
+            cursor: pointer;
+            width: 15%;
+            margin-left: 5px;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #012049;
+          
+            
+        }
+
+        .form-control option:hover {
+    background-color: #2c91c9; /* Light gray background on hover */
+    color: #000; /* Darker text on hover */
+}
+
+
+
+        .form-control:focus {
+    border-color: black; /* Highlight border on focus */
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3); /* Subtle shadow on focus */
+  
+    
+}
+
+.form-buttons {
+    display: flex; /* Aligns forms in a row */
+    gap: 10px; /* Adds space between the buttons */    align-items: center; /* Ensures buttons align vertically */
+}
+
+.form-buttons form {
+    margin: 0; /* Removes default margins from forms */
+}
+
+.btnexpex, .btnexpdf {
+    padding: 5px 20px; /* Adjusts button size */
+    font-size: 16px; /* Adjusts font size */
+    border: 2px solid #012049; /* Adds a border */
+    border-radius: 5px; /* Rounds button corners */
+    background-color: white; /* Light background color */
+    font-family: "PSemiBold";
+    cursor: pointer; /* Changes cursor to pointer */
+    margin-bottom: 30px;
+}
+.btnexpex {
+    color: #388E3C;
+    border: 2px solid #388E3C; 
+}
+
+.btnexpdf {
+    color: #D32F2F;
+    border: 2px solid #D32F2F; 
+}
+.btnexpex i,.btnexpdf i {
+    margin-right: 5px; /* Adds spacing between icon and text */
+
+}
+
+.btnexpex:hover {
+    background-color: #388E3C; /* Darker background on hover */
+    color: white; /* White text on hover */
+}
+
+.btnexpdf:hover {
+    background-color: #D32F2F; /* Darker background on hover */
+    color: white; /* White text on hover */
+}
+
+</style>
 <form method="GET" action="">
         <label for="list">Select List: </label>
         <select name="list" id="list" onchange="this.form.submit()">
@@ -259,15 +342,17 @@
 ?>
 
 
-<?php if ($list === 'archived') {?>
-    <form action="./export_to_pdf.php" method="POST" target="_blank">
-        <button name="export_pdf">Export to PDF</button>
-        <input type="hidden" name="views_data" value="<?php echo htmlspecialchars($viewsJson, ENT_QUOTES, 'UTF-8'); ?>">
-        <input type="hidden" name="table_name" value="<?= $tableName ?>">
-    </form>
-    <form action="./export_to_excel.php" method="POST" target="_blank">
-        <button name="export_excel">Export to Excel</button>
-        <input type="hidden" name="views_data" value="<?php echo htmlspecialchars($viewsJson, ENT_QUOTES, 'UTF-8'); ?>">
-        <input type="hidden" name="table_name" value="<?= $tableName ?>">
-    </form>
+<?php if ($list === 'archived') { ?>
+    <div class="form-buttons">
+        <form action="./export_to_pdf.php" method="POST" target="_blank">
+            <button name="export_pdf" class="btnexpdf" ><i class="fas fa-file-pdf"></i>Export to PDF</button>
+            <input type="hidden" name="views_data" value="<?php echo htmlspecialchars($viewsJson, ENT_QUOTES, 'UTF-8'); ?>">
+            <input type="hidden" name="table_name" value="<?= $tableName ?>">
+        </form>
+        <form action="./export_to_excel.php" method="POST" target="_blank">
+            <button name="export_excel" class="btnexpex"><i class="fas fa-file-excel"></i>Export to Excel</button>
+            <input type="hidden" name="views_data" value="<?php echo htmlspecialchars($viewsJson, ENT_QUOTES, 'UTF-8'); ?>">
+            <input type="hidden" name="table_name" value="<?= $tableName ?>">
+        </form>
+    </div>
 <?php } ?>
