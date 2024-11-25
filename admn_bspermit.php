@@ -80,12 +80,14 @@ td {
     background-color: #1cc88a;
     font-size: 0.9rem !important;
     border: none;
+    font-family: "PSemiBold";
     vertical-align: middle;
 }
 
 .btn-danger {
     font-size: 0.9rem !important;
     border: none;
+    font-family: "PSemiBold";
     margin-bottom: 3px !important;
 
 }

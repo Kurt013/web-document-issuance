@@ -90,12 +90,14 @@ td {
     font-size: 0.9rem !important;
     border: none;
     vertical-align: middle;
+    font-family: "PSemiBold";
 }
 
 .btn-danger {
     font-size: 0.9rem !important;
     border: none;
     margin-bottom: 3px !important;
+    font-family: "PSemiBold";
 
 }
 

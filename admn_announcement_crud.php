@@ -1,3 +1,93 @@
+<style>
+
+    .card-header, .card-header2 {
+        background-color: #014bae !important;
+        font-family: "PBold";
+        font-size : 1.2rem;
+        color: white;
+    }
+
+
+    
+    th, td {
+    padding: 10px; /* Add some space around content */
+    text-align: center; /* Center text horizontally */
+    vertical-align: middle; /* Center text vertically */
+    border: 1px solid #ddd; /* Add borders for clarity */
+
+}
+
+td {
+    border: 2px solid white !important; /* Thicker border with custom color */
+}
+
+.btn-danger {
+    font-family: "PSemiBold";
+    padding: 5px 10px !important;
+}
+
+th {
+    background-color: #2c91c9;
+    color: white;
+    text-align: center; /* Horizontal alignment */
+    vertical-align: middle !important; /* Vertical alignment */
+    border: 2px solid white !important; /* Thicker border with custom color */
+    padding: 15px;
+    font-size: 1rem;
+    font-family: "PSemiBold" !important;
+    height: 60px; /* Adjust as needed to make the header row taller */
+}
+
+/* Table Rows */
+td {
+    text-align: center;
+    padding: 20px;
+    font-family: "PRegular" !important;
+    font-size: 0.9rem;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+}
+
+.col-md-12 h1 {
+    color: white;
+            font-family: 'PExBold' !important;
+            font-size: 2.2rem;
+            text-shadow: 5px 5px 10px rgba(1, 60, 139, 0.9);
+        
+            letter-spacing: 3px;
+            margin-top: 20px;
+
+            line-height: 42px;
+            -webkit-text-stroke: 7px #012049;
+            paint-order: stroke fill;
+  }
+
+.btn-primary {
+    font-family: "PSemiBold";
+    background-color: #2c91c9 !important;
+}
+
+.card {
+    border: 2px solid #014bae !important;
+   
+}
+
+.row h6 {
+    font-family: "PSemiBold";
+    color: #014bae;
+}
+
+.form-control {
+    border: 2px solid #014bae !important;
+    font-family: "PMedium";
+    color: #014bae !important;
+}
+
+
+
+
+</style>
+
 <?php
     require './classes/main.class.php';
 
@@ -39,7 +129,7 @@
     <div class="row"> 
         <div class="col-sm-6"> 
             <div class="card">
-                <div class="card-header bg-primary text-white" style="font-size: 20px;"> Event Announcement Form </div>
+                <div class="card-header"> Event Announcement Form </div>
                 <div class="card-body">
                     <form method="post">
                         <div class="row"> 
@@ -68,7 +158,7 @@
         </div>
         <div class="col-sm-6"> 
             <div class="card">
-                <div class="card-header bg-info text-white" style="font-size: 20px;"> Current Announcement Posted </div>
+                <div class="card-header"> Current Announcement Posted </div>
                 <div class="card-body">
                     <table class="table table-hover table-bordered table-responsive text-center">
                         <form action="" method="post">
@@ -105,33 +195,7 @@
     </div>
     <br><br>
 
-    <div class="row"> 
-        <div class="col">             
-            <div class="card">
-                <div class="card-header bg-success text-white" style="font-size: 20px;"> Current Announcement Output </div>
-                <div class="card-body">
-                <?php 
-                    if ($view) {
-                ?>
-                    <div class="alert alert-info alert-dismissible fade show" 
-                        style="border-radius:30px;
-                        margin-left:13%; 
-                        width:75%;
-                        height:180px;
-                        color: white;
-                        background-color:#3498DB;" role="alert">
-                        <strong><h4>ANNOUNCEMENT!<h4><hr></strong> <br> <p> <?= $view['event'];?> </p>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                <?php 
-                    } 
-                ?>
-                </div>
-            </div>
-        </div>
-    </div>
+ 
 
     <!-- /.container-fluid -->
 
