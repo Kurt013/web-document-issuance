@@ -2623,6 +2623,78 @@ public function unarchive_brgyclearance() {
 
         return $brgyidcount;
     }
+
+    public function count_documents_issued_in_month($startDate, $endDate) {
+        // Open the database connection
+        $connection = $this->openConn(); 
+    
+        // SQL query to count documents across multiple tables for the given date range
+        $query = "
+        SELECT 
+            SUM(document_count) AS total_documents
+        FROM (
+            SELECT 
+                COUNT(*) AS document_count
+            FROM 
+                tbl_indigency_archive
+            WHERE 
+                DATE(archived_on) BETWEEN :start_date AND :end_date
+    
+            UNION ALL
+    
+            SELECT 
+                COUNT(*) AS document_count
+            FROM 
+                tbl_rescert_archive
+            WHERE 
+                DATE(archived_on) BETWEEN :start_date AND :end_date
+    
+            UNION ALL
+    
+            SELECT 
+                COUNT(*) AS document_count
+            FROM 
+                tbl_brgyid_archive
+            WHERE 
+                DATE(archived_on) BETWEEN :start_date AND :end_date
+    
+            UNION ALL
+    
+            SELECT 
+                COUNT(*) AS document_count
+            FROM 
+                tbl_bspermit_archive
+            WHERE 
+                DATE(archived_on) BETWEEN :start_date AND :end_date
+    
+            UNION ALL
+    
+            SELECT 
+                COUNT(*) AS document_count
+            FROM 
+                tbl_clearance_archive
+            WHERE 
+                DATE(archived_on) BETWEEN :start_date AND :end_date
+        ) AS combined_counts;
+        ";
+    
+        // Prepare the query
+        $stmt = $connection->prepare($query);
+    
+        // Bind the start and end date parameters
+        $stmt->bindParam(':start_date', $startDate, PDO::PARAM_STR);
+        $stmt->bindParam(':end_date', $endDate, PDO::PARAM_STR);
+    
+        // Execute the query
+        $stmt->execute();
+    
+        // Fetch the result
+        $result = $stmt->fetch();
+    
+        // Return the total document count (or 0 if no rows found)
+        return $result['total_documents'] ?? 0;
+    }
+    
 }
     
 

@@ -25,13 +25,23 @@
     //     $documentIssuanceCounts[] = $staffbmis->count_documents_issued_on_date($date);
     // }
 
-    // Pass PHP data into JavaScript
-    $documentIssuanceTrendData = json_encode($documentIssuanceCounts);
+   // Fetch document issuance counts for each month from January to the selected month
+    $documentIssuanceCounts = [];
     $monthLabels = [];
-    for ($day = 1; $day <= $total_days_in_month; $day++) {
-        $monthLabels[] = date('d', strtotime(date('Y') . '-' . $current_month . '-' . $day));
+
+    for ($month = 1; $month <= $current_month; $month++) {
+        // Generate month labels (e.g., January, February)
+        $monthLabels[] = date('F', mktime(0, 0, 0, $month, 10));
+        
+        // Fetch document issuance count for the entire month
+        $startDate = date('Y-m-d', strtotime(date('Y') . '-' . $month . '-01'));
+        $endDate = date('Y-m-t', strtotime($startDate)); // Last day of the month
+        $documentIssuanceCounts[] = $staffbmis->count_documents_issued_in_month($startDate, $endDate);
     }
+
+    // Encode labels and data to JSON for JavaScript
     $monthLabelsJson = json_encode($monthLabels);
+    $documentIssuanceTrendDataJson = json_encode($documentIssuanceCounts);
 
 ?>
 
@@ -437,10 +447,10 @@ body{
 <script>
 // Dynamic Data for Document Issuance Trends (based on the current month)
 const documentIssuanceTrendData = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November'],
+    labels: <?= $monthLabelsJson ?>,
     datasets: [{
         label: 'Total Documents Issued',
-        data: [10, 20, 30, 40, 20, 20, 20, 10, 20, 30, 20],
+        data: <?= $documentIssuanceTrendDataJson ?>,
         fill: false,
         borderColor: '#00aff0',
         tension: 0.1,
