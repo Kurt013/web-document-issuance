@@ -114,25 +114,17 @@
             <hr style = "margin-bottom: 10px;">
           </div>
         <div class = "tnc-content">
-            <h2> 1. Introduction </h2>
-            <p>This Privacy Policy outlines our policies regarding the collection, use, storage, disclosure, and disposal of personal data collected through the Document Issuance System ("the System") and other related interactions. These interactions include contacting our support number, sending inquiries to our email, and providing information when using our services. By using the System, you agree to the terms of this Privacy Policy and the collection and use of your personal data in compliance with applicable laws and regulations.</h3>
-            <h2> 2. Collection and Use of Personal Data</h2>
-            <p> We collect personal data to facilitate your document requests, improve our services, and ensure the proper functioning of the System. Personal data refers to any information from which your identity can be reasonably and directly ascertained. This may include, but is not limited to:</h3>
-            <h4> • Full Name </h4>
-            <h4> • Date of Birth </h4>
-            <h4> • Home Address </h4>
-            <h4> •  Address </h4>
-            <h4> • Contact Number(s) </h4>
-            <h4> • Government Identification Number(s) </h4>
-            <h4> • Other relevant information necessary for your transaction with our System </h4>
-            <p> We collect this information when you register or update your details, fill out request forms, or engage in other transactions through the System. The information collected is used to process your document requests, generate necessary forms, and produce a QR code for use at the Barangay Hall.</p>
-            <h2> 3. Security of Your Personal Data </h2>
-            <p> We take reasonable measures to ensure the security of your personal data during its collection and processing. Although we strive to maintain the integrity and confidentiality of your information, we cannot guarantee absolute security, as no system is fully immune to potential threats.</p>
-            <h2> 4. Data Retention and Disposal </h2>
-            <p> We retain your personal data only for as long as necessary to fulfill the purposes outlined in this Privacy Policy or as required by law. Once your data is no longer needed, it will be securely disposed of to prevent unauthorized access, following guidelines set by the National Archives of the Philippines in accordance with R.A. 9470.</p>
-            <p> Data may be classified for: </p>
-            <h4> • Temporary Retention: Data needed for short-term operational purposes is securely stored and deleted after a defined period.</h4>
-            <h4> • Permanent Deletion: Data that has reached the end of its retention period is permanently and securely removed from our System. </h4>
+            <h2> 1. Acceptance of Terms </h2>
+            <p>By using this site, you agree to be bound by these Terms and Conditions. If you do not agree to these terms, please do not use the System.
+
+</h3>
+            <h2> 2. Description of Service</h2>
+            <p> This site allows users to request official documents, fill out forms, and generate QR codes for quick processing at the Barangay Hall. You agree to use this site only for lawful purposes and in compliance with all applicable laws and regulations. </p>
+        
+            <h2> 3. Enhancement and Errors </h2>
+            <p> Unless explicitly stated otherwise, any new features that enhance the current functionality of this site shall be subject to these Terms and Conditions. The Barangay does not warrant or represent nor assumes any responsibility for the timeliness, accuracy, reliability, deletion, or misdelivery of information available on or through this site, or for the failure to store any user communications. The Barangay also does not warrant that this site will be error-free, free of viruses, or other harmful components or defects. Additionally, you must provide and are responsible for all equipment necessary to access and use the this site.</p>
+            <h2> 4. Your Registration Obligations </h2>
+            <p> You agree to: (a) provide true, accurate, current, and complete information about yourself as prompted during user registration and (b) maintain and promptly update your registration information to keep it true, accurate, current, and complete. If any information provided is found to be untrue, inaccurate, or incomplete, or if this site has reasonable grounds to suspect such inaccuracies, the Barangay reserves the right to deny or cancel your request and restrict access to this site’s services. </p>
             <h2> 5. Use of QR Code </h2>
             <p> Upon successfully submitting a document request, the System generates a unique QR code. This QR code is used to retrieve your requested document at the Barangay Hall. It is your responsibility to keep the QR code secure. Sharing this code with unauthorized persons may result in data breaches, for which we are not liable.</p>
             <h2> 6. Changes to this Privacy Policy </h2>

@@ -764,7 +764,7 @@ h2 {
          
         <div class="popup-box">
         <div class = "popup-hd">
-            <h2>Registration Form</h2>
+            <h2>Request Form</h2>
             <p>for Barangay ID </p>
             
             <h3>Fill in all required fields and double-check your information before submitting to ensure accuracy.</h3>

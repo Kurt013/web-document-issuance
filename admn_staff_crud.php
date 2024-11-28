@@ -11,16 +11,69 @@
     
 ?>
 <style>
+.container-fluid h1 {
+    color: white;
+            font-family: 'PExBold' !important;
+            font-size: 2.2rem;
+            text-shadow: 5px 5px 10px rgba(1, 60, 139, 0.9);
+            margin-top: 30px;
+            letter-spacing: 3px;
+
+            line-height: 42px;
+            -webkit-text-stroke: 7px #012049;
+            paint-order: stroke fill;
+}
+table {
+    width: auto; /* Let the table size itself based on content */
+    table-layout: auto; /* Cells adjust to their content */
+    border-collapse: collapse; /* Neat borders */
+   
+}
+
+/* Table cell styles */
+th, td {
+    padding: 10px; /* Add some space around content */
+    text-align: center; /* Center text horizontally */
+    vertical-align: middle; /* Center text vertically */
+    border: 1px solid #ddd; /* Add borders for clarity */
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+td {
+    border: 2px solid white !important; /* Thicker border with custom color */
+}
+
+th {
+    background-color: #014bae;
+    color: white;
+    text-align: center; /* Horizontal alignment */
+    vertical-align: middle !important; /* Vertical alignment */
+    border: 2px solid white !important; /* Thicker border with custom color */
+    padding: 15px;
+    font-size: 1rem;
+    font-family: "PSemiBold" !important;
+    height: 60px; /* Adjust as needed to make the header row taller */
+}
+
+/* Table Rows */
+td {
+    text-align: center;
+    padding: 20px;
+    font-family: "PRegular" !important;
+    font-size: 0.9rem;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+}
     .btn-open-popup {
     padding: 12px 24px;
     font-size: 1.2rem;
-    background-color: #014BAE;
-    width: 50%; /* This defines the width of the button */
+    background-color: #2c91c9;
+    width: 30%; /* This defines the width of the button */
     margin: 50px auto; /* Centers the button horizontally */
     color: #fff;
     border: none;
     font-family: "PBold";
-    border-radius: 15px;
+    border-radius: 30px;
     cursor: pointer;
     transition: background-color 0.3s ease;
     display: block; /* Ensures the button behaves like a block element */
@@ -274,7 +327,7 @@
 
     <div class="row">
         <!-- Table Column -->
-        <div class="col-md-9">
+        <div class="col-md-12">
             <table class="table table-hover text-center table-bordered table-responsive" id="dataTable" width="100%" cellspacing="0">
                 <form action="" method="post">
                     <thead class="alert-info">
@@ -296,9 +349,9 @@
                                 <tr>
                                     <td>
                                         <form action="" method="post">
-                                            <a href="update_staff_form.php?id_user=<?= $view['id_user']; ?>" style="width: 90px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" class="btn btn-success"> Update </a>
+                                            <a href="update_staff_form.php?id_user=<?= $view['id_user']; ?>" style="width: 70px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" class="btn btn-success">  <i class="fas fa-edit"></i> </a>
                                             <input type="hidden" name="id_user" value="<?= $view['id_user']; ?>">
-                                            <button class="btn btn-danger" type="submit" name="delete_staff" style="width: 90px; font-size: 17px; border-radius:30px;"> Archive </button>
+                                            <button class="btn btn-danger" type="submit" name="delete_staff" style="width: 70px; font-size: 17px; border-radius:30px;">  <i class="fas fa-trash"></i> </button>
                                         </form>
                                     </td>
                                     <td> <?= $view['username']; ?> </td>
@@ -318,26 +371,8 @@
         </div>
 
         <!-- Staff Count Column -->
-        <div class="col-md-3">
-            <div class="card border-left-primary shadow">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Number of Staff Registered</div>
-                            <div class="h5 mb-0 font-weight-bold text-dark"><?= $staffcount ?></div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-user-tie fa-2x text-dark"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <br>
-    <hr>
-    <br>
+
+ 
 </div>
 
 
@@ -354,7 +389,7 @@
             <h2>Add Staff Form</h2>
        
             
-            <h3>Fill in all required fields and double-check your information before submitting to ensure accuracy.</h3>
+            <h3>Please fill in all the required fields with accurate information for the new staff member and review the details before submitting.</h3>
             
             
             <button class="btn-close-header" onclick="togglePopup()">

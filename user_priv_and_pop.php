@@ -148,26 +148,26 @@
           </div>
         <div class = "pnp-content">
             <h2> 1. Introduction </h2>
-            <p>This Privacy Policy outlines our policies regarding the collection, use, storage, disclosure, and disposal of personal data collected through the Document Issuance System ("the System") and other related interactions. These interactions include contacting our support number, sending inquiries to our email, and providing information when using our services. By using the System, you agree to the terms of this Privacy Policy and the collection and use of your personal data in compliance with applicable laws and regulations.</h3>
+            <p>This Privacy Policy outlines our policies regarding the collection, use, storage, disclosure, and disposal of personal data collected through this site and other related interactions. These interactions include contacting our support number, sending inquiries to our email, and providing information when using our services. By using this site, you agree to the terms of this Privacy Policy and the collection and use of your personal data in compliance with applicable laws and regulations.</h3>
             <h2> 2. Collection and Use of Personal Data</h2>
-            <p> We collect personal data to facilitate your document requests, improve our services, and ensure the proper functioning of the System. Personal data refers to any information from which your identity can be reasonably and directly ascertained. This may include, but is not limited to:</h3>
+            <p> We collect personal data to facilitate your document requests, improve our services, and ensure the proper functioning of this site. Personal data refers to any information from which your identity can be reasonably and directly ascertained. This may include, but is not limited to:</h3>
             <h4> • Full Name </h4>
             <h4> • Date of Birth </h4>
             <h4> • Home Address </h4>
             <h4> •  Address </h4>
             <h4> • Contact Number(s) </h4>
             <h4> • Government Identification Number(s) </h4>
-            <h4> • Other relevant information necessary for your transaction with our System </h4>
-            <p> We collect this information when you register or update your details, fill out request forms, or engage in other transactions through the System. The information collected is used to process your document requests, generate necessary forms, and produce a QR code for use at the Barangay Hall.</p>
+            <h4> • Other relevant information necessary for your transaction with this site </h4>
+            <p> We collect this information when you register or update your details, fill out request forms, or engage in other transactions through this site. The information collected is used to process your document requests, generate necessary forms, and produce a QR code for use at the Barangay Hall.</p>
             <h2> 3. Security of Your Personal Data </h2>
-            <p> We take reasonable measures to ensure the security of your personal data during its collection and processing. Although we strive to maintain the integrity and confidentiality of your information, we cannot guarantee absolute security, as no system is fully immune to potential threats.</p>
+            <p> We take reasonable measures to ensure the security of your personal data during its collection and processing. Although we strive to maintain the integrity and confidentiality of your information, we cannot guarantee absolute security, as no site is fully immune to potential threats.</p>
             <h2> 4. Data Retention and Disposal </h2>
             <p> We retain your personal data only for as long as necessary to fulfill the purposes outlined in this Privacy Policy or as required by law. Once your data is no longer needed, it will be securely disposed of to prevent unauthorized access, following guidelines set by the National Archives of the Philippines in accordance with R.A. 9470.</p>
             <p> Data may be classified for: </p>
             <h4> • Temporary Retention: Data needed for short-term operational purposes is securely stored and deleted after a defined period.</h4>
-            <h4> • Permanent Deletion: Data that has reached the end of its retention period is permanently and securely removed from our System. </h4>
+            <h4> • Permanent Deletion: Data that has reached the end of its retention period is permanently and securely removed from this site. </h4>
             <h2> 5. Use of QR Code </h2>
-            <p> Upon successfully submitting a document request, the System generates a unique QR code. This QR code is used to retrieve your requested document at the Barangay Hall. It is your responsibility to keep the QR code secure. Sharing this code with unauthorized persons may result in data breaches, for which we are not liable.</p>
+            <p> Upon successfully submitting a document request, this site generates a unique QR code. This QR code is used to retrieve your requested document at the Barangay Hall. It is your responsibility to keep the QR code secure. Sharing this code with unauthorized persons may result in data breaches, for which we are not liable.</p>
             <h2> 6. Changes to this Privacy Policy </h2>
             <p> This Privacy Policy will remain effective except with respect to any changes in its provision in the future, which will take effect immediately after being posted on this site.
             We may occasionally update our Privacy Policy which you should check periodically. Your continued use of our services after we post amendments or revisions to this Privacy Policy will constitute your acknowledgment, acceptance, and adherence to the modifications, and your consent to abide and be bound by the modified Privacy Policy.</p>
@@ -175,7 +175,7 @@
             <p> If you have questions or concerns about this Privacy Policy or your data, please reach out to us through the following contact details:</p>
             <h4> • Email Address: barangaysinalhan1123@gmail.com</h4>
             <h4> • Contact Number: +639215516456</h4>
-            <p> By using the Document Issuance System, you acknowledge that you have read, understood, and agreed to this Privacy Policy. We are committed to protecting your personal information and ensuring your privacy. </p>
+            <p> By using the this site, you acknowledge that you have read, understood, and agreed to this Privacy Policy. We are committed to protecting your personal information and ensuring your privacy. </p>
 
         
         </div>

@@ -11,6 +11,17 @@
     $bspermitcount = $staffbmis->count_bspermit();
 ?>
 
+<?php
+// Include BMISClass and initialize the class
+
+$bmis = new BMISClass();
+$user = $bmis->get_userdata();
+
+$firstName = $user['firstname'];
+$lastName = $user['surname'];
+$role = $user['role'];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -107,6 +118,46 @@
     transform: rotate(-5deg);
   }
 }
+.sidebar-brand-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #012049; /* Matches the dark background */
+    padding: 20px 10px;
+    border-radius: 8px;
+}
+
+.profile-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+}
+
+.profile-img {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background-color: #00aff0; /* Matches the blue circle */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-info h3 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-family: "PBold";
+    color: white;
+}
+
+.profile-info p {
+    margin: 0;
+    font-size: 0.8rem;
+    text-align: left !important;
+    color: #b0c4de; /* Lighter color for the role */
+    font-family: "PRegular";
+}
 
 .nav-link:hover {
     color:white !important;
@@ -126,6 +177,7 @@
     font-size: 0.7rem;
    
 }
+
 
 .btn-logout {
     border: 2px solid white !important;
@@ -199,7 +251,7 @@ transition: background-color 0.3s ease !important;
 }
 
 .sidebar, .nav-link {
-    width: 16.5rem !important;
+    width: 15.5rem !important;
 }
 
 .nav-link i {
@@ -234,13 +286,12 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 
 
 
+
         .sidebar-brand {
-  
+
   background-color: #012049;
 }
-        #page-top {
-            background-color: #012049;
-        }
+
 
         .notif {
             position: absolute;
@@ -254,9 +305,14 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
             font-size: 13px;
             height: 20px;
             border-radius: 100%;
-            right: 25px;
+            right: 10px;
             top: 10px;
         }
+.sidebar.toggled .profile-info h3,
+.sidebar.toggled .profile-info p {
+  display: none; /* Hide the name and role */
+}
+
     </style>
 </head>
 
@@ -268,10 +324,16 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
         <ul class="navbar-nav bg-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="admn_dashboard.php">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    
-                </div>
+            
+            <div class="sidebar-brand-icon">
+    <div class="profile-card">
+        <img src="assets/profile-admin.png" alt="Profile Image" class="profile-img">
+        <div class="profile-info">
+        <h3><?php echo htmlspecialchars(ucwords(strtolower($firstName . ' ' . $lastName))); ?></h3>
+        <p><?php echo htmlspecialchars(ucfirst($role)); ?></p>
+        </div>
+    </div>
+</div>
 
             </a>
 
@@ -382,51 +444,23 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+    <!-- Left-aligned container for logo and logout button -->
+    <div class="d-flex align-items-center w-100 justify-content-between">
+        <!-- Logo Section -->
+        <div class="navbar-brand mb-0">
+            <img src="assets/sinlogo.png" alt="Logo" style="height: 65px; display:flex; justify-content: flex-end;">
+        </div>
 
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
+        <!-- Logout Button -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <div class="wrapperbtn">
+                    <button class="btn-logout" onclick="window.location.href='logout.php';">
+                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i>
+                        <span>Logout</span>
                     </button>
-
-                    <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
-
-                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                        <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
-                            </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                                aria-labelledby="searchDropdown">
-                                <form class="form-inline mr-auto w-100 navbar-search">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small"
-                                            placeholder="Search for..." aria-label="Search"
-                                            aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </li>
-
-                        <!-- Nav Item - User Information -->
-                        <li class="nav-item">
-        <div class = "wrapperbtn">
-        <button class="btn-logout" onclick="window.location.href='logout.php';">
-            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i>
-            <span>Logout</span>
-        </button>
+                </div>
+            </li>
+        </ul>
     </div>
-</li>
-
-                    </ul>
-                </nav>
-
-                
-                <!-- End of Topbar -->
+</nav>
