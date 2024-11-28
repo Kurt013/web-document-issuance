@@ -162,7 +162,7 @@ body{
 
 .bg-c-blue1 {
    
-    background: #ff5275;  /* fallback for old browsers */
+    background: #6fd974;  /* fallback for old browsers */
 
 
 }
@@ -173,7 +173,7 @@ body{
 }
 
 .bg-c-blue3 {
-    background: #6fd974;  /* fallback for old browsers */
+    background: #ff5275;  /* fallback for old browsers */
 
 
 }
