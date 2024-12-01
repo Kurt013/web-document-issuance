@@ -70,8 +70,21 @@ class BMISClass {
                         echo "<script type='text/javascript'>alert('$message');</script>";
                     }
                 } else {
-                    $message = "Invalid username or password!";
-                    echo "<script type='text/javascript'>alert('$message');</script>";
+                   
+                    echo '
+                    <body>
+                        <div class="toast" style = "border-left: 6px solid #D32F2F;">
+                            <div class="toast-content">
+                                <i class="fas fa-exclamation-triangle check" style = "background-color: #D32F2F;"></i>
+                                <div class="message">
+                                    <span class="text text-1">Wrong Credentials</span>
+                                    <span class="text text-2">Invalid username or password </span>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-xmark close close-error"  onclick="closeToast()"></i>
+                            <div class="progress progress-error"></div>
+                        </div>
+                    </body>';
                 }
             }
         }

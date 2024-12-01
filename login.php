@@ -14,6 +14,7 @@
     $bmis->login();
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -367,14 +368,16 @@
 
     </style>
 </head>
+
 <body>
+ 
 
 
 <div class="container-custom">
     <div class="left-side">
         <h3>Welcome Back!</h3>
         
-       
+        
 
         <form method="post">
         <hr style = "background-color: white; height: 3px; border: none;  opacity: 1;  margin-left: auto;margin-right: auto; margin-top: 15px;margin-bottom: 10px">
@@ -406,6 +409,7 @@
 
 
     <div class="right-side">
+  
    
 
     <div class="parent-container">
@@ -448,6 +452,6 @@
         window.location.href = "forget_password.php";
     }
 </script>
-
+<?php ob_start(); include('popup.php'); ob_end_flush(); ?>
 </body>
 </html>

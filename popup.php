@@ -8,7 +8,7 @@
         .toast {
             position: absolute;
             font-family: "Poppins";
-            z-index: 10;
+            z-index: 1000;
             top: 25px;
             right: 30px;
             border-radius: 12px;
@@ -26,10 +26,11 @@
     max-width: 550px; /* Optional: limit the maximum width */
     white-space: nowrap; /* Prevent the text from wrapping to the next line */
         }
+        
 
         .toast.active {
             transform: translateX(0%);
-            opacity: 1;
+            opacity: 1 !important;
             visibility: visible;
         }
 
@@ -77,14 +78,23 @@
             right: 15px;
             padding: 5px;
             cursor: pointer;
-            color:  #4070f4 !important;
+            color:  #4070f4;
             z-index: 1000;
             opacity: 1;
+            font-size: 1.4rem !important;
+        }
+
+        .toast .close-error {
+            color:  #D32F2F !important;
         }
 
         .toast .close:hover {
-            opacity: 1;
+         
             color:  #4070f4 !important;
+        }
+
+        .toast .close-error:hover {
+            color:  #D32F2F !important;
         }
 
         .toast .progress {
@@ -93,7 +103,7 @@
             left: 0;
             height: 3px;
             width: 100%;
-            background: #ddd;
+            background: #ddd !important;
         }
 
         .toast .progress:before {
@@ -104,6 +114,11 @@
             height: 100%;
             width: 100%;
             background-color: #4070f4;
+        }
+
+        .toast .progress-error:before {
+
+            background-color: #D32F2F;
         }
 
         .progress.active:before {
@@ -145,13 +160,17 @@
                 toast.classList.add("active");
                 progress.classList.add("active");
 
+                
                 timer1 = setTimeout(() => {
                     toast.classList.remove("active");
                 }, 5000);
 
                 timer2 = setTimeout(() => {
                     progress.classList.remove("active");
-                }, 5000);
+                }, 5500);
+
+
+
             }
 
             function closeToast() {
