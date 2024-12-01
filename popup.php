@@ -135,13 +135,11 @@
     </style>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-      // After the page content is fully loaded, make the body visible
-      document.body.style.visibility = "visible";
+        const toast = document.querySelector(".toast");
+        toast.classList.add("active"); // Show toast after styles are applied
     });
-    
-    // Initially hide the body until the content is fully loaded
-    document.body.style.visibility = "hidden";
-  </script>
+</script>
+
 
 <script>    if (window.history.replaceState) {
         window.history.replaceState(null, null, window.location.href);
