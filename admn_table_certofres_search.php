@@ -305,8 +305,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     // Get all archive buttons
     const openPopupBtns = document.querySelectorAll('.archive-btn');
-    
-    // Get popup and other necessary elements
     const popup = document.getElementById('popup');
     const confirmBtn = document.getElementById('confirm-btn');
     const cancelBtn = document.getElementById('cancel-btn');
@@ -335,6 +333,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Programmatically trigger the hidden submit button
         hiddenSubmitBtn.click();  // Click the hidden submit button
         
+        
         // Hide the popup after submission
         popup.classList.add('hidden');
         
@@ -343,6 +342,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 </script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-modal/2.2.6/js/bootstrap-modalmanager.min.js" integrity="sha512-/HL24m2nmyI2+ccX+dSHphAHqLw60Oj5sK8jf59VWtFWZi9vx7jzoxbZmcBeeTeCUc7z1mTs3LfyXGuBU32t+w==" crossorigin="anonymous"></script>
 <?php

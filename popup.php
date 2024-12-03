@@ -186,9 +186,15 @@ document.addEventListener("DOMContentLoaded", function() {
                 }, 5000);
 
                 timer2 = setTimeout(() => {
-                    progress.classList.remove("active");
-                    window.location.reload(true);
-                }, 5500);
+    progress.classList.remove("active"); // This removes the "active" class from an element called "progress"
+    
+    fetch(window.location.href) // Fetches the current page URL
+        .then(response => response.text()) // Gets the HTML text of the page
+        .then(data => {
+            document.body.innerHTML = data; // Replaces the entire content inside the body tag
+        })
+        .catch(error => console.error('Error:', error)); // Catches any errors during the fetch request
+}, 5500); // Executes the code after 5.5 seconds
 
                
 
@@ -206,6 +212,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
     setTimeout(() => {
         progress.classList.remove("active");
+
+        fetch(window.location.href) // Fetches the current page URL
+        .then(response => response.text()) // Gets the HTML text of the page
+        .then(data => {
+            document.body.innerHTML = data; // Replaces the entire content inside the body tag
+        })
+        .catch(error => console.error('Error:', error));
     }, 300);
 
     // Clear any active timeouts
