@@ -17,7 +17,7 @@
         opacity: 0;
     }
 
-    body.visible {
+    body.visible, body.loaded {
         visibility: visible;
         opacity: 1;
     }
@@ -228,7 +228,7 @@
 
         timer2 = setTimeout(() => {
             progress.classList.remove("active");
-        }, 5500);
+        }, 5000);
     }
 
     // Function to close the toast immediately if needed

@@ -158,6 +158,8 @@ $role = $user['role'];
     align-items: center;
 }
 
+
+
 .profile-info h3 {
     margin: 0;
     font-size: 0.95rem;

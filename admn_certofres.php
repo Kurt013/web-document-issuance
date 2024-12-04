@@ -181,7 +181,7 @@ tr:hover {
 </style>
 
 <!-- Begin Page Content -->
-<body>
+
 <div class="container-fluid">
 
     <!-- Page Heading -->

@@ -291,18 +291,20 @@ form label {
                 ?>
                 <tr>
                     <td>    
-                        <form action="" method="post">
+                    <form id="archiveForm" action="" method="post">
                                     <a class="btn btn-success" target="_blank" style="width: 70px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" href="brgyid_form.php?id_brgyid=<?= $view['id_brgyid'];?><?php if ($list === 'archived') echo '&status=archived';?>"> <i class="fas fa-cogs"></i></a> 
                                     <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
                                     <input type="hidden" name="id_brgyid" value="<?= $view['id_brgyid'];?>">
+                                    <button type="submit" id="hiddenSubmitBtn" style="display:none;" name="archive_brgyid">Submit</button>
                             <?php 
                                 echo $list === 'active' ? 
-                                    '<button class="btn btn-danger" type="submit" style="width: 70px; font-size: 17px; border-radius:30px;" name="archive_brgyid">  <i class="fas fa-archive"></i> </button>' :
+                                    '<button class="btn btn-danger archive-btn" type="button" style="width: 70px; font-size: 17px; border-radius:30px;" name="archive_brgyid">  <i class="fas fa-archive"></i> </button>' :
                                     '<button class="btn btn-danger" type="submit" style="width: 70px; font-size: 17px; border-radius:30px;" name="unarchive_brgyid">  <i class="fas fa-undo"></i> </button>'
                                     ;
                             ?>    
                             
                         </form>
+                        <?php include('popup-confirm.php'); ?>
                     </td>
                     <td> <?= $staffbmis->convertToImg($view['res_photo']) ;?> </td> 
                     <td> <?= $view['id_brgyid'];?> </td> 
@@ -340,6 +342,49 @@ form label {
         $tableName = 'tbl_brgyid_archive' :
         $tableName = 'tbl_brgyid';
 ?>
+   <script>
+document.addEventListener("DOMContentLoaded", () => {
+    // Get all archive buttons
+    const openPopupBtns = document.querySelectorAll('.archive-btn');
+    
+    // Get popup and other necessary elements
+    const popup = document.getElementById('popup');
+    const confirmBtn = document.getElementById('confirm-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
+    const archiveForm = document.getElementById('archiveForm');
+    const hiddenSubmitBtn = document.getElementById('hiddenSubmitBtn');  // Hidden submit button
+
+    // Loop through all archive buttons and add event listeners
+    openPopupBtns.forEach((openPopupBtn) => {
+        openPopupBtn.addEventListener('click', function () {
+            const dataId = this.closest('form').querySelector('input[name="id_brgyid"]').value;
+            // Store the ID in the form's data-id (or set a hidden input value if necessary)
+            archiveForm.querySelector('input[name="id_brgyid"]').value = dataId; // Set the correct id_indigency
+            
+            // Show the popup
+            popup.classList.remove('hidden'); 
+        });
+    });
+
+    // Close popup when Cancel is clicked
+    cancelBtn.addEventListener('click', () => {
+        popup.classList.add('hidden'); // Hide the popup when cancel is clicked
+    });
+
+    // Confirm action and submit form when Confirm is clicked
+    confirmBtn.addEventListener('click', () => {
+        // Programmatically trigger the hidden submit button
+        hiddenSubmitBtn.click();  // Click the hidden submit button
+        
+        // Hide the popup after submission
+        popup.classList.add('hidden');
+        
+
+    });
+});
+
+
+</script>
 
 
 <?php if ($list === 'archived') { ?>

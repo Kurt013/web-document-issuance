@@ -192,29 +192,6 @@
 }
 
 
-
-
-        .text-overlay {
-            width: 50%; 
-            text-align: left; 
-            color: white; 
-            font-family: 'PExBoldIt'; 
-            letter-spacing: 1px;
-            font-size: 2.2rem; 
-            z-index: 1; 
-           
-            margin-top: 120px;      
-            margin-left: 40px;    
-            margin-right: auto;    
-            margin-bottom: auto;   
-            text-shadow: 5px 5px 10px rgba(1, 60, 139, 0.9);
-            line-height: 45px;
-            -webkit-text-stroke: 7px rgb(1, 60, 139);
-         
-            paint-order: stroke fill;
-            display: block; 
-        }
-
         .input-field {
             margin-top: 5px;
             width: 100%;
