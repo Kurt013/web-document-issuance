@@ -157,21 +157,15 @@
 <script>
 
     document.addEventListener("DOMContentLoaded", function() {
-        const currentScrollY = window.scrollY;
         const toast = document.querySelector(".toast");
-        
-
         toast.classList.add("active"); // Show toast after styles are applied
-        window.scrollTo(0, currentScrollY);
+        
 
     });
 </script>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const currentScrollY = window.scrollY;
-        
+    document.addEventListener("DOMContentLoaded", function() {     
         document.body.classList.add("visible");
-        window.scrollTo(0, currentScrollY);
     });
 </script>
 
