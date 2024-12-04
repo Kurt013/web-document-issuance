@@ -365,7 +365,7 @@
 <div style="position: relative;">
     <input class="input-field" type="password" id="myInput" name="password" required>
     <button type="button" onclick="myFunction()" style="position: absolute; right: 10px; top: 17px; background: none; border: none; cursor: pointer;">
-        <i id="toggleIcon" class="fa-solid fa-eye"></i> <!-- Font Awesome icon -->
+        <i id="toggleIcon" class="fa-solid fa-eye-slash"></i> <!-- Font Awesome icon -->
     </button>
 </div>
 <div class="registration-section mt-3">
