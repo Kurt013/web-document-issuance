@@ -1,15 +1,29 @@
 <?php 
-    include 'classes/staff.class.php';
+include 'classes/staff.class.php';
 
-    $userdetails = $staffbmis->get_userdata();
+$userdetails = $staffbmis->get_userdata();
 
+$brgyidcount = $staffbmis->count_brgyid();
+$indigencycount = $staffbmis->count_indigency();
+$clearancecount = $staffbmis->count_clearance();
+$rescertcount = $staffbmis->count_rescert();
+$bspermitcount = $staffbmis->count_bspermit();
 
-    $brgyidcount = $staffbmis->count_brgyid();
-    $indigencycount = $staffbmis->count_indigency();
-    $clearancecount = $staffbmis->count_clearance();
-    $rescertcount = $staffbmis->count_rescert();
-    $bspermitcount = $staffbmis->count_bspermit();
+// Check if this is an AJAX request
+if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+    // Return the counts as a JSON response
+    echo json_encode([
+        'rescertcount' => $rescertcount,
+        'brgyidcount' => $brgyidcount,
+        'bspermitcount' => $bspermitcount,
+        'clearancecount' => $clearancecount,
+        'indigencycount' => $indigencycount
+    ]);
+    exit; // Stop further script execution
+}
+
 ?>
+
 
 <?php
 // Include BMISClass and initialize the class
@@ -390,21 +404,21 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
                 <a class="nav-link" href="admn_certofres.php?list=active">
                     <i class="fas fa-file-word"></i>
                     <span>Certificate of Residency</span></a>
-                <span class="notif"><?= $rescertcount ?></span>
+                <span class="notif rescert"><?= $rescertcount ?></span>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="admn_brgyid.php?list=active">
                     <i class="fas fa-id-card"></i>
                     <span>Barangay ID </span></a>
-                    <span class="notif"><?= $brgyidcount ?></span>
+                    <span class="notif brgyid"><?= $brgyidcount ?></span>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="admn_bspermit.php?list=active">
                     <i class="fas fa-file-contract"></i>
                     <span>Business Permit</span></a>
-                    <span class="notif"><?= $bspermitcount ?></span>
+                    <span class="notif bspermit"><?= $bspermitcount ?></span>
             </li>
 
 
@@ -414,7 +428,7 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
                 <a class="nav-link" href="admn_brgyclearance.php?list=active">
                     <i class="fas fa-file"></i>
                     <span>Barangay Clearance</span></a>
-                    <span class="notif"><?= $clearancecount ?></span>
+                    <span class="notif clearance"><?= $clearancecount ?></span>
             </li>
 
             <!-- Certificate of Indigency -->
@@ -422,7 +436,7 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
                 <a class="nav-link" href="admn_certofindigency.php?list=active">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Certificate of Indigency</span></a>
-                    <span class="notif"><?= $indigencycount ?></span>
+                    <span class="notif indigency"><?= $indigencycount ?></span>
             </li>
 
             <!-- Divider -->

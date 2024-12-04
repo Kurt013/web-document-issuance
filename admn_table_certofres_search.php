@@ -303,7 +303,6 @@
  
     <script>
 document.addEventListener("DOMContentLoaded", () => {
-    // Get all archive buttons
     const openPopupBtns = document.querySelectorAll('.archive-btn');
     const popup = document.getElementById('popup');
     const confirmBtn = document.getElementById('confirm-btn');
@@ -315,8 +314,7 @@ document.addEventListener("DOMContentLoaded", () => {
     openPopupBtns.forEach((openPopupBtn) => {
         openPopupBtn.addEventListener('click', function () {
             const dataId = this.closest('form').querySelector('input[name="id_rescert"]').value;
-            // Store the ID in the form's data-id (or set a hidden input value if necessary)
-            archiveForm.querySelector('input[name="id_rescert"]').value = dataId; // Set the correct id_indigency
+            archiveForm.querySelector('input[name="id_rescert"]').value = dataId; // Set the correct id_rescert
             
             // Show the popup
             popup.classList.remove('hidden'); 
@@ -329,17 +327,41 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Confirm action and submit form when Confirm is clicked
-    confirmBtn.addEventListener('click', () => {
+    confirmBtn.addEventListener('click', (event) => {
+        event.preventDefault();  // Prevent the default form submission
+
+        // Store the current scroll position before form submission
+        const currentScrollY = window.scrollY;
+
         // Programmatically trigger the hidden submit button
         hiddenSubmitBtn.click();  // Click the hidden submit button
+
+        // Perform the form submission via AJAX
+        const formData = new FormData(archiveForm); // Get form data
         
-        
-        // Hide the popup after submission
-        popup.classList.add('hidden');
-        
+        fetch(archiveForm.action, {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json()) // Assuming server returns JSON response
+        .then(data => {
+            // Handle response (you can show success/error message here)
+            console.log(data); // Example logging of the response
+
+            // Optionally update the page based on the response (e.g., update the table, show messages, etc.)
+
+            // Hide the popup after submission
+            popup.classList.add('hidden');
+            
+            // Maintain the scroll position after the submission
+            window.scrollTo(0, currentScrollY);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Optionally handle error case here
+        });
     });
 });
-
 
 </script>
 
