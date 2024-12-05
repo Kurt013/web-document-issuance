@@ -5,13 +5,15 @@ require './classes/main.class.php'; // Your main class
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
+ob_start(); // Prevent unintended output
+
 if (isset($_POST['views_data']) && isset($_POST['table_name'])) {
     $tableName = $_POST['table_name'];
     $rows = json_decode($_POST['views_data'], true);
 
     try {
         // Connect to the database
-        $connection = $bmis->openConn();                
+        $connection = $bmis->openConn();
 
         $query = "SHOW COLUMNS FROM `" . $tableName . "`";
         $stmt = $connection->prepare($query);
@@ -33,10 +35,9 @@ if (isset($_POST['views_data']) && isset($_POST['table_name'])) {
         // Set column headers
         $colIndex = 'A'; // Start with column A
         foreach ($columns as $column) {
-            if (!$column['res_photo']) {
-                $sheet->setCellValue($colIndex . '1', $column['Field']);
-                $colIndex++;
-            }
+            if (!isset($column['Field']) || $column['Field'] === 'res_photo') continue;
+            $sheet->setCellValue($colIndex . '1', $column['Field']);
+            $colIndex++;
         }
 
         // Fill data rows
@@ -44,6 +45,7 @@ if (isset($_POST['views_data']) && isset($_POST['table_name'])) {
         foreach ($rows as $row) {
             $colIndex = 'A';
             foreach ($columns as $column) {
+                if (!isset($column['Field']) || $column['Field'] === 'res_photo') continue;
                 $sheet->setCellValue($colIndex . $rowIndex, $row[$column['Field']] ?? '');
                 $colIndex++;
             }
@@ -51,7 +53,7 @@ if (isset($_POST['views_data']) && isset($_POST['table_name'])) {
         }
 
         // Auto-size columns for readability
-        foreach (range('A', $colIndex) as $col) {
+        foreach (range('A', chr(ord($colIndex) - 1)) as $col) {
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
 
@@ -63,7 +65,7 @@ if (isset($_POST['views_data']) && isset($_POST['table_name'])) {
 
         // Set headers for file download
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="achived_list.xlsx"');
+        header('Content-Disposition: attachment;filename="archived_list.xlsx"');
         header('Cache-Control: max-age=0');
 
         // Output the file to the browser
@@ -71,5 +73,7 @@ if (isset($_POST['views_data']) && isset($_POST['table_name'])) {
         exit;
     } catch (PDOException $e) {
         die("Database error: " . $e->getMessage());
+    } catch (Exception $e) {
+        die("Error creating Excel file: " . $e->getMessage());
     }
 }
