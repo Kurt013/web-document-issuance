@@ -1,16 +1,12 @@
-<?php
-    
-   error_reporting(E_ALL ^ E_WARNING);
-   ini_set('display_errors',0);
-   require('classes/staff.class.php');
-   $userdetails = $bmis->get_userdata();
-   $bmis->validate_admin();
-   $view = $staffbmis->view_staff_female();
-   
-?>
+<?php    
+   include('dashboard_sidebar_start.php');
 
-<?php 
-    include('dashboard_sidebar_start.php');
+    $conn = $staffbmis->openConn();
+
+   $userdetails = $staffbmis->get_userdata();
+   $staffbmis->validate_admin();
+   $view = $staffbmis->view_staff_female();
+
 ?>
 
 <style>
