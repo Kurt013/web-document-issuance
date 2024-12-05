@@ -1,16 +1,12 @@
 <?php
-    
-   error_reporting(E_ALL ^ E_WARNING);
-   ini_set('display_errors',0);
-   require('classes/staff.class.php');
+    include('dashboard_sidebar_start.php');
+
+    $conn = $staffbmis->openConn();
+
    $userdetails = $bmis->get_userdata();
    $bmis->validate_admin();
    $view = $staffbmis->view_staff_male();
    
-?>
-
-<?php 
-    include('dashboard_sidebar_start.php');
 ?>
 
 <style>
@@ -67,7 +63,7 @@
     <div class="row"> 
         <div class="col"> 
             <?php 
-                include('admn_table_maleres_search.php');
+                include('admn_table_malestaff_search.php');
             ?>
         </div>
     </div>
