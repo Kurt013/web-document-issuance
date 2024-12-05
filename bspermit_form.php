@@ -151,6 +151,7 @@
                 bshouseno: $('#bshouseno').text().trim(),
                 bsstreet: $('#bsstreet').text().trim(),
                 bsbrgy: $('#bsbrgy').text().trim(),
+                bscity: $('#bscity').text().trim(),
                 bsmunicipality: $('#bsmunicipality').text().trim(),
                 aoe: $('#aoe').text().trim(),
                 id_bspermit: $('#id_bspermit').text().trim()

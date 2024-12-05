@@ -67,7 +67,7 @@
 
     <p>
         This certification is being issued upon the request of the above mentioned person for
-        <span contenteditable=" true" id="purpose"><?= $resident['purpose'] ?></span>.
+        <span contenteditable="true" id="purpose"><?= $resident['purpose'] ?></span>.
     </p>
 
     <br><br>

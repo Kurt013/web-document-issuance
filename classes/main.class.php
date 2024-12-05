@@ -472,7 +472,7 @@ class BMISClass {
 
     public function update_certofres() {
         if (isset($_POST['update_rescert'])) {
-            $id_rescert = $_POST['id_rescert'];
+            $id_rescert = $_GET['id_rescert'];
             $lname = $_POST['lname'];
             $fname = $_POST['fname'];
             $mi = $_POST['mi'];
@@ -831,7 +831,7 @@ class BMISClass {
 
     public function update_certofindigency() {
         if (isset($_POST['update_indigency'])) {  // Checks if update was triggered
-            $id_indigency = $_POST['id_indigency'];
+            $id_indigency = $_GET['id_indigency'];
             $lname = $_POST['lname'];
             $fname = $_POST['fname'];
             $mi = $_POST['mi'];
@@ -1729,7 +1729,7 @@ public function unarchive_brgyclearance() {
 
     public function update_bspermit() {
         if (isset($_POST['update_bspermit'])) {
-            $id_bspermit = $_POST['id_bspermit'];
+            $id_bspermit = $_GET['id_bspermit'];
             $lname = $_POST['lname'];
             $fname = $_POST['fname'];
             $mi = $_POST['mi'];
@@ -2346,7 +2346,7 @@ public function unarchive_brgyclearance() {
     public function update_brgyid() {
         if (isset($_POST['update_brgyid'])) {
             $res_photo = $_POST['res_photo'];
-            $id_brgyid = $_POST['id_brgyid'];
+            $id_brgyid = $_GET['id_brgyid'];
             $fname = $_POST['fname'];
             $mi = $_POST['mi']; 
             $lname = $_POST['lname'];
