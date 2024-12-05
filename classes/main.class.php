@@ -685,12 +685,12 @@ class BMISClass {
                 $insertStmt->bindParam(':doc_status', $doc_status);
                 $insertStmt->execute();
     
-                $deleteStmt = $connection->prepare("
-                    DELETE FROM tbl_rescert_archive
-                    WHERE id_rescert = :id_rescert
-                ");
-                $deleteStmt->bindParam(':id_rescert', $id_rescert);
-                $deleteStmt->execute();
+                // $deleteStmt = $connection->prepare("
+                //     DELETE FROM tbl_rescert_archive
+                //     WHERE id_rescert = :id_rescert
+                // ");
+                // $deleteStmt->bindParam(':id_rescert', $id_rescert);
+                // $deleteStmt->execute();
     
                 $connection->commit();
     
@@ -1026,12 +1026,12 @@ class BMISClass {
                 $insertStmt->bindParam(':doc_status', $doc_status);
                 $insertStmt->execute();
     
-                $deleteStmt = $connection->prepare("
-                    DELETE FROM tbl_indigency_archive
-                    WHERE id_indigency = :id_indigency
-                ");
-                $deleteStmt->bindParam(':id_indigency', $id_indigency);
-                $deleteStmt->execute();
+                // $deleteStmt = $connection->prepare("
+                //     DELETE FROM tbl_indigency_archive
+                //     WHERE id_indigency = :id_indigency
+                // ");
+                // $deleteStmt->bindParam(':id_indigency', $id_indigency);
+                // $deleteStmt->execute();
     
                 $connection->commit();
 
