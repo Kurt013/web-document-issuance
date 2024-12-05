@@ -8,6 +8,8 @@
     $resident = $staffbmis->get_single_certofres();
 
     $staffbmis->update_certofres();
+
+    $staffbmis->accept_rescert();
   ?>
 
 <!DOCTYPE html>

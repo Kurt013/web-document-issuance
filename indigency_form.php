@@ -8,6 +8,8 @@
     $resident = $staffbmis->get_single_certofindigency();
 
     $staffbmis->update_certofindigency();
+    $staffbmis->accept_indigency();
+
   ?>
 <!DOCTYPE html>
 <html id="indigency">

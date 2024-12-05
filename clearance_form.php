@@ -8,10 +8,12 @@
     $resident = $staffbmis->get_single_clearance();
 
     $staffbmis->update_clearance();
+    $staffbmis->accept_clearance();
+
   ?>
 
 <!DOCTYPE html>
-<html id="rescert">
+<html id="clearance">
  <head>
     <meta charset="UTF-8">
     <title>Barangay Information System</title>

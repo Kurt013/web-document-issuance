@@ -8,6 +8,8 @@
     $resident = $staffbmis->get_single_bspermit();
 
     $staffbmis->update_bspermit();
+    $staffbmis->accept_bspermit();
+
 
   // try {
   //   foreach ($resident as $key => $value) {

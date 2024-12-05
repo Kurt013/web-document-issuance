@@ -483,7 +483,7 @@ class BMISClass {
             $city = $_POST['city'];
             $municipality = $_POST['municipality'];
             $purpose = $_POST['purpose'];
-            $doc_status = 'pending';
+            $doc_status = 'accepted';
     
             try {                
                 $connection = $this->openConn();
@@ -518,9 +518,9 @@ class BMISClass {
                     $id_rescert
                 ]);
 
-                $stmt = $connection->prepare("UPDATE tbl_rescert SET doc_status = 'accepted' WHERE id_rescert = ?");
+                $stmt = $connection->prepare("UPDATE tbl_rescert SET doc_status = ? WHERE id_rescert = ?");
 
-                $stmt->execute([$doc_status]);
+                $stmt->execute([$doc_status, $id_rescert]);
 
                 echo '
                     <dialog class="message-popup success" >
@@ -843,7 +843,7 @@ class BMISClass {
             $city = $_POST['city'];
             $municipality = $_POST['municipality'];
             $purpose = $_POST['purpose'];
-            $doc_status = 'pending';
+            $doc_status = 'accepted';
     
             try {                
                 $connection = $this->openConn();
@@ -1272,6 +1272,61 @@ class BMISClass {
         }
     }
 
+    public function accept_clearance() {
+            $id_rescert = $_GET['id_rescert'];
+            $doc_status = 'accepted';
+
+            $connection = $this->openConn();
+            $stmt = $connection->prepare("UPDATE tbl_clearance SET doc_status = ? WHERE id_rescert = ?");
+            $stmt->execute([$doc_status, $id_rescert]);
+
+            echo "<script>window.opener.location.href = window.opener.location.href;</script>";
+    }
+
+    public function accept_indigency() {
+            $id_indigency = $_GET['id_indigency'];
+            $doc_status = 'accepted';
+
+            $connection = $this->openConn();
+            $stmt = $connection->prepare("UPDATE tbl_indigency SET doc_status = ? WHERE id_indigency = ?");
+            $stmt->execute([$doc_status, $id_indigency]);
+
+            echo "<script>window.opener.location.href = window.opener.location.href;</script>";
+    }
+
+    public function accept_brgyid() {
+            $id_brgyid = $_GET['id_brgyid'];
+            $doc_status = 'accepted';
+
+            $connection = $this->openConn();
+            $stmt = $connection->prepare("UPDATE tbl_brgyid SET doc_status = ? WHERE id_brgyid = ?");
+            $stmt->execute([$doc_status, $id_brgyid]);
+
+            echo "<script>window.opener.location.href = window.opener.location.href;</script>";
+    }
+
+    public function accept_rescert() {
+            $id_rescert = $_GET['id_rescert'];
+            $doc_status = 'accepted';
+
+            $connection = $this->openConn();
+            $stmt = $connection->prepare("UPDATE tbl_rescert SET doc_status = ? WHERE id_rescert = ?");
+            $stmt->execute([$doc_status, $id_rescert]);
+
+            echo "<script>window.opener.location.href = window.opener.location.href;</script>";
+    }
+
+    public function accept_bspermit() {
+            $id_bspermit = $_GET['id_bspermit'];
+            $doc_status = 'accepted';
+
+            $connection = $this->openConn();
+            $stmt = $connection->prepare("UPDATE tbl_bspermit SET doc_status = ? WHERE id_bspermit = ?");
+            $stmt->execute([$doc_status, $id_bspermit]);
+
+            echo "<script>window.opener.location.href = window.opener.location.href;</script>";
+    }
+
     public function update_clearance() {
         if (isset($_POST['update_clearance'])) {  // Checks if update was triggered
             $id_clearance = $_POST['id_clearance'];
@@ -1285,7 +1340,7 @@ class BMISClass {
             $city = $_POST['city'];
             $municipality = $_POST['municipality'];
             $purpose = $_POST['purpose'];
-            $doc_status = 'pending';
+            $doc_status = 'accepted';
     
             try {                
                 $connection = $this->openConn();
