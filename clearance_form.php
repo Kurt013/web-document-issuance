@@ -68,7 +68,7 @@
 
     <p>
         This certification is being issued upon the request of the above mentioned person for
-        <span contenteditable=" true" id="purpose"><?= $resident['purpose'] ?></span>.
+        <span contenteditable="true" id="purpose"><?= $resident['purpose'] ?></span>.
     </p>
 
     <br><br>
@@ -122,7 +122,7 @@
         $('.btn-update').on('click', function () {
             // Capture the editable content
             const data = {
-                update_rescert: true,
+                update_clearance: true,
                 lname: $('#lname').text().trim(),
                 fname: $('#fname').text().trim(),
                 mi: $('#mi').text().trim(),
@@ -133,7 +133,7 @@
                 city: $('#city').text().trim(),
                 municipality: $('#municipality').text().trim(),
                 purpose: $('#purpose').text().trim(),
-                id_rescert: $('#id_rescert').text().trim()
+                id_clearance: $('#id_clearance').text().trim()
             };
 
             $.ajax({

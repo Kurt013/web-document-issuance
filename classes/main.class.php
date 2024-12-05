@@ -1273,12 +1273,12 @@ class BMISClass {
     }
 
     public function accept_clearance() {
-            $id_rescert = $_GET['id_rescert'];
+            $id_clearance = $_GET['id_clearance'];
             $doc_status = 'accepted';
 
             $connection = $this->openConn();
-            $stmt = $connection->prepare("UPDATE tbl_clearance SET doc_status = ? WHERE id_rescert = ?");
-            $stmt->execute([$doc_status, $id_rescert]);
+            $stmt = $connection->prepare("UPDATE tbl_clearance SET doc_status = ? WHERE id_clearance = ?");
+            $stmt->execute([$doc_status, $id_clearance]);
 
             echo "<script>window.opener.location.href = window.opener.location.href;</script>";
     }
@@ -1329,7 +1329,7 @@ class BMISClass {
 
     public function update_clearance() {
         if (isset($_POST['update_clearance'])) {  // Checks if update was triggered
-            $id_clearance = $_POST['id_clearance'];
+            $id_clearance = $_GET['id_clearance'];
             $lname = $_POST['lname'];
             $fname = $_POST['fname'];
             $mi = $_POST['mi'];
@@ -1517,12 +1517,12 @@ public function unarchive_brgyclearance() {
             $insertStmt->bindParam(':doc_status', $doc_status);
             $insertStmt->execute();
 
-            $deleteStmt = $connection->prepare("
-                DELETE FROM tbl_clearance_archive
-                WHERE id_clearance = :id_clearance
-            ");
-            $deleteStmt->bindParam(':id_clearance', $id_clearance);
-            $deleteStmt->execute();
+            // $deleteStmt = $connection->prepare("
+            //     DELETE FROM tbl_clearance_archive
+            //     WHERE id_clearance = :id_clearance
+            // ");
+            // $deleteStmt->bindParam(':id_clearance', $id_clearance);
+            // $deleteStmt->execute();
 
             $connection->commit();
 
@@ -1933,12 +1933,12 @@ public function unarchive_brgyclearance() {
                 $insertStmt->bindParam(':doc_status', $doc_status);
                 $insertStmt->execute();
     
-                $deleteStmt = $connection->prepare("
-                    DELETE FROM tbl_bspermit_archive
-                    WHERE id_bspermit = :id_bspermit
-                ");
-                $deleteStmt->bindParam(':id_bspermit', $id_bspermit);
-                $deleteStmt->execute();
+                // $deleteStmt = $connection->prepare("
+                //     DELETE FROM tbl_bspermit_archive
+                //     WHERE id_bspermit = :id_bspermit
+                // ");
+                // $deleteStmt->bindParam(':id_bspermit', $id_bspermit);
+                // $deleteStmt->execute();
     
                 $connection->commit();
     
@@ -2270,12 +2270,12 @@ public function unarchive_brgyclearance() {
                 $insertStmt->bindParam(':doc_status', $doc_status);
                 $insertStmt->execute();
     
-                $deleteStmt = $connection->prepare("
-                    DELETE FROM tbl_brgyid_archive
-                    WHERE id_brgyid = :id_brgyid
-                ");
-                $deleteStmt->bindParam(':id_brgyid', $id_brgyid);
-                $deleteStmt->execute();
+                // $deleteStmt = $connection->prepare("
+                //     DELETE FROM tbl_brgyid_archive
+                //     WHERE id_brgyid = :id_brgyid
+                // ");
+                // $deleteStmt->bindParam(':id_brgyid', $id_brgyid);
+                // $deleteStmt->execute();
     
                 $connection->commit();
     
