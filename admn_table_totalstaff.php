@@ -1,8 +1,8 @@
 <?php
+    include('dashboard_sidebar_start.php');
     
-   error_reporting(E_ALL ^ E_WARNING);
-   ini_set('display_errors',0);
-   require('classes/staff.class.php');
+    $conn = $staffbmis->openConn();
+
    $userdetails = $bmis->get_userdata();
    $bmis->validate_admin();
    $view = $staffbmis->view_staff();
@@ -10,7 +10,6 @@
 ?>
 
 <?php 
-    include('dashboard_sidebar_start.php');
 ?>
 <style>
     .input-icons i {
@@ -40,7 +39,7 @@
 
     <div class="row"> 
         <div class="col text-center"> 
-            <h1> Barangay Male Residents Table</h1>
+            <h1> Barangay Total Staff Table</h1>
         </div>
     </div>
 
