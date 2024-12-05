@@ -87,6 +87,7 @@
 /* Right-side styles */
 .right-side {
     width: 55%;
+    background-color: #012049;
     background-image: url('assets/bgimage.png');
     background-size: cover;
     background-position: right;
@@ -139,7 +140,7 @@
 
 
 
-        .left-side h3 {
+.left-side h3 {
             font-family: 'PBold';
             color: white;
             text-align:center;
@@ -163,7 +164,7 @@
     padding: 90px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: center !important;
     z-index: 5;
   
     
@@ -386,7 +387,7 @@
 
 
     <div class="right-side">
-  
+    <?php include('popup.php'); ?>
    
 
     <div class="parent-container">
@@ -429,6 +430,7 @@
         window.location.href = "forget_password.php";
     }
 </script>
-<?php ob_start(); include('popup.php'); ob_end_flush(); ?>
+
+
 </body>
 </html>
