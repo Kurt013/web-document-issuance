@@ -17,7 +17,7 @@
         opacity: 0;
     }
 
-    body.visible, body.loaded {
+    body.loaded {
         visibility: visible;
         opacity: 1;
     }
@@ -154,21 +154,6 @@
         }
     }
 </style>
-<script>
-
-    document.addEventListener("DOMContentLoaded", function() {
-        const toast = document.querySelector(".toast");
-        toast.classList.add("active"); // Show toast after styles are applied
-        
-
-    });
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {     
-        document.body.classList.add("visible");
-    });
-</script>
-
 <script>
     // Prevent page reload by manipulating the browser history
     if (window.history.replaceState) {
