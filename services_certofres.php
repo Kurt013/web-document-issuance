@@ -34,7 +34,7 @@
       <!-- fontawesome icons --> 
       <script src="https://kit.fontawesome.com/67a9b7069e.js" crossorigin="anonymous"></script>
  
-      
+      <?php include('loading.php');?>       
       <style>
          @font-face {
             font-family: 'PMedium'; 
@@ -87,7 +87,7 @@
             justify-content: center;
             align-items: center;
             opacity: 1;
-            z-index: 1000000;
+            z-index: 50;
             transition: opacity 0.5s ease, visibility 0.5s ease;
         }
 
@@ -1016,3 +1016,6 @@ h2 {
         </script>
     </body>
 </html>
+  
+
+        

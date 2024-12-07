@@ -21,9 +21,6 @@ if ($userdetails && $userdetails['role'] == 'administrator') {
 ?>
 
 
-
-
-
 <!DOCTYPE html>
 
 <html>
@@ -37,7 +34,8 @@ if ($userdetails && $userdetails['role'] == 'administrator') {
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
       <script src="https://kit.fontawesome.com/67a9b7069e.js" crossorigin="anonymous"></script>
   
-
+      <?php include('loading.php');?> 
+      
         <style>
             
         @font-face {
@@ -86,7 +84,7 @@ if ($userdetails && $userdetails['role'] == 'administrator') {
             justify-content: center;
             align-items: center;
             opacity: 1;
-            z-index: 1000000;
+            z-index: 50;
             transition: opacity 0.5s ease, visibility 0.5s ease;
         }
 

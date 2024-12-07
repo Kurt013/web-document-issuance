@@ -20,11 +20,7 @@
     
 ?>
   </head>
-        <?php 
-    include('user-sidebar.php');
-?>   
-
-        <?php include('user-header.php'); ?>
+ 
 
 <!DOCTYPE html> 
 <html>
@@ -46,11 +42,11 @@
         
         <script src="https://kit.fontawesome.com/67a9b7069e.js" crossorigin="anonymous"></script>
         
-  </head>
+        <?php include('loading.php'); ?>
 
 
         
-
+ 
 
     <style>
 
@@ -310,26 +306,15 @@
     height: auto; /* Maintain aspect ratio */
 }
 
-
-/* Close Button Styling */
-
-
-
-
-/* No Announcement Styling */
-
-
-/* Responsive Design */
-
-
-
-
-
-
     </style>
+    </head>
     <body> 
 
-    
+    <?php 
+    include('user-sidebar.php');
+?>   
+
+        <?php include('user-header.php'); ?>
    <div class = "content">
                     
        
@@ -519,4 +504,4 @@ scrollToTopButton.addEventListener('click', (e) => {
 
     </body>
 </html>
-        
+

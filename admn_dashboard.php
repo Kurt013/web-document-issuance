@@ -43,10 +43,11 @@
     $monthLabelsJson = json_encode($monthLabels);
     $documentIssuanceTrendDataJson = json_encode($documentIssuanceCounts);
 
+
 ?>
+<head>
 
 <style> 
-
 
 
 /* General container styling */
@@ -363,12 +364,12 @@ body{
 
 
 </style>
+    </head>
 
 
-
-<!-- Begin Page Content -->
 
 <div class="container-fluid">
+
 
 <!-- Page Heading -->
 
@@ -650,7 +651,9 @@ const documentTypesDistributionChart = new Chart(ctx2, {
 <!-- fontawesome icons -->
 <script src="https://kit.fontawesome.com/67a9b7069e.js" crossorigin="anonymous"></script>
 <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"> </script>
-                
+
+           
 <?php 
     include('dashboard_sidebar_end.php');
 ?>
+     

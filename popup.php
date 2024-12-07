@@ -195,81 +195,107 @@
     }
 </style>
 <script>
-    // Prevent page reload by manipulating the browser history
-    if (window.history.replaceState) {
-        window.history.replaceState(null, null, window.location.href);
-    }
-
-    let timer1, timer2;
-
-    window.onload = function() {
-        // Save the current scroll position
-        const currentScrollY = window.scrollY;
-
-        // Fetch notification counts
-        fetch('http://localhost/sinalhan/dashboard_sidebar_start.php', {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest' // Ensure the server recognizes it as an AJAX request
-                }
-            })
-            .then(response => response.json()) // Parse the JSON response
-            .then(data => {
-                // Update the notification elements with the fetched counts
-                document.querySelector('.notif.rescert').textContent = data.rescertcount;
-                document.querySelector('.notif.brgyid').textContent = data.brgyidcount;
-                document.querySelector('.notif.bspermit').textContent = data.bspermitcount;
-                document.querySelector('.notif.clearance').textContent = data.clearancecount;
-                document.querySelector('.notif.indigency').textContent = data.indigencycount;
-            })
-            .catch(error => console.error('Error:', error));
-
-        // Show the toast after fetching data
-        showToast();
-
-        // After toast is shown, maintain the scroll position
-        setTimeout(() => {
-            window.scrollTo(0, currentScrollY); // Ensure scroll position is restored
-        }, 0); // Delay scroll restoration until after any layout changes
-    };
-
-    // Add 'loaded' class once the page is fully loaded to prevent FOUC
     document.addEventListener("DOMContentLoaded", () => {
-        document.body.classList.add("loaded");
-    });
+    document.body.classList.add("loaded");
+});
+</script>
+<script>
+// Prevent page reload by manipulating the browser history
+if (window.history.replaceState) {
+    window.history.replaceState(null, null, window.location.href);
+}
 
-    // Function to show the toast
-    function showToast() {
-        const toast = document.querySelector(".toast");
-        const progress = document.querySelector(".progress");
+let timer1, timer2;
 
-        // Ensure toast does not cause scroll or layout shifts
-        toast.classList.add("active");
-        progress.classList.add("active");
 
-        // Set timers to remove 'active' class after 5 seconds for toast and 5.5 seconds for progress bar
-        timer1 = setTimeout(() => {
-            toast.classList.remove("active");
-        }, 5000);
+document.addEventListener("DOMContentLoaded", function() {
+    // Save the current scroll position
+    const currentScrollY = window.scrollY;
+    
+    
+    fetch('http://localhost/sinalhan/dashboard_sidebar_start.php', {
+        
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest' // Ensure the server recognizes it as an AJAX request
+            }
+        })
+        
+        .then(response => response.json()) // Parse the JSON response
+        .then(data => {
+            
+            // Update the notification elements with the fetched counts
+            document.querySelector('.notif.rescert').textContent = data.rescertcount;
+            document.querySelector('.notif.brgyid').textContent = data.brgyidcount;
+            document.querySelector('.notif.bspermit').textContent = data.bspermitcount;
+            document.querySelector('.notif.clearance').textContent = data.clearancecount;
+            document.querySelector('.notif.indigency').textContent = data.indigencycount;
 
-        timer2 = setTimeout(() => {
-            progress.classList.remove("active");
-        }, 5000);
-    }
+            // Hide the loading spinner after data is fetched
+           
+            setTimeout(hideLoading, 300);
+            // Show the toast after data is fetched and loading is hidden
+            showToast();
+        })
+        .catch(error => console.error('Error:', error));
 
-    // Function to close the toast immediately if needed
-    function closeToast() {
-        const toast = document.querySelector(".toast");
-        const progress = document.querySelector(".progress");
+    // After toast is shown, maintain the scroll position
+    setTimeout(() => {
+        window.scrollTo(0, currentScrollY); // Ensure scroll position is restored
+    }, 0); // Delay scroll restoration until after any layout changes
+});
 
-        // Hide the toast and progress bar
+// Add 'loaded' class once the page is fully loaded to prevent FOUC
+
+
+// Function to show the toast
+function showToast() {
+    const toast = document.querySelector(".toast");
+    const progress = document.querySelector(".progress");
+
+    // Ensure toast does not cause scroll or layout shifts
+    toast.classList.add("active");
+    progress.classList.add("active");
+
+    // Set timers to remove 'active' class after 5 seconds for toast and 5.5 seconds for progress bar
+    timer1 = setTimeout(() => {
         toast.classList.remove("active");
+    }, 5000);
 
+    timer2 = setTimeout(() => {
+        progress.classList.remove("active");
+    }, 5000);
+}
+
+// Function to hide the loading spinner
+function hideLoading() {
+    const loading = document.getElementById("loading");
+
+    // Ensure loading spinner is hidden only when the toast is shown
+    if (document.querySelector(".toast").classList.contains("active")) {
+        loading.style.display = "opacity 0.3s ease-out"; // Add smooth transition
+        loading.style.opacity = "0"; // Fade out
+
+        // Hide the spinner completely after the transition
         setTimeout(() => {
-            progress.classList.remove("active");
-        }, 300);
-
-        // Clear any active timeouts
-        clearTimeout(timer1);
-        clearTimeout(timer2);
+            loading.style.display = "none"; // Completely hide the spinner
+        }, 300); // Delay to match the fade-out transition
     }
+}
+
+// Function to close the toast immediately if needed
+function closeToast() {
+    const toast = document.querySelector(".toast");
+    const progress = document.querySelector(".progress");
+
+    // Hide the toast and progress bar
+    toast.classList.remove("active");
+
+    setTimeout(() => {
+        progress.classList.remove("active");
+    }, 300);
+
+    // Clear any active timeouts
+    clearTimeout(timer1);
+    clearTimeout(timer2);
+}
 </script>
