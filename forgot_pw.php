@@ -190,7 +190,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                 if(!$mail->send()){
                   $message = 'Failed to send email: ' . $mail->ErrorInfo;
                 } else {
-                  $message_success = 'Email sent successfully';
+                  $message_success = '
+    <body>
+        <div class="toast">
+            <div class="toast-content">
+                <i class="fas fa-solid fa-check check"></i>
+                <div class="message">
+                    <span class="text text-1">OTP Sent</span>
+                    <span class="text text-2">Please check your email for the OTP to reset your password</span>
+                </div>
+            </div>
+            <i class="fa-solid fa-xmark close" onclick="closeToast()"></i>
+            <div class="progress"></div>
+        </div>
+    </body>';
                   $showVerificationForm = true;
                   $_SESSION['email'] = $recipient_email;
                   $_SESSION['verification_code'] = $verification_code;
@@ -430,10 +443,7 @@ body {
   font-style: italic;
 }
 
-.error-message, .message-success {
-    color: red;
-    margin-top: 10px;
-}
+
 
 .copyright {
             position: fixed;
@@ -500,9 +510,7 @@ if (isset($_SESSION['toast'])) {
                         <?= $message; ?>
                     <?php endif; ?>
                     
-                    <?php if (isset($message_success)) : ?>
-                        <div class="message-success"><?= htmlspecialchars($message_success) ?></div>
-                    <?php endif; ?>
+
                 </form>
 
             <!-- Show OTP Verification Form -->
@@ -518,6 +526,10 @@ if (isset($_SESSION['toast'])) {
                         <?php if (!empty($message)) : ?>
                             <div class="error-message"><?= htmlspecialchars($message) ?></div>
                         <?php endif; ?>
+
+                        <?php if (!empty($message_success)) : ?>
+                        <?= $message_success; ?>
+                    <?php endif; ?>
 
                         <div class="btn-container">
                             <button type="submit" class="btn-2" name="submit_verification_code">Verify OTP</button>

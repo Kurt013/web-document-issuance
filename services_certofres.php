@@ -932,15 +932,7 @@ h2 {
             scrollToTop();
             }
         </script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-      // After the page content is fully loaded, make the body visible
-      document.body.style.visibility = "visible";
-    });
-    
-    // Initially hide the body until the content is fully loaded
-    document.body.style.visibility = "hidden";
-  </script>
+
         <script>
     // Function to close the modal
     function closeModal() {

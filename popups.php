@@ -79,7 +79,7 @@
         visibility: hidden;
         transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35), opacity 0.5s ease-out;
         width: auto;
-        max-width: 650px;
+        max-width: 1000px;
         white-space: nowrap;
     }
 

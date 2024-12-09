@@ -22,6 +22,13 @@ if (isset($_SESSION['toast'])) {
 }
 ?>
 
+<?php
+$updatepw = '';
+if (isset($_SESSION['toast'])) {
+    $updatepw = $_SESSION['toast'];
+    unset($_SESSION['toast']); // Clear the session after displaying
+}
+?>
 
 
 
@@ -351,6 +358,10 @@ if (isset($_SESSION['toast'])) {
         <?= $errormsg; ?>
     <?php endif; ?>
 
+<?php if (!empty($updatepw)): ?>
+        <?= $updatepw; ?>
+<?php endif; ?>
+
 <div class="container-custom">
     <div class="left-side">
         <h3>Welcome Back!</h3>
@@ -407,9 +418,6 @@ if (isset($_SESSION['toast'])) {
 
 
 <script>
-
-
-
     function myFunction() { 
         var x = document.getElementById("myInput");
         var icon = document.getElementById("toggleIcon");
