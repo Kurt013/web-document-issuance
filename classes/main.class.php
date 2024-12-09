@@ -637,27 +637,20 @@ class BMISClass {
     </body>';
                 
         
-            } catch (Exception $e) {
+            } catch (Throwable $e) {
                 $connection->rollBack();
                 echo '
-                <dialog class="message-popup error" >
-                    <div class="pop-up">
-                        <div class="left-side">
-                            <div class="left-side-wrapper"><i class="bx bxs-x-circle error-circle"></i></div>
-                        </div>
-                        <div class="right-side">
-                            <div class="right-group">
-                            <div class="content">
-                                <h1>
-                                    Failed to retrieve record:
-                                    '.$e->getMessage().'
-                                </h1>
+                        <div class="toast" style = "border-left: 6px solid #D32F2F;">
+                            <div class="toast-content">
+                                <i class="fas fa-exclamation-triangle check" style = "background-color: #D32F2F;"></i>
+                                <div class="message">
+                                    <span class="text text-1">Error</span>
+                                    <span class="text text-2">An unexpected error occurred while processing your request</span>
+                                </div>
                             </div>
-                            <button onclick="closeDialog()" onclick="closeDialog()" class="exit-btn">X</button>
-                            </div>
+                            <i class="fa-solid fa-xmark close close-error"  onclick="closeToast()"></i>
+                            <div class="progress progress-error"></div>
                         </div>
-                    </div>
-                </dialog>
                 ';
             }
         }
@@ -978,27 +971,20 @@ class BMISClass {
                 </body>';
 
 
-            } catch (PDOException $e) {
+            } catch (Throwable $e) {
                 $connection->rollBack();
                 echo '
-                <dialog class="message-popup error" >
-                    <div class="pop-up">
-                        <div class="left-side">
-                            <div class="left-side-wrapper"><i class="bx bxs-x-circle error-circle"></i></div>
-                        </div>
-                        <div class="right-side">
-                            <div class="right-group">
-                            <div class="content">
-                                <h1>
-                                    Failed to retrieve record:
-                                    '.$e->getMessage().'
-                                </h1>
+                        <div class="toast" style = "border-left: 6px solid #D32F2F;">
+                            <div class="toast-content">
+                                <i class="fas fa-exclamation-triangle check" style = "background-color: #D32F2F;"></i>
+                                <div class="message">
+                                    <span class="text text-1">Error</span>
+                                    <span class="text text-2">An unexpected error occurred while processing your request</span>
+                                </div>
                             </div>
-                            <button onclick="closeDialog()" onclick="closeDialog()" class="exit-btn">X</button>
-                            </div>
+                            <i class="fa-solid fa-xmark close close-error"  onclick="closeToast()"></i>
+                            <div class="progress progress-error"></div>
                         </div>
-                    </div>
-                </dialog>
                 ';
             }
         }
@@ -1486,27 +1472,20 @@ class BMISClass {
                 </div>
             </body>';
             
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $connection->rollBack();
             echo '
-            <dialog class="message-popup error" >
-                <div class="pop-up">
-                    <div class="left-side">
-                        <div class="left-side-wrapper"><i class="bx bxs-x-circle error-circle"></i></div>
-                    </div>
-                    <div class="right-side">
-                        <div class="right-group">
-                        <div class="content">
-                            <h1>
-                                Failed to retrieve record:
-                                '.$e->getMessage().'
-                            </h1>
+                    <div class="toast" style = "border-left: 6px solid #D32F2F;">
+                        <div class="toast-content">
+                            <i class="fas fa-exclamation-triangle check" style = "background-color: #D32F2F;"></i>
+                            <div class="message">
+                                <span class="text text-1">Error</span>
+                                <span class="text text-2">An unexpected error occurred while processing your request</span>
+                            </div>
                         </div>
-                        <button onclick="closeDialog()" onclick="closeDialog()" class="exit-btn">X</button>
-                        </div>
+                        <i class="fa-solid fa-xmark close close-error"  onclick="closeToast()"></i>
+                        <div class="progress progress-error"></div>
                     </div>
-                </div>
-            </dialog>
             ';
         }
     }
@@ -1893,31 +1872,24 @@ public function unarchive_brgyclearance() {
         </div>
     </body>';
         
-            } catch (Exception $e) {
-                $connection->rollBack();
-                echo '
-                <dialog class="message-popup error" >
-                    <div class="pop-up">
-                        <div class="left-side">
-                            <div class="left-side-wrapper"><i class="bx bxs-x-circle error-circle"></i></div>
-                        </div>
-                        <div class="right-side">
-                            <div class="right-group">
-                            <div class="content">
-                                <h1>
-                                    Failed to retrieve record:
-                                    '.$e->getMessage().'
-                                </h1>
-                            </div>
-                            <button onclick="closeDialog()" onclick="closeDialog()" class="exit-btn">X</button>
-                            </div>
-                        </div>
+} catch (Throwable $e) {
+    $connection->rollBack();
+    echo '
+            <div class="toast" style = "border-left: 6px solid #D32F2F;">
+                <div class="toast-content">
+                    <i class="fas fa-exclamation-triangle check" style = "background-color: #D32F2F;"></i>
+                    <div class="message">
+                        <span class="text text-1">Error</span>
+                        <span class="text text-2">An unexpected error occurred while processing your request</span>
                     </div>
-                </dialog>
-                ';
-            }
-        }
-    }
+                </div>
+                <i class="fa-solid fa-xmark close close-error"  onclick="closeToast()"></i>
+                <div class="progress progress-error"></div>
+            </div>
+    ';
+}
+}
+}
 
     public function unarchive_bspermit() {
         if (isset($_POST['unarchive_bspermit'])) {
@@ -2228,31 +2200,24 @@ public function unarchive_brgyclearance() {
         </div>
     </body>';
         
-            } catch (Exception $e) {
-                $connection->rollBack();
-                echo '
-                <dialog class="message-popup error" >
-                    <div class="pop-up">
-                        <div class="left-side">
-                            <div class="left-side-wrapper"><i class="bx bxs-x-circle error-circle"></i></div>
-                        </div>
-                        <div class="right-side">
-                            <div class="right-group">
-                            <div class="content">
-                                <h1>
-                                    Failed to retrieve record:
-                                    '.$e->getMessage().'
-                                </h1>
-                            </div>
-                            <button onclick="closeDialog()" onclick="closeDialog()" class="exit-btn">X</button>
-                            </div>
-                        </div>
+} catch (Throwable $e) {
+    $connection->rollBack();
+    echo '
+            <div class="toast" style = "border-left: 6px solid #D32F2F;">
+                <div class="toast-content">
+                    <i class="fas fa-exclamation-triangle check" style = "background-color: #D32F2F;"></i>
+                    <div class="message">
+                        <span class="text text-1">Error</span>
+                        <span class="text text-2">An unexpected error occurred while processing your request</span>
                     </div>
-                </dialog>
-                ';
-            }
-        }
-    }
+                </div>
+                <i class="fa-solid fa-xmark close close-error"  onclick="closeToast()"></i>
+                <div class="progress progress-error"></div>
+            </div>
+    ';
+}
+}
+}
 
     public function unarchive_brgyid() {
         if (isset($_POST['unarchive_brgyid'])) {
