@@ -257,6 +257,7 @@ body {
             line-height: 22px;
             margin-top: 10px;
             font-size: 0.95rem;
+            font-weight: normal !important;
 }
 
 .form-group {
