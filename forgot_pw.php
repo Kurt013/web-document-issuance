@@ -445,17 +445,6 @@ body {
 
 
 
-.copyright {
-            position: fixed;
-            bottom: 10px;
-            right: 15px;
-            opacity: 1;
-            font-family: 'PMedium', sans-serif;
-            color: white;
-            font-size: 0.85rem;
-      
-            z-index: 6;
-        }
 
     </style>
     <?php include('loading.php'); ?>
@@ -502,9 +491,7 @@ if (isset($_SESSION['toast'])) {
                     <a class="btn" href="login.php">Back</a>
                   </div>
                     <hr style = "background-color: white; height: 3px; border: none;  opacity: 1;  margin-left: auto;margin-right: auto; margin-top: 15px;margin-bottom: 10px">
-                    <div class="copyright">
-        &copy; <?= date("Y") ?> Barangay Management System. All Rights Reserved.
-    </div>
+
 
                     <?php if (!empty($message)) : ?>
                         <?= $message; ?>
