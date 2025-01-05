@@ -40,6 +40,7 @@ $role = $user['role'];
 <html lang="en">
 
 <head>
+<?php include('loading.php'); ?>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

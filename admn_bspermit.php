@@ -1,5 +1,6 @@
 <?php
     include('dashboard_sidebar_start.php');
+    include('popup-toast.php'); 
 
     $list = isset($_GET['list']) ? $_GET['list'] : 'active';
 
@@ -7,11 +8,10 @@
     require 'vendor/autoload.php';
 
     $conn = $staffbmis->openConn();
-    $staffbmis->validate_admin();
+    // $staffbmis->validate_admin();
     $staffbmis->archive_bspermit();
     $staffbmis->unarchive_bspermit();
 ?>
-<?php include('popup.php'); ?>
 <style>
 
 table {
