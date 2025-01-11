@@ -390,6 +390,20 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
                     <span>Announcements</span></a>
             </li>
             
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Tool
+            </div>
+
+            <!-- Scan QR Code -->
+               <li class="nav-item">
+                <a class="nav-link" href="admn_scanqrcode.php">
+                    <i class="fa-solid fa-qrcode"></i>
+                    <span>QR Code Scanner</span></a>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -402,12 +416,7 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
             <!-- Announcement Management -->
 
 
-            <!-- Scan QR Code -->
-            <li class="nav-item">
-                <a class="nav-link" href="admn_scanqrcode.php">
-                    <i class="fas fa-bullhorn"></i>
-                    <span>QR Code Scanner</span></a>
-            </li>
+         
 
             <!-- Certificate of Residency -->
             <li class="nav-item">
