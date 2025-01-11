@@ -57,15 +57,16 @@ class BMISClass {
         
                 // Check if user exists and verify the password
                 if ($user && password_verify($password, $user['password'])) {
-                    if ($user['role'] == 'administrator') {
+                    if ($user['role'] === 'administrator' || $user['role'] === 'staff') {
                         $this->set_userdata($user);
                         header('Location: admn_dashboard.php');
                         exit;
-                    } elseif ($user['role'] == 'staff') {
-                        $this->set_userdata($user);
-                        header('Location: staff_dashboard.php');
-                        exit;
-                    } else {
+                    }
+                    // else if ($user['role'] === 'staff') {
+                    //     $this->set_userdata($user);
+                    //     header('Location: admn_scanqrcode.php');
+                    //     exit;
+                     else {
                         $message = "You are not authorized personnel!";
                         echo "<script type='text/javascript'>alert('$message');</script>";
                     }
@@ -163,12 +164,9 @@ class BMISClass {
             }
     }
 
-    public function get_single_admin($id_admin){
-
-        $id_admin = $_GET['id_admin'];
-        
+    public function get_single_admin($id_admin){        
         $connection = $this->openConn();
-        $stmt = $connection->prepare("SELECT * FROM tbl_admin where id_admin = ?");
+        $stmt = $connection->prepare("SELECT * FROM tbl_user where id_user = ?");
         $stmt->execute([$id_admin]);
         $admin = $stmt->fetch();
         $total = $stmt->rowCount();
@@ -2496,8 +2494,7 @@ public function unarchive_brgyclearance() {
             exit();
         }
     
-        // Check if the user role is either 'administrator' or 'user'
-        if ($userdetails['role'] === "administrator") {
+        if ($userdetails['role'] === "administrator" || $userdetails['role'] === "staff") {
             return $userdetails;
         } else {
             // Show a 404 page if the user is neither an administrator nor a regular user

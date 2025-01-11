@@ -7,9 +7,11 @@
         $bmis->set_userdata();
     }
 
-    if ($userdetails && $userdetails['role'] == 'administrator') {
-        echo '<script>window.location.href="./admn_dashboard.php"</script>';
-        exit;
+    if ($userdetails) {
+        if ($userdetails['role'] === 'staff' || $userdetails['role'] === 'administrator') {
+            echo '<script>window.location.href="./admn_dashboard.php"</script>';
+            exit;
+        }
     }
 
     $dt = new DateTime("now", new DateTimeZone('Asia/Manila'));

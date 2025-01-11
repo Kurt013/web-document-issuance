@@ -4,6 +4,7 @@ ob_start();
 
 // Include necessary classes
 include 'classes/staff.class.php';
+$staffbmis->validate_staff();
 
 // Fetch user details
 $userdetails = $staffbmis->get_userdata();
@@ -26,10 +27,9 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
     exit; // Stop further execution for AJAX request
 }
 
-// Fetch user data for non-AJAX requests
-$bmis = new BMISClass();
-$user = $bmis->get_userdata();
 
+// Fetch user data for non-AJAX requests
+$user = $staffbmis->get_userdata();
 $firstName = $user['firstname'];
 $lastName = $user['surname'];
 $role = $user['role'];
@@ -344,7 +344,7 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
             
             <div class="sidebar-brand-icon">
     <div class="profile-card">
-        <img src="assets/profile-admin.png" alt="Profile Image" class="profile-img">
+        <a href="./account_crud.php"><img src="assets/profile-admin.png" alt="Profile Image" class="profile-img"></a>
         <div class="profile-info">
         <h3><?php echo htmlspecialchars(ucwords(strtolower($firstName . ' ' . $lastName))); ?></h3>
         <p><?php echo htmlspecialchars(ucfirst($role)); ?></p>
@@ -371,11 +371,15 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
                     <span>Dashboard</span></a>
             </li>
             <!-- Barangay Staff CRUD -->
-            <li class="nav-item">
-                <a class="nav-link" href="admn_staff_crud.php">
-                    <i class="fas fa-user-tie"></i>
-                    <span>Barangay Staffs</span></a>
-            </li>
+             <?php 
+                if ($userdetails['role'] == 'Administrator') {
+             ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="admn_staff_crud.php">
+                        <i class="fas fa-user-tie"></i>
+                        <span>Barangay Staffs</span></a>
+                </li>
+            <?php } ?>
             
             <li class="nav-item">
                 <a class="nav-link" href="admn_announcement_crud.php">

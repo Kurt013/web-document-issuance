@@ -3,7 +3,6 @@
     
     $conn = $staffbmis->openConn();
 
-   $userdetails = $bmis->get_userdata();
    $bmis->validate_admin();
    $view = $staffbmis->view_staff();
    

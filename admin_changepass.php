@@ -1,8 +1,8 @@
 <?php
 
     
-    require('classes/main.class.php');
-    $bmis->validate_admin();
+    require('classes/staff.class.php');
+
     $bmis->admin_changepass();
     $userdetails = $bmis->get_userdata();
 

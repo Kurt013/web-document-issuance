@@ -1,10 +1,6 @@
 <?php
     include('dashboard_sidebar_start.php');
 
-    error_reporting(E_ALL ^ E_WARNING);
-
-    $staffbmis->validate_admin();
-
     $current_month = isset($_POST['month']) ? $_POST['month'] : date('n');
     $total_pending = 0;
     $total_reservations = 0;
@@ -409,6 +405,8 @@ body{
                 </div>
             </div>
         </div>
+
+    <?php if ($userdetails['role'] === 'administrator') { ?>
 <div class="col-md-3">
             <div class="card bg-c-blue1 order-card">
             <div class="card-block">
@@ -442,9 +440,9 @@ body{
                 </div>
             </div>
                 </div>
+    <?php } ?>
 
-
-            <div class="form-buttons">
+    <div class="form-buttons">
     <button class="btnexpdf">
         <i class="fas fa-file-pdf"></i> Export to PDF
     </button>

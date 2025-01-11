@@ -2,9 +2,8 @@
    include('dashboard_sidebar_start.php');
 
     $conn = $staffbmis->openConn();
+    $bmis->validate_admin();
 
-   $userdetails = $staffbmis->get_userdata();
-   $staffbmis->validate_admin();
    $view = $staffbmis->view_staff_female();
 
 ?>

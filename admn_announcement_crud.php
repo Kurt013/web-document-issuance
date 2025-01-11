@@ -88,17 +88,13 @@ td {
 
 </style>
 
-
 <?php
-    require './classes/main.class.php';
+    include('dashboard_sidebar_start.php');
 
-   $userdetails = $bmis->get_userdata();
-
-   $bmis->validate_admin();
-   $bmis->create_announcement();
-   $bmis->delete_announcement();
-   $view = $bmis->view_announcement();
-   $announcementcount = $bmis->count_announcement();
+   $staffbmis->create_announcement();
+   $staffbmis->delete_announcement();
+   $view = $staffbmis->view_announcement();
+   $announcementcount = $staffbmis->count_announcement();
 
    $dt = new DateTime("now", new DateTimeZone('Asia/Manila'));
    $tm = new DateTime("now", new DateTimeZone('Asia/Manila'));
@@ -123,7 +119,6 @@ if (isset($_SESSION['toast'])) {
 
 
 <?php 
-    include('dashboard_sidebar_start.php');
 ?>
 
 <!-- Begin Page Content -->

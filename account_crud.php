@@ -1,76 +1,49 @@
 <?php
-    error_reporting(E_ALL ^ E_WARNING);
-    require('classes/staff.class.php');
-    $userdetails = $bmis->get_userdata();
-    //$bmis->validate_admin();
-    $id_user = $_GET['id_user'];
-    $view = $staffbmis->get_single_staff($id_user);
-    $staffbmis->create_staff();
+    include('dashboard_sidebar_start.php');
+
+    $id_user = $userdetails['id'];
+
+    if ($userdetails['role'] === 'administrator') {
+        $view = $staffbmis->get_single_admin($id_user);
+    } 
+    else if ($userdetails['role' === 'staff']) {
+        $view = $staffbmis->get_single_staff($id_user);
+    }
+
     $upstaff = $staffbmis->update_staff();
-    $staffbmis->delete_staff();
-    $staffcount = $staffbmis->count_staff();
 ?>
 
-<?php 
-    include('dashboard_sidebar_start_staff.php');
-?>
     <!-- Begin Page Content -->
 <div class="container">
 
     <!-- Page Heading -->
 
-    <h1 class="mb-4 text-center">Barangay Staff Profile</h1>
+    <h1 class="mb-4 text-center">Account Profile</h1>
     <hr>
     <br>
     <div class="card" >
         <div class="card-header bg-primary text-white"> 
             <h5>
-                Barangay Staff Credentials
+                Your Credentials
             </h5>
         </div>                 
         <div class="card-body"> 
             <form method="post">
-                <div class="row">
+                <div class="row" >
                     <div class="col">
                         <label class="form-group"> Last Name</label>
-                        <input type="text" class="form-control" name="lname"  Value="<?= $view['lname'];?>" readonly>
+                        <input style="text-transform: capitalize;" type="text" class="form-control" name="lname"  Value="<?= $view['lname'];?>" readonly>
                     </div>
                     <div class="col">
                         <label class="form-group" >First Name </label>
-                        <input type="text" class="form-control" name="fname"  Value="<?= $view['fname'];?>" readonly>
+                        <input style="text-transform: capitalize;" type="text" class="form-control" name="fname"  Value="<?= $view['fname'];?>" readonly>
                     </div>
                     <div class="col">
                         <label class="form-group"> Middle Initial </label>
-                        <input type="text" class="form-control" name="mi" Value="<?= $view['mi'];?>" readonly>
+                        <input style="text-transform: capitalize;" type="text" class="form-control" name="mi" Value="<?= $view['mi'];?>" readonly>
                     </div>
                 </div>
 
-                <div class="row" style="margin-top: 2em;">
-                    <div class="col">
-                        <div class="form-group">
-                            <label>House No:</label>
-                            <input class="form-control" type="text" name="houseno" Value="<?= $view['houseno'];?>">
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label>Street:</label>
-                            <input class="form-control" type="text" name="street" Value="<?= $view['street'];?>">
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label>Barangay:</label>
-                            <input class="form-control" type="text" name="brgy" Value="<?= $view['brgy'];?>">
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label> Municipality: </label>
-                            <input type="text" class="form-control" name="municipal" value="<?= $view['municipal']?>">
-                        </div>
-                    </div>
-                </div>
 
                 <div class="row" style="margin-top: 1.1em;">
                     <div class="col">
@@ -83,11 +56,7 @@
                     </div>
                     <div class="col">
                         <label class="form-group">Position </label>
-                        <input type="text" class="form-control" name="position"  Value="<?= $view['position'];?>">
-                    </div>
-                    <div class="col">
-                        <label class="form-group">Age </label>
-                        <input type="number" class="form-control" name="age" Value="<?= $view['age'];?>">
+                        <input style="text-transform: capitalize;" type="text" class="form-control" name="position"  Value="<?= $view['position'];?>">
                     </div>
                 </div>
                 

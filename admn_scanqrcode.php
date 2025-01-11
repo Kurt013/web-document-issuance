@@ -1,8 +1,5 @@
 <?php
-  require './classes/main.class.php';
-
-  $userdetails = $bmis->get_userdata();
-  $bmis->validate_admin();
+  include('dashboard_sidebar_start.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -59,10 +56,6 @@
   </head>
   <body style="text-align: center;">
     
-    <?php 
-        include('dashboard_sidebar_start.php');
-    ?>
-
     <h1>QR Code Scanner</h1>
     <video id="preview"></video>
     <br>

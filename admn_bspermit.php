@@ -18,7 +18,7 @@ if (isset($_SESSION['toast'])) {
     require 'vendor/autoload.php';
 
     $conn = $staffbmis->openConn();
-    $staffbmis->validate_admin();
+    
     $staffbmis->archive_bspermit();
     $staffbmis->unarchive_bspermit();
 ?>

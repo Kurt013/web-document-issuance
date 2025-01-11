@@ -1,8 +1,7 @@
 <?php
     include('dashboard_sidebar_start.php');
 
-    $userdetails = $bmis->get_userdata();
-    $bmis->validate_admin();
+    $staffbmis->validate_admin();
     $view = $staffbmis->view_staff();
     $staffbmis->create_staff();
     $upstaff = $staffbmis->update_staff();

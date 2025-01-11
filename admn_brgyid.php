@@ -8,7 +8,6 @@
     require 'vendor/autoload.php';
 
     $conn = $staffbmis->openConn();
-    $staffbmis->validate_admin();
     $staffbmis->unarchive_brgyid();
     $staffbmis->archive_brgyid();
 

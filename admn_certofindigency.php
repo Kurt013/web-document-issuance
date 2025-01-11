@@ -7,7 +7,6 @@
     require 'vendor/autoload.php';
 
     $conn = $staffbmis->openConn();
-    $staffbmis->validate_admin();
     $staffbmis->unarchive_certofindigency();
     $staffbmis->archive_certofindigency();
 ?>
