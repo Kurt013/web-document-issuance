@@ -84,63 +84,47 @@ form label {
 
 </style>
 <?php
-    if (isset($_GET['keyword'])) {
-        $keyword = $_GET['keyword'];
+	if(isset($_POST['search_bspermit'])){
+		$keyword = $_POST['keyword'];
 ?>
 <form method="GET" action="">
-    <label for="list">Select List: </label>
-    <select name="list" id="list" onchange="this.form.submit()">
-        <option value="active" <?= (isset($_GET['list']) && $_GET['list'] == 'active') ? 'selected' : ''; ?>>Active</option>
-        <option value="archived" <?= (isset($_GET['list']) && $_GET['list'] == 'archived') ? 'selected' : ''; ?>>Archived</option>
-    </select>
-    <input type="hidden" name="keyword" value="<?= htmlspecialchars($keyword, ENT_QUOTES, 'UTF-8'); ?>">
-    <?php
-        // Append existing URL parameters
-        foreach ($_GET as $key => $value) {
-            if ($key !== 'list' && $key !== 'keyword') {
-                echo '<input type="hidden" name="' . htmlspecialchars($key) . '" value="' . htmlspecialchars($value) . '">';
-            }
-        }
-    ?>
+        <label  for="list">Select List: </label>
+        <select  name="list" id="list" onchange="this.form.submit()">
+            <option value="active" <?= (isset($_GET['list']) && $_GET['list'] == 'active') ? 'selected' : ''; ?>>Active</option>
+            <option value="archived" <?= (isset($_GET['list']) && $_GET['list'] == 'archived') ? 'selected' : ''; ?>>Archived</option>
+        </select>
 </form>
+ 
+<table class="table table-hover text-center table-bordered table-responsive">
 
-<table id="bspermitTable" class="table table-hover text-center table-bordered table-responsive nowrap">
-    <thead class="alert-info">
-        <tr>
-            <th> </th>
-            <th> Issuance No. </th>
-            <th> Surname </th>
-            <th> First Name </th>
-            <th> Middle Initial</th>
-            <th> Business Name </th>
-            <th> House No. </th>
-            <th> Street </th>
-            <th> Barangay </th>
-            <th> City </th>
-            <th> Municipality </th>
-            <th> Business Industry </th>
-            <th> Area of Establishment </th>
-        </tr>
-    </thead>
+<thead class="alert-info">
+    <tr>
+        <th> </th>
+        <th> Issuance No. </th>
+        <th> Surname </th>
+        <th> First Name </th>
+        <th> Middle Initial</th>
+        <th> Business Name </th>
+        <th> House No. </th>
+        <th> Street </th>
+        <th> Barangay </th>
+        <th> City </th>
+        <th> Municipality </th>
+        <th> Business Industry </th>
+        <th> Area of Establishment </th>
+    </tr>
+</thead>
 
-    <tbody>
-        <?php
-            // Pagination logic
-            $limit = 5; // Number of entries to show in a page.
-            if (isset($_GET["page"])) {
-                $page  = $_GET["page"];
-            } else {
-                $page = 1;
-            }
-            $start_from = ($page - 1) * $limit;
-
-            $list = isset($_GET['list']) ? $_GET['list'] : 'active';
-
+<tbody>     
+    <?php
             $list === 'active' ?
-                $stmt = $conn->prepare("
-                    SELECT *
-                    FROM tbl_bspermit
-                    WHERE (id_bspermit LIKE ? OR
+
+            $stmt = $conn->prepare("
+                SELECT *
+                FROM
+                    tbl_bspermit
+                WHERE
+                    (id_bspermit like ? OR
                         `lname` LIKE ? OR  
                         `mi` LIKE ? OR  
                         `fname` LIKE ? OR 
@@ -154,50 +138,51 @@ form label {
                         aoe LIKE ? OR
                         created_by LIKE ? OR
                         created_on LIKE ?) 
-                    AND `doc_status` = ?
-                    LIMIT $start_from, $limit") :
-                $stmt = $conn->prepare("
-                    SELECT *
-                    FROM tbl_bspermit_archive
-                    WHERE id_bspermit LIKE ? OR
-                        `lname` LIKE ? OR  
-                        `mi` LIKE ? OR  
-                        `fname` LIKE ? OR 
-                        `bshouseno` LIKE ? OR
-                        `bsstreet` LIKE ? OR 
-                        `bsbrgy` LIKE ? OR 
-                        `bscity` LIKE ? OR 
-                        `bsmunicipality` LIKE ? OR 
-                        `bsname` LIKE ? OR
-                        bsindustry LIKE ? OR
-                        aoe LIKE ? OR
-                        archived_on LIKE ? OR
-                        archived_by LIKE ?
-                    LIMIT $start_from, $limit");
+                    AND `doc_status` = ?") : 
+            $stmt = $conn->prepare("
+                SELECT *
+                FROM
+                    tbl_bspermit_archive
+                WHERE
+                    id_bspermit LIKE ? OR
+                    `lname` LIKE ? OR  
+                    `mi` LIKE ? OR  
+                    `fname` LIKE ? OR 
+                    `bshouseno` LIKE ? OR
+                    `bsstreet` LIKE ? OR 
+                    `bsbrgy` LIKE ? OR 
+                    `bscity` LIKE ? OR 
+                    `bsmunicipality` LIKE ? OR 
+                    `bsname` LIKE ? OR
+                    bsindustry LIKE ? OR
+                    aoe LIKE ? OR
+                    archived_on LIKE ? OR
+                    archived_by LIKE ?
+                ");
 
-            $keywordLike = "%$keyword%";
-            $pendingStatus = 'accepted';
-
-            $list === 'active' ?
-                $stmt->execute([
-                    $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
-                    $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
-                    $keywordLike, $keywordLike, $keywordLike, $keywordLike,
-                    $keywordLike, $keywordLike, $pendingStatus
-                ]) :
-                $stmt->execute([
-                    $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
-                    $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
-                    $keywordLike, $keywordLike, $keywordLike, $keywordLike,
-                    $keywordLike, $keywordLike
-                ]);
-
-            $views = $stmt->fetchAll();
-            if ($stmt->rowCount() > 0) {
-                foreach ($views as $view) {
-        ?>
-            <tr>
-                <td>    
+        $keywordLike = "%$keyword%";
+        $pendingStatus = 'accepted';
+        
+        $list === 'active' ?
+            $stmt->execute([
+                $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
+                $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
+                $keywordLike, $keywordLike, $keywordLike, $keywordLike,
+                $keywordLike, $keywordLike, $pendingStatus
+            ]):
+            $stmt->execute([
+                $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
+                $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
+                $keywordLike, $keywordLike, $keywordLike, $keywordLike,
+                $keywordLike, $keywordLike
+            ]);
+        
+        $views = $stmt->fetchAll();
+        if ($stmt->rowCount() > 0) {
+            foreach ($views as $view) {
+    ?>
+        <tr>
+            <td>    
             <form action="" method="post">
                 <a class="btn btn-success" target="_blank" style="width: 70px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" href="bspermit_form.php?id_bspermit=<?= $view['id_bspermit'];?><?php if ($list === 'archived') echo '&status=archived';?>"> <i class="fas fa-cogs"></i></a> 
                             <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
@@ -223,51 +208,18 @@ form label {
             <td> <?= $view['bsindustry'];?> </td>
             <td> <?= $view['aoe'];?> </td>
         </tr>
-        <?php
-                }
-            } else {
-                echo "<tr><td colspan='13'>No existing list</td></tr>";
-            }
-        ?>
-    </tbody>
+    <?php
+    }
+}
+else {
+    echo "<tr><td colspan='13'>No existing list</td></tr>";
+}
+    ?>
+</tbody>
+
 </table>
-
-<?php
-    // Pagination controls
-    $stmt = $conn->prepare("SELECT COUNT(*) FROM " . ($list === 'active' ? "tbl_bspermit WHERE (id_bspermit LIKE ? OR `lname` LIKE ? OR `mi` LIKE ? OR `fname` LIKE ? OR `bshouseno` LIKE ? OR `bsstreet` LIKE ? OR `bsbrgy` LIKE ? OR `bscity` LIKE ? OR `bsmunicipality` LIKE ? OR `bsname` LIKE ? OR bsindustry LIKE ? OR aoe LIKE ? OR created_by LIKE ? OR created_on LIKE ?) AND `doc_status` = ?" : "tbl_bspermit_archive WHERE id_bspermit LIKE ? OR `lname` LIKE ? OR `mi` LIKE ? OR `fname` LIKE ? OR `bshouseno` LIKE ? OR `bsstreet` LIKE ? OR `bsbrgy` LIKE ? OR `bscity` LIKE ? OR `bsmunicipality` LIKE ? OR `bsname` LIKE ? OR bsindustry LIKE ? OR aoe LIKE ? OR archived_on LIKE ? OR archived_by LIKE ?"));
-    $list === 'active' ?
-        $stmt->execute([
-            $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
-            $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
-            $keywordLike, $keywordLike, $keywordLike, $keywordLike,
-            $keywordLike, $keywordLike, $pendingStatus
-        ]) :
-        $stmt->execute([
-            $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
-            $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
-            $keywordLike, $keywordLike, $keywordLike, $keywordLike,
-            $keywordLike, $keywordLike
-        ]);
-    $total_records = $stmt->fetchColumn();
-    $total_pages = ceil($total_records / $limit);
-?>
-
-<nav>
-    <ul class="pagination">
-        <?php if ($page > 1) { ?>
-            <li class="page-item"><a class="page-link" href="?list=<?= $list ?>&keyword=<?= htmlspecialchars($keyword, ENT_QUOTES, 'UTF-8') ?>&page=<?= $page - 1 ?>">Previous</a></li>
-        <?php } ?>
-        <?php for ($i = 1; $i <= $total_pages; $i++) { ?>
-            <li class="page-item <?= ($i == $page) ? 'active' : '' ?>"><a class="page-link" href="?list=<?= $list ?>&keyword=<?= htmlspecialchars($keyword, ENT_QUOTES, 'UTF-8') ?>&page=<?= $i ?>"><?= $i ?></a></li>
-        <?php } ?>
-        <?php if ($page < $total_pages) { ?>
-            <li class="page-item"><a class="page-link" href="?list=<?= $list ?>&keyword=<?= htmlspecialchars($keyword, ENT_QUOTES, 'UTF-8') ?>&page=<?= $page + 1 ?>">Next</a></li>
-        <?php } ?>
-    </ul>
-</nav>
-
-<?php
-    } else {
+<?php		
+	}else{
 ?>
   <form method="GET" action="">
         <label for="list">Select List: </label>
@@ -275,16 +227,8 @@ form label {
             <option value="active" <?= (isset($_GET['list']) && $_GET['list'] == 'active') ? 'selected' : ''; ?>>Active</option>
             <option value="archived" <?= (isset($_GET['list']) && $_GET['list'] == 'archived') ? 'selected' : ''; ?>>Archived</option>
         </select>
-        <?php
-            // Append existing URL parameters
-            foreach ($_GET as $key => $value) {
-                if ($key !== 'list') {
-                    echo '<input type="hidden" name="' . htmlspecialchars($key) . '" value="' . htmlspecialchars($value) . '">';
-                }
-            }
-        ?>
     </form>
-<table id="bspermitTable" class="table table-hover text-center table-bordered table-responsive nowrap">
+<table class="table table-hover text-center table-bordered table-responsive">
 
 <thead class="alert-info">
     <tr>
@@ -308,21 +252,11 @@ form label {
     <?php
         $pendingStatus = 'accepted';
 
-        // Pagination logic
-        $limit = 5; // Number of entries to show in a page.
-        if (isset($_GET["page"])) {
-            $page  = $_GET["page"];
-        } else {
-            $page = 1;
-        }
-        $start_from = ($page - 1) * $limit;
-
-        // Modify the query to include LIMIT and OFFSET
         if ($list === 'active') {
-            $stmt = $conn->prepare("SELECT * FROM tbl_bspermit WHERE doc_status = ? LIMIT $start_from, $limit");
+            $stmt = $conn->prepare("SELECT * FROM tbl_bspermit WHERE doc_status = ?");
             $stmt->execute([$pendingStatus]);
         } else {
-            $stmt = $conn->prepare("SELECT * FROM tbl_bspermit_archive LIMIT $start_from, $limit");
+            $stmt = $conn->prepare("SELECT * FROM tbl_bspermit_archive");
             $stmt->execute();
         }
         $views = $stmt->fetchAll();
@@ -335,16 +269,13 @@ form label {
                 <a class="btn btn-success" target="_blank" style="width: 70px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" href="bspermit_form.php?id_bspermit=<?= $view['id_bspermit'];?><?php if ($list === 'archived') echo '&status=archived';?>"> <i class="fas fa-cogs"></i></a> 
                 <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
                 <input type="hidden" name="id_bspermit" value="<?= $view['id_bspermit'];?>">
+                <button type="submit" id="hiddenSubmitBtn" style="display:none;" name="archive_bspermit">Submit</button>
 
                 <?php 
-                    if ($list === 'active') {
-                       echo '<button type="submit" id="hiddenSubmitBtn" style="display:none;" name="archive_bspermit">Submit</button>';
-                       echo '<button class="btn btn-danger archive-btn" type="button" style="width: 70px; font-size: 17px; border-radius:30px;" name="archive_bspermit">  <i class="fas fa-archive"></i> </button>';
-                    }
-                    else {
-                       echo '<button type="submit" id="hiddenSubmitBtn" style="display:none;" name="unarchive_bspermit">Submit</button>';
-                       echo '<button class="btn btn-danger unarchive-btn" type="button" style="width: 70px; font-size: 17px; border-radius:30px;" name="unarchive_bspermit">  <i class="fas fa-undo"></i> </button>';
-                    }
+                    echo $list === 'active' ? 
+                        '<button class="btn btn-danger archive-btn" type="button" style="width: 70px; font-size: 17px; border-radius:30px;" name="archive_bspermit">  <i class="fas fa-archive"></i> </button>' :
+                        '<button class="btn btn-danger" type="submit" style="width: 70px; font-size: 17px; border-radius:30px;" name="unarchive_bspermit">  <i class="fas fa-undo"></i> </button>'
+                        ;
                 ?>    
             </form>
             <?php include('popup-confirm.php'); ?>
@@ -377,29 +308,7 @@ form label {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-modal/2.2.6/js/bootstrap-modalmanager.min.js" integrity="sha512-/HL24m2nmyI2+ccX+dSHphAHqLw60Oj5sK8jf59VWtFWZi9vx7jzoxbZmcBeeTeCUc7z1mTs3LfyXGuBU32t+w==" crossorigin="anonymous"></script>
 
 <?php
-    // Pagination controls
-    $stmt = $conn->prepare("SELECT COUNT(*) FROM " . ($list === 'active' ? "tbl_bspermit WHERE doc_status = ?" : "tbl_bspermit_archive"));
-    $list === 'active' ? $stmt->execute([$pendingStatus]) : $stmt->execute();
-    $total_records = $stmt->fetchColumn();
-    $total_pages = ceil($total_records / $limit);
-?>
-
-<nav>
-    <ul class="pagination">
-        <?php if ($page > 1) { ?>
-            <li class="page-item"><a class="page-link" href="?list=<?= $list ?>&page=<?= $page - 1 ?>">Previous</a></li>
-        <?php } ?>
-        <?php for ($i = 1; $i <= $total_pages; $i++) { ?>
-            <li class="page-item <?= ($i == $page) ? 'active' : '' ?>"><a class="page-link" href="?list=<?= $list ?>&page=<?= $i ?>"><?= $i ?></a></li>
-        <?php } ?>
-        <?php if ($page < $total_pages) { ?>
-            <li class="page-item"><a class="page-link" href="?list=<?= $list ?>&page=<?= $page + 1 ?>">Next</a></li>
-        <?php } ?>
-    </ul>
-</nav>
-
-<?php
-    }
+	}
 
     $viewsJson = json_encode($views);
     $list === 'archived' ?
@@ -410,15 +319,14 @@ form label {
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     // Get all archive buttons
-    const openPopupBtns = document.querySelectorAll('.archive-btn, .unarchive-btn');
+    const openPopupBtns = document.querySelectorAll('.archive-btn');
     
     // Get popup and other necessary elements
     const popup = document.getElementById('popup');
     const confirmBtn = document.getElementById('confirm-btn');
     const cancelBtn = document.getElementById('cancel-btn');
     const archiveForm = document.getElementById('archiveForm');
-    const hiddenSubmitBtn = document.getElementById('hiddenSubmitBtn');
-    // Hidden submit button
+    const hiddenSubmitBtn = document.getElementById('hiddenSubmitBtn');  // Hidden submit button
 
     // Loop through all archive buttons and add event listeners
     openPopupBtns.forEach((openPopupBtn) => {

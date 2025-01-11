@@ -1,17 +1,17 @@
 <?php
     include('dashboard_sidebar_start.php');
-    include('popup-toast.php'); 
 
-    $list = isset($_GET['list']) ? $_GET['list'] : 'active';
+    $list = $_GET['list'];
 
     require 'phpqrcode/qrlib.php';
     require 'vendor/autoload.php';
 
     $conn = $staffbmis->openConn();
-    // $staffbmis->validate_admin();
+    $staffbmis->validate_admin();
     $staffbmis->archive_bspermit();
     $staffbmis->unarchive_bspermit();
 ?>
+<?php include('popup.php'); ?>
 <style>
 
 table {
@@ -176,9 +176,6 @@ tr:hover {
 
 </style>
 
-<!-- Include DataTables CSS -->
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
 
 <!-- Begin Page Content -->
 
@@ -198,27 +195,20 @@ tr:hover {
 
     <div class="row"> 
         <div class="col">
-            <form method="GET" action="admn_bspermit.php">
+            <form method="POST">
                 <div class="input-icons" >
                     <i class="fa fa-search icon"></i>
-                    <input type="search" class="form-control" name="keyword" value="<?= isset($_GET['keyword']) ? htmlspecialchars($_GET['keyword'], ENT_QUOTES, 'UTF-8') : ''; ?>" style="border-radius: 30px;" required=""/>
+                    <input type="search" class="form-control" name="keyword" value="" style="border-radius: 30px;" required=""/>
                 </div>
                 <div class="button-container">
-                    <button class="btns btn-success" type="submit">
-                        Search
-                    </button>
-                    <button class="btns btn-info" type="button" onclick="window.location.href='admn_bspermit.php?list=<?= $list ?>'">
-                        Reload
-                    </button>
-                </div>
-                <?php
-                    // Append existing URL parameters
-                    foreach ($_GET as $key => $value) {
-                        if ($key !== 'keyword') {
-                            echo '<input type="hidden" name="' . htmlspecialchars($key) . '" value="' . htmlspecialchars($value) . '">';
-                        }
-                    }
-                ?>
+    <button class="btns btn-success" name="search_bspermit">
+        Search
+    </button>
+    <button class="btns btn-info" onclick="window.location.href='admn_bspermit.php?list=<?= $list ?>'">
+        Reload
+    </button>
+</div>
+             
             </form>
             <br>
         </div>
@@ -238,25 +228,6 @@ tr:hover {
     
 </div>
 <!-- End of Main Content -->
-
-<!-- Include jQuery and DataTables JS -->
-<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-
-<script>
-$(document).ready(function() {
-    $('#bspermitTable').DataTable({
-        responsive: true,
-        paging: true,
-        searching: false,
-        info: false,
-        lengthChange: false,
-        pageLength: 5
-    });
-});
-</script>
-
 <?php 
     include('dashboard_sidebar_end.php');
 ?>
