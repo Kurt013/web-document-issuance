@@ -262,7 +262,7 @@ class BMISClass {
     public function view_announcement(){
         $connection = $this->openConn();
         $stmt = $connection->prepare("SELECT u.lname, u.fname, u.mi, a.event, date(a.created_on) AS created_date, TIME_FORMAT(a.created_on, '%h:%i %p') AS created_time, a.id_announcement from tbl_user AS
-            u JOIN tbl_announcement AS a ON u.id_user = a.created_by");
+            u JOIN tbl_announcement AS a ON u.id_user = a.created_by ORDER BY a.created_on DESC");
         $stmt->execute();
         $view = $stmt->fetchAll();
         $row = $stmt->rowCount();
