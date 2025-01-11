@@ -10,7 +10,8 @@
         $view = $staffbmis->get_single_staff($id_user);
     }
 
-    $upstaff = $staffbmis->update_staff();
+    $staffbmis->update_account_profile();
+    $staffbmis->update_account_password();
 ?>
 
     <!-- Begin Page Content -->
@@ -24,7 +25,7 @@
     <div class="card" >
         <div class="card-header bg-primary text-white"> 
             <h5>
-                Your Credentials
+                Personal Details
             </h5>
         </div>                 
         <div class="card-body"> 
@@ -48,11 +49,11 @@
                 <div class="row" style="margin-top: 1.1em;">
                     <div class="col">
                         <label class="form-group">Email </label>
-                        <input type="email" class="form-control" name="email"  Value="<?= $view['email'];?>">
+                        <input type="email" class="form-control" name="email"  value="<?= $view['email'];?>">
                     </div>
                     <div class="col">
                         <label class="form-group">Contact Number</label>
-                        <input type="tel" class="form-control" name="contact" Value="<?= $view['contact'];?>">
+                        <input type="tel" class="form-control" name="contact" value="<?= $view['contact'];?>">
                     </div>
                     <div class="col">
                         <label class="form-group">Position </label>
@@ -64,7 +65,7 @@
                 <input type="hidden" class="form-control" name="addedby" value="<?= $userdetails['surname']?>, <?= $userdetails['firstname']?>">
                 <br>
                 <hr>
-                <button class="btn btn-primary" type="submit" name="update_staff" 
+                <button class="btn btn-primary" type="submit" name="update_account_profile" 
                         style="margin-left: 42%;
                                width: 150px;
                                border-radius: 30px;
@@ -74,7 +75,44 @@
             </form>
         </div>
     </div>
-</div>
+
+    <div class="card" >
+        <div class="card-header bg-primary text-white"> 
+            <h5>
+                Change Password
+            </h5>
+        </div>                 
+        <div class="card-body"> 
+            <form method="post">
+                <div class="row" style="margin-top: 1.1em;">
+                    <div class="col">
+                        <label class="form-group"> Old Password </label>
+                        <input type="text" name="oldpassword">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <label class="form-group"> New Password </label>
+                        <input type="text" name="newpassword">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <label class="form-group"> Confirm Password </label>
+                        <input type="text" name="checkpassword">
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" type="submit" name="update_account_password"
+                style="margin-left: 42%;
+                        border-radius: 30px;
+                        font-size: 18px;"> Change Password </button>
+            </form>
+        </div>
+    </div>
+
 <!-- /.container-fluid -->
 
 <!-- End of Main Content -->

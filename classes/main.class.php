@@ -36,6 +36,42 @@ class BMISClass {
         $this->con = null;
     }
 
+    // ---------------------------------------- ACCOUNT ---------------------------------------------------------
+
+    public function update_account_profile() {
+        if (isset($_POST['update_account_profile'])) {
+            $id_user = $_GET['id'];
+            $lname = $_POST['lname'];
+            $fname = $_POST['fname'];
+            $mi = $_POST['mi'];
+            $email = $_POST['email'];
+            $contact = $_POST['contact'];
+            $position = $_POST['position'];
+
+            $connection = $this->openConn();
+
+            $stmt = $connection->prepare("UPDATE tbl_user SET lname = ?, fname = ?, mi = ?, email = ?, contact = ?, position = ? WHERE id_user = ?");
+            $stmt->execute([$lname, $fname, $mi, $email, $contact, $position, $id_user]);
+
+            $message2 = "Profile Updated";
+            echo "<script type='text/javascript'>alert('$message2');</script>";
+
+            header("refresh: 0");
+        }
+    }
+
+
+    public function update_account_password() {
+        if (isset($_POST['update_account_password'])) {
+            $password = isset($_POST['password']) ? $_POST['password'] : null;
+            $lname = $_POST['lname'];
+            $fname = $_POST['fname'];
+            $mi = $_POST['mi'];
+        }
+    }
+
+
+
 
     //------------------------------------------ AUTHENTICATION & SESSION HANDLING --------------------------------------------
         public function login() {

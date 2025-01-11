@@ -344,7 +344,7 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
             
             <div class="sidebar-brand-icon">
     <div class="profile-card">
-        <a href="./account_crud.php"><img src="assets/profile-admin.png" alt="Profile Image" class="profile-img"></a>
+        <a href="./account_crud.php?id=<?php echo $userdetails['id']; ?>"><img src="assets/profile-admin.png" alt="Profile Image" class="profile-img"></a>
         <div class="profile-info">
         <h3><?php echo htmlspecialchars(ucwords(strtolower($firstName . ' ' . $lastName))); ?></h3>
         <p><?php echo htmlspecialchars(ucfirst($role)); ?></p>
