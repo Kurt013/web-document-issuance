@@ -2810,6 +2810,8 @@ public function unarchive_brgyclearance() {
         // Return the total document count (or 0 if no rows found)
         return $result['total_documents'] ?? 0;
     }
+
+
     
 }
     

@@ -91,8 +91,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
             $stmt = $conn->prepare("SELECT * FROM tbl_user WHERE `email`= ?");
 
             $stmt->execute([$email]);
-            $result = $stmt->fetch();
-            if ($result && $stmt->rowCount() == 1) {
+            if ($stmt->rowCount() > 0) {
+                $result = $stmt->fetch();
                 if (password_verify($password1, $result['password'])) {
                     $message = '                      <div class="toast" style = "border-left: 6px solid #D32F2F;">
                     <div class="toast-content">
