@@ -14,14 +14,6 @@
     $total_pending = $staffbmis->count_total_day();
 
 
-        // Example: Fetch daily document issuance counts for the selected month
-    // $documentIssuanceCounts = [];
-    // for ($day = 1; $day <= $total_days_in_month; $day++) {
-    //     $date = date('Y-m-d', strtotime(date('Y') . '-' . $current_month . '-' . $day));
-    //     // You would replace this with your logic to fetch the document count for the specific day
-    //     $documentIssuanceCounts[] = $staffbmis->count_documents_issued_on_date($date);
-    // }
-
    // Fetch document issuance counts for each month from January to the selected month
     $documentIssuanceCounts = [];
     $monthLabels = [];
@@ -30,7 +22,7 @@
         // Generate month labels (e.g., January, February)
         $monthLabels[] = date('F', mktime(0, 0, 0, $month, 10));
         
-        // Fetch document issuance count for the entire month
+        // Fetch document issuance count for the entire month of the current year
         $startDate = date('Y-m-d', strtotime(date('Y') . '-' . $month . '-01'));
         $endDate = date('Y-m-t', strtotime($startDate)); // Last day of the month
         $documentIssuanceCounts[] = $staffbmis->count_documents_issued_in_month($startDate, $endDate);
