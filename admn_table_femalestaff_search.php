@@ -3,7 +3,7 @@
 		$keyword = $_POST['keyword'];
 ?>
 
-<table class="table table-hover table-bordered text-center table-responsive" >
+<table class="table table-hover table-bordered text-center responsive" >
 	<thead class="alert-info">
 		<tr>
 			<th> Email </th>
@@ -44,7 +44,7 @@
 	}else{
 ?>
 
-<table class="table table-hover table-bordered text-center table-responsive">
+<table class="table table-hover table-bordered text-center responsive">
 	<thead class="alert-info">
 		<tr>
 			<th> Email </th>
