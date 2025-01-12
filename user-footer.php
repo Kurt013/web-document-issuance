@@ -104,7 +104,9 @@
 
 <body id= "idbody">
 
-
+<?php
+   date_default_timezone_set('Asia/Manila');
+?>
 
   <!-- Footer Section -->
   <footer id = "footerend">

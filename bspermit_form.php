@@ -9,7 +9,7 @@
 
     $staffbmis->update_bspermit();
     $staffbmis->accept_bspermit();
-
+    $staffbmis->priceUpdate_bspermit();
 
   // try {
   //   foreach ($resident as $key => $value) {
@@ -43,6 +43,7 @@
     }
 
     body {
+      min-height: 100vh;
       margin: 0;
       padding: 0;
       box-sizing: border-box;

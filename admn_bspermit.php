@@ -217,6 +217,8 @@ tr:hover {
 
     .searchbox{
         display: flex; /* Aligns input and button in a row */
+        flex-wrap: wrap;
+        row-gap: 10px;
     align-items: center; /* Vertical alignment */
     justify-content: space-between; /* Space between input and button */
     background: #014bae;
@@ -242,9 +244,30 @@ box-shadow:
     0 10px 15px 0 rgba(1, 75, 174, 0.12),
     0 -2px 6px 1px rgba(1, 75, 174, 0.55) inset, 
     0 2px 4px 2px rgba(1, 75, 174, 0.83) inset;
-
-
 }
+
+.left-search {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+
+.right-search {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.right-search label {
+    margin: 0;
+    font-family: "PRegular";
+    font-size: 1rem;
+    color:white !important;
+}
+
 .searchinp{
     width: calc(100% - 45px);
     height:40px;
@@ -326,13 +349,28 @@ box-shadow:
         <div class="col">
 
 <form class="searchbox" method="POST">
-        <input class = "searchinp" placeholder="Search" name ="keyword" />
-        <button class="searchbtn" type="submit" value="search" name="search_bspermit" style = "margin-left: 5px">
-  <i class="fas fa-search"></i>
-</button>
-<button class="reloadbtn" type="button"  onclick="window.location.href='admn_bspermit.php?list=<?= $list ?>'">
-  <i class="fa fa-sync"></i>
-</button>
+                <div class="left-search">
+                    <input class = "searchinp" placeholder="Search" name ="keyword" />
+                    <button class="searchbtn" type="submit" value="search" name="search_bspermit">
+                      <i class="fas fa-search"></i>
+                    </button>
+                </div>
+<?php if ($_GET['list'] == 'archived') {?>
+    <div class="right-search">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="from_date" class="form-label">From:</label>
+                <input type="date" class="form-control" id="from_date" name="from" value="<?= isset($_POST['from']) ? date('Y-m-d', strtotime($_POST['from'])) : date('Y-m-d'); ?>">
+            </div>
+            <div class="col-md-6">
+                <label for="to_date" class="form-label">To:</label>
+                <input type="date" class="form-control" id="to_date" name="to" value="<?= isset($_POST['to']) ? date('Y-m-d', strtotime($_POST['to'])) : date('Y-m-d'); ?>">
+            </div>
+        </div>
+    </div>
+
+<?php } ?>
+
     </form>                     
             
             <br>

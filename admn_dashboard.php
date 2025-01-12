@@ -382,7 +382,16 @@ body{
 
         <canvas id="documentTypesDistributionChart" style="margin-left: 20px; width: 500px; height: 300px; display: inline-block;"></canvas>
 
-</div>
+        <div class="price-stats" style="display: flex; justify-content: center; margin-left: 20px;">
+            <div class="card bg-c-blue3 order-card" style = "border-radius: 20px 20px 20px 0;">
+                <div class="card-block">
+                    <h6 class="m-b-20 text-left">Daily Earnings</h6>
+                    <h2 class="text-left">₱ <?= $total_pending ?></h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
 
 
@@ -398,6 +407,7 @@ body{
                 </div>
             </div>
         </div>
+
 
     <?php if ($userdetails['role'] === 'administrator') { ?>
 <div class="col-md-3">
@@ -521,18 +531,24 @@ const documentIssuanceTrendChart = new Chart(ctx1, {
                 }
             },
             y: {
+                beginAtZero: true, // Start from 0
                 ticks: {
                     color: '#012049',
                     font: {
                         family: 'PMedium',
                         size: 12
-                    }
+                    },
+                     // Ensure only whole numbers are displayed
+                     callback: function(value) {
+                        return Number.isInteger(value) ? value : null;
+                    },
+                    stepSize: 1
                 },
                 grid: {
                     color: 'rgba(1, 32, 73, 0.5)', // Light gray for y-axis grid lines
                     lineWidth: 1.5, // Y-axis grid line thickness
                     drawBorder: false // Remove the border on the y-axis
-                }
+                },
             }
         }
     }

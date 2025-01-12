@@ -4,6 +4,9 @@ ob_start();
 
 // Include necessary classes
 include 'classes/staff.class.php';
+
+date_default_timezone_set('Asia/Manila');
+
 $staffbmis->validate_staff();
 
 // Fetch user details
