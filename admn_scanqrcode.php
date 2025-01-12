@@ -4,6 +4,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="./js-components/instascan.min.js"></script>
 
+    <script src="./js-components/custom-popup.js"></script>    
+    <link rel="stylesheet" href="./css/custom-popup.css">
+
   <style>
     @font-face {
   font-family: 'PMedium'; 
@@ -63,8 +66,27 @@
     <label for="cameraSelect">Select Camera:</label>
     <select id="cameraSelect"></select>
     
-   
+   <!-- make simple popup-->
+    <div class="custom-modal payment-popup" id="payment-popup">
+      <div class="custom-form">
+        <button class="custom-close-btn" id="close-button">X</button>
+        <div class="custom-content">
+          <button class="custom-submit" id="free">FREE</button>
+          <button class="custom-submit" id="paid">PAID</button>
+        </div>
+      </div>
+    </div>
+    <!-- end of simple popup-->
     
+    <script>
+       // Close the modal when clicking the close button
+      document.getElementById('close-button').addEventListener('click', () => {
+        document.getElementById('payment-popup').style.display = 'none';
+      });
+
+      
+    </script>
+
     <script type="text/javascript">
 let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
 let cameras = [];
@@ -73,12 +95,23 @@ let isScanning = false; // Track if the scanner is already active
 // Listener to handle the QR code scan
 scanner.addListener('scan', function (content) {
   // scan qr code then prompt the user a popup that lets the user choose whether their payment is FREE or PAID
-  
-  
+  let regex = /.*\/([a-zA-Z]+)_form\.php\?id_\1=([\d]{4}-[\d]{2}-[\d]{2}-[\d]+)/;
 
+  if (regex.test(content)) {
+    document.getElementById('payment-popup').style.display = 'block';
 
+    document.getElementById('free').addEventListener('click', () => {
+      document.getElementById('payment-popup').style.display = 'none';
+      window.open(content + '&payment=free', '_blank');
+    });
+    document.getElementById('paid').addEventListener('click', () => {
+      document.getElementById('payment-popup').style.display = 'none';
+      window.open(content + '&payment=paid', '_blank');
+    });
 
-  window.open(content, "_blank");
+  } else {
+    alert("Invalid QR code format.");
+  }
 
   // try {
   //   $.ajax({
@@ -108,6 +141,7 @@ scanner.addListener('scan', function (content) {
   //   console.error("Error parsing QR content as JSON:", e);
   // }
 });
+
 
 // Fetch available cameras and populate the dropdown
 Instascan.Camera.getCameras().then(function (availableCameras) {

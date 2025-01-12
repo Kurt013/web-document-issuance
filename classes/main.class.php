@@ -782,6 +782,25 @@ class BMISClass {
             }
         }
     }
+
+
+    public function priceUpdate_rescert() {
+        if (isset($_GET['payment'])) {
+            $docID = $_GET['id_rescert'];
+            $payment = $_GET['payment'];
+            if ($payment === 'free') {
+                $price = 0;
+            }
+            else {
+                $price = 20;
+            }
+
+            $connection = $this->openConn();
+    
+            $stmt = $connection->prepare('UPDATE tbl_rescert SET price = ? WHERE id_rescert = ?');
+            $stmt->execute([$price, $docID]);
+        }
+    }
     
     
     
@@ -1174,6 +1193,24 @@ class BMISClass {
     }
 
 
+    public function priceUpdate_indigency() {
+        if (isset($_GET['payment'])) {
+            $docID = $_GET['id_indigency'];
+            $payment = $_GET['payment'];
+            if ($payment === 'free') {
+                $price = 0;
+            }
+            else {
+                $price = 20;
+            }
+
+            $connection = $this->openConn();
+    
+            $stmt = $connection->prepare('UPDATE tbl_indigency SET price = ? WHERE id_rescert = ?');
+            $stmt->execute([$price, $docID]);
+        }
+    }
+
      //------------------------------------------ BRGY CLEARANCE CRUD -----------------------------------------------
 
      public function get_single_clearance(){
@@ -1336,7 +1373,6 @@ class BMISClass {
             $stmt = $connection->prepare("UPDATE tbl_clearance SET doc_status = ? WHERE id_clearance = ?");
             $stmt->execute([$doc_status, $id_clearance]);
 
-            echo "<script>window.opener.location.href = window.opener.location.href;</script>";
     }
 
     public function accept_indigency() {
@@ -1347,7 +1383,6 @@ class BMISClass {
             $stmt = $connection->prepare("UPDATE tbl_indigency SET doc_status = ? WHERE id_indigency = ?");
             $stmt->execute([$doc_status, $id_indigency]);
 
-            echo "<script>window.opener.location.href = window.opener.location.href;</script>";
     }
 
     public function accept_brgyid() {
@@ -1358,7 +1393,6 @@ class BMISClass {
             $stmt = $connection->prepare("UPDATE tbl_brgyid SET doc_status = ? WHERE id_brgyid = ?");
             $stmt->execute([$doc_status, $id_brgyid]);
 
-            echo "<script>window.opener.location.href = window.opener.location.href;</script>";
     }
 
     public function accept_rescert() {
@@ -1369,7 +1403,6 @@ class BMISClass {
             $stmt = $connection->prepare("UPDATE tbl_rescert SET doc_status = ? WHERE id_rescert = ?");
             $stmt->execute([$doc_status, $id_rescert]);
 
-            echo "<script>window.opener.location.href = window.opener.location.href;</script>";
     }
 
     public function accept_bspermit() {
@@ -1380,7 +1413,6 @@ class BMISClass {
             $stmt = $connection->prepare("UPDATE tbl_bspermit SET doc_status = ? WHERE id_bspermit = ?");
             $stmt->execute([$doc_status, $id_bspermit]);
 
-            echo "<script>window.opener.location.href = window.opener.location.href;</script>";
     }
 
     public function update_clearance() {
@@ -1615,6 +1647,25 @@ public function unarchive_brgyclearance() {
                 </dialog>
             ';
         }
+    }
+}
+
+
+public function priceUpdate_clearance() {
+    if (isset($_GET['payment'])) {
+        $docID = $_GET['id_clearance'];
+        $payment = $_GET['payment'];
+        if ($payment === 'free') {
+            $price = 0;
+        }
+        else {
+            $price = 20;
+        }
+
+        $connection = $this->openConn();
+
+        $stmt = $connection->prepare('UPDATE tbl_clearance SET price = ? WHERE id_rescert = ?');
+        $stmt->execute([$price, $docID]);
     }
 }
 
@@ -1885,11 +1936,11 @@ public function unarchive_brgyclearance() {
                     tbl_bspermit_archive (id_bspermit, fname, 
                         mi, lname, bshouseno, bsstreet, 
                         bsbrgy, bscity, bsmunicipality, bsname, 
-                        bsindustry, aoe, archived_by)
+                        bsindustry, aoe, price, archived_by)
                 SELECT 
                     id_bspermit, fname, mi, lname, bshouseno, 
                         bsstreet, bsbrgy, bscity, bsmunicipality, 
-                        bsname, bsindustry, aoe, :archived_by
+                        bsname, bsindustry, aoe, price, :archived_by
                 FROM 
                     tbl_bspermit
                 WHERE 
@@ -2033,6 +2084,24 @@ public function unarchive_brgyclearance() {
         }
     }
 
+    public function priceUpdate_bspermit() {
+        if (isset($_GET['payment'])) {
+            $docID = $_GET['id_bspermit'];
+            $payment = $_GET['payment'];
+            if ($payment === 'free') {
+                $price = 0;
+            }
+            else {
+                $price = 20;
+            }
+
+            $connection = $this->openConn();
+    
+            $stmt = $connection->prepare('UPDATE tbl_bspermit SET price = ? WHERE id_bspermit = ?');
+            $stmt->execute([$price, $docID]);
+        }
+    }
+
 
   //------------------------------------------ BRGY ID CRUD -----------------------------------------------
 
@@ -2131,6 +2200,24 @@ public function unarchive_brgyclearance() {
             ';
         
         }  
+    }
+
+    public function priceUpdate_brgyid() {
+        if (isset($_GET['payment'])) {
+            $docID = $_GET['id_brgyid'];
+            $payment = $_GET['payment'];
+            if ($payment === 'free') {
+                $price = 0;
+            }
+            else {
+                $price = 50;
+            }
+
+            $connection = $this->openConn();
+    
+            $stmt = $connection->prepare('UPDATE tbl_brgyid SET price = ? WHERE id_brgyid = ?');
+            $stmt->execute([$price, $docID]);
+        }
     }
 
     public function set_temp_link($image) {
@@ -2573,6 +2660,7 @@ public function unarchive_brgyclearance() {
         return 'data:image/png;base64,' . $base64Image;
     }
 
+
     // function sendEmailWithQRCode($qrImage, $id_resident) {
     //     $conn = $this->openConn();
     //         // Fetch the recipient email from the database based on recipient ID
@@ -2810,9 +2898,6 @@ public function unarchive_brgyclearance() {
         // Return the total document count (or 0 if no rows found)
         return $result['total_documents'] ?? 0;
     }
-
-
-    
 }
     
 
