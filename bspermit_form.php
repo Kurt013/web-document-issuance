@@ -28,6 +28,9 @@
     <meta charset="UTF-8">
     <title>Barangay Information System</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    
+    <link rel="icon" href="./assets/sinlogo.png" type="image/x-icon">
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>  
     
     <style>
@@ -37,6 +40,21 @@
       border: 2px solid black;
       min-width: 10px;
       display: inline-block;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background: #014bae;
+      display: flex;
+      justify-content: center;
+    }
+
+    .document-container {
+      width: 8.5in;
+      background-color: white;
+      padding: 4mm;
     }
 
     @media print {
@@ -53,10 +71,11 @@
     </style>
 </head>
  <body>
+ <div class="document-container">
+
  <?php include './form_header.php' 
     ?>
-
-  <h1 style="text-transform: uppercase;">Business Permit</h1>
+  <h1 style="text-transform: uppercase; text-align: center;">Business Permit</h1>
 
     <p>ISSUANCE NO.: <u id="id_bspermit"><?= $resident['id_bspermit'] ?></u></p>
     <p>TO WHOM IT MAY CONCERN:</p>
@@ -90,7 +109,6 @@
 
     <br>
 
-    <img src="" alt="Insert Signature Image here.">
     <p>HON. LADISLAO B. ALICBUSAN</p>
     <p>Punong Barangay</p>      
 
@@ -101,6 +119,7 @@
         <button class="btn btn-primary noprint" id="printpagebutton" onclick="PrintElem('#clearance')">Print</button>
         <button class="noprint btn-update">Update</button>
     <?php } ?>
+    </div>
   
   </body>
     <?php

@@ -18,6 +18,9 @@
     <meta charset="UTF-8">
     <title>Barangay Information System</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    
+    <link rel="icon" href="./assets/sinlogo.png" type="image/x-icon">
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     
     <style>
@@ -28,6 +31,22 @@
       min-width: 10px;
       display: inline-block;
     }
+
+    body {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background: #014bae;
+      display: flex;
+      justify-content: center;
+    }
+
+    .document-container {
+      width: 8.5in;
+      background-color: white;
+      padding: 4mm;
+    }
+
 
     @media print {
       .noprint {
@@ -43,6 +62,8 @@
     </style>
 </head>
  <body>
+ <div class="document-container">
+
     <?php include './form_header.php' 
     ?>
 
@@ -79,14 +100,15 @@
 
     <br>
 
-    <img src="" alt="Insert Signature Image here.">
     <p>HON. LADISLAO B. ALICBUSAN</p>
     <p>Punong Barangay</p>      
+
 
     <?php if (empty($_GET['status'])) { ?>
         <button class="btn btn-primary noprint" id="printpagebutton" onclick="PrintElem()">Print</button>
         <button class="noprint btn-update">Update</button>
     <?php } ?>
+</div>
 
     <script>
 
