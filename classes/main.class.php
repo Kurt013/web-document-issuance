@@ -648,11 +648,11 @@ class BMISClass {
                 $insertStmt = $connection->prepare("
                 INSERT INTO tbl_rescert_archive (
                     id_rescert, fname, mi, lname, age, houseno, 
-                    street, brgy, city, municipality, purpose, archived_by
+                    street, brgy, city, municipality, purpose, price, archived_by
                 )
                 SELECT 
                     id_rescert, fname, mi, lname, age, houseno, street, 
-                    brgy, city, municipality, purpose, :archived_by
+                    brgy, city, municipality, purpose, price, :archived_by
                 FROM 
                     tbl_rescert
                 WHERE 
@@ -721,8 +721,8 @@ class BMISClass {
                 $connection->beginTransaction();
     
                 $insertStmt = $connection->prepare("
-                    INSERT INTO tbl_rescert (id_rescert, fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, created_by, doc_status)
-                    SELECT id_rescert, fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, :created_by, :doc_status
+                    INSERT INTO tbl_rescert (id_rescert, fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, price, created_by, doc_status)
+                    SELECT id_rescert, fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, price, :created_by, :doc_status
                     FROM tbl_rescert_archive
                     WHERE id_rescert = :id_rescert
                 ");
@@ -1001,11 +1001,11 @@ class BMISClass {
                 $insertStmt = $connection->prepare("
                 INSERT INTO tbl_indigency_archive (
                     id_indigency, fname, mi, lname, age, nationality, houseno, 
-                    street, brgy, city, municipality, purpose, archived_by
+                    street, brgy, city, municipality, purpose, price, archived_by
                 )
                 SELECT 
                     id_indigency, fname, mi, lname, age, nationality, houseno, street, 
-                    brgy, city, municipality, purpose, :archived_by
+                    brgy, city, municipality, purpose, price, :archived_by
                 FROM 
                     tbl_indigency
                 WHERE 
@@ -1074,8 +1074,8 @@ class BMISClass {
                 $connection->beginTransaction();
     
                 $insertStmt = $connection->prepare("
-                    INSERT INTO tbl_indigency (id_indigency, fname, mi, lname, age, nationality, houseno, street, brgy, city, municipality, purpose, created_by, doc_status)
-                    SELECT id_indigency, fname, mi, lname, age, nationality, houseno, street, brgy, city, municipality, purpose, :created_by, :doc_status
+                    INSERT INTO tbl_indigency (id_indigency, fname, mi, lname, age, nationality, houseno, street, brgy, city, municipality, purpose, price, created_by, doc_status)
+                    SELECT id_indigency, fname, mi, lname, age, nationality, houseno, street, brgy, city, municipality, purpose, price, :created_by, :doc_status
                     FROM tbl_indigency_archive
                     WHERE id_indigency = :id_indigency
                 ");
@@ -1517,11 +1517,11 @@ class BMISClass {
             $insertStmt = $connection->prepare("
             INSERT INTO tbl_clearance_archive (
                 id_clearance, fname, mi, lname, age, houseno, 
-                street, brgy, city, municipality, purpose, archived_by
+                street, brgy, city, municipality, purpose, price, archived_by
             )
             SELECT 
                 id_clearance, fname, mi, lname, age, houseno, street, 
-                brgy, city, municipality, purpose, :archived_by
+                brgy, city, municipality, purpose, price, :archived_by
             FROM 
                 tbl_clearance
             WHERE 
@@ -1588,8 +1588,8 @@ public function unarchive_brgyclearance() {
             $connection->beginTransaction();
 
             $insertStmt = $connection->prepare("
-                INSERT INTO tbl_clearance (id_clearance, fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, created_by, doc_status)
-                SELECT id_clearance, fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, :created_by, :doc_status
+                INSERT INTO tbl_clearance (id_clearance, fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, price, created_by, doc_status)
+                SELECT id_clearance, fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, price, :created_by, :doc_status
                 FROM tbl_clearance_archive
                 WHERE id_clearance = :id_clearance
             ");
@@ -2017,11 +2017,11 @@ public function priceUpdate_clearance() {
                     tbl_bspermit (id_bspermit, fname, 
                         mi, lname, bshouseno, bsstreet, 
                         bsbrgy, bscity, bsmunicipality, bsname, 
-                        bsindustry, aoe, created_by, doc_status)
+                        bsindustry, aoe, price, created_by, doc_status)
                     SELECT 
                         id_bspermit, fname, mi, lname, bshouseno, 
                         bsstreet, bsbrgy, bscity, bsmunicipality, 
-                        bsname, bsindustry, aoe, :created_by, :doc_status
+                        bsname, bsindustry, aoe, price, :created_by, :doc_status
                     FROM 
                         tbl_bspermit_archive
                     WHERE 
@@ -2304,14 +2304,14 @@ public function priceUpdate_clearance() {
                     street, brgy, city, municipality, bdate, status,
                     precint_no, inc_lname, inc_fname, inc_mi, inc_contact,
                     inc_houseno, inc_street, inc_brgy, inc_city, 
-                    inc_municipality, valid_until, archived_by
+                    inc_municipality, valid_until, price, archived_by
                 )
                 SELECT 
                     id_brgyid, res_photo, fname, mi, lname, houseno, 
                     street, brgy, city, municipality, bdate, status,
                     precint_no, inc_lname, inc_fname, inc_mi, inc_contact,
                     inc_houseno, inc_street, inc_brgy, inc_city, 
-                    inc_municipality, valid_until, :archived_by
+                    inc_municipality, valid_until, price, :archived_by
                 FROM 
                     tbl_brgyid
                 WHERE 
@@ -2382,14 +2382,14 @@ public function priceUpdate_clearance() {
                         street, brgy, city, municipality, bdate, status,
                         precint_no, inc_lname, inc_fname, inc_mi, inc_contact,
                         inc_houseno, inc_street, inc_brgy, inc_city, 
-                        inc_municipality, valid_until, created_by, doc_status
+                        inc_municipality, valid_until, price, created_by, doc_status
                     )
                     SELECT 
                         id_brgyid, res_photo, fname, mi, lname, houseno, 
                         street, brgy, city, municipality, bdate, status,
                         precint_no, inc_lname, inc_fname, inc_mi, inc_contact,
                         inc_houseno, inc_street, inc_brgy, inc_city, 
-                        inc_municipality, valid_until, :created_by, :doc_status
+                        inc_municipality, valid_until, price, :created_by, :doc_status
                     FROM tbl_brgyid_archive
                     WHERE id_brgyid = :id_brgyid
                 ");
