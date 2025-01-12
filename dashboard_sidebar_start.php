@@ -499,7 +499,7 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
             <li class="nav-item">
                 <div class="wrapperbtn">
                     <button class="btn-logout" onclick="window.location.href='logout.php';">
-                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i>
+                        <i class="fas fa-sign-out-alt fa-sm fa-fw "></i>
                         <span>Logout</span>
                     </button>
                 </div>

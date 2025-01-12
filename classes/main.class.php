@@ -1979,12 +1979,17 @@ public function priceUpdate_clearance() {
     $_SESSION['toast'] = $toast;
 
     // Redirect to prevent form re-submission
-    header("Location: admn_bspermit.php?list=active");
+    echo "<script type='text/javascript'>
+    // Close the popup window
+    window.close();
+    // Redirect to the main page (header or active list)
+    window.opener.location.href = 'admn_bspermit.php?list=active';
+</script>";
     exit();
         
 } catch (Throwable $e) {
     $connection->rollBack();
-    echo '
+    $toast = '
             <div class="toast" style = "border-left: 6px solid #D32F2F;">
                 <div class="toast-content">
                     <i class="fas fa-exclamation-triangle check" style = "background-color: #D32F2F;"></i>
@@ -1997,9 +2002,105 @@ public function priceUpdate_clearance() {
                 <div class="progress progress-error"></div>
             </div>
     ';
+    $_SESSION['toast'] = $toast;
+
+    // Redirect to prevent form re-submission
+    echo "<script type='text/javascript'>
+    // Close the popup window
+    window.close();
+    // Redirect to the main page (header or active list)
+    window.opener.location.href = 'admn_bspermit.php?list=active';
+</script>";
+    exit();
 }
 }
 }
+
+public function processArchive() {
+    if (isset($_POST['archive_selected_bspermit'])) {
+        $idsToArchive = explode(',', $_POST['ids_to_archive']);
+        $id = $_POST['id'];
+        
+
+        $connection = $this->openConn();
+
+        try {
+            $connection->beginTransaction();
+
+            foreach ($idsToArchive as $idBsPermit) {
+                $insertStmt = $connection->prepare("
+                    INSERT INTO 
+                        tbl_bspermit_archive (id_bspermit, fname, 
+                            mi, lname, bshouseno, bsstreet, 
+                            bsbrgy, bscity, bsmunicipality, bsname, 
+                            bsindustry, aoe, archived_by)
+                    SELECT 
+                        id_bspermit, fname, mi, lname, bshouseno, 
+                            bsstreet, bsbrgy, bscity, bsmunicipality, 
+                            bsname, bsindustry, aoe, :archived_by
+                    FROM 
+                        tbl_bspermit
+                    WHERE 
+                        id_bspermit = :id_bspermit
+                ");
+                $insertStmt->bindParam(':archived_by', $id);
+                $insertStmt->bindParam(':id_bspermit', $idBsPermit);
+                $insertStmt->execute();
+
+                $deleteStmt = $connection->prepare("
+                    DELETE FROM tbl_bspermit
+                    WHERE id_bspermit = :id_bspermit
+                ");
+                $deleteStmt->bindParam(':id_bspermit', $idBsPermit);
+                $deleteStmt->execute();
+            }
+
+            $connection->commit();
+
+            // Set a success message
+            $toast = '
+            <body>
+                <div class="toast">
+                    <div class="toast-content">
+                        <i class="fas fa-solid fa-check check"></i>
+                        <div class="message">
+                            <span class="text text-1">Success</span>
+                            <span class="text text-2">The request has been archived successfully</span>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-xmark close" onclick="closeToast()"></i>
+                    <div class="progress"></div>
+                </div>
+            </body>';
+        
+            $_SESSION['toast'] = $toast;
+
+            // Refresh the page to clear form resubmission
+            header("Location: admn_bspermit.php?list=active");
+            exit();
+
+        } catch (Throwable $e) {
+            $connection->rollBack();
+            $toast = '
+            <div class="toast" style = "border-left: 6px solid #D32F2F;">
+                <div class="toast-content">
+                    <i class="fas fa-exclamation-triangle check" style = "background-color: #D32F2F;"></i>
+                    <div class="message">
+                        <span class="text text-1">Error</span>
+                        <span class="text text-2">An unexpected error occurred while processing your request</span>
+                    </div>
+                </div>
+                <i class="fa-solid fa-xmark close close-error"  onclick="closeToast()"></i>
+                <div class="progress progress-error"></div>
+            </div>
+    ';
+    $_SESSION['toast'] = $toast;
+    header("Location: admn_bspermit.php?list=active");
+    exit();
+        }
+    }
+}
+
 
     public function unarchive_bspermit() {
         if (isset($_POST['unarchive_bspermit'])) {

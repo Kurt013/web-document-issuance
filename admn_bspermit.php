@@ -9,7 +9,7 @@ if (isset($_SESSION['toast'])) {
 <?php
 
     include('dashboard_sidebar_start.php');
-    include('popup.php');
+    include('popup-toast.php');
 
     $list = $_GET['list'];
 
@@ -21,7 +21,11 @@ if (isset($_SESSION['toast'])) {
     
     $staffbmis->archive_bspermit();
     $staffbmis->unarchive_bspermit();
+    $staffbmis->processArchive();
+
+    
 ?>
+
 <style>
 
 .dataTable {
@@ -219,7 +223,7 @@ tr:hover {
     justify-content: space-between; /* Space between input and button */
     background: #014bae;
     padding:13px;
-    width:450px;
+    width:500px;
     margin:20px auto;
     -webkit-box-sizing:border-box;
     -moz-box-sizing:border-box;
@@ -296,13 +300,14 @@ box-shadow:
         0 -1px 1px 0 #f2f2f2 inset,
         0 15px 15px 0 rgba(41, 41, 41, 0.09) inset;
 }
-.searchbtn {
-    width:35px;
-    height:30px;
+.searchbtn, .reloadbtn {
+    width:40px;
+    height:40px;
     border:none;
     cursor:pointer;
     padding: 0 5px !important;
     background-color: transparent;
+    color: white !important;
 }
 .searchinp:focus{
     outline:0;
@@ -316,6 +321,8 @@ box-shadow:
     color: white;
     font-size: 1.1rem;
 }
+
+
 
 </style>
 

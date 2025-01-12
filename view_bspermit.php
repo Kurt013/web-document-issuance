@@ -1,5 +1,40 @@
+<?php 
+// Enable Output Buffering to prevent unexpected output
+ob_start(); 
+
+// Include necessary classes
+include 'classes/staff.class.php';
+
+// Fetch user details
+$userdetails = $staffbmis->get_userdata();
+$brgyidcount = $staffbmis->count_brgyid();
+$indigencycount = $staffbmis->count_indigency();
+$clearancecount = $staffbmis->count_clearance();
+$rescertcount = $staffbmis->count_rescert();
+$bspermitcount = $staffbmis->count_bspermit();
+
+// Handle AJAX request
+if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+    // Return JSON response and exit
+    echo json_encode([
+        'rescertcount' => $rescertcount,
+        'brgyidcount' => $brgyidcount,
+        'bspermitcount' => $bspermitcount,
+        'clearancecount' => $clearancecount,
+        'indigencycount' => $indigencycount
+    ]);
+    exit; // Stop further execution for AJAX request
+}
+
+// Fetch user data for non-AJAX requests
+$bmis = new BMISClass();
+$user = $bmis->get_userdata();
+
+$firstName = $user['firstname'];
+$lastName = $user['surname'];
+$role = $user['role'];
+?>
 <?php
-    include('dashboard_sidebar_start.php');
     include('popup-confirm.php');
     include('popup.php');
 
@@ -13,7 +48,33 @@
 
 ?>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-modal/2.2.6/js/bootstrap-modalmanager.min.js" integrity="sha512-/HL24m2nmyI2+ccX+dSHphAHqLw60Oj5sK8jf59VWtFWZi9vx7jzoxbZmcBeeTeCUc7z1mTs3LfyXGuBU32t+w==" crossorigin="anonymous"></script>
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="./css/general.css">
+    
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/67a9b7069e.js" crossorigin="anonymous"></script>
+
+
 <style> 
+    body {
+        background-color: #012049;
+    }
+    .parent {
+    display: grid;  /* Enable grid layout */
+    place-items: center;  /* Center content both horizontally and vertically */
+    min-height: 100vh;  /* Ensure full height of the viewport */
+    padding: 0;  /* Optional, remove any padding */
+}
+
     .form-group label {
         font-family: "PBold";
         color: #012049;
@@ -37,15 +98,18 @@
     
 
     .container {
-        padding: 20px 20px;
+        padding: 40px;
         border: 3px solid #012049;
         border-radius: 10px;
-        margin-bottom: 20px;
+        margin: 20px 0;
+        background-color: white;
     }
 
     .biglabel {
         font-size: 1.7rem;
     }
+
+
 
     .issueno {
         font-size: 1.3rem;
@@ -53,7 +117,33 @@
         font-family: "PBold";
         color: white;
     }
+
+    .button-dtls {
+    position: absolute;    /* Ensures the buttons are positioned relative to the nearest positioned ancestor */
+    top: 20px;              /* Adjusts the distance from the top of the page */
+    right: 120px;              /* Aligns the buttons to the right edge of the container */
+    z-index: 1000;         /* Keeps the buttons above other elements */
+    display: flex;         /* Enables flexbox layout */
+    align-items: flex-end; /* Aligns buttons to the right side */
+    gap: 10px;             /* Adds space between buttons */
+}
+
+.btn {
+    height: 70px;           /* Sets the height of the button */
+    width: 70px;            /* Sets the width of the button (must match height) */
+    border-radius: 0 0 60% 60%;
+    display: inline-flex;   /* Ensures proper alignment for icon/text inside */
+    align-items: center;    /* Centers content vertically */
+    justify-content: center; /* Centers content horizontally */
+    font-size: 16px;        /* Adjust font size for clarity */
+    border: none;           /* Optional: Removes border (if not needed) */
+    outline: none;          /* Optional: Removes outline (if not needed) */
+}
+
+
 </style>
+
+<body>
                 <div class="row">
                     <div class="col-lg-8 offset-lg-2">
                     <?php
@@ -73,7 +163,7 @@ if (isset($_GET['id_bspermit'])) {
 
     if ($row) { // Check if the row exists
 ?>
-    
+    <div class = "parent">
     <div class="container">
     <!-- Issuance Information -->
     <div class="row mb-3">
@@ -175,32 +265,7 @@ if (isset($_GET['id_bspermit'])) {
     </div>
 </div>
 
-
-
-
-
-            <br>
-            <form id="archiveForm" action="" method="post">
-            <div class="m-t-20 text-center">
-
-            <a class="btn btn-success" target="_blank" style="width: 70px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" href="bspermit_form.php?id_bspermit=<?= $row['id_bspermit']; ?>">
-    <i class="fas fa-cogs"></i>
-</a>
-                <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
-                <input type="hidden" name="id_bspermit" value="<?= $row['id_bspermit'];?>">
-                <button type="submit" id="hiddenSubmitBtn" style="display:none;" name="archive_bspermit">Submit</button>
-                
-         
-    <!-- Back Button -->
-    <a href="admn_bspermit.php?list=active" class="btn btn-secondary">
-        <i class="fa fa-arrow-left"></i> Back
-    </a>
-    <a>
-    <button class="btn btn-danger archive-btn" type="button" style="width: 70px; font-size: 17px; border-radius:30px;" name="archive_bspermit">  <i class="fas fa-archive"></i> </button>
-    
-            </div>
-        </form>
-        
+            
         <?php
     } else {
         // If no data found for the given ID
@@ -213,8 +278,30 @@ if (isset($_GET['id_bspermit'])) {
 ?>
 
                     </div>
-                </div>
+                    <form id="archiveForm" action="" method="post">
+            <div class="button-dtls text-center">
+
+            <a class="btn btn-success" target="_blank" style="width: 70px; font-size: 17px; margin-bottom: 2px;" href="bspermit_form.php?id_bspermit=<?= $row['id_bspermit']; ?>">
+    <i class="fas fa-cogs"></i>
+</a>
+                <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
+                <input type="hidden" name="id_bspermit" value="<?= $row['id_bspermit'];?>">
+                <button type="submit" id="hiddenSubmitBtn" style="display:none;" name="archive_bspermit">Submit</button>
+                
+         
+   
+
+    <a>
+    <button class="btn btn-danger archive-btn" type="button" style="width: 70px; font-size: 17px;" name="archive_bspermit">  <i class="fas fa-archive"></i> </button>
+    
             </div>
+        </form>
+                </div>
+                
+            </div>
+
+            
+</div>
 
 
     <div class="sidebar-overlay" data-reff=""></div>

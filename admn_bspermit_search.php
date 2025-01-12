@@ -102,10 +102,251 @@ form label {
     color: white; /* White text on hover */
 }
 
-</style>
+.toasterr {
+        position: fixed;
+        font-family: "Poppins";
+        z-index: 1000;
+        top: 25px;
+        right: 30px;
+        border-radius: 12px;
+        background: #fff;
+        box-sizing: content-box;
+        padding: 20px 35px 20px 25px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        border-left: 6px solid #4070f4;
+        overflow: hidden;
+        transform: translateX(calc(100% + 30px));
+        opacity: 0;
+        visibility: hidden;
+        transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35), opacity 0.5s ease-out;
+        width: auto;
+        /* Adjust width based on content */
+        max-width: 650px;
+        /* Optional: limit the maximum width */
+        white-space: nowrap;
+        /* Prevent the text from wrapping to the next line */
+    }
+
+
+    .toasterr.active {
+        transform: translateX(0%);
+        opacity: 1 !important;
+        visibility: visible;
+    }
+
+    .toasterr .toasterr-content {
+        display: flex;
+        align-items: center;
+    }
+
+    .toasterr-content .check {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 35px;
+        width: 35px;
+        background-color: #4070f4;
+        color: #fff;
+        font-size: 20px;
+        border-radius: 50%;
+    }
+
+    .toasterr-content .message {
+        display: flex;
+        flex-direction: column;
+        margin: 0 20px;
+        white-space: nowrap;
+        /* Prevents text from wrapping */
+        overflow: hidden;
+        /* Ensures that overflowing text doesn't show */
+        text-overflow: ellipsis;
+        /* Adds '...' at the end if the text is too long */
+    }
+
+
+    .message .text {
+        text-align: left;
+        font-size: 1rem;
+        font-weight: 400;
+        color: #666666;
+    }
+
+    .message .text.text-1 {
+        font-family: "PSemiBold";
+        font-size: 1.1rem;
+    }
+
+    .toasterr .close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        padding: 5px;
+        cursor: pointer;
+        color: #4070f4;
+        z-index: 1000;
+        opacity: 1;
+        font-size: 1.4rem !important;
+    }
+
+    .toasterr .close-error {
+        color: #D32F2F !important;
+    }
+
+    .toasterr .close:hover {
+
+        color: #4070f4 !important;
+    }
+
+    .toasterr .close-error:hover {
+        color: #D32F2F !important;
+    }
+
+    .toasterr .progresserr {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 3px;
+        width: 100%;
+        background: #ddd !important;
+    }
+
+    .toasterr .progresserr:before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        height: 100%;
+        width: 100%;
+        background-color: #4070f4;
+    }
+
+    .toasterr .progresserr-error:before {
+
+        background-color: #D32F2F;
+    }
+
+    .progresserr.active:before {
+        animation: progress 5s linear forwards;
+    }
+
+    @keyframes progress {
+        100% {
+            right: 100%;
+        }
+    }
+
+.comfirm-slt, .cancel-btn-slt {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+
+.popup-slt {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    box-sizing: content-box;
+    z-index: 1000000;
+}
+
+.popup-content-slt {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    width: 400px;
+    white-space:initial;
+}
+
+.popup-content-slt h2 {
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+    font-family: "PBold";
+}
+
+.popup-content-slt p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.popup-buttons-slt {
+    display: flex;
+    justify-content: space-around;
+}
+
+.confirm-slt {
+    background-color: #D32F2F;
+    color: white;
+}
+
+.cancel-btn-slt, .cancel-btn-slt:hover {
+    background-color: white;
+    color: #d32f2f;
+    border: 2px solid #d32f2f;
+}
+
+
+
+.popup-slt.active {
+  
+    opacity: 1;
+    visibility: visible;
+}
+
+.comfirm-slt, .cancel-btn-slt {
+    padding: 10px 30px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+    </style>
+<?php include('popup-toast.php'); ?>
+
+<!-- Alert Component -->
+<div class="toasterr" style = "border-left: 6px solid #D32F2F;" >
+                <div class="toasterr-content">
+                    <i class="fas fa-exclamation-triangle check" style = "background-color: #D32F2F;"></i>
+                    <div class="message">
+                        <span class="text text-1">Error</span>
+                        <span class="text text-2">Please select at least one row</span>
+                    </div>
+                </div>
+                <i class="fa-solid fa-xmark close close-error"  onclick="closeToast()"></i>
+                <div class="progresserr progresserr-error"></div>
+            </div>
+
+
+            <div id="popup-slt" class="popup-slt">
+    <div class="popup-content-slt">
+        <h2>Are you sure to proceed?</h2>
+        <p>This will modify your current view and may impact navigation within the system.</p>
+
+        <div class="popup-buttons-slt">
+            <button id="confirm-btn-slt" class="confirm-slt">Confirm</button>
+            <button id="cancel-btn-slt" class="cancel-btn-slt">Cancel</button>
+        </div>
+    </div>
+</div>
+
+
+
+
 <?php
 
-    include('popup-toast.php');
+    include('popup-confirm.php'); 
 
     $from = isset($_POST['from']) ? date('Y-m-d', strtotime($_POST['from'])) : date('Y-m-d');
     $to = isset($_POST['to']) ? date('Y-m-d', strtotime($_POST['to'])) : date('Y-m-d');
@@ -144,6 +385,7 @@ form label {
         <th> Municipality </th>
         <th> Business Industry </th>
         <th> AoE </th>
+        <th></th>
     </tr>
 </thead>
 
@@ -217,23 +459,7 @@ form label {
             foreach ($views as $view) {
     ?>
         <tr>
-            <td>    
-                    
-            <form action="" method="post">
-                <a class="btn btn-success" target="_blank" style="width: 70px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" href="bspermit_form.php?id_bspermit=<?= $view['id_bspermit'];?><?php if ($list === 'archived') echo '&status=archived';?>"> <i class="fas fa-cogs"></i></a> 
-                            <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
-                            <input type="hidden" name="id_bspermit" value="<?= $view['id_bspermit'];?>">
-                            <?php 
-echo $list === 'active' ? 
-// Display both buttons if the status is active
-'<button class="btn btn-danger archive-btn" type="button" style="width: 70px; font-size: 17px; border-radius:30px;" name="archive_brgyid">  <i class="fas fa-archive"></i> </button>' .
-'<a class="btn btn-primary" href="view_bspermit.php?id_bspermit=' . urlencode($view['id_bspermit']) . '" style="width: 70px; font-size: 17px; border-radius:30px;"><i class="fa fa-eye"></i></a>' :
-
-// Display only the unarchive button if the status is not active
-'<button class="btn btn-danger" type="submit" style="width: 70px; font-size: 17px; border-radius:30px;" name="unarchive_bspermit">  <i class="fas fa-undo"></i> </button>';
-?>  
-            </form>
-            </td>
+            <td><input type="checkbox" class="rowCheckbox" value="<?= $view['id_bspermit']; ?>"></td>           
             <td> <?= $view['id_bspermit'];?> </td> 
             <td> <?= $view['lname'];?> </td>
             <td> <?= $view['fname'];?> </td>
@@ -246,6 +472,27 @@ echo $list === 'active' ?
             <td> <?= $view['bsmunicipality'];?> </td>
             <td> <?= $view['bsindustry'];?> </td>
             <td> <?= $view['aoe'];?> </td>
+            <td>    
+            <form id="archiveForm" action="" method="post">
+                <a class="btn btn-success" target="_blank" style="width: 70px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" href="bspermit_form.php?id_bspermit=<?= $view['id_bspermit'];?><?php if ($list === 'archived') echo '&status=archived';?>"> <i class="fas fa-cogs"></i></a> 
+                <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
+                <input type="hidden" name="id_bspermit" value="<?= $view['id_bspermit'];?>">
+                <button type="submit" id="hiddenSubmitBtn" style="display:none;" name="archive_bspermit">Submit</button>
+                <?php
+echo $list === 'active' ? 
+    // Display both buttons if the status is active
+    
+'<a href="javascript:void(0);" class="btn btn-primary" onclick="openPopup(\'view_bspermit.php?id_bspermit=' . urlencode($view['id_bspermit']) . '\')" style="width: 70px; font-size: 17px; border-radius:30px;">
+    <i class="fa fa-eye"></i>
+</a>' :
+    
+    // Display only the unarchive button if the status is not active
+    '<button class="btn btn-danger" type="submit" style="width: 70px; font-size: 17px; border-radius:30px;" name="unarchive_bspermit">  <i class="fas fa-undo"></i> </button>';
+?>
+   
+         
+            </form>
+            </td>
         </tr>
     <?php
     }
@@ -256,119 +503,6 @@ echo $list === 'active' ?
 
 
 </table>
-
-<?php		
-	}else{
-
-?>
- <div style="float: right; align-items:right; margin-bottom: -40px; position: relative; z-index: 10;">
-    <form class="form-select" method="GET" action="">
-        <label for="list">Select List: </label>
-        <select name="list" id="list" onchange="this.form.submit()">
-            <option value="active" <?= (isset($_GET['list']) && $_GET['list'] == 'active') ? 'selected' : ''; ?>>Active</option>
-            <option value="archived" <?= (isset($_GET['list']) && $_GET['list'] == 'archived') ? 'selected' : ''; ?>>Archived</option>
-        </select>
-    </form>
-</div>
-<table class="table table-border table-striped custom-table datatable mb-0" id="myTable">
-
-
-<thead class="alert-info">
-    <tr>
-        <th> </th>
-        <th> Issuance No.</th>
-        <th> Surname </th>
-        <th> First Name </th>
-        <th> Middle Initial </th> <!-- hide -->
-        <th> Business Name </th> 
-        <th> House No. </th> <!-- hide -->
-        <th> Street </th> <!-- hide -->
-        <th> Barangay </th> <!-- hide -->
-        <th> City </th> <!-- hide -->
-        <th> Municipality </th> <!-- hide -->
-        <th> Business Industry </th>
-        <th> AoE</th>
-    </tr>
-</thead>
-
-<tbody>     
-    <?php
-        $pendingStatus = 'accepted';
-
-        if ($list === 'active') {
-            $stmt = $conn->prepare("SELECT * FROM tbl_bspermit WHERE doc_status = ? ORDER BY created_on DESC");
-            $stmt->execute([$pendingStatus]);
-        } else {
-            $stmt = $conn->prepare("SELECT * FROM tbl_bspermit_archive WHERE date(archived_on) BETWEEN ? AND ? ORDER BY archived_on DESC");
-            $stmt->execute([$from, $to]);
-        }
-        $views = $stmt->fetchAll();
-        if ($stmt->rowCount() > 0) {
-            foreach ($views as $view){
-                
-    ?>
-        <tr>
-            <td>    
-            <form id="archiveForm" action="" method="post">
-                <a class="btn btn-success" target="_blank" style="width: 70px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" href="bspermit_form.php?id_bspermit=<?= $view['id_bspermit'];?><?php if ($list === 'archived') echo '&status=archived';?>"> <i class="fas fa-cogs"></i></a> 
-                <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
-                <input type="hidden" name="id_bspermit" value="<?= $view['id_bspermit'];?>">
-                <button type="submit" id="hiddenSubmitBtn" style="display:none;" name="archive_bspermit">Submit</button>
-                <?php
-echo $list === 'active' ? 
-    // Display both buttons if the status is active
-    '<button class="btn btn-danger archive-btn" type="button" style="width: 70px; font-size: 17px; border-radius:30px;" name="archive_brgyid">  <i class="fas fa-archive"></i> </button>' .
-    '<a class="btn btn-primary" href="view_bspermit.php?id_bspermit=' . urlencode($view['id_bspermit']) . '" style="width: 70px; font-size: 17px; border-radius:30px;"><i class="fa fa-eye"></i></a>' :
-    
-    // Display only the unarchive button if the status is not active
-    '<button class="btn btn-danger" type="submit" style="width: 70px; font-size: 17px; border-radius:30px;" name="unarchive_bspermit">  <i class="fas fa-undo"></i> </button>';
-?>
-   
-         
-            </form>
-            <?php include('popup-confirm.php'); ?>
-            </td>
-            <td> <?= $view['id_bspermit'];?> </td> 
-            <td> <?= $view['lname'];?> </td>
-            <td> <?= $view['fname'];?> </td>
-            <td> <?= $view['mi'];?> </td>
-            <td> <?= $view['bsname'];?> </td>
-            <td> <?= $view['bshouseno'];?> </td>
-            <td> <?= $view['bsstreet'];?> </td>
-            <td> <?= $view['bsbrgy'];?> </td>
-            <td> <?= $view['bscity'];?> </td>
-            <td> <?= $view['bsmunicipality'];?> </td>
-            <td> <?= $view['bsindustry'];?> </td>
-            <td> <?= $view['aoe'];?> </td>
-        </tr>
-    <?php
-        }
-    }
-
-    ?>
-</tbody>
-
-</table>
-
-
-<?php
-	}
-
-    $viewsJson = json_encode($views);
-    $list === 'archived' ?
-        $tableName = 'tbl_bspermit_archive' :
-        $tableName = 'tbl_bspermit';
-?>
-    <script src="assets/js/jquery-3.2.1.min.js"></script>
-    <script src="assets/js/popper.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.slimscroll.js"></script>
-    <script src="assets/js/select2.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-    <script src="assets/js/moment.min.js"></script>
-    <script src="assets/js/bootstrap-datetimepicker.min.js"></script>
-    <script src="assets/js/app.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     // Get all archive buttons
@@ -409,9 +543,188 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
 });
+</script>
+<?php		
+	}else{
+
+?>
+ <div style="float: right; align-items:right; margin-bottom: -40px; position: relative; z-index: 10;">
+    <form class="form-select" method="GET" action="">
+        <label for="list">Select List: </label>
+        <select name="list" id="list" onchange="this.form.submit()">
+            <option value="active" <?= (isset($_GET['list']) && $_GET['list'] == 'active') ? 'selected' : ''; ?>>Active</option>
+            <option value="archived" <?= (isset($_GET['list']) && $_GET['list'] == 'archived') ? 'selected' : ''; ?>>Archived</option>
+        </select>
+    </form>
+</div>
+<table class="table table-border table-striped custom-table datatable mb-0" id="myTable">
+
+
+<thead class="alert-info">
+    <tr>
+        <th> </th>
+        <th> Issuance No.</th>
+        <th> Surname </th>
+        <th> First Name </th>
+        <th> Middle Initial </th> <!-- hide -->
+        <th> Business Name </th> 
+        <th> House No. </th> <!-- hide -->
+        <th> Street </th> <!-- hide -->
+        <th> Barangay </th> <!-- hide -->
+        <th> City </th> <!-- hide -->
+        <th> Municipality </th> <!-- hide -->
+        <th> Business Industry </th>
+        <th> AoE</th>
+        <th> </th>
+    </tr>
+</thead>
+
+<tbody>     
+    <?php
+        $pendingStatus = 'accepted';
+
+        if ($list === 'active') {
+            $stmt = $conn->prepare("SELECT * FROM tbl_bspermit WHERE doc_status = ?");
+            $stmt->execute([$pendingStatus]);
+        } else {
+            $stmt = $conn->prepare("SELECT * FROM tbl_bspermit_archive");
+            $stmt->execute();
+        }
+        $views = $stmt->fetchAll();
+        if ($stmt->rowCount() > 0) {
+            foreach ($views as $view){
+                
+    ?>
+        <tr>
+
+            <td><input type="checkbox" class="rowCheckbox" value="<?= $view['id_bspermit']; ?>"></td>           
+            <td> <?= $view['id_bspermit'];?> </td> 
+            <td> <?= $view['lname'];?> </td>
+            <td> <?= $view['fname'];?> </td>
+            <td> <?= $view['mi'];?> </td>
+            <td> <?= $view['bsname'];?> </td>
+            <td> <?= $view['bshouseno'];?> </td>
+            <td> <?= $view['bsstreet'];?> </td>
+            <td> <?= $view['bsbrgy'];?> </td>
+            <td> <?= $view['bscity'];?> </td>
+            <td> <?= $view['bsmunicipality'];?> </td>
+            <td> <?= $view['bsindustry'];?> </td>
+            <td> <?= $view['aoe'];?> </td>
+            <td>    
+            <form id="archiveForm" action="" method="post">
+                <a class="btn btn-success" target="_blank" style="width: 70px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" href="bspermit_form.php?id_bspermit=<?= $view['id_bspermit'];?><?php if ($list === 'archived') echo '&status=archived';?>"> <i class="fas fa-cogs"></i></a> 
+                <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
+                <input type="hidden" name="id_bspermit" value="<?= $view['id_bspermit'];?>">
+                <button type="submit" id="hiddenSubmitBtn" style="display:none;" name="archive_bspermit">Submit</button>
+                <?php
+echo $list === 'active' ? 
+    // Display both buttons if the status is active
+    
+'<a href="javascript:void(0);" class="btn btn-primary" onclick="openPopup(\'view_bspermit.php?id_bspermit=' . urlencode($view['id_bspermit']) . '\')" style="width: 70px; font-size: 17px; border-radius:30px;">
+    <i class="fa fa-eye"></i>
+</a>' :
+    
+    // Display only the unarchive button if the status is not active
+    '<button class="btn btn-danger" type="submit" style="width: 70px; font-size: 17px; border-radius:30px;" name="unarchive_bspermit">  <i class="fas fa-undo"></i> </button>';
+?>
+   
+         
+            </form>
+            </td>
+            </tr>
+            <?php
+        }
+    }
+
+    ?>            </table>
+    <?php if ($list === 'active') { ?>
+
+            <form id="archiveSelect" action="" method="post">
+
+                <input type="hidden" name="ids_to_archive" id="idsToArchive">
+                <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
+                <input type="hidden" name="id_bspermit" value="<?= $view['id_bspermit'];?>">
+                <button type="submit" class="btn btn-danger" id="archiveSelected" style="margin-bottom: 10px;" name="archive_selected_bspermit">
+        Archive Selected
+    </button>
+            </form>
+            <?php } ?>
+
+
+
+
+<?php
+	}
+
+    $viewsJson = json_encode($views);
+    $list === 'archived' ?
+        $tableName = 'tbl_bspermit_archive' :
+        $tableName = 'tbl_bspermit';
+?>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  <!-- Updated jQuery -->
+<script src="assets/js/popper.min.js"></script>  <!-- Keep if using Bootstrap tooltips/popovers -->
+<script src="assets/js/bootstrap.min.js"></script>  <!-- Keep for Bootstrap components -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>  <!-- DataTables -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">  <!-- DataTables CSS -->
+<script src="assets/js/app.js"></script>  <!-- Your custom logic -->
+
+    <script>
+        $(document).ready(function() {
+    $('#myTable').DataTable({
+        stateSave: true
+    });
+});
+
+    </script>
+    <script>
+function openPopup(url) {
+    // Open the URL in a new popup window
+    window.open(url, 'popupWindow', 'width=900,height=600,scrollbars=yes');
+}
+
+document.getElementById('archiveSelected').addEventListener('click', function (event) {
+    const selectedCheckboxes = document.querySelectorAll('.rowCheckbox:checked');
+    const ids = Array.from(selectedCheckboxes).map(checkbox => checkbox.value); // Collect IDs
+    const toast = document.querySelector(".toasterr");
+    const progress = document.querySelector(".progresserr");
+    const popup_slt = document.getElementById('popup-slt');
+    const confirmBtn_slt = document.getElementById('confirm-slt');
+    const cancelBtn_slt = document.getElementById('cancel-btn-slt');
+
+    if (ids.length === 0) {
+        event.preventDefault(); // Prevent the form or default action
+        toast.classList.add("active");
+        progress.classList.add("active");
+
+        // Set timers to hide the toast and progress after 5 seconds
+        setTimeout(() => {
+            toast.classList.remove("active");
+        }, 5000);
+
+        setTimeout(() => {
+            progress.classList.remove("active");;
+        }, 5000);
+
+        return; // Stop further execution
+    }
+   else {
+    popup_slt.classList.add("active");
+
+   }
+    // Set the collected IDs to the hidden input field
+    document.getElementById('idsToArchive').value = ids.join(',');
+
+    // Allow form submission
+});
+
+// Function to manually close the alert
+function closeAlert() {
+    document.getElementById('customAlert').style.display = 'none';
+}
 
 
 </script>
+
 
 <?php if ($list === 'archived') { ?>
     <div class="form-buttons">
