@@ -1,12 +1,9 @@
 <?php
   include('dashboard_sidebar_start.php');
 ?>
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>QR Code Scanner</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="./js-components/instascan.min.js"></script>
+
   <style>
     @font-face {
   font-family: 'PMedium'; 
@@ -53,18 +50,20 @@
             
         }
   </style>
-  </head>
-  <body style="text-align: center;">
-    
+
+  <div class="modal payment-popup">
+
+  </div>
+
+  <div style="text-align: center;">
+
     <h1>QR Code Scanner</h1>
     <video id="preview"></video>
     <br>
     <label for="cameraSelect">Select Camera:</label>
     <select id="cameraSelect"></select>
     
-    <?php 
-        include('dashboard_sidebar_end.php');
-    ?>
+   
     
     <script type="text/javascript">
 let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
@@ -73,7 +72,12 @@ let isScanning = false; // Track if the scanner is already active
 
 // Listener to handle the QR code scan
 scanner.addListener('scan', function (content) {
-  console.log("Scanned content:", content);
+  // scan qr code then prompt the user a popup that lets the user choose whether their payment is FREE or PAID
+  
+  
+
+
+
   window.open(content, "_blank");
 
   // try {
@@ -171,5 +175,7 @@ function activateCamera(cameraIndex) {
 }
 </script>
 
-  </body>
-</html>
+</div>
+<?php 
+      include('dashboard_sidebar_end.php');
+?>
