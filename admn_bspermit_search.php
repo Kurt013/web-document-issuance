@@ -345,14 +345,14 @@ form label {
         <?= $toast; ?>
     <?php endif; ?>
     <div style="float: right; align-items:right; margin-bottom: -40px; position: relative; z-index: 10;">
-    <form class="form-select" method="GET" action="">
-        <label for="list">Select List: </label>
-        <select name="list" id="list" onchange="this.form.submit()">
-            <option value="active" <?= (isset($_GET['list']) && $_GET['list'] == 'active') ? 'selected' : ''; ?>>Active</option>
-            <option value="archived" <?= (isset($_GET['list']) && $_GET['list'] == 'archived') ? 'selected' : ''; ?>>Archived</option>
-        </select>
-    </form>
-</div>
+        <form class="form-select" method="GET" action="">
+            <label for="list">Select List: </label>
+            <select name="list" id="list" onchange="this.form.submit()">
+                <option value="active" <?= (isset($_GET['list']) && $_GET['list'] == 'active') ? 'selected' : ''; ?>>Active</option>
+                <option value="archived" <?= (isset($_GET['list']) && $_GET['list'] == 'archived') ? 'selected' : ''; ?>>Archived</option>
+            </select>
+        </form>
+    </div>
 
  
 <table class="table table-border table-striped custom-table datatable mb-0" id="myTable">
@@ -633,12 +633,75 @@ echo $list === 'active' ?
     </tbody>
  </table>
 
+ <script>
+document.addEventListener("DOMContentLoaded", () => {
+    const openPopupBtns = document.querySelectorAll('.archive-btn');
+    const popup = document.getElementById('popup');
+    const confirmBtn = document.getElementById('confirm-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
+    const archiveForm = document.getElementById('archiveForm');
+    const hiddenSubmitBtn = document.getElementById('hiddenSubmitBtn');  // Hidden submit button
+
+    // Loop through all archive buttons and add event listeners
+    openPopupBtns.forEach((openPopupBtn) => {
+        openPopupBtn.addEventListener('click', function () {
+            const dataId = this.closest('form').querySelector('input[name="id_rescert"]').value;
+            archiveForm.querySelector('input[name="id_rescert"]').value = dataId; // Set the correct id_rescert
+            
+            // Show the popup
+            popup.classList.remove('hidden'); 
+        });
+    });
+
+    // Close popup when Cancel is clicked
+    cancelBtn.addEventListener('click', () => {
+        popup.classList.add('hidden'); // Hide the popup when cancel is clicked
+    });
+
+    // Confirm action and submit form when Confirm is clicked
+    confirmBtn.addEventListener('click', (event) => {
+        event.preventDefault();  // Prevent the default form submission
+
+        // Store the current scroll position before form submission
+        const currentScrollY = window.scrollY;
+
+        // Programmatically trigger the hidden submit button
+        hiddenSubmitBtn.click();  // Click the hidden submit button
+
+        // Perform the form submission via AJAX
+        const formData = new FormData(archiveForm); // Get form data
+        
+        fetch(archiveForm.action, {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json()) // Assuming server returns JSON response
+        .then(data => {
+            // Handle response (you can show success/error message here)
+            console.log(data); // Example logging of the response
+
+            // Optionally update the page based on the response (e.g., update the table, show messages, etc.)
+
+            // Hide the popup after submission
+            popup.classList.add('hidden');
+            
+            // Maintain the scroll position after the submission
+            window.scrollTo(0, currentScrollY);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Optionally handle error case here
+        });
+    });
+});
+
+</script>
+
+
  <?php
 	}
     $viewsJson = json_encode($views);
-    $list === 'archived' ?
-        $tableName = 'tbl_bspermit_archive' :
-        $tableName = 'tbl_bspermit';
+    $tableName = 'tbl_bspermit';
 ?>
 
  <?php if ($list === 'active') { ?>

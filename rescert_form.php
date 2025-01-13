@@ -36,6 +36,7 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      min-height: 100vh;
       background: #014bae;
       display: flex;
       justify-content: center;

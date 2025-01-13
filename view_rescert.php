@@ -44,8 +44,8 @@ $role = $user['role'];
 
     $conn = $staffbmis->openConn();
     $staffbmis->validate_admin();
-    $staffbmis->unarchive_bspermit();
-    $staffbmis->archive_bspermit();
+    $staffbmis->unarchive_certofres();
+    $staffbmis->archive_certofres();
 
 ?>
 
@@ -151,14 +151,14 @@ $role = $user['role'];
 // Ensure the database connection is initialized properly
 // Assuming $db is your PDO connection
 
-if (isset($_GET['id_bspermit'])) {
-    $id_bspermit = $_GET['id_bspermit']; // Get the 'report_id' parameter from the URL
+if (isset($_GET['id_rescert'])) {
+    $id_rescert = $_GET['id_rescert']; // Get the 'report_id' parameter from the URL
     $doc_status = 'accepted';
 
     // Prepare SQL query to fetch data based on the 'report_id'
-    $stmt = $conn->prepare("SELECT * FROM tbl_bspermit WHERE id_bspermit = :id_bspermit AND doc_status = :doc_status");
+    $stmt = $conn->prepare("SELECT * FROM tbl_rescert WHERE id_rescert = :id_rescert AND doc_status = :doc_status");
     $stmt->bindParam(':doc_status', $doc_status); // Bind the 'doc_status' as a string
-    $stmt->bindParam(':id_bspermit', $id_bspermit); // Bind the 'report_id' as a string
+    $stmt->bindParam(':id_rescert', $id_rescert); // Bind the 'report_id' as a string
     $stmt->execute();
 
     // Fetch the specific row (no loop)
@@ -173,7 +173,7 @@ if (isset($_GET['id_bspermit'])) {
         <div class="col-md-6">
             <div class="form-group">
                 <label class = "biglabel">Issuance No.</label>
-                <input class="form-control issueno" type="text" value="<?php echo htmlspecialchars($row['id_bspermit']); ?>" readonly>
+                <input class="form-control issueno" type="text" value="<?php echo htmlspecialchars($row['id_rescert']); ?>" readonly>
             </div>
         </div>
 
@@ -199,6 +199,12 @@ if (isset($_GET['id_bspermit'])) {
                 <input class="form-control" type="text" value="<?php echo htmlspecialchars($row['mi']); ?>" readonly>
             </div>
         </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Age</label>
+                <input class="form-control" type="text" value="<?php echo htmlspecialchars($row['age']); ?>" readonly>
+            </div>
+        </div>
     </div>
 
     
@@ -207,13 +213,13 @@ if (isset($_GET['id_bspermit'])) {
         <div class="col-md-6">
             <div class="form-group">
                 <label>House Number</label>
-                <input class="form-control" type="text" value="<?php echo htmlspecialchars($row['bshouseno']); ?>" readonly>
+                <input class="form-control" type="text" value="<?php echo htmlspecialchars($row['houseno']); ?>" readonly>
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label>Street</label>
-                <input class="form-control" type="text" value="<?php echo htmlspecialchars($row['bsstreet']); ?>" readonly>
+                <input class="form-control" type="text" value="<?php echo htmlspecialchars($row['street']); ?>" readonly>
             </div>
         </div>
     </div>
@@ -222,13 +228,13 @@ if (isset($_GET['id_bspermit'])) {
         <div class="col-md-6">
             <div class="form-group">
                 <label>Barangay</label>
-                <input class="form-control" type="text" value="<?php echo htmlspecialchars($row['bsbrgy']); ?>" readonly>
+                <input class="form-control" type="text" value="<?php echo htmlspecialchars($row['brgy']); ?>" readonly>
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label>City</label>
-                <input class="form-control" type="text" value="<?php echo htmlspecialchars($row['bscity']); ?>" readonly>
+                <input class="form-control" type="text" value="<?php echo htmlspecialchars($row['city']); ?>" readonly>
             </div>
         </div>
     </div>
@@ -237,33 +243,23 @@ if (isset($_GET['id_bspermit'])) {
         <div class="col-md-6">
             <div class="form-group">
                 <label>Municipality</label>
-                <input class="form-control" type="text" value="<?php echo htmlspecialchars($row['bsmunicipality']); ?>" readonly>
+                <input class="form-control" type="text" value="<?php echo htmlspecialchars($row['municipality']); ?>" readonly>
             </div>
         </div>
     </div>
 
-    <!-- Business Information -->
-    <h5>Business Information</h5>
+    <h5>Purpose</h5>
 <div class="row mb-3">
     <div class="col-md-6">
         <div class="form-group">
-            <label>Business Name</label>
-            <input class="form-control" type="text" value="<?php echo htmlspecialchars($row['bsname']); ?>" readonly>
+            <label>Purpose</label>
+            <input class="form-control" type="text" value="<?php echo htmlspecialchars($row['purpose']); ?>" readonly>
         </div>
     </div>
     <div class="col-md-6">
         <div class="form-group">
-            <label>Business Industry</label>
-            <input class="form-control" type="text" value="<?php echo htmlspecialchars($row['bsindustry']); ?>" readonly>
-        </div>
-    </div>
-</div>
-
-<div class="row mb-3">
-    <div class="col-md-6">
-        <div class="form-group">
-            <label>Area of Establishment</label>
-            <input class="form-control" type="text" value="<?php echo htmlspecialchars($row['aoe']); ?>" readonly>
+            <label>Price</label>
+            <input class="form-control" type="text" value="<?php echo htmlspecialchars($row['price']); ?>" readonly>
         </div>
     </div>
 </div>
@@ -284,18 +280,18 @@ if (isset($_GET['id_bspermit'])) {
                     <form id="archiveForm" action="" method="post">
             <div class="button-dtls text-center">
 
-            <a class="btn btn-success" target="_blank" style="width: 70px; font-size: 17px; margin-bottom: 2px;" href="bspermit_form.php?id_bspermit=<?= $row['id_bspermit']; ?>">
+            <a class="btn btn-success" target="_blank" style="width: 70px; font-size: 17px; margin-bottom: 2px;" href="rescert_form.php?id_rescert=<?= $row['id_rescert']; ?>">
     <i class="fas fa-cogs"></i>
 </a>
                 <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
-                <input type="hidden" name="id_bspermit" value="<?= $row['id_bspermit'];?>">
-                <button type="submit" id="hiddenSubmitBtn" style="display:none;" name="archive_bspermit">Submit</button>
+                <input type="hidden" name="id_rescert" value="<?= $row['id_rescert'];?>">
+                <button type="submit" id="hiddenSubmitBtn" style="display:none;" name="archive_rescert">Submit</button>
                 
          
    
 
     <a>
-    <button class="btn btn-danger archive-btn" type="button" style="width: 70px; font-size: 17px;" name="archive_bspermit">  <i class="fas fa-archive"></i> </button>
+    <button class="btn btn-danger archive-btn" type="button" style="width: 70px; font-size: 17px;" name="archive_rescert">  <i class="fas fa-archive"></i> </button>
     
             </div>
         </form>
@@ -339,9 +335,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Add event listener to the archive button
     archiveBtn.addEventListener('click', function () {
         // Get the data ID from the input field inside the form
-        const dataId = document.querySelector('input[name="id_bspermit"]').value;
+        const dataId = document.querySelector('input[name="id_rescert"]').value;
         // Set the ID in the form
-        archiveForm.querySelector('input[name="id_bspermit"]').value = dataId;
+        archiveForm.querySelector('input[name="id_rescert"]').value = dataId;
 
         // Show the popup
         popup.classList.remove('hidden');
