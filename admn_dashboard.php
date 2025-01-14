@@ -12,6 +12,7 @@
     $staffcountf = $staffbmis->count_fstaff();
 
     $total_pending = $staffbmis->count_total_day();
+    $totalDailyEarnings = $staffbmis->getDailyEarnings();
 
 
    // Fetch document issuance counts for each month from January to the selected month
@@ -386,7 +387,7 @@ body{
             <div class="card bg-c-blue3 order-card" style = "border-radius: 20px 20px 20px 0;">
                 <div class="card-block">
                     <h6 class="m-b-20 text-left">Daily Earnings</h6>
-                    <h2 class="text-left">₱ <?= $total_pending ?></h2>
+                    <h2 class="text-left">₱ <?= $totalDailyEarnings ?></h2>
                 </div>
             </div>
         </div>
@@ -445,13 +446,13 @@ body{
                 </div>
     <?php } ?>
 
-    <form method="POST" action="./export_dashboard_pdf.php" class="form-buttons">
+    <form method="POST" action="./export_dashboard_pdf.php" class="form-buttons" target="_blank">
     <button class="btnexpdf" name="exportToPDF">
         <i class="fas fa-file-pdf"></i> Export to PDF
     </button>
     </form>
 
-    <form method="POST" action="./export_dashboard_excel.php" class="form-buttons">
+    <form method="POST" action="./export_dashboard_excel.php" class="form-buttons" target="_blank">
     <button class="btnexpex" name="exportToExcel">
         <i class="fas fa-file-excel"></i> Export to Excel
     </button>
