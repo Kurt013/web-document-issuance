@@ -20,6 +20,10 @@ if (isset($_POST['views_data']) && isset($_POST['table_name'])) {
         $stmt->execute();
         $columns = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        if (empty($columns)) {
+            throw new Exception("No columns found for the table.");
+        }
+
         // Create a new Spreadsheet object
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
@@ -54,6 +58,7 @@ if (isset($_POST['views_data']) && isset($_POST['table_name'])) {
 
         // Auto-size columns for readability
         foreach (range('A', chr(ord($colIndex) - 1)) as $col) {
+            if (!preg_match('/^[A-Z]$/', $col)) continue; // Validate column names
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
 
@@ -72,8 +77,11 @@ if (isset($_POST['views_data']) && isset($_POST['table_name'])) {
         $writer->save('php://output');
         exit;
     } catch (PDOException $e) {
-        die("Database error: " . $e->getMessage());
+        error_log("Database error: " . $e->getMessage());
+        die("An error occurred while processing your request.");
     } catch (Exception $e) {
-        die("Error creating Excel file: " . $e->getMessage());
+        error_log("Error creating Excel file: " . $e->getMessage());
+        die("An error occurred while generating the file.");
     }
 }
+?>

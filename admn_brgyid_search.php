@@ -740,7 +740,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
  <?php
 	}
-    $viewsJson = json_encode($views);
+    $viewsJson = json_encode(array_map(function($view) {
+        unset($view['res_photo']); // Remove 'res_photo' field
+        return $view;
+    }, $views));
     $tableName = 'tbl_brgyid';
 ?>
 
