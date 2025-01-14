@@ -445,7 +445,7 @@ body{
                 </div>
     <?php } ?>
 
-    <form method="" class="form-buttons">
+    <form method="POST" action="./export_dashboard_pdf.php" class="form-buttons">
     <button class="btnexpdf" name="exportToPDF">
         <i class="fas fa-file-pdf"></i> Export to PDF
     </button>
