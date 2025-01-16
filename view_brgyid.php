@@ -38,6 +38,8 @@ $role = $user['role'];
 <?php
     include('popup-confirm.php');
     include('popup.php');
+    include('view_details_design.php');
+
 
     require 'phpqrcode/qrlib.php';
     require 'vendor/autoload.php';
@@ -49,100 +51,7 @@ $role = $user['role'];
 
 ?>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-modal/2.2.6/js/bootstrap-modalmanager.min.js" integrity="sha512-/HL24m2nmyI2+ccX+dSHphAHqLw60Oj5sK8jf59VWtFWZi9vx7jzoxbZmcBeeTeCUc7z1mTs3LfyXGuBU32t+w==" crossorigin="anonymous"></script>
 
-    <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-
-    <link rel="stylesheet" href="./css/general.css">
-    
-    <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/67a9b7069e.js" crossorigin="anonymous"></script>
-
-
-<style> 
-    body {
-        background-color: #012049;
-    }
-    .parent {
-    display: grid;  /* Enable grid layout */
-    place-items: center;  /* Center content both horizontally and vertically */
-    min-height: 100vh;  /* Ensure full height of the viewport */
-    padding: 0;  /* Optional, remove any padding */
-}
-
-    .form-group label {
-        font-family: "PBold";
-        color: #012049;
-    }
-    .form-control {
-        font-family: "PMedium";
-        color: #012049;
-        background-color: transparent !important;
-        border: 2px solid #012049;
-        
-      
-    }
-    h5 {
-        font-family : "PBold";
-        text-align: center;
-        color: white;
-        background-color: #012049;
-        padding: 10px;
-        margin-bottom: 20px;
-    }
-    
-
-    .container {
-        padding: 40px;
-        border: 3px solid #012049;
-        border-radius: 10px;
-        margin: 20px 0;
-        background-color: white;
-    }
-
-    .biglabel {
-        font-size: 1.7rem;
-    }
-
-
-
-    .issueno {
-        font-size: 1.3rem;
-        background-color: #012049 !important;
-        font-family: "PBold";
-        color: white;
-    }
-
-    .button-dtls {
-    position: absolute;    /* Ensures the buttons are positioned relative to the nearest positioned ancestor */
-    top: 20px;              /* Adjusts the distance from the top of the page */
-    right: 120px;              /* Aligns the buttons to the right edge of the container */
-    z-index: 1000;         /* Keeps the buttons above other elements */
-    display: flex;         /* Enables flexbox layout */
-    align-items: flex-end; /* Aligns buttons to the right side */
-    gap: 10px;             /* Adds space between buttons */
-}
-
-.btn {
-    height: 70px;           /* Sets the height of the button */
-    width: 70px;            /* Sets the width of the button (must match height) */
-    border-radius: 0 0 60% 60%;
-    display: inline-flex;   /* Ensures proper alignment for icon/text inside */
-    align-items: center;    /* Centers content vertically */
-    justify-content: center; /* Centers content horizontally */
-    font-size: 16px;        /* Adjust font size for clarity */
-    border: none;           /* Optional: Removes border (if not needed) */
-    outline: none;          /* Optional: Removes outline (if not needed) */
-}
-
-
-</style>
 
 <body>
                 <div class="row">
@@ -172,7 +81,7 @@ if (isset($_GET['id_brgyid'])) {
      <div class="row mb-3">
         <div class="col-md-6">
             <div class="form-group">
-                <label class = "biglabel">Issuance No.</label>
+                <label class = "biglabel">ID No.</label>
                 <input class="form-control issueno" type="text" value="<?php echo htmlspecialchars($row['id_brgyid']); ?>" readonly>
             </div>
         </div>
@@ -328,12 +237,15 @@ if (isset($_GET['id_brgyid'])) {
         </div>
     </div>
 
+
 <div class="row mb-3">
+<div class="col-md-6">
+</div>
     <div class="col-md-6">
         <div class="form-group">
-            <label>Price</label>
-            <input class="form-control" type="text" value="<?php echo htmlspecialchars($row['price']); ?>" readonly>
-        </div>
+            <label>Payment</label>
+            <input class="form-control payment-style" type="text" value="Php <?php echo number_format($row['price'], 2, '.', ','); ?>" readonly>
+            </div>
     </div>
 </div>
 
@@ -353,7 +265,7 @@ if (isset($_GET['id_brgyid'])) {
                     <form id="archiveForm" action="" method="post">
             <div class="button-dtls text-center">
 
-            <a class="btn btn-success" target="_blank" style="width: 70px; font-size: 17px; margin-bottom: 2px;" href="brgyid_form.php?id_brgyid=<?= $row['id_brgyid']; ?>">
+            <a class="btn btn-success" target="_blank" title = "Generate" style="width: 70px; font-size: 17px;" href="brgyid_form.php?id_brgyid=<?= $row['id_brgyid'];?><?php if ($doc_status === 'archived') echo '&status=archived';?>">
     <i class="fas fa-cogs"></i>
 </a>
                 <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
@@ -364,35 +276,14 @@ if (isset($_GET['id_brgyid'])) {
    
 
     <a>
-    <button class="btn btn-danger archive-btn" type="button" style="width: 70px; font-size: 17px;" name="archive_brgyid">  <i class="fas fa-archive"></i> </button>
+    <button class="btn btn-danger archive-btn" type="button" style="width: 70px; font-size: 17px;" title = "Archive" name="archive_brgyid">  <i class="fas fa-archive"></i> </button>
     
             </div>
         </form>
                 </div>
                 
-            </div>
-
-            
+            </div>           
 </div>
-
-
-    <div class="sidebar-overlay" data-reff=""></div>
-    <script src="assets/js/jquery-3.2.1.min.js"></script>
-	<script src="assets/js/popper.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.slimscroll.js"></script>
-    <script src="assets/js/select2.min.js"></script>
-	<script src="assets/js/moment.min.js"></script>
-	<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
-    <script src="assets/js/app.js"></script>
-	<script>
-            $(function () {
-                $('#datetimepicker3').datetimepicker({
-                    format: 'LT'
-
-                });
-            });
-     </script>
      <script>
 document.addEventListener("DOMContentLoaded", () => {
     // Get the single archive button

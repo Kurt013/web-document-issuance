@@ -644,6 +644,23 @@ class BMISClass {
     
             $stmt = $connection->prepare('UPDATE tbl_rescert SET doc_status = ? WHERE id_rescert = ?');
             $stmt->execute([$doc_status, $id_rescert]);
+
+            $toast = '
+            <body>
+                <div class="toast">
+                    <div class="toast-content">
+                        <i class="fas fa-solid fa-check check"></i>
+                        <div class="message">
+                            <span class="text text-1">Success</span>
+                            <span class="text text-2">The request has been archived successfully</span>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-xmark close" onclick="closeToast()"></i>
+                    <div class="progress"></div>
+                </div>
+            </body>';
+        
+            $_SESSION['toast'] = $toast;
     
             echo '
                 <script>
@@ -664,6 +681,23 @@ class BMISClass {
     
             $stmt = $connection->prepare('UPDATE tbl_rescert SET doc_status = ? WHERE id_rescert = ?');
             $stmt->execute([$doc_status, $id_rescert]);
+
+            $toast = '
+            <body>
+                <div class="toast">
+                    <div class="toast-content">
+                        <i class="fas fa-solid fa-check check"></i>
+                        <div class="message">
+                            <span class="text text-1">Success</span>
+                            <span class="text text-2">The request has been retrieved successfully</span>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-xmark close" onclick="closeToast()"></i>
+                    <div class="progress"></div>
+                </div>
+            </body>';
+        
+            $_SESSION['toast'] = $toast;
     
             echo '
                 <script>
@@ -1028,6 +1062,23 @@ class BMISClass {
     
             $stmt = $connection->prepare('UPDATE tbl_indigency SET doc_status = ? WHERE id_indigency = ?');
             $stmt->execute([$doc_status, $id_indigency]);
+
+            $toast = '
+            <body>
+                <div class="toast">
+                    <div class="toast-content">
+                        <i class="fas fa-solid fa-check check"></i>
+                        <div class="message">
+                            <span class="text text-1">Success</span>
+                            <span class="text text-2">The request has been archived successfully</span>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-xmark close" onclick="closeToast()"></i>
+                    <div class="progress"></div>
+                </div>
+            </body>';
+        
+            $_SESSION['toast'] = $toast;
     
             echo '
                 <script>
@@ -1048,6 +1099,23 @@ class BMISClass {
     
             $stmt = $connection->prepare('UPDATE tbl_indigency SET doc_status = ? WHERE id_indigency = ?');
             $stmt->execute([$doc_status, $id_indigency]);
+
+            $toast = '
+            <body>
+                <div class="toast">
+                    <div class="toast-content">
+                        <i class="fas fa-solid fa-check check"></i>
+                        <div class="message">
+                            <span class="text text-1">Success</span>
+                            <span class="text text-2">The request has been retrieved successfully</span>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-xmark close" onclick="closeToast()"></i>
+                    <div class="progress"></div>
+                </div>
+            </body>';
+        
+            $_SESSION['toast'] = $toast;
     
             echo '
                 <script>
@@ -1058,46 +1126,34 @@ class BMISClass {
         }
     }
 
+
+
     public function archive_certofindigency() {
-        if (isset($_POST['archive_certofindigency'])) {
-            $id_indigency = $_POST['id_indigency'];
+        if (isset($_POST['archive_selected_indigency']) && isset($_POST['ids_to_archive'])) {
+            $idsToArchive = explode(',', $_POST['ids_to_archive']);
             $id = $_POST['id'];
-
+            $doc_status = 'archived';
+            
+            $connection = $this->openConn();
+    
             try {
-                $connection = $this->openConn();
-
                 $connection->beginTransaction();
+    
+                foreach ($idsToArchive as $idIndigency) {
+                    $insertStmt = $connection->prepare("
+                       UPDATE tbl_indigency SET created_by = :created_by, doc_status = :doc_status WHERE id_indigency = :id_indigency
+                    ");
 
-                $insertStmt = $connection->prepare("
-                INSERT INTO tbl_indigency_archive (
-                    id_indigency, fname, mi, lname, age, nationality, houseno, 
-                    street, brgy, city, municipality, purpose, price, archived_by
-                )
-                SELECT 
-                    id_indigency, fname, mi, lname, age, nationality, houseno, street, 
-                    brgy, city, municipality, purpose, price, :archived_by
-                FROM 
-                    tbl_indigency
-                WHERE 
-                    id_indigency = :id_indigency
-                ");
-             
-                $insertStmt->bindParam(':archived_by', $id);
-                $insertStmt->bindParam(':id_indigency', $id_indigency);
-
-                $insertStmt->execute();
-        
-                $deleteStmt = $connection->prepare("
-                    DELETE FROM tbl_indigency
-                    WHERE id_indigency = :id_indigency
-                ");
-
-                $deleteStmt->bindParam(':id_indigency', $id_indigency);
-                $deleteStmt->execute();
-        
+                    $insertStmt->bindParam(':doc_status', $doc_status);
+                    $insertStmt->bindParam(':created_by', $id);
+                    $insertStmt->bindParam(':id_indigency', $idIndigency);
+                    $insertStmt->execute();
+                }
+    
                 $connection->commit();
-
-                echo '
+    
+                // Set a success message
+                $toast = '
                 <body>
                     <div class="toast">
                         <div class="toast-content">
@@ -1111,60 +1167,62 @@ class BMISClass {
                         <div class="progress"></div>
                     </div>
                 </body>';
-
-
+            
+                $_SESSION['toast'] = $toast;
+    
+                // Refresh the page to clear form resubmission
+                header("Location: admn_certofindigency.php?list=active");
+                exit();
+    
             } catch (Throwable $e) {
                 $connection->rollBack();
-                echo '
-                        <div class="toast" style = "border-left: 6px solid #D32F2F;">
-                            <div class="toast-content">
-                                <i class="fas fa-exclamation-triangle check" style = "background-color: #D32F2F;"></i>
-                                <div class="message">
-                                    <span class="text text-1">Error</span>
-                                    <span class="text text-2">An unexpected error occurred while processing your request</span>
-                                </div>
-                            </div>
-                            <i class="fa-solid fa-xmark close close-error"  onclick="closeToast()"></i>
-                            <div class="progress progress-error"></div>
+                $toast = '
+                <div class="toast" style = "border-left: 6px solid #D32F2F;">
+                    <div class="toast-content">
+                        <i class="fas fa-exclamation-triangle check" style = "background-color: #D32F2F;"></i>
+                        <div class="message">
+                            <span class="text text-1">Error</span>
+                            <span class="text text-2">An unexpected error occurred while processing your request</span>
                         </div>
-                ';
+                    </div>
+                    <i class="fa-solid fa-xmark close close-error"  onclick="closeToast()"></i>
+                    <div class="progress progress-error"></div>
+                </div>
+        ';
+        $_SESSION['toast'] = $toast;
+        header("Location: admn_certofindigency.php?list=active");
+        exit();
             }
         }
     }
 
     public function unarchive_certofindigency() {
-        if (isset($_POST['unarchive_certofindigency'])) {
-            $id_indigency = $_POST['id_indigency'];
+        if (isset($_POST['retrieve_selected_indigency']) && isset($_POST['ids_to_retrieve'])) {
+            $idsToRetrieve = explode(',', $_POST['ids_to_retrieve']);
             $id = $_POST['id'];
             $doc_status = 'accepted';
-
+            
+    
             $connection = $this->openConn();
     
             try {
                 $connection->beginTransaction();
     
-                $insertStmt = $connection->prepare("
-                    INSERT INTO tbl_indigency (id_indigency, fname, mi, lname, age, nationality, houseno, street, brgy, city, municipality, purpose, price, created_by, doc_status)
-                    SELECT id_indigency, fname, mi, lname, age, nationality, houseno, street, brgy, city, municipality, purpose, price, :created_by, :doc_status
-                    FROM tbl_indigency_archive
-                    WHERE id_indigency = :id_indigency
-                ");
-                $insertStmt->bindParam(':created_by', $id);
-                $insertStmt->bindParam(':id_indigency', $id_indigency);
-                $insertStmt->bindParam(':doc_status', $doc_status);
-                $insertStmt->execute();
+                foreach ($idsToRetrieve as $idIndigency) {
+                    $insertStmt = $connection->prepare("
+                        UPDATE tbl_indigency SET created_by = :created_by, doc_status = :doc_status WHERE id_indigency = :id_indigency
+                    ");
     
-                // $deleteStmt = $connection->prepare("
-                //     DELETE FROM tbl_indigency_archive
-                //     WHERE id_indigency = :id_indigency
-                // ");
-                // $deleteStmt->bindParam(':id_indigency', $id_indigency);
-                // $deleteStmt->execute();
+                    $insertStmt->bindParam(':created_by', $id);
+                    $insertStmt->bindParam(':id_indigency', $idIndigency);
+                    $insertStmt->bindParam(':doc_status', $doc_status);
+                    $insertStmt->execute();
+                }
     
                 $connection->commit();
-
-                
-                echo '
+    
+                // Set a success message
+                $toast = '
                 <body>
                     <div class="toast">
                         <div class="toast-content">
@@ -1178,34 +1236,35 @@ class BMISClass {
                         <div class="progress"></div>
                     </div>
                 </body>';
-                
+            
+                $_SESSION['toast'] = $toast;
     
-            } catch (Exception $e) {
+                // Refresh the page to clear form resubmission
+                header("Location: admn_certofindigency.php?list=archived");
+                exit();
+    
+            } catch (Throwable $e) {
                 $connection->rollBack();
-                echo '
-                 <dialog class="message-popup error" >
-                        <div class="pop-up">
-                            <div class="left-side">
-                                <div class="left-side-wrapper"><i class="bx bxs-x-circle error-circle"></i></div>
-                            </div>
-                            <div class="right-side">
-                                <div class="right-group">
-                                <div class="content">
-                                    <h1>
-                                        Failed to retrieve record:
-                                        '.$e->getMessage().'
-                                    </h1>
-                                </div>
-                                <button onclick="closeDialog()" onclick="closeDialog()" class="exit-btn">X</button>
-                                </div>
-                            </div>
+                $toast = '
+                <div class="toast" style = "border-left: 6px solid #D32F2F;">
+                    <div class="toast-content">
+                        <i class="fas fa-exclamation-triangle check" style = "background-color: #D32F2F;"></i>
+                        <div class="message">
+                            <span class="text text-1">Error</span>
+                            <span class="text text-2">An unexpected error occurred while processing your request</span>
                         </div>
-                    </dialog>
-                ';
+                    </div>
+                    <i class="fa-solid fa-xmark close close-error"  onclick="closeToast()"></i>
+                    <div class="progress progress-error"></div>
+                </div>
+        ';
+        $_SESSION['toast'] = $toast;
+        header("Location: admn_certofindigency.php?list=archived");
+        exit();
             }
         }
     }
-    
+   
 
     public function get_single_certofindigency(){
         $id_indigency = $_GET['id_indigency'];
@@ -1276,7 +1335,7 @@ class BMISClass {
 
             $connection = $this->openConn();
     
-            $stmt = $connection->prepare('UPDATE tbl_indigency SET price = ? WHERE id_rescert = ?');
+            $stmt = $connection->prepare('UPDATE tbl_indigency SET price = ? WHERE id_indigency = ?');
             $stmt->execute([$price, $docID]);
         }
     }
@@ -1436,53 +1495,88 @@ class BMISClass {
     }
 
     public function accept_clearance() {
-            $id_clearance = $_GET['id_clearance'];
+        $id_clearance = $_GET['id_clearance'];
+        $connection = $this->openConn();
+    
+        // Fetch the current status
+        $stmt = $connection->prepare("SELECT doc_status FROM tbl_clearance WHERE id_clearance = ?");
+        $stmt->execute([$id_clearance]);
+        $currentStatus = $stmt->fetchColumn();
+    
+        // Check the current status and update only if it is "pending"
+        if ($currentStatus === 'pending') {
             $doc_status = 'accepted';
-
-            $connection = $this->openConn();
-            $stmt = $connection->prepare("UPDATE tbl_clearance SET doc_status = ? WHERE id_clearance = ?");
-            $stmt->execute([$doc_status, $id_clearance]);
-
+            $updateStmt = $connection->prepare("UPDATE tbl_clearance SET doc_status = ? WHERE id_clearance = ?");
+            $updateStmt->execute([$doc_status, $id_clearance]);
+        }
     }
 
     public function accept_indigency() {
-            $id_indigency = $_GET['id_indigency'];
+        $id_indigency = $_GET['id_indigency'];
+        $connection = $this->openConn();
+    
+        // Fetch the current status
+        $stmt = $connection->prepare("SELECT doc_status FROM tbl_indigency WHERE id_indigency = ?");
+        $stmt->execute([$id_indigency]);
+        $currentStatus = $stmt->fetchColumn();
+    
+        // Check the current status and update only if it is "pending"
+        if ($currentStatus === 'pending') {
             $doc_status = 'accepted';
-
-            $connection = $this->openConn();
-            $stmt = $connection->prepare("UPDATE tbl_indigency SET doc_status = ? WHERE id_indigency = ?");
-            $stmt->execute([$doc_status, $id_indigency]);
-
+            $updateStmt = $connection->prepare("UPDATE tbl_indigency SET doc_status = ? WHERE id_indigency = ?");
+            $updateStmt->execute([$doc_status, $id_indigency]);
+        }
     }
 
     public function accept_brgyid() {
-            $id_brgyid = $_GET['id_brgyid'];
+        $id_brgyid = $_GET['id_brgyid'];
+        $connection = $this->openConn();
+    
+        // Fetch the current status
+        $stmt = $connection->prepare("SELECT doc_status FROM tbl_brgyid WHERE id_brgyid = ?");
+        $stmt->execute([$id_brgyid]);
+        $currentStatus = $stmt->fetchColumn();
+    
+        // Check the current status and update only if it is "pending"
+        if ($currentStatus === 'pending') {
             $doc_status = 'accepted';
-
-            $connection = $this->openConn();
-            $stmt = $connection->prepare("UPDATE tbl_brgyid SET doc_status = ? WHERE id_brgyid = ?");
-            $stmt->execute([$doc_status, $id_brgyid]);
-
+            $updateStmt = $connection->prepare("UPDATE tbl_brgyid SET doc_status = ? WHERE id_brgyid = ?");
+            $updateStmt->execute([$doc_status, $id_brgyid]);
+        }
     }
 
     public function accept_rescert() {
-            $id_rescert = $_GET['id_rescert'];
+        $id_rescert = $_GET['id_rescert'];
+        $connection = $this->openConn();
+    
+        // Fetch the current status
+        $stmt = $connection->prepare("SELECT doc_status FROM tbl_rescert WHERE id_rescert = ?");
+        $stmt->execute([$id_rescert]);
+        $currentStatus = $stmt->fetchColumn();
+    
+        // Check the current status and update only if it is "pending"
+        if ($currentStatus === 'pending') {
             $doc_status = 'accepted';
-
-            $connection = $this->openConn();
-            $stmt = $connection->prepare("UPDATE tbl_rescert SET doc_status = ? WHERE id_rescert = ?");
-            $stmt->execute([$doc_status, $id_rescert]);
-
+            $updateStmt = $connection->prepare("UPDATE tbl_rescert SET doc_status = ? WHERE id_rescert = ?");
+            $updateStmt->execute([$doc_status, $id_rescert]);
+        }
     }
-
+    
     public function accept_bspermit() {
-            $id_bspermit = $_GET['id_bspermit'];
+        $id_bspermit = $_GET['id_bspermit'];
+        $connection = $this->openConn();
+    
+        // Fetch the current status
+        $stmt = $connection->prepare("SELECT doc_status FROM tbl_bspermit WHERE id_bspermit = ?");
+        $stmt->execute([$id_bspermit]);
+        $currentStatus = $stmt->fetchColumn();
+    
+        // Check the current status and update only if it is "pending"
+        if ($currentStatus === 'pending') {
             $doc_status = 'accepted';
-
-            $connection = $this->openConn();
-            $stmt = $connection->prepare("UPDATE tbl_bspermit SET doc_status = ? WHERE id_bspermit = ?");
-            $stmt->execute([$doc_status, $id_bspermit]);
-
+            $updateStmt = $connection->prepare("UPDATE tbl_bspermit SET doc_status = ? WHERE id_bspermit = ?");
+            $updateStmt->execute([$doc_status, $id_bspermit]);
+        }
     }
 
     public function update_clearance() {
@@ -1574,85 +1668,18 @@ class BMISClass {
         }
   }
 
-  public function view_archive_brgyclearance(){
-    if (isset($_POST['archive_brgyclearance'])) {
-        $id_clearance = $_POST['id_clearance'];
-        $id = $_POST['id'];
-        $doc_status = 'archived';
-
-        $connection = $this->openConn();
-
-        $stmt = $connection->prepare('UPDATE tbl_clearance SET doc_status = ? WHERE id_clearance = ?');
-        $stmt->execute([$doc_status, $id_clearance]);
-
-        echo '
-            <script>
-                window.opener.location.href = window.opener.location.href;                
-                window.close();
-            </script>
-        ';
-    }
-}
-
-public function view_unarchive_brgyclearance(){
-    if (isset($_POST['unarchive_brgyclearance'])) {
-        $id_clearance = $_POST['id_clearance'];
-        $id = $_POST['id'];
-        $doc_status = 'accepted';
-
-        $connection = $this->openConn();
-
-        $stmt = $connection->prepare('UPDATE tbl_clearance SET doc_status = ? WHERE id_clearance = ?');
-        $stmt->execute([$doc_status, $id_clearance]);
-
-        echo '
-            <script>
-                window.opener.location.href = window.opener.location.href;
-                window.close();
-            </script>
-        ';
-    }
-}
-
-  public function archive_brgyclearance() {
-    if (isset($_POST['archive_brgyclearance'])) {
-        $id_clearance = $_POST['id_clearance'];
-        $id = $_POST['id'];
+    public function view_archive_brgyclearance(){
+        if (isset($_POST['archive_clearance'])) {
+            $id_clearance = $_POST['id_clearance'];
+            $id = $_POST['id'];
+            $doc_status = 'archived';
     
-        try {
             $connection = $this->openConn();
+    
+            $stmt = $connection->prepare('UPDATE tbl_clearance SET doc_status = ? WHERE id_clearance = ?');
+            $stmt->execute([$doc_status, $id_clearance]);
 
-            $connection->beginTransaction();
-    
-            $insertStmt = $connection->prepare("
-            INSERT INTO tbl_clearance_archive (
-                id_clearance, fname, mi, lname, age, houseno, 
-                street, brgy, city, municipality, purpose, price, archived_by
-            )
-            SELECT 
-                id_clearance, fname, mi, lname, age, houseno, street, 
-                brgy, city, municipality, purpose, price, :archived_by
-            FROM 
-                tbl_clearance
-            WHERE 
-                id_clearance = :id_clearance
-            ");
-            
-            $insertStmt->bindParam(':archived_by', $id);
-            $insertStmt->bindParam(':id_clearance', $id_clearance);
-            
-            $insertStmt->execute();
-    
-            $deleteStmt = $connection->prepare("
-                DELETE FROM tbl_clearance
-                WHERE id_clearance = :id_clearance
-            ");
-            $deleteStmt->bindParam(':id_clearance', $id_clearance);
-            $deleteStmt->execute();
-    
-            $connection->commit();
-
-            echo '
+            $toast = '
             <body>
                 <div class="toast">
                     <div class="toast-content">
@@ -1666,59 +1693,30 @@ public function view_unarchive_brgyclearance(){
                     <div class="progress"></div>
                 </div>
             </body>';
-            
-        } catch (Throwable $e) {
-            $connection->rollBack();
+        
+            $_SESSION['toast'] = $toast;
+    
             echo '
-                    <div class="toast" style = "border-left: 6px solid #D32F2F;">
-                        <div class="toast-content">
-                            <i class="fas fa-exclamation-triangle check" style = "background-color: #D32F2F;"></i>
-                            <div class="message">
-                                <span class="text text-1">Error</span>
-                                <span class="text text-2">An unexpected error occurred while processing your request</span>
-                            </div>
-                        </div>
-                        <i class="fa-solid fa-xmark close close-error"  onclick="closeToast()"></i>
-                        <div class="progress progress-error"></div>
-                    </div>
+                <script>
+                    window.opener.location.href = window.opener.location.href;                
+                    window.close();
+                </script>
             ';
         }
     }
-}
+    
+    public function view_unarchive_brgyclearance(){
+        if (isset($_POST['unarchive_clearance'])) {
+            $id_clearance = $_POST['id_clearance'];
+            $id = $_POST['id'];
+            $doc_status = 'accepted';
+    
+            $connection = $this->openConn();
+    
+            $stmt = $connection->prepare('UPDATE tbl_clearance SET doc_status = ? WHERE id_clearance = ?');
+            $stmt->execute([$doc_status, $id_clearance]);
 
-public function unarchive_brgyclearance() {
-    if (isset($_POST['unarchive_brgyclearance'])) {
-        $id_clearance = $_POST['id_clearance'];
-        $id = $_POST['id'];
-        $doc_status = 'accepted';
-
-        $connection = $this->openConn();
-
-        try {
-            $connection->beginTransaction();
-
-            $insertStmt = $connection->prepare("
-                INSERT INTO tbl_clearance (id_clearance, fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, price, created_by, doc_status)
-                SELECT id_clearance, fname, mi, lname, age, houseno, street, brgy, city, municipality, purpose, price, :created_by, :doc_status
-                FROM tbl_clearance_archive
-                WHERE id_clearance = :id_clearance
-            ");
-            $insertStmt->bindParam(':created_by', $id);
-            $insertStmt->bindParam(':id_clearance', $id_clearance);
-            $insertStmt->bindParam(':doc_status', $doc_status);
-            $insertStmt->execute();
-
-            // $deleteStmt = $connection->prepare("
-            //     DELETE FROM tbl_clearance_archive
-            //     WHERE id_clearance = :id_clearance
-            // ");
-            // $deleteStmt->bindParam(':id_clearance', $id_clearance);
-            // $deleteStmt->execute();
-
-            $connection->commit();
-
-            
-            echo '
+            $toast = '
             <body>
                 <div class="toast">
                     <div class="toast-content">
@@ -1732,33 +1730,156 @@ public function unarchive_brgyclearance() {
                     <div class="progress"></div>
                 </div>
             </body>';
-            
-
-        } catch (Exception $e) {
-            $connection->rollBack();
+        
+            $_SESSION['toast'] = $toast;
+    
             echo '
-             <dialog class="message-popup error" >
-                    <div class="pop-up">
-                        <div class="left-side">
-                            <div class="left-side-wrapper"><i class="bx bxs-x-circle error-circle"></i></div>
-                        </div>
-                        <div class="right-side">
-                            <div class="right-group">
-                            <div class="content">
-                                <h1>
-                                    Failed to retrieve record:
-                                    '.$e->getMessage().'
-                                </h1>
-                            </div>
-                            <button onclick="closeDialog()" onclick="closeDialog()" class="exit-btn">X</button>
-                            </div>
-                        </div>
-                    </div>
-                </dialog>
+                <script>
+                    window.opener.location.href = window.opener.location.href;
+                    window.close();
+                </script>
             ';
         }
     }
-}
+
+
+
+    public function archive_brgyclearance() {
+        if (isset($_POST['archive_selected_clearance']) && isset($_POST['ids_to_archive'])) {
+            $idsToArchive = explode(',', $_POST['ids_to_archive']);
+            $id = $_POST['id'];
+            $doc_status = 'archived';
+            
+            $connection = $this->openConn();
+    
+            try {
+                $connection->beginTransaction();
+    
+                foreach ($idsToArchive as $idClearance) {
+                    $insertStmt = $connection->prepare("
+                       UPDATE tbl_clearance SET created_by = :created_by, doc_status = :doc_status WHERE id_clearance = :id_clearance
+                    ");
+
+                    $insertStmt->bindParam(':doc_status', $doc_status);
+                    $insertStmt->bindParam(':created_by', $id);
+                    $insertStmt->bindParam(':id_clearance', $idClearance);
+                    $insertStmt->execute();
+                }
+    
+                $connection->commit();
+    
+                // Set a success message
+                $toast = '
+                <body>
+                    <div class="toast">
+                        <div class="toast-content">
+                            <i class="fas fa-solid fa-check check"></i>
+                            <div class="message">
+                                <span class="text text-1">Success</span>
+                                <span class="text text-2">The request has been archived successfully</span>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-xmark close" onclick="closeToast()"></i>
+                        <div class="progress"></div>
+                    </div>
+                </body>';
+            
+                $_SESSION['toast'] = $toast;
+    
+                // Refresh the page to clear form resubmission
+                header("Location: admn_brgyclearance.php?list=active");
+                exit();
+    
+            } catch (Throwable $e) {
+                $connection->rollBack();
+                $toast = '
+                <div class="toast" style = "border-left: 6px solid #D32F2F;">
+                    <div class="toast-content">
+                        <i class="fas fa-exclamation-triangle check" style = "background-color: #D32F2F;"></i>
+                        <div class="message">
+                            <span class="text text-1">Error</span>
+                            <span class="text text-2">An unexpected error occurred while processing your request</span>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-xmark close close-error"  onclick="closeToast()"></i>
+                    <div class="progress progress-error"></div>
+                </div>
+        ';
+        $_SESSION['toast'] = $toast;
+        header("Location: admn_brgyclearance.php?list=active");
+        exit();
+            }
+        }
+    }
+
+    public function unarchive_brgyclearance() {
+        if (isset($_POST['retrieve_selected_clearance']) && isset($_POST['ids_to_retrieve'])) {
+            $idsToRetrieve = explode(',', $_POST['ids_to_retrieve']);
+            $id = $_POST['id'];
+            $doc_status = 'accepted';
+            
+    
+            $connection = $this->openConn();
+    
+            try {
+                $connection->beginTransaction();
+    
+                foreach ($idsToRetrieve as $idClearance) {
+                    $insertStmt = $connection->prepare("
+                        UPDATE tbl_clearance SET created_by = :created_by, doc_status = :doc_status WHERE id_clearance = :id_clearance
+                    ");
+    
+                    $insertStmt->bindParam(':created_by', $id);
+                    $insertStmt->bindParam(':id_clearance', $idClearance);
+                    $insertStmt->bindParam(':doc_status', $doc_status);
+                    $insertStmt->execute();
+                }
+    
+                $connection->commit();
+    
+                // Set a success message
+                $toast = '
+                <body>
+                    <div class="toast">
+                        <div class="toast-content">
+                            <i class="fas fa-solid fa-check check"></i>
+                            <div class="message">
+                                <span class="text text-1">Success</span>
+                                <span class="text text-2">The request has been retrieved successfully</span>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-xmark close" onclick="closeToast()"></i>
+                        <div class="progress"></div>
+                    </div>
+                </body>';
+            
+                $_SESSION['toast'] = $toast;
+    
+                // Refresh the page to clear form resubmission
+                header("Location: admn_brgyclearance.php?list=archived");
+                exit();
+    
+            } catch (Throwable $e) {
+                $connection->rollBack();
+                $toast = '
+                <div class="toast" style = "border-left: 6px solid #D32F2F;">
+                    <div class="toast-content">
+                        <i class="fas fa-exclamation-triangle check" style = "background-color: #D32F2F;"></i>
+                        <div class="message">
+                            <span class="text text-1">Error</span>
+                            <span class="text text-2">An unexpected error occurred while processing your request</span>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-xmark close close-error"  onclick="closeToast()"></i>
+                    <div class="progress progress-error"></div>
+                </div>
+        ';
+        $_SESSION['toast'] = $toast;
+        header("Location: admn_brgyclearance.php?list=archived");
+        exit();
+            }
+        }
+    }
 
 
 public function priceUpdate_clearance() {
@@ -1774,7 +1895,7 @@ public function priceUpdate_clearance() {
 
         $connection = $this->openConn();
 
-        $stmt = $connection->prepare('UPDATE tbl_clearance SET price = ? WHERE id_rescert = ?');
+        $stmt = $connection->prepare('UPDATE tbl_clearance SET price = ? WHERE id_clearance = ?');
         $stmt->execute([$price, $docID]);
     }
 }
@@ -2040,6 +2161,23 @@ public function priceUpdate_clearance() {
     
             $stmt = $connection->prepare('UPDATE tbl_bspermit SET doc_status = ? WHERE id_bspermit = ?');
             $stmt->execute([$doc_status, $id_bspermit]);
+
+            $toast = '
+            <body>
+                <div class="toast">
+                    <div class="toast-content">
+                        <i class="fas fa-solid fa-check check"></i>
+                        <div class="message">
+                            <span class="text text-1">Success</span>
+                            <span class="text text-2">The request has been archived successfully</span>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-xmark close" onclick="closeToast()"></i>
+                    <div class="progress"></div>
+                </div>
+            </body>';
+        
+            $_SESSION['toast'] = $toast;
     
             echo '
                 <script>
@@ -2060,6 +2198,24 @@ public function priceUpdate_clearance() {
     
             $stmt = $connection->prepare('UPDATE tbl_bspermit SET doc_status = ? WHERE id_bspermit = ?');
             $stmt->execute([$doc_status, $id_bspermit]);
+
+            $toast = '
+            <body>
+                <div class="toast">
+                    <div class="toast-content">
+                        <i class="fas fa-solid fa-check check"></i>
+                        <div class="message">
+                            <span class="text text-1">Success</span>
+                            <span class="text text-2">The request has been retrieved successfully</span>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-xmark close" onclick="closeToast()"></i>
+                    <div class="progress"></div>
+                </div>
+            </body>';
+        
+            $_SESSION['toast'] = $toast;
+    
     
             echo '
                 <script>
@@ -2104,7 +2260,7 @@ public function priceUpdate_clearance() {
                             <i class="fas fa-solid fa-check check"></i>
                             <div class="message">
                                 <span class="text text-1">Success</span>
-                                <span class="text text-2">The request has been retrieved successfully</span>
+                                <span class="text text-2">The request has been archived successfully</span>
                             </div>
                         </div>
                         <i class="fa-solid fa-xmark close" onclick="closeToast()"></i>
@@ -2425,6 +2581,23 @@ public function priceUpdate_clearance() {
     
             $stmt = $connection->prepare('UPDATE tbl_brgyid SET doc_status = ? WHERE id_brgyid = ?');
             $stmt->execute([$doc_status, $id_brgyid]);
+
+            $toast = '
+            <body>
+                <div class="toast">
+                    <div class="toast-content">
+                        <i class="fas fa-solid fa-check check"></i>
+                        <div class="message">
+                            <span class="text text-1">Success</span>
+                            <span class="text text-2">The request has been archived successfully</span>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-xmark close" onclick="closeToast()"></i>
+                    <div class="progress"></div>
+                </div>
+            </body>';
+        
+            $_SESSION['toast'] = $toast;
     
             echo '
                 <script>
@@ -2445,6 +2618,23 @@ public function priceUpdate_clearance() {
     
             $stmt = $connection->prepare('UPDATE tbl_brgyid SET doc_status = ? WHERE id_brgyid = ?');
             $stmt->execute([$doc_status, $id_brgyid]);
+
+            $toast = '
+            <body>
+                <div class="toast">
+                    <div class="toast-content">
+                        <i class="fas fa-solid fa-check check"></i>
+                        <div class="message">
+                            <span class="text text-1">Success</span>
+                            <span class="text text-2">The request has been retrieved successfully</span>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-xmark close" onclick="closeToast()"></i>
+                    <div class="progress"></div>
+                </div>
+            </body>';
+        
+            $_SESSION['toast'] = $toast;
     
             echo '
                 <script>

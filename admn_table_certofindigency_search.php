@@ -1,353 +1,329 @@
+
 <style>
-.form-label {
-         
-         font-size: 1rem;
-         color: #012049;
-         font-family: "PSemiBold";
-         text-align: left;
-     }
-
-     .form-controldoc  {
-            font-family: "PMedium";
-            font-size: 1rem;
-            border-radius: 5px;
-            border: 2px solid #012049;
-            padding: 0 5px;
-            cursor: pointer;
-            width: 15%;
-            margin-left: 5px;
-            text-align: center;
-            margin-bottom: 10px;
-            color: #012049;
-          
-            
-        }
-
-        .form-control option:hover {
-    background-color: #2c91c9; /* Light gray background on hover */
-    color: #000; /* Darker text on hover */
+th:nth-child(14),  /* Issuance No. */
+td:nth-child(14),  /* Issuance No. */
+th:nth-child(12),  /* Business Name */
+td:nth-child(12),            
+th:nth-child(8),  /* Issuance No. */
+td:nth-child(8),  /* Issuance No. */
+th:nth-child(9),  /* Business Name */
+td:nth-child(9),            
+th:nth-child(10),  /* Issuance No. */
+td:nth-child(10),  /* Issuance No. */
+th:nth-child(11),  /* Business Name */
+td:nth-child(11) { /* Business Name */
+    display: none; /* Hide the columns */
 }
-
-
-
-        .form-control:focus {
-    border-color: black; /* Highlight border on focus */
-    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3); /* Subtle shadow on focus */
-  
-    
-}
-
-.form-buttons {
-    display: flex; /* Aligns forms in a row */
-    gap: 10px; /* Adds space between the buttons */    align-items: center; /* Ensures buttons align vertically */
-}
-
-.form-buttons form {
-    margin: 0; /* Removes default margins from forms */
-}
-
-.btnexpex, .btnexpdf {
-    padding: 5px 20px; /* Adjusts button size */
-    font-size: 16px; /* Adjusts font size */
-    border: 2px solid #012049; /* Adds a border */
-    border-radius: 5px; /* Rounds button corners */
-    background-color: white; /* Light background color */
-    font-family: "PSemiBold";
-    cursor: pointer; /* Changes cursor to pointer */
-    margin-bottom: 30px;
-}
-.btnexpex {
-    color: #388E3C;
-    border: 2px solid #388E3C; 
-}
-
-.btnexpdf {
-    color: #D32F2F;
-    border: 2px solid #D32F2F; 
-}
-.btnexpex i,.btnexpdf i {
-    margin-right: 5px; /* Adds spacing between icon and text */
-
-}
-
-.btnexpex:hover {
-    background-color: #388E3C; /* Darker background on hover */
-    color: white; /* White text on hover */
-}
-
-.btnexpdf:hover {
-    background-color: #D32F2F; /* Darker background on hover */
-    color: white; /* White text on hover */
-}
-
 </style>
-<form method="GET" action="">
-    <label class = "form-label" for="list">Select List: </label>
-    <select class = "form-controldoc" name="list" id="list" onchange="this.form.submit()">
-        <option value="active" <?= (isset($_GET['list']) && $_GET['list'] == 'active') ? 'selected' : ''; ?>>Active</option>
-        <option value="archived" <?= (isset($_GET['list']) && $_GET['list'] == 'archived') ? 'selected' : ''; ?>>Archived</option>
-    </select>
-</form>
+
+<!-- Alert Component -->
+<div class="toasterr" id = "toasterr" style = "border-left: 6px solid #D32F2F;" >
+                <div class="toasterr-content">
+                    <i class="fas fa-exclamation-triangle check" style = "background-color: #D32F2F;"></i>
+                    <div class="message">
+                        <span class="text text-1">Error</span>
+                        <span class="text text-2">Please select at least one row</span>
+                    </div>
+                </div>
+                <i class="fa-solid fa-xmark close close-error"  onclick="closeToasterr()"></i>
+                <div class="progresserr progresserr-error"></div>
+            </div>
 <?php
+    $from = isset($_POST['from']) ? date('Y-m-d', strtotime($_POST['from'])) : date('Y-m-d');
+    $to = isset($_POST['to']) ? date('Y-m-d', strtotime($_POST['to'])) : date('Y-m-d');
+
 	if(isset($_POST['search_certofindigency'])){
 		$keyword = $_POST['keyword'];
+
 ?>
+        <?php if (!empty($toast)): ?>
+        <?= $toast; ?>
+    <?php endif; ?>
+    <div style="float: right; align-items:right; margin-bottom: -40px; position: relative; z-index: 10;">
+        <form class="form-select" method="GET" action="">
+            <label for="list">Select List: </label>
+            <select name="list" id="list" onchange="this.form.submit()">
+                <option value="active" <?= (isset($_GET['list']) && $_GET['list'] == 'active') ? 'selected' : ''; ?>>Active</option>
+                <option value="archived" <?= (isset($_GET['list']) && $_GET['list'] == 'archived') ? 'selected' : ''; ?>>Archived</option>
+            </select>
+        </form>
+    </div>
+
+ 
+<table class="table table-border table-striped custom-table datatable mb-0" id="myTable">
+<thead class="alert-info">
+    <tr>
+        <th> </th>
+        <th> Issuance No. </th> 
+        <th> Surname </th>
+        <th> First Name </th>
+        <th> Middle Initial</th> 
+        <th> Age </th>
+        <th> Nationality </th>
+        <th> House No. </th> <!--hide -->
+        <th> Street </th> <!--hide -->
+        <th> Barangay </th> <!--hide -->
+        <th> City </th> <!--hide -->
+        <th> Municipality </th> <!--hide -->
+        <th> Purpose </th>
+        <th> Payment </th> <!--hide -->
+        <th> </th>
+    </tr>
+</thead>
 
 
-
-<table class="table table-hover text-center table-bordered table-responsive" >
-
-    <thead class="alert-info">
-        <tr>
-            <th> </th>
-            <th> Issuance No. </th>
-            <th> Surname </th>
-            <th> First Name </th>
-            <th> Middle Name </th>
-            <th> Age </th>
-            <th> Nationality </th>
-            <th> House Number </th>
-            <th> Street </th>
-            <th> City </th>
-            <th> Barangay </th>
-            <th> Municipality </th>
-            <th> Purpose </th>
-        </tr>
-    </thead>
-
-    <tbody>     
+<tbody>     
     <?php
             $list === 'active' ?
-            $stmt = $conn->prepare("
-            SELECT *
-            FROM
-                tbl_indigency
-            WHERE
-                (id_indigency LIKE ? OR
-                    fname LIKE ? OR
-                    mi LIKE ? OR
-                    lname LIKE ? OR
-                    age LIKE ? OR   
-                    nationality LIKE ? OR
-                    houseno LIKE ? OR
-                    street LIKE ? OR
-                    brgy LIKE ? OR
-                    city LIKE ? OR
-                    municipality LIKE ? OR
-                    purpose LIKE ? OR
-                    created_by LIKE ? OR
-                    created_on LIKE ?) AND
-                doc_status = ?
-            ") :
-            $stmt = $conn->prepare("
-            SELECT *
-            FROM
-                tbl_indigency_archive
-            WHERE
-                id_indigency LIKE ? OR
-                fname LIKE ? OR
-                mi LIKE ? OR
-                lname LIKE ? OR
-                age LIKE ? OR
-                nationality LIKE ? OR
-                houseno LIKE ? OR
-                street LIKE ? OR
-                brgy LIKE ? OR
-                city LIKE ? OR
-                municipality LIKE ? OR
-                purpose LIKE ? OR
-                archived_on LIKE ? OR
-                archived_by LIKE ?
-            ");
-        
-        $keywordLike = "%$keyword%";
-        $pendingStatus = "accepted";
 
+            $stmt = $conn->prepare("
+                SELECT *
+                FROM
+                    tbl_indigency
+                WHERE
+                    (id_indigency like ? OR
+                        `lname` LIKE ? OR  
+                        `mi` LIKE ? OR  
+                        `fname` LIKE ? OR
+                        age LIKE ? OR 
+                        `nationality` LIKE ? OR                        
+                        `houseno` LIKE ? OR
+                        `street` LIKE ? OR 
+                        `brgy` LIKE ? OR 
+                        `city` LIKE ? OR 
+                        `municipality` LIKE ? OR 
+                        purpose LIKE ? OR
+                        price LIKE ? OR
+                        created_by LIKE ? OR
+                        created_on LIKE ?) 
+                    AND `doc_status` = ? ORDER BY created_on DESC
+                    ") : 
+            $stmt = $conn->prepare("
+                SELECT *
+                FROM
+                    tbl_indigency
+                WHERE
+                    (id_indigency LIKE ? OR
+                    `lname` LIKE ? OR  
+                    `mi` LIKE ? OR  
+                    `fname` LIKE ? OR
+                    age LIKE ? OR 
+                    `nationality` LIKE ? OR
+                    `houseno` LIKE ? OR
+                    `street` LIKE ? OR 
+                    `brgy` LIKE ? OR 
+                    `city` LIKE ? OR 
+                    `municipality` LIKE ? OR 
+                    purpose LIKE ? OR
+                    price LIKE ? OR
+                    created_on LIKE ? OR
+                    created_by LIKE ?)
+                        AND doc_status = ?
+                        AND (date(created_on) BETWEEN ? AND ?) ORDER BY created_on DESC
+                ");
+
+        $keywordLike = "%$keyword%";
+        $pendingStatus = 'accepted';
+        
         $list === 'active' ?
             $stmt->execute([
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
-                $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
-                $keywordLike, $keywordLike, $pendingStatus
+                $keywordLike, $keywordLike, $keywordLike, $keywordLike,
+                $keywordLike, $keywordLike, $keywordLike, $pendingStatus
             ]):
             $stmt->execute([
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
-                $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
-                $keywordLike, $keywordLike
+                $keywordLike, $keywordLike, $keywordLike, $keywordLike,
+                $keywordLike, $keywordLike, $keywordLike, $list, $from, $to
             ]);
-            
-            $views = $stmt->fetchAll();
-            if ($stmt->rowCount() > 0) {
-                foreach ($views as $view) {
-        ?>
-            <tr>
-                <td>    
-                    <form action="" method="post">
-                        <a class="btn btn-success" target="_blank" style="width: 70px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" href="indigency_form.php?id_indigency=<?= $view['id_indigency'];?><?php if ($list === 'archived') echo '&status=archived';?>"> <i class="fas fa-archive"></i></a> 
-                        <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
-                        <input type="hidden" name="id_indigency" value="<?= $view['id_indigency'];?>">
-                        <?php 
-                            echo $list === 'active' ? 
-                                '<button class="btn btn-danger" type="submit" style="width: 70px; font-size: 17px; border-radius:30px;" name="archive_certofindigency">  <i class="fas fa-archive"></i> </button>' :
-                                '<button class="btn btn-danger" type="submit" style="width: 70px; font-size: 17px; border-radius:30px;" name="unarchive_certofindigency">  <i class="fas fa-undo"></i> </button>'
-                                ;
-                        ?>    
-                    </form>
-                </td>
-                <td> <?= $view['id_indigency'];?> </td> 
-                <td> <?= $view['lname'];?> </td>
-                <td> <?= $view['fname'];?> </td>
-                <td> <?= $view['mi'];?> </td>
-                <td> <?= $view['age'];?> </td>
-                <td> <?= $view['nationality'];?> </td>
-                <td> <?= $view['houseno'];?> </td>
-                <td> <?= $view['street'];?> </td>
-                <td> <?= $view['brgy'];?> </td>
-                <td> <?= $view['city'];?> </td>
-                <td> <?= $view['municipality'];?> </td>
-                <td> <?= $view['purpose'];?> </td>
-            </tr>
-        <?php
-        }
-    }
-    else {
-        echo "<tr><td colspan='13'>No existing list</td></tr>";
-    }
-        ?>
         
-    </tbody>
+        $views = $stmt->fetchAll();
+        if ($stmt->rowCount() > 0) {
+            foreach ($views as $view) {
+    ?>
+        <tr>
+            <td><input type="checkbox" class="rowCheckbox" value="<?= $view['id_indigency']; ?>"></td>           
+            <td> <?= $view['id_indigency'];?> </td> 
+            <td> <?= $view['lname'];?> </td>
+            <td> <?= $view['fname'];?> </td>
+            <td> <?= $view['mi'];?> </td>
+            <td> <?= $view['age'];?> </td>
+            <td> <?= $view['nationality'];?> </td>
+            <td> <?= $view['houseno'];?> </td>
+            <td> <?= $view['street'];?> </td>
+            <td> <?= $view['brgy'];?> </td>
+            <td> <?= $view['city'];?> </td>
+            <td> <?= $view['municipality'];?> </td>
+            <td> <?= $view['purpose'];?> </td>
+            <td> <?= $view['price'];?> </td>
+            <td>    
+            <form id="archiveForm" action="" method="post">
+                <a class="btn btn-success" target="_blank" title="Generate" style="width: 70px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" href="indigency_form.php?id_indigency=<?= $view['id_indigency'];?><?php if ($list === 'archived') echo '&status=archived';?>"> <i class="fas fa-cogs"></i></a> 
+                <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
+                <input type="hidden" name="id_indigency" value="<?= $view['id_indigency'];?>">
+                <?php
+echo $list === 'active' ? 
+// Display both buttons if the status is active
+
+'<a href="javascript:void(0);" class="btn btn-primary" title="View Details" onclick="openPopup(\'view_indigency.php?id_indigency=' . urlencode($view['id_indigency']) . '\')" style="width: 70px; font-size: 17px; border-radius:30px;">
+<i class="fa fa-eye"></i>
+</a>' :
+
+// Display only the unarchive button if the status is not active
+'<a href="javascript:void(0);" class="btn btn-primary" title="View Details" onclick="openPopup(\'view_indigency_archive.php?id_indigency=' . urlencode($view['id_indigency']) . '\')" style="width: 70px; font-size: 17px; border-radius:30px;">
+<i class="fa fa-eye"></i>
+</a>';
+?>        
+            </form>
+            </td>
+        </tr>
+    <?php
+    }
+}
+
+    ?>
+</tbody>
 </table>
 
 <?php		
 	}else{
+
 ?>
-<table class="table table-hover text-center table-bordered table-responsive">
-    <thead class="alert-info">
-        <tr>
-            <th> </th>
-            <th> Issuance No. </th>
-            <th> Surname </th>
-            <th> First Name </th>
-            <th> Middle Name </th>
-            <th> Age </th>
-            <th> Nationality </th>
-            <th> House Number </th>
-            <th> Street </th>
-            <th> Barangay </th>
-            <th> City </th>
-            <th> Municipality </th>
-            <th> Purpose </th>
-        </tr>
-    </thead>
-    
-    <tbody>
-        <?php 
+ <div style="float: right; align-items:right; margin-bottom: -40px; position: relative; z-index: 10;">
+    <form class="form-select" method="GET" action="">
+        <label for="list">Select List: </label>
+        <select name="list" id="list" onchange="this.form.submit()">
+            <option value="active" <?= (isset($_GET['list']) && $_GET['list'] == 'active') ? 'selected' : ''; ?>>Active</option>
+            <option value="archived" <?= (isset($_GET['list']) && $_GET['list'] == 'archived') ? 'selected' : ''; ?>>Archived</option>
+        </select>
+    </form>
+</div>
+<table class="table table-border table-striped custom-table datatable mb-0" id="myTable">
+
+
+<thead class="alert-info">
+    <tr>
+        <th> </th>
+        <th> Issuance No.</th>
+        <th> Surname </th>
+        <th> First Name </th>
+        <th> Middle Initial </th> <!-- hide -->
+        <th> Age </th> 
+        <th> Nationality </th> <!-- hide -->
+        <th> House No. </th> <!-- hide -->
+        <th> Street </th> <!-- hide -->
+        <th> Barangay </th> <!-- hide -->
+        <th> City </th> <!-- hide -->
+        <th> Municipality </th> <!-- hide -->
+        <th> Purpose </th>
+        <th> Payment</th>
+        <th> </th>
+    </tr>
+</thead>
+
+<tbody>     
+    <?php
         $pendingStatus = 'accepted';
 
         if ($list === 'active') {
-            $stmt = $conn->prepare("SELECT * FROM tbl_indigency WHERE doc_status = ?");
+            $stmt = $conn->prepare("SELECT * FROM tbl_indigency WHERE doc_status = ? ORDER BY created_on DESC");
             $stmt->execute([$pendingStatus]);
         } else {
-            $stmt = $conn->prepare("SELECT * FROM tbl_indigency_archive");
-            $stmt->execute();
+            $stmt = $conn->prepare("SELECT * FROM tbl_indigency WHERE doc_status = ? ORDER BY created_on DESC");
+            $stmt->execute([$list]);
         }
-
         $views = $stmt->fetchAll();
         if ($stmt->rowCount() > 0) {
-            foreach ($views as $view) {
-        ?>
-            <tr>
+            foreach ($views as $view){
+                
+    ?>
+        <tr>
+
+            <td><input type="checkbox" class="rowCheckbox" value="<?= $view['id_indigency']; ?>"></td>           
+            <td> <?= $view['id_indigency'];?> </td> 
+            <td> <?= $view['lname'];?> </td>
+            <td> <?= $view['fname'];?> </td>
+            <td> <?= $view['mi'];?> </td>
+            <td> <?= $view['age'];?> </td>
+            <td> <?= $view['nationality'];?> </td>            
+            <td> <?= $view['houseno'];?> </td>
+            <td> <?= $view['street'];?> </td>
+            <td> <?= $view['brgy'];?> </td>
+            <td> <?= $view['city'];?> </td>
+            <td> <?= $view['municipality'];?> </td>
+            <td> <?= $view['purpose'];?> </td>
+            <td> <?= $view['price'];?> </td>
             <td>    
-    <form id="archiveForm" action="" method="post">
-        <a class="btn btn-success" target="_blank" style="width: 70px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" href="indigency_form.php?id_indigency=<?= $view['id_indigency']; ?><?php if ($list === 'archived') echo '&status=archived'; ?>">
-            <i class="fas fa-cogs"></i>
-        </a>
-        <input type="hidden" name="id" value="<?= $userdetails['id']; ?>">
-        <input type="hidden" name="id_indigency" value="<?= $view['id_indigency']; ?>">
-        <button type="submit" id="hiddenSubmitBtn" style="display:none;" name="archive_certofindigency">Submit</button>
-
-        <?php
-        echo $list === 'active' ? 
-            '<button class="btn btn-danger archive-btn" type="button" style="width: 70px; font-size: 17px; border-radius:30px;" name="archive_certofindigency"> <i class="fas fa-archive"></i> </button>' :
-            '<button class="btn btn-danger" type="submit" style="width: 70px; font-size: 17px; border-radius:30px;" name="unarchive_certofindigency"> <i class="fas fa-undo"></i> </button>';
-        ?>
-    </form>
-    <?php include('popup-confirm.php'); ?>
-</td>
-
-                <td> <?= $view['id_indigency'];?> </td> 
-                <td> <?= $view['lname'];?> </td>
-                <td> <?= $view['fname'];?> </td>
-                <td> <?= $view['mi'];?> </td>
-                <td> <?= $view['age'];?> </td>
-                <td> <?= $view['nationality'];?> </td>
-                <td> <?= $view['houseno'];?> </td>
-                <td> <?= $view['street'];?> </td>
-                <td> <?= $view['brgy'];?> </td>
-                <td> <?= $view['city'];?> </td>
-                <td> <?= $view['municipality'];?> </td>
-                <td> <?= $view['purpose'];?> </td>
-            </tr>
-        <?php
-            }
-        }
-        else {
-            echo "<tr><td colspan='13'>No existing list</td></tr>";
-        }
-        ?>
-    </tbody>
+            <form id="archiveForm" action="" method="post">
+                <a class="btn btn-success" title="Generate" target="_blank" style="width: 70px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" href="indigency_form.php?id_indigency=<?= $view['id_indigency'];?><?php if ($list === 'archived') echo '&status=archived';?>"> <i class="fas fa-cogs"></i></a> 
+                <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
+                <input type="hidden" name="id_indigency" value="<?= $view['id_indigency'];?>">
+                <?php
+echo $list === 'active' ? 
+    // Display both buttons if the status is active
     
-</table>
+'<a href="javascript:void(0);" class="btn btn-primary" title="View Details" onclick="openPopup(\'view_indigency.php?id_indigency=' . urlencode($view['id_indigency']) . '\')" style="width: 70px; font-size: 17px; border-radius:30px;">
+    <i class="fa fa-eye"></i>
+</a>' :
+    
+    // Display only the unarchive button if the status is not active
+    '<a href="javascript:void(0);" class="btn btn-primary" title="View Details" onclick="openPopup(\'view_indigency_archive.php?id_indigency=' . urlencode($view['id_indigency']) . '\')" style="width: 70px; font-size: 17px; border-radius:30px;">
+    <i class="fa fa-eye"></i>
+</a>';
+?>
+   
+         
+            </form>
+            </td>
+            </tr>
+            <?php
+        }
+    }
+        
+    ?>           
+    </tbody>
+ </table>
 
-<?php
+
+ <?php
 	}
     $viewsJson = json_encode($views);
     $tableName = 'tbl_indigency';
 ?>
-   <script>
-document.addEventListener("DOMContentLoaded", () => {
-    // Get all archive buttons
-    const openPopupBtns = document.querySelectorAll('.archive-btn');
-    
-    // Get popup and other necessary elements
-    const popup = document.getElementById('popup');
-    const confirmBtn = document.getElementById('confirm-btn');
-    const cancelBtn = document.getElementById('cancel-btn');
-    const archiveForm = document.getElementById('archiveForm');
-    const hiddenSubmitBtn = document.getElementById('hiddenSubmitBtn');  // Hidden submit button
 
-    // Loop through all archive buttons and add event listeners
-    openPopupBtns.forEach((openPopupBtn) => {
-        openPopupBtn.addEventListener('click', function () {
-            const dataId = this.closest('form').querySelector('input[name="id_indigency"]').value;
-            // Store the ID in the form's data-id (or set a hidden input value if necessary)
-            archiveForm.querySelector('input[name="id_indigency"]').value = dataId; // Set the correct id_indigency
-            
-            // Show the popup
-            popup.classList.remove('hidden'); 
-        });
-    });
+ <?php if ($list === 'active') { ?>
+    <form id="archiveSelect" action="" method="post">
+        <input type="hidden" name="ids_to_archive" id="idsToArchive">
+        <input type="hidden" name="id" value="<?= htmlspecialchars($userdetails['id'], ENT_QUOTES); ?>">
+        <input type="hidden" name="id_indigency" value="<?= htmlspecialchars($view['id_indigency'], ENT_QUOTES); ?>">
 
-    // Close popup when Cancel is clicked
-    cancelBtn.addEventListener('click', () => {
-        popup.classList.add('hidden'); // Hide the popup when cancel is clicked
-    });
+        <!-- Actual Submit Button -->
+        <button type="submit" class="btn btn-danger" id="hiddensubmitslt" style="display: none;" name="archive_selected_indigency">
+            Archive Selected
+        </button>
 
-    // Confirm action and submit form when Confirm is clicked
-    confirmBtn.addEventListener('click', () => {
-        // Programmatically trigger the hidden submit button
-        hiddenSubmitBtn.click();  // Click the hidden submit button
-        
-        // Hide the popup after submission
-        popup.classList.add('hidden');
-        
+    </form>
+<?php } ?>
 
-    });
-});
+<?php if ($list === 'archived') { ?>
+    <form id="retrieveSelect" action="" method="post">
+        <input type="hidden" name="ids_to_retrieve" id="idsToRetrieve">
+        <input type="hidden" name="id" value="<?= htmlspecialchars($userdetails['id'], ENT_QUOTES); ?>">
+        <input type="hidden" name="id_indigency" value="<?= htmlspecialchars($view['id_indigency'], ENT_QUOTES); ?>">
+
+        <!-- Actual Submit Button -->
+        <button type="submit" class="btn btn-danger" id="hiddensubmitret" style="display: none;" name="retrieve_selected_indigency">
+            Retrieve Selected
+        </button>
+
+    </form>
+<?php } ?>
+
+<?php include('table_script.php'); ?>
 
 
-</script>
 <?php if ($list === 'archived') { ?>
     <div class="form-buttons">
         <form action="./export_to_pdf.php" method="POST" target="_blank">
