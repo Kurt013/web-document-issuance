@@ -3163,6 +3163,8 @@ public function priceUpdate_clearance() {
 
     public function count_documents_issued_in_month($startDate, $endDate) {
         // Open the database connection
+        $doc_status = 'archived';
+
         $connection = $this->openConn(); 
     
         // SQL query to count documents across multiple tables for the given date range
@@ -3173,45 +3175,50 @@ public function priceUpdate_clearance() {
             SELECT 
                 COUNT(*) AS document_count
             FROM 
-                tbl_indigency_archive
+                tbl_indigency
             WHERE 
-                DATE(archived_on) BETWEEN :start_date AND :end_date
+                doc_status = :doc_status AND
+                DATE(created_on) BETWEEN :start_date AND :end_date
     
             UNION ALL
     
             SELECT 
                 COUNT(*) AS document_count
             FROM 
-                tbl_rescert_archive
+                tbl_rescert
             WHERE 
-                DATE(archived_on) BETWEEN :start_date AND :end_date
+                doc_status = :doc_status AND
+                DATE(created_on) BETWEEN :start_date AND :end_date
     
             UNION ALL
     
             SELECT 
                 COUNT(*) AS document_count
             FROM 
-                tbl_brgyid_archive
+                tbl_brgyid
             WHERE 
-                DATE(archived_on) BETWEEN :start_date AND :end_date
+                doc_status = :doc_status AND
+                DATE(created_on) BETWEEN :start_date AND :end_date
     
             UNION ALL
     
             SELECT 
                 COUNT(*) AS document_count
             FROM 
-                tbl_bspermit_archive
+                tbl_bspermit
             WHERE 
-                DATE(archived_on) BETWEEN :start_date AND :end_date
+                doc_status = :doc_status AND
+                DATE(created_on) BETWEEN :start_date AND :end_date
     
             UNION ALL
     
             SELECT 
                 COUNT(*) AS document_count
             FROM 
-                tbl_clearance_archive
+                tbl_clearance
             WHERE 
-                DATE(archived_on) BETWEEN :start_date AND :end_date
+                doc_status = :doc_status AND
+                DATE(created_on) BETWEEN :start_date AND :end_date
         ) AS combined_counts;
         ";
     
@@ -3219,6 +3226,7 @@ public function priceUpdate_clearance() {
         $stmt = $connection->prepare($query);
     
         // Bind the start and end date parameters
+        $stmt->bindParam(':doc_status', $doc_status, PDO::PARAM_STR);
         $stmt->bindParam(':start_date', $startDate, PDO::PARAM_STR);
         $stmt->bindParam(':end_date', $endDate, PDO::PARAM_STR);
     

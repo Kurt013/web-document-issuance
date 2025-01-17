@@ -388,7 +388,7 @@ body{
             <div class="card bg-c-blue3 order-card" style = "border-radius: 20px 20px 20px 0;">
                 <div class="card-block">
                     <h6 class="m-b-20 text-left">Daily Earnings</h6>
-                    <h2 class="text-left">₱ <?= $totalDailyEarnings ?></h2>
+                    <h2 class="text-left">P <?= $totalDailyEarnings ?? '0' ?></h2>
                 </div>
             </div>
         </div>
