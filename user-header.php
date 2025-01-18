@@ -5,9 +5,21 @@
         <header>
             <div class="wrapper">
                 <!-- Add Font Awesome icon inside the button -->
-                <button id = "adminbtn" onclick="window.location.href='login.php';">
-                    <i class="fa fa-user"></i> Sign in as Admin
-                </button>
+                 <div class="left-wrapper">
+                    <button id="sidebar-toggle" style="
+                            font-size: 1.5rem;
+                            color: white;   
+                            border:none;
+                            background-color: transparent;
+                        ">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                 </div>
+                <div class="right-wrapper">
+                    <button id = "adminbtn" onclick="window.location.href='login.php';">
+                        <i class="fa fa-user"></i> Sign in as Admin
+                    </button>
+                </div>
             </div>
         </header>
     </div>
@@ -50,21 +62,17 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 
         /* Wrapper for flexbox layout */
         #user-header .wrapper {
-            width: 100%;
-            max-width: 1170px; /* Keeps content within a max width */
-            margin: 0 auto;
             height: 100%;
+            margin: 0 auto;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: flex-end; /* Aligns the button to the right */
-            padding: 0 20px; /* Padding to ensure spacing */
+            padding-inline: 20px;
         }
 
         /* Button Styling */
         #adminbtn {
             background-color: #01439c;  /* Green background */
-            position: absolute;
-            right: 30px;
             
             letter-spacing: 1px;
             color: white;               /* White text color */

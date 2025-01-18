@@ -32,7 +32,6 @@
   padding: 20px;
   line-height: 25px;
   text-align: center;
-  width: calc(100% - 250px); /* Adjust width to account for the left margin */
   margin-left: 250px;
   margin-top: 50px; /* Ensures the footer is pushed to the bottom */
   box-sizing: border-box; /* Prevents overflow by including padding and borders in width */
@@ -98,6 +97,12 @@
 }
 
 
+@media (max-width: 768px) {
+  #footerend {
+    margin-left: 0;
+  }
+  
+}
 
 </style>
 

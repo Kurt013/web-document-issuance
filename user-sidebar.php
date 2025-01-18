@@ -64,7 +64,7 @@
   overflow-x: hidden !important;
   position: fixed;
   z-index: 3;
-  height: 100vh;
+  height: 100%;
   width: 250px;
   margin:0 !important;
   overflow-y: scroll;
@@ -75,9 +75,11 @@
     padding: 10px 0; /* Space above and below the logo */
 }
 
+
+
 .sidebar-logo img {
-    max-width: 50%; /* Adjust logo size to fit the sidebar */
-    height: auto; /* Maintain aspect ratio */
+    width: 50%; /* Adjust logo size to fit the sidebar */
+    max-width: 300px;
     margin-top: 15px;
 }
 
@@ -132,10 +134,9 @@
     z-index: 2;
 
     .sidebar-header {
-      height: 100px;
-      min-height: 100px;
       display: flex;
       align-items: center;
+      justify-content: center;
       padding: 0 20px;
       > span {
         overflow: hidden;
@@ -607,11 +608,6 @@ a {
   }
 }
 
-.sidebar-toggler {
-  position: fixed;
-  right: 20px;
-  top: 20px;
-}
 
 .social-links {
   a {
@@ -622,19 +618,54 @@ a {
 
 
 
+
+/* for 768px below */
+@media (max-width: 768px) {
+  .sidebar-hide {
+  display: none;
+}
+
+
+  #sidebar {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+  }
+
+    .content {
+        margin-left: 0 !important;
+    }
+}
    
 
+/* for 768px above */
+@media (min-width: 768px) {
+  .hide-toggle {
+    display: none;
+  }
+}
 
 
     </style>
     <body> 
 
     <div class="layout has-sidebar fixed-sidebar fixed-header">
-      <aside id="sidebar" class="sidebar break-point-sm has-bg-image">
-        
-        
+      <aside id="sidebar" class="sidebar sidebar-hide break-point-sm has-bg-image">
         <div class="sidebar-layout">
           <div class="sidebar-header">
+            <button id="sidebar-toggle-2" class="hide-toggle" style="
+              position: absolute;
+              right: 20px;
+              top: 20px;
+              font-size: 1.5rem;
+              color: white;   
+              border:none;
+              background-color: transparent;
+            ">
+          X  
+          </button>
           <div class="sidebar-logo">
         <img src="assets/sinlogo.png" alt="Logo">
     </div>

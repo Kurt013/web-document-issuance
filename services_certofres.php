@@ -421,7 +421,8 @@ h2 {
 
         .popup-box {
             background-color: #fff;
-            width: 500px; /* Fixed width */
+            width: 100%; /* Fixed width */
+            max-width: 500px;
             height: 600px; /* Fixed height */
             position: relative; 
            border: 20px solid white;
@@ -611,6 +612,14 @@ h2 {
 }
 
 
+@media (max-width: 768px) {
+    .other-detail {
+        margin-left: 20px;
+    }
+    
+}
+
+
 </style>
   
   
@@ -650,7 +659,7 @@ h2 {
             <div class="row">
                 <div class="col">
                     <hr style = "height: 3px; margin-bottom: 15px; background-color: #012049;">
-                    <h1>Other Details</h1>
+                    <h1 class="other-detail">Other Details</h1>
     
                     
                 </div>
@@ -893,6 +902,17 @@ h2 {
 
         <script src="./js-components/component-js-custompurpose.js"></script>
         <script>
+    document.getElementById('sidebar-toggle').addEventListener('click', function() {
+        document.getElementById('sidebar').classList.remove('sidebar-hide');
+    });
+
+    document.getElementById('sidebar-toggle-2').addEventListener('click', function() {
+        document.getElementById('sidebar').classList.add('sidebar-hide');
+    });
+
+
+
+
             // Set a variable for our button element.
             const scrollToTopButton = document.getElementById('js-top');
 

@@ -29,6 +29,7 @@
 
     <head> 
     <title> Homepage </title>
+        <link rel="stylesheet" href="./css/responsive.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -89,7 +90,10 @@
         }
 
        
-  
+    .heading-section {
+        padding-inline: 20px;
+    }
+    
 
     .top-link {
     transition: all 0.25s ease-in-out;
@@ -102,9 +106,8 @@
     justify-content: center;
     margin: 0 1rem 5em 0;
     border-radius: 50%;
-    
-    width: 5%;
-    height: 10%;
+    width: 80px;
+    height: 80px;
     background-color: #3661D5;
     }
     .btncontainer {
@@ -114,18 +117,19 @@
     }
     .btncontainer button {
         background-color: transparent;  /* Green background */
-        width: 30%;
-            margin-bottom: 15px;
-            
-            letter-spacing: 1px;
-            color: #012049;               /* White text color */
-            font-size: 1rem;            /* Font size */
-            padding: 8px 15px !important;         /* Padding around the text */
-            border: 3px solid #012049;               /* Remove default border */
-            border-radius: 10px;         /* Rounded corners */
-            cursor: pointer;   
-            font-family: "PExBold";        /* Pointer cursor on hover */
-            transition: background-color 0.3s ease; /* Smooth background color transition */
+        width: 100%;
+        max-width: 380px;
+        margin-bottom: 15px;
+        
+        letter-spacing: 1px;
+        color: #012049;               /* White text color */
+        font-size: 1rem;            /* Font size */
+        padding: 8px 15px !important;         /* Padding around the text */
+        border: 3px solid #012049;               /* Remove default border */
+        border-radius: 10px;         /* Rounded corners */
+        cursor: pointer;   
+        font-family: "PExBold";        /* Pointer cursor on hover */
+        transition: background-color 0.3s ease; /* Smooth background color transition */
     }
 
     .col button:hover {
@@ -187,7 +191,7 @@
             font-family: 'PExBoldIt' !important; 
             font-size: 2.1rem; 
             z-index: 1; 
-            width: 85%;
+            /* width: 85%; */
             letter-spacing: 3px;
             margin-left: 10px;
             margin-bottom: 1px;
@@ -208,7 +212,7 @@
         font-size: 1rem;
         margin-left: 10px;
         color: #012049;
-        width: 85%;
+        /* width: 85%; */
         line-height: 25px;
        
 
@@ -285,20 +289,18 @@
 }
 
 .steps {
-    width: 84%;
+    width: 100%;
     margin-top: 10px;
     padding: 20px;
-    margin-left: -15px;
     display: flex;
-   
+    flex-wrap: wrap;
     align-items: center; /* Align items vertically */
     gap: 5px; /* Space between images */
     
 }
 
 .steps img {
-    width: 27%; /* Adjust width as needed */
-    height: auto; /* Maintain aspect ratio */
+    width: 270px;
 }
 
     </style>
@@ -468,6 +470,18 @@ if ($view && is_array($view) && count($view) > 0) { ?>
        
 
         <script>
+
+    document.getElementById('sidebar-toggle').addEventListener('click', function() {
+        document.getElementById('sidebar').classList.remove('sidebar-hide');
+    });
+
+    document.getElementById('sidebar-toggle-2').addEventListener('click', function() {
+        document.getElementById('sidebar').classList.add('sidebar-hide');
+    });
+
+
+
+
     // Logout function
     function logout() {
         window.location.href = "logout.php";
