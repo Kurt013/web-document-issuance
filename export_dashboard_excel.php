@@ -63,30 +63,138 @@ $sheet->setCellValue('B10', '=SUM(B4:B8)'); // Automatically calculates the sum
 $sheet->setCellValue('A12', 'Daily Earnings');
 $sheet->setCellValue('B12', $totalEarningsFormatted);
 
-// Add section headers for lists
-$listHeaders = [
-    'Certificate of Residency List' => $rescertList,
-    'Barangay ID List' => $brgyidList,
-    'Business Permit List' => $bspermitList,
-    'Barangay Clearance List' => $clearanceList,
-    'Certificate of Indigency List' => $indigencyList,
-];
+
 
 $rowStart = 14; // Starting row for the lists
-foreach ($listHeaders as $header => $list) {
-    // Add the section header
-    $sheet->setCellValue("A$rowStart", $header);
-    $sheet->getStyle("A$rowStart")->getFont()->setBold(true);
-    $rowStart++;
 
-    // Add the list items
-    foreach ($list as $item) {
-        $sheet->setCellValue("A$rowStart", $item['name'] ?? 'N/A'); // Assuming 'name' exists in the data
-        $sheet->setCellValue("B$rowStart", $item['date'] ?? 'N/A'); // Assuming 'date' exists in the data
-        $rowStart++;
-    }
-    $rowStart++; // Add a blank row between sections
+// Add the section header
+$sheet->setCellValue("A$rowStart", 'Certificate of Residency List');
+$sheet->getStyle("A$rowStart")->getFont()->setBold(true);
+$rowStart++;
+
+// Add table header
+$sheet->setCellValue("A$rowStart", 'ID');
+$sheet->setCellValue("B$rowStart", 'First Name');
+$sheet->setCellValue("C$rowStart", 'MI');
+$sheet->setCellValue("D$rowStart", 'Last Name');
+$sheet->setCellValue("E$rowStart", 'Purpose');
+$sheet->getStyle("A$rowStart:E$rowStart")->getFont()->setBold(true);
+$rowStart++;
+
+// Add the rescert list
+foreach ($rescertList as $rescert) {
+    $sheet->setCellValue("A$rowStart", $rescert['id_rescert'] ?? 'N/A');
+    $sheet->setCellValue("B$rowStart", $rescert['fname'] ?? 'N/A');
+    $sheet->setCellValue("C$rowStart", $rescert['mi'] ?? 'N/A');
+    $sheet->setCellValue("D$rowStart", $rescert['lname'] ?? 'N/A');
+    $sheet->setCellValue("E$rowStart", $rescert['purpose'] ?? 'N/A');
+    $rowStart++;
 }
+
+
+// Add the section header
+$sheet->setCellValue("A$rowStart", 'Certificate of Indigency List');
+$sheet->getStyle("A$rowStart")->getFont()->setBold(true);
+$rowStart++;
+
+// Add table header
+$sheet->setCellValue("A$rowStart", 'ID');
+$sheet->setCellValue("B$rowStart", 'First Name');
+$sheet->setCellValue("C$rowStart", 'MI');
+$sheet->setCellValue("D$rowStart", 'Last Name');
+$sheet->setCellValue("E$rowStart", 'Purpose');
+$sheet->getStyle("A$rowStart:E$rowStart")->getFont()->setBold(true);
+$rowStart++;
+
+// Add the rescert list
+foreach ($indigencyList as $indigency) {
+    $sheet->setCellValue("A$rowStart", $indigency['id_indigency'] ?? 'N/A');
+    $sheet->setCellValue("B$rowStart", $indigency['fname'] ?? 'N/A');
+    $sheet->setCellValue("C$rowStart", $indigency['mi'] ?? 'N/A');
+    $sheet->setCellValue("D$rowStart", $indigency['lname'] ?? 'N/A');
+    $sheet->setCellValue("E$rowStart", $indigency['purpose'] ?? 'N/A');
+    $rowStart++;
+}
+
+
+// Add the section header
+$sheet->setCellValue("A$rowStart", 'Certificate of Clearance List');
+$sheet->getStyle("A$rowStart")->getFont()->setBold(true);
+$rowStart++;
+
+// Add table header
+$sheet->setCellValue("A$rowStart", 'ID');
+$sheet->setCellValue("B$rowStart", 'First Name');
+$sheet->setCellValue("C$rowStart", 'MI');
+$sheet->setCellValue("D$rowStart", 'Last Name');
+$sheet->setCellValue("E$rowStart", 'Purpose');
+$sheet->getStyle("A$rowStart:E$rowStart")->getFont()->setBold(true);
+$rowStart++;
+
+// Add the rescert list
+foreach ($clearanceList as $clearance) {
+    $sheet->setCellValue("A$rowStart", $clearance['id_clearance'] ?? 'N/A');
+    $sheet->setCellValue("B$rowStart", $clearance['fname'] ?? 'N/A');
+    $sheet->setCellValue("C$rowStart", $clearance['mi'] ?? 'N/A');
+    $sheet->setCellValue("D$rowStart", $clearance['lname'] ?? 'N/A');
+    $sheet->setCellValue("E$rowStart", $clearance['purpose'] ?? 'N/A');
+    $rowStart++;
+}
+
+
+
+// Add the section header
+$sheet->setCellValue("A$rowStart", 'Business Permit List');
+$sheet->getStyle("A$rowStart")->getFont()->setBold(true);
+$rowStart++;
+
+// Add table header
+$sheet->setCellValue("A$rowStart", 'ID');
+$sheet->setCellValue("B$rowStart", 'First Name');
+$sheet->setCellValue("C$rowStart", 'MI');
+$sheet->setCellValue("D$rowStart", 'Last Name');
+$sheet->setCellValue("E$rowStart", 'Business Name');
+$sheet->getStyle("A$rowStart:E$rowStart")->getFont()->setBold(true);
+$rowStart++;
+
+// Add the rescert list
+foreach ($bspermitList as $bspermit) {
+    $sheet->setCellValue("A$rowStart", $bspermit['id_bspermit'] ?? 'N/A');
+    $sheet->setCellValue("B$rowStart", $bspermit['fname'] ?? 'N/A');
+    $sheet->setCellValue("C$rowStart", $bspermit['mi'] ?? 'N/A');
+    $sheet->setCellValue("D$rowStart", $bspermit['lname'] ?? 'N/A');
+    $sheet->setCellValue("E$rowStart", $bspermit['bsname'] ?? 'N/A');
+    $rowStart++;
+}
+
+
+
+// Add the section header
+$sheet->setCellValue("A$rowStart", 'Barangay ID List');
+$sheet->getStyle("A$rowStart")->getFont()->setBold(true);
+$rowStart++;
+
+// Add table header
+$sheet->setCellValue("A$rowStart", 'ID');
+$sheet->setCellValue("B$rowStart", 'First Name');
+$sheet->setCellValue("C$rowStart", 'MI');
+$sheet->setCellValue("D$rowStart", 'Last Name');
+$sheet->setCellValue("E$rowStart", 'Precint No.');
+$sheet->getStyle("A$rowStart:E$rowStart")->getFont()->setBold(true);
+$rowStart++;
+
+// Add the rescert list
+foreach ($brgyidList as $brgyid) {
+    $sheet->setCellValue("A$rowStart", $brgyid['id_brgyid'] ?? 'N/A');
+    $sheet->setCellValue("B$rowStart", $brgyid['fname'] ?? 'N/A');
+    $sheet->setCellValue("C$rowStart", $brgyid['mi'] ?? 'N/A');
+    $sheet->setCellValue("D$rowStart", $brgyid['lname'] ?? 'N/A');
+    $sheet->setCellValue("E$rowStart", $brgyid['precint_no'] ?? 'N/A');
+    $rowStart++;
+}
+
+
+
 
 // Set auto-size for all columns
 foreach (range('A', 'B') as $columnID) {

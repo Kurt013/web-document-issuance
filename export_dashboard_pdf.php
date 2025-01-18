@@ -68,33 +68,138 @@ $pdf->SetFont('helvetica', 'B', 12);
 $pdf->Cell(100, 10, 'Daily Earnings:', 0, 0);
 $pdf->Cell(0, 10, $totalEarningsFormatted, 0, 1, 'R');
 
-// Add section headers for lists
-$listHeaders = [
-    'Certificate of Residency List' => $rescertList,
-    'Barangay ID List' => $brgyidList,
-    'Business Permit List' => $bspermitList,
-    'Barangay Clearance List' => $clearanceList,
-    'Certificate of Indigency List' => $indigencyList,
-];
+// Section header for rescert list
 
-foreach ($listHeaders as $header => $list) {
-    // Add section header
-    $pdf->Ln(5);
-    $pdf->SetFont('helvetica', 'B', 12);
-    $pdf->Cell(0, 10, $header, 0, 1, 'L');
-    
-    // Add table headers
-    $pdf->SetFont('helvetica', 'B', 10);
-    $pdf->Cell(80, 10, 'Name', 1, 0, 'C');
-    $pdf->Cell(80, 10, 'Date', 1, 1, 'C');
+$pdf->Ln(5);
+$pdf->SetFont('helvetica', 'B', 12);
+$pdf->Cell(0, 10, 'Certificate of Residency List', 0, 1, 'L');
 
-    // Add the list items
-    $pdf->SetFont('helvetica', '', 10);
-    foreach ($list as $item) {
-        $pdf->Cell(80, 10, $item['name'] ?? 'N/A', 1, 0, 'C');
-        $pdf->Cell(80, 10, $item['date'] ?? 'N/A', 1, 1, 'C');
-    }
+// Add table header
+$pdf->Ln(5);
+$pdf->SetFont('helvetica', 'B', 12);
+$pdf->Cell(35, 10, 'ID', 1, 0, 'C');
+$pdf->Cell(40, 10, 'First Name', 1, 0, 'C');
+$pdf->Cell(7, 10, 'MI', 1, 0, 'C');
+$pdf->Cell(40, 10, 'Last Name', 1, 0, 'C');
+$pdf->Cell(50, 10, 'Purpose', 1, 1, 'C');
+
+// Add the rescert list
+$pdf->SetFont('helvetica', '', 12);
+foreach ($rescertList as $rescert) {
+    $pdf->Cell(35, 10, $rescert['id_rescert'], 1, 0, 'L');
+    $pdf->Cell(40, 10, $rescert['fname'], 1, 0, 'L');
+    $pdf->Cell(7, 10, $rescert['mi'], 1, 0, 'L');
+    $pdf->Cell(40, 10, $rescert['lname'], 1, 0, 'L');
+    $pdf->Cell(50, 10, $rescert['purpose'], 1, 1, 'L');
 }
+
+
+// Section header for indigency list --------
+
+$pdf->Ln(5);
+$pdf->SetFont('helvetica', 'B', 12);
+$pdf->Cell(0, 10, 'Certificate of Indigency List', 0, 1, 'L');
+
+// Add table header
+$pdf->Ln(5);
+$pdf->SetFont('helvetica', 'B', 12);
+$pdf->Cell(35, 10, 'ID', 1, 0, 'C');
+$pdf->Cell(40, 10, 'First Name', 1, 0, 'C');
+$pdf->Cell(7, 10, 'MI', 1, 0, 'C');
+$pdf->Cell(40, 10, 'Last Name', 1, 0, 'C');
+$pdf->Cell(50, 10, 'Purpose', 1, 1, 'C');
+
+// Add the rescert list
+$pdf->SetFont('helvetica', '', 12);
+foreach ($indigencyList as $indigency) {
+    $pdf->Cell(35, 10, $indigency['id_indigency'], 1, 0, 'L');
+    $pdf->Cell(40, 10, $indigency['fname'], 1, 0, 'L');
+    $pdf->Cell(7, 10, $indigency['mi'], 1, 0, 'L');
+    $pdf->Cell(40, 10, $indigency['lname'], 1, 0, 'L');
+    $pdf->Cell(50, 10, $indigency['purpose'], 1, 1, 'L');
+}
+
+
+
+// Section header for indigency list --------
+
+$pdf->Ln(5);
+$pdf->SetFont('helvetica', 'B', 12);
+$pdf->Cell(0, 10, 'Certificate of Clearance List', 0, 1, 'L');
+
+// Add table header
+$pdf->Ln(5);
+$pdf->SetFont('helvetica', 'B', 12);
+$pdf->Cell(35, 10, 'ID', 1, 0, 'C');
+$pdf->Cell(40, 10, 'First Name', 1, 0, 'C');
+$pdf->Cell(7, 10, 'MI', 1, 0, 'C');
+$pdf->Cell(40, 10, 'Last Name', 1, 0, 'C');
+$pdf->Cell(50, 10, 'Purpose', 1, 1, 'C');
+
+// Add the rescert list
+$pdf->SetFont('helvetica', '', 12);
+foreach ($clearanceList as $clearance) {
+    $pdf->Cell(35, 10, $clearance['id_clearance'], 1, 0, 'L');
+    $pdf->Cell(40, 10, $clearance['fname'], 1, 0, 'L');
+    $pdf->Cell(7, 10, $clearance['mi'], 1, 0, 'L');
+    $pdf->Cell(40, 10, $clearance['lname'], 1, 0, 'L');
+    $pdf->Cell(50, 10, $clearance['purpose'], 1, 1, 'L');
+}
+
+
+// Section header for bspermit list --------
+
+$pdf->Ln(5);
+$pdf->SetFont('helvetica', 'B', 12);
+$pdf->Cell(0, 10, 'Business Permit List', 0, 1, 'L');
+
+// Add table header
+$pdf->Ln(5);
+$pdf->SetFont('helvetica', 'B', 12);
+$pdf->Cell(35, 10, 'ID', 1, 0, 'C');
+$pdf->Cell(40, 10, 'First Name', 1, 0, 'C');
+$pdf->Cell(7, 10, 'MI', 1, 0, 'C');
+$pdf->Cell(40, 10, 'Last Name', 1, 0, 'C');
+$pdf->Cell(50, 10, 'Business Name', 1, 1, 'C');
+
+// Add the rescert list
+$pdf->SetFont('helvetica', '', 12);
+foreach ($bspermitList as $bspermit) {
+    $pdf->Cell(35, 10, $bspermit['id_bspermit'], 1, 0, 'L');
+    $pdf->Cell(40, 10, $bspermit['fname'], 1, 0, 'L');
+    $pdf->Cell(7, 10, $bspermit['mi'], 1, 0, 'L');
+    $pdf->Cell(40, 10, $bspermit['lname'], 1, 0, 'L');
+    $pdf->Cell(50, 10, $bspermit['bsname'], 1, 1, 'L');
+}
+
+
+// Section header for Barangay ID--------
+
+$pdf->Ln(5);
+$pdf->SetFont('helvetica', 'B', 12);
+$pdf->Cell(0, 10, 'Barangay ID List', 0, 1, 'L');
+
+// Add table header
+$pdf->Ln(5);
+$pdf->SetFont('helvetica', 'B', 12);
+$pdf->Cell(35, 10, 'ID', 1, 0, 'C');
+$pdf->Cell(40, 10, 'First Name', 1, 0, 'C');
+$pdf->Cell(7, 10, 'MI', 1, 0, 'C');
+$pdf->Cell(40, 10, 'Last Name', 1, 0, 'C');
+$pdf->Cell(50, 10, 'Precint No.', 1, 1, 'C');
+
+// Add the rescert list
+$pdf->SetFont('helvetica', '', 12);
+foreach ($brgyidList as $brgyid) {
+    $pdf->Cell(35, 10, $brgyid['id_brgyid'], 1, 0, 'L');
+    $pdf->Cell(40, 10, $brgyid['fname'], 1, 0, 'L');
+    $pdf->Cell(7, 10, $brgyid['mi'], 1, 0, 'L');
+    $pdf->Cell(40, 10, $brgyid['lname'], 1, 0, 'L');
+    $pdf->Cell(50, 10, $brgyid['precint_no'], 1, 1, 'L');
+}
+
+
+
 
 // Output the PDF file
 if (isset($_POST['exportToPdf'])) {
