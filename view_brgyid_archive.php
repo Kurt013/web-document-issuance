@@ -189,7 +189,7 @@ if (isset($_GET['id_brgyid'])) {
     </div>
     <div class="col-md-4">
         <div class="form-group">
-            <label>Contact No.</label>
+            <label>Contact #</label>
             <input class="form-control" type="text" value="<?php echo htmlspecialchars($row['inc_contact']); ?>" readonly>
         </div>
     </div>

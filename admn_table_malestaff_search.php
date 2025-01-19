@@ -1,96 +1,165 @@
+<style>
+/* Container for the cards */
+.col {
+
+    margin-bottom: 20px; /* Spacing between cards */
+}
+
+/* Card styling */
+.card {
+    position: relative; /* Make the card a positioning context */
+    border-left: 10px solid #014bae !important; /* Remove any default borders */
+    padding: 5px; /* Ensure space for content inside the card */
+    background: white; /* Card background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Optional shadow */
+    border-radius: 10px; /* Optional rounded corners */
+
+    overflow: hidden; /* Ensure content doesn't spill out */
+}
+
+
+
+/* Card hover effect */
+.card:hover {
+    transform: scale(1.02); /* Slightly enlarge the card */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Card body */
+.card-body {
+    padding: 20px;
+}
+
+/* Title styling */
+.card-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+	background-color: #014bae; /* Horizontal gradient */
+
+	padding:10px;
+	border-radius: 10px 10px 10px 0;
+
+
+    margin-bottom: 15px;
+	font-family: "PSemiBold";
+}
+
+/* Text styling */
+.card-text {
+    font-size: 1rem;
+	font-family: "PRegular" !important;
+	line-height: 25px;
+	
+    color: #555;
+}
+
+/* Strong text (labels) */
+.card-text strong {
+    color: #014bae;
+	font-family: "PRegular" !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card {
+        max-width: 100%; /* Ensure cards use full width on smaller screens */
+    }
+}
+
+</style>
 <?php
 	// require the database connection
 	if(isset($_POST['search_totalstaff'])){
 		$keyword = $_POST['keyword'];
 ?>
 
-<table  class="table table-hover table-bordered text-center responsive" >
-	<thead class="alert-info">
-		<tr>
-			<th> Email </th>
-			<th> Surname </th>
-			<th> First name </th>
-			<th> Middle name </th>
-			<th> Sex </th>
-			<th> Contact # </th>
-			<th> Position </th>
-		</tr>
-	</thead>
 
-	<tbody>     
-		<?php
-			$stmt = $conn->prepare("SELECT * FROM `tbl_user` WHERE `lname` LIKE '%$keyword%' or  `mi` LIKE '%$keyword%' or  `fname` LIKE '%$keyword%' 
-			or  `sex` LIKE '%$keyword%' or  `contact` LIKE '%$keyword%'
-			or `email` LIKE '%$keyword%'");
-			$stmt->execute();
-			
-			while($view = $stmt->fetch()){
-		?>
-			<tr>
-				<td> <?= $view['email'];?> </td>
-				<td> <?= $view['lname'];?> </td>
-				<td> <?= $view['fname'];?> </td>
-				<td> <?= $view['mi'];?> </td>
-				<td> <?= $view['sex'];?> </td>
-				<td> <?= $view['contact'];?> </td>
-				<td> <?= $view['position'];?> </td>
-			</tr>
-		<?php
-		}
-		?>
-	</tbody>
-</table>
 
+  
+		<?php
+$keywordLike = "%$keyword%";
+
+$stmt = $conn->prepare("
+SELECT * 
+FROM `tbl_user` 
+WHERE (`lname` LIKE ? OR  
+	   `mi` LIKE ? OR  
+	   `fname` LIKE ? OR 
+	   `sex` LIKE ? OR 
+	   `contact` LIKE ? OR 
+	   `email` LIKE ? OR 
+	   `position` LIKE ?)
+  AND `role` = 'staff'
+ORDER BY lname ASC
+");
+
+// Bind the parameters
+$stmt->execute([
+$keywordLike, $keywordLike, $keywordLike, 
+$keywordLike, $keywordLike, $keywordLike, 
+$keywordLike
+]);
+
+// Fetch the results
+$results = $stmt->fetchAll();
+?>
+    <div class="row" style = "display:flex">
+
+ <?php if ($stmt->rowCount() > 0) { ?>
+	<?php foreach ($results as $view) { ?>
+		<div class="col-md-4 mb-4"> <!-- Column for each card -->
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title"><?= htmlspecialchars($view['fname']) . ' ' . htmlspecialchars($view['lname']); ?></h5>
+					<p class="card-text">
+						<strong>Email:</strong> <?= htmlspecialchars($view['email']); ?><br>
+						<strong>Middle Name:</strong> <?= htmlspecialchars($view['mi']); ?><br>
+						<strong>Sex:</strong> <?= htmlspecialchars($view['sex']); ?><br>
+						<strong>Contact #:</strong> <?= htmlspecialchars($view['contact']); ?><br>
+						<strong>Position:</strong> <?= htmlspecialchars($view['position']); ?><br>
+					</p>
+				</div>
+			</div>
+		</div>
+	<?php } ?>
+<?php } ?>
+	
+
+</div>
 <?php		
 	}else{
 ?>
 
-<table class="table table-hover table-bordered text-center responsive">
-	<thead class="alert-info">
-		<tr>
-			<th> Email </th>
-			<th> Surname </th>
-			<th> First name </th>
-			<th> Middle name </th>
-			<th> Sex </th>
-			<th> Contact # </th>
-			<th> Position </th>
-		</tr>
-	</thead>
-	<tbody>
-		<?php if(is_array($view)) {?>
-			<?php foreach($view as $view) {?>
-				<tr>
-					<td> <?= $view['email'];?> </td>
-					<td> <?= $view['lname'];?> </td>
-					<td> <?= $view['fname'];?> </td>
-					<td> <?= $view['mi'];?> </td>
-					<td> <?= $view['sex'];?> </td>
-					<td> <?= $view['contact'];?> </td>
-					<td> <?= $view['position'];?> </td>
-				</tr>
-			<?php
-				}
-			?>
-		<?php
-			}
-		?>
-	</tbody>
-</table>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-modal/2.2.6/js/bootstrap-modalmanager.min.js" integrity="sha512-/HL24m2nmyI2+ccX+dSHphAHqLw60Oj5sK8jf59VWtFWZi9vx7jzoxbZmcBeeTeCUc7z1mTs3LfyXGuBU32t+w==" crossorigin="anonymous"></script>
-<!-- responsive tags for screen compatibility -->
-<meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no">
-<!-- custom css --> 
-<link href="../BarangaySystem/customcss/regiformstyle.css" rel="stylesheet" type="text/css">
-<!-- bootstrap css --> 
-<link href="../BarangaySystem/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"> 
-<!-- fontawesome icons -->
-<script src="https://kit.fontawesome.com/67a9b7069e.js" crossorigin="anonymous"></script>
-<script src="../BarangaySystem/bootstrap/js/bootstrap.bundle.js" type="text/javascript"> </script>
+<div class="row"> <!-- Start row -->
+    <?php if (is_array($view)) { ?>
+        <?php foreach ($view as $view) { ?>
+            <div class="col-md-4 mb-4"> <!-- Column for each card -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><?= htmlspecialchars($view['fname']) . ' ' . htmlspecialchars($view['lname']); ?></h5>
+                        <p class="card-text">
+                            <strong>Email:</strong> <?= htmlspecialchars($view['email']); ?><br>
+                            <strong>Middle Name:</strong> <?= htmlspecialchars($view['mi']); ?><br>
+                            <strong>Sex:</strong> <?= htmlspecialchars($view['sex']); ?><br>
+                            <strong>Contact #:</strong> <?= htmlspecialchars($view['contact']); ?><br>
+                            <strong>Position:</strong> <?= htmlspecialchars($view['position']); ?><br>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+    <?php } ?>
+</div> <!-- End row -->
+
 
 <?php
 	}
-$con = null;
+$conn = null;
+
+
 ?>
+
+
+<?php include('table_script.php'); ?>

@@ -126,7 +126,7 @@ th {
 /* Table Rows */
 td {
     text-align: center;
-    padding: 5px !important;
+    padding: 10px !important;
     vertical-align: middle !important;
     font-family: "PRegular" !important;
     font-size: 0.9rem;
@@ -172,6 +172,7 @@ td {
 .button-info {
     background-color: #014bae;
     padding: 7px;
+    border: none !important;
 }
 
 .fa-search, .fa-sync {

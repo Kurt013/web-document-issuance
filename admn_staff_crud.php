@@ -1,68 +1,19 @@
 <?php
     include('dashboard_sidebar_start.php');
+    include('table_design.php');
 
+    $conn = $staffbmis->openConn();
     $staffbmis->validate_admin();
     $view = $staffbmis->view_staff();
     $staffbmis->create_staff();
     $upstaff = $staffbmis->update_staff();
     $staffbmis->delete_staff();
     $staffcount = $staffbmis->count_staff();
+
     
 ?>
 <style>
-.container-fluid h1 {
-    color: white;
-            font-family: 'PExBold' !important;
-            font-size: 2.2rem;
-            text-shadow: 5px 5px 10px rgba(1, 60, 139, 0.9);
-            margin-top: 30px;
-            letter-spacing: 3px;
 
-            line-height: 42px;
-            -webkit-text-stroke: 7px #012049;
-            paint-order: stroke fill;
-}
-table {
-    width: auto; /* Let the table size itself based on content */
-    table-layout: auto; /* Cells adjust to their content */
-    border-collapse: collapse; /* Neat borders */
-   
-}
-
-/* Table cell styles */
-th, td {
-    padding: 10px; /* Add some space around content */
-    text-align: center; /* Center text horizontally */
-    vertical-align: middle; /* Center text vertically */
-    border: 1px solid #ddd; /* Add borders for clarity */
-    white-space: nowrap; /* Prevent text from wrapping */
-}
-
-td {
-    border: 2px solid white !important; /* Thicker border with custom color */
-}
-
-th {
-    background-color: #014bae;
-    color: white;
-    text-align: center; /* Horizontal alignment */
-    vertical-align: middle !important; /* Vertical alignment */
-    border: 2px solid white !important; /* Thicker border with custom color */
-    padding: 15px;
-    font-size: 1rem;
-    font-family: "PSemiBold" !important;
-    height: 60px; /* Adjust as needed to make the header row taller */
-}
-
-/* Table Rows */
-td {
-    text-align: center;
-    padding: 20px;
-    font-family: "PRegular" !important;
-    font-size: 0.9rem;
-    color: #333;
-    border-bottom: 1px solid #ddd;
-}
     .btn-open-popup {
     padding: 12px 24px;
     font-size: 1.2rem;
@@ -129,6 +80,7 @@ td {
   
     
 }
+
 
         .popup-box {
             background-color: #fff;
@@ -310,69 +262,233 @@ td {
     color: #2c91c9;
 }
 </style>
-<?php 
-?>
-<!-- Begin Page Content -->
+
+
+
 
 <div class="container-fluid">
 
     <!-- Page Heading -->
 
-    <div class="container-fluid">
-    <!-- Page Heading -->
-    <h1 class="mb-4 text-center">Barangay Staff Data</h1>
+    <div class="row"> 
+        <div class="col text-center"> 
+            <h1> Barangay Staff Directory</h1>
+        </div>
+    </div>
+
     <hr>
     <br><br>
 
-    <div class="row">
-        <!-- Table Column -->
-        <div class="col-md-12">
-            <table class="table table-hover text-center table-bordered responsive" id="dataTable" width="100%" cellspacing="0">
-                <form action="" method="post">
-                    <thead class="alert-info">
-                        <tr>
-                            <th> </th>
-                            <th> Username </th>
-                            <th> Email </th>
-                            <th> Surname </th>
-                            <th> First name </th>
-                            <th> Middle Initial </th>
-                            <th> Sex </th>
-                            <th> Contact </th>
-                            <th> Position </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (is_array($view)) { ?>
-                            <?php foreach ($view as $view) { ?>
-                                <tr>
-                                    <td>
-                                        <form action="" method="post">
-                                            <a href="update_staff_form.php?id_user=<?= $view['id_user']; ?>" style="width: 70px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" class="btn btn-success">  <i class="fas fa-edit"></i> </a>
-                                            <input type="hidden" name="id_user" value="<?= $view['id_user']; ?>">
-                                            <button class="btn btn-danger" type="submit" name="delete_staff" style="width: 70px; font-size: 17px; border-radius:30px;">  <i class="fas fa-archive"></i> </button>
-                                        </form>
-                                    </td>
-                                    <td> <?= $view['username']; ?> </td>
-                                    <td> <?= $view['email']; ?> </td>
-                                    <td> <?= $view['lname']; ?> </td>
-                                    <td> <?= $view['fname']; ?> </td>
-                                    <td> <?= $view['mi']; ?> </td>
-                                    <td> <?= $view['sex']; ?> </td>
-                                    <td> <?= $view['contact']; ?> </td>
-                                    <td> <?= $view['position']; ?> </td>
-                                </tr>
-                            <?php } ?>
-                        <?php } ?>
-                    </tbody>
-                </form>
-            </table>
+    <div class="search-row"> 
+    <div class="cols">
+<form class="searchbox" method="POST">
+                <div class="left-search">
+                    <input class = "searchinp" placeholder="Search" name ="keyword" />
+                    <div class = "btn-container">
+                    <button class="searchbtn" type="submit" value="search" name="search_totalstaff">
+                      <i class="fas fa-search"></i>
+                    </button>
+                    <button class="btns button-info" onclick="location.reload();">
+    <i class="fa fa-sync" aria-hidden="true"></i>
+</button>
+</div>
+</div>
+    </form>       
+        </div>
+</div>
+
+    <br>
+    <br>
+
+<style>
+/* Container for the cards */
+.col {
+
+    margin-bottom: 20px; /* Spacing between cards */
+}
+
+/* Card styling */
+.card {
+    position: relative; /* Make the card a positioning context */
+    border-left: 10px solid #014bae !important; /* Remove any default borders */
+    padding: 5px; /* Ensure space for content inside the card */
+    background: white; /* Card background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Optional shadow */
+    border-radius: 10px; /* Optional rounded corners */
+
+    overflow: hidden; /* Ensure content doesn't spill out */
+}
+
+
+
+/* Card hover effect */
+.card:hover {
+    transform: scale(1.02); /* Slightly enlarge the card */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Card body */
+.card-body {
+    padding: 20px;
+}
+
+/* Title styling */
+.card-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+	background-color: #014bae; /* Horizontal gradient */
+
+	padding:10px;
+	border-radius: 10px 10px 10px 0;
+
+
+    margin-bottom: 15px;
+	font-family: "PSemiBold";
+}
+
+/* Text styling */
+.card-text {
+    font-size: 1rem;
+	font-family: "PRegular" !important;
+	line-height: 25px;
+	
+    color: #555;
+}
+
+/* Strong text (labels) */
+.card-text strong {
+    color: #014bae;
+	font-family: "PRegular" !important;
+}
+.card-buttons {
+    position: absolute;
+    bottom: 10px; /* Position at the bottom */
+    right: 10px; /* Position at the left */
+}
+
+.card-buttons .btn {
+    width: 70px;
+    font-size: 17px;
+    border-radius: 30px;
+    margin-right: 5px; /* Space between buttons */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card {
+        max-width: 100%; /* Ensure cards use full width on smaller screens */
+    }
+}
+
+</style>
+<?php
+	// require the database connection
+	if(isset($_POST['search_totalstaff'])){
+		$keyword = $_POST['keyword'];
+?>
+
+
+
+  
+		<?php
+$keywordLike = "%$keyword%";
+
+$stmt = $conn->prepare("
+SELECT * 
+FROM `tbl_user` 
+WHERE (`lname` LIKE ? OR  
+	   `mi` LIKE ? OR  
+	   `fname` LIKE ? OR 
+	   `sex` LIKE ? OR 
+	   `contact` LIKE ? OR 
+	   `email` LIKE ? OR 
+	   `position` LIKE ?)
+  AND `role` = 'staff'
+ORDER BY lname ASC
+");
+
+// Bind the parameters
+$stmt->execute([
+$keywordLike, $keywordLike, $keywordLike, 
+$keywordLike, $keywordLike, $keywordLike, 
+$keywordLike
+]);
+
+// Fetch the results
+$results = $stmt->fetchAll();
+?>
+    <div class="row" style = "display:flex">
+
+ <?php if ($stmt->rowCount() > 0) { ?>
+	<?php foreach ($results as $view) { ?>
+		<div class="col-md-4 mb-4"> <!-- Column for each card -->
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title"><?= htmlspecialchars($view['fname']) . ' ' . htmlspecialchars($view['lname']); ?></h5>
+					<p class="card-text">
+						<strong>Email:</strong> <?= htmlspecialchars($view['email']); ?><br>
+						<strong>Middle Name:</strong> <?= htmlspecialchars($view['mi']); ?><br>
+						<strong>Sex:</strong> <?= htmlspecialchars($view['sex']); ?><br>
+						<strong>Contact #:</strong> <?= htmlspecialchars($view['contact']); ?><br>
+						<strong>Position:</strong> <?= htmlspecialchars($view['position']); ?><br>
+					</p>
+				</div>
+			</div>
+		</div>
+	<?php } ?>
+<?php } ?>
+
+</div>
+<?php		
+	}else{
+?>
+
+
+<div class="row"> <!-- Start row -->
+    <?php if (is_array($view)) { ?>
+        <?php foreach ($view as $view) { ?>
+            <div class="col-md-4 mb-4"> <!-- Column for each card -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><?= htmlspecialchars($view['fname']) . ' ' . htmlspecialchars($view['lname']); ?></h5>
+                        <p class="card-text">
+                            <strong>Email:</strong> <?= htmlspecialchars($view['email']); ?><br>
+                            <strong>Middle Name:</strong> <?= htmlspecialchars($view['mi']); ?><br>
+                            <strong>Sex:</strong> <?= htmlspecialchars($view['sex']); ?><br>
+                            <strong>Contact #:</strong> <?= htmlspecialchars($view['contact']); ?><br>
+                            <strong>Position:</strong> <?= htmlspecialchars($view['position']); ?><br>
+
+                        </p>
+                        <div class="card-buttons"> <!-- Buttons container -->
+            <form action="" method="post">
+                <a href="update_staff_form.php?id_user=<?= $view['id_user']; ?>" class="btn btn-success">  
+                    <i class="fas fa-edit"></i>
+                </a>
+                <input type="hidden" name="id_user" value="<?= $view['id_user']; ?>">
+                <button class="btn btn-danger" type="submit" name="delete_staff">  
+                    <i class="fas fa-archive"></i>
+                </button>
+            </form>
         </div>
 
-        <!-- Staff Count Column -->
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+    <?php } ?>
+</div> <!-- End row -->
 
- 
-</div>
+
+<?php
+	}
+$conn = null;
+
+
+?>
+
+
+<?php include('table_script.php'); ?>
 
 
 
