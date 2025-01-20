@@ -171,3 +171,15 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
+<script>    
+   $("#myTable").on('draw.dt', function(){
+        $('#myTable .dataTables_empty').html(`
+                <div style="text-align: center; padding: 20px !important; background-color: white !important; margin-top: 20px;">
+                    <img src="assets/notfound.png" alt="No Data Available" style="max-width: 500px; display: block;  padding: 0 !important; margin: 0 auto;>
+                        <p style="display: none;"><p>
+                    <p class="norec">No matching requests found.<p>
+                        <p class="norec2">It looks like your search didn’t match any existing requests. Try adjusting your search criteria or check back later.</p>
+                </div>
+            `);
+    });
+</script>

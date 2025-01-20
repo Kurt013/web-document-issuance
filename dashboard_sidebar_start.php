@@ -391,7 +391,7 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
                 <li class="nav-item">
                     <a class="nav-link" href="admn_staff_crud.php">
                         <i class="fas fa-user-tie"></i>
-                        <span>Barangay Staffs</span></a>
+                        <span>Barangay Staff</span></a>
                 </li>
             <?php } ?>
             
@@ -421,7 +421,7 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Barangay Services
+                Document Requests
             </div>
 
             <!-- Announcement Management -->

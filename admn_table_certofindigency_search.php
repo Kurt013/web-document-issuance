@@ -41,8 +41,8 @@ td:nth-child(11) { /* Business Name */
     <?php endif; ?>
     <div style="float: right; align-items:right; margin-bottom: -40px; position: relative; z-index: 10;">
         <form class="form-select" method="GET" action="">
-            <label for="list">Select List: </label>
-            <select name="list" id="list" onchange="this.form.submit()">
+            <label class = "selectlabel" for="list">Select List: </label>
+            <select name="list" id="list" class = "selectlist" onchange="this.form.submit()">
                 <option value="active" <?= (isset($_GET['list']) && $_GET['list'] == 'active') ? 'selected' : ''; ?>>Active</option>
                 <option value="archived" <?= (isset($_GET['list']) && $_GET['list'] == 'archived') ? 'selected' : ''; ?>>Archived</option>
             </select>
@@ -193,8 +193,8 @@ echo $list === 'active' ?
 ?>
  <div style="float: right; align-items:right; margin-bottom: -40px; position: relative; z-index: 10;">
     <form class="form-select" method="GET" action="">
-        <label for="list">Select List: </label>
-        <select name="list" id="list" onchange="this.form.submit()">
+        <label class = "selectlabel" for="list">Select List: </label>
+        <select name="list" id="list" class = "selectlist" onchange="this.form.submit()">
             <option value="active" <?= (isset($_GET['list']) && $_GET['list'] == 'active') ? 'selected' : ''; ?>>Active</option>
             <option value="archived" <?= (isset($_GET['list']) && $_GET['list'] == 'archived') ? 'selected' : ''; ?>>Archived</option>
         </select>

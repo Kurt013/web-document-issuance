@@ -366,12 +366,13 @@ outline:0;
     font-size: 1.1rem;
 }
 
-form label {
+.selectlabel {
          
          font-size: 1rem;
          color: #012049 !important;
-         font-family: "PSemiBold";
          text-align: left;
+         font-family: "PMedium" !important;
+       
      }
 
 .btn-primary {
@@ -385,7 +386,7 @@ form label {
 }
   
  
-form select  {
+.selectlist  {
                 font-family: "PMedium" !important;
                 font-size: 1rem;
                 border-radius: 5px;
@@ -698,5 +699,43 @@ form select  {
 
 #selectAllBtn:hover {
     background-color: #01378e;
+}
+
+.dataTables_empty {
+    padding:0 !important;
+    background-color: white !important;
+}
+
+.norec {
+    font-family: "PBold";
+    font-size: 2rem;
+    color: #014bae;
+}
+
+.notfound {
+    text-align: center; padding: 20px !important; background-color: white !important; margin-top: 30px;
+}
+
+.norec2 {
+    font-family: "PSemiBold";
+    font-size: 1rem;
+    color: #014bae;
+display: flex;   
+justify-content: center; 
+width: 650px;
+margin: 10px auto; /* Center horizontally with some spacing */
+
+}
+
+.btnqr {
+    margin-top: 10px; padding: 10px 20px; 
+    background-color: #2c91c9; 
+    color: white; 
+    font-size: 1rem; 
+    font-family: "PSemiBold";
+    border: none; 
+    border-radius: 50px; 
+    cursor: pointer; 
+    transition: background-color 0.3s;
 }
 </style>

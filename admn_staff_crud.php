@@ -53,17 +53,15 @@
       
 
         .form-control  {
-            font-family: "PRegular";
+            padding: 10px !important;
+            margin-top: 5px;
+            border: 1px solid #ccc !important;
+            border-radius: 8px;
             font-size: 1rem;
-            border-radius: 5px;
-            padding: 5px;
-            cursor: pointer;
-            margin-bottom: 10px;
-            color: black !important;
-            
-           
-          
-            
+            width: 100%;
+            box-sizing: border-box;
+            height: 100%;
+            font-family: "PRegular";
         }
 
         .form-control option:hover {
@@ -119,7 +117,7 @@
         .form-input {
             padding: 10px;
        
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             border: 1px solid #ccc;
             border-radius: 8px;
             font-size: 1rem;
@@ -581,7 +579,7 @@ $conn = null;
                                 <div class="form-group">
                                     <label class = "form-label">Position: </label>
                                     <select class="form-control" name="position" id="position" required>
-                                        <option value="">Choose your Position</option>
+                                        <option value="">Choose Staff Position</option>
                                         <option value="Kagawad">Kagawad</option>
                                         <option value="Chairman">Chairman</option>
                                     </select>
@@ -601,7 +599,7 @@ $conn = null;
                                 <div class="form-group" >
                                     <label class = "form-label">Sex</label>
                                     <select class="form-control" name="sex" id="sex" required>
-                                        <option value="">Choose your Sex</option>
+                                        <option value="">Choose Staff Sex</option>
                                         <option value="Male">Male</option>
                                         <option value="Female">Female</option>
                                     </select>

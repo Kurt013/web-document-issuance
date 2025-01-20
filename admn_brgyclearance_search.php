@@ -28,6 +28,87 @@ td:nth-child(11) { /* Business Name */
                 <i class="fa-solid fa-xmark close close-error"  onclick="closeToasterr()"></i>
                 <div class="progresserr progresserr-error"></div>
             </div>
+
+            <div style="float: right; align-items:right; margin-bottom: -40px; position: relative; z-index: 10;">
+        <form class="form-select" method="GET" action="">
+            <label class = "selectlabel" for="list">Select List: </label>
+            <select name="list" id="list" class = "selectlist" onchange="this.form.submit()">
+                <option value="active" <?= (isset($_GET['list']) && $_GET['list'] == 'active') ? 'selected' : ''; ?>>Active</option>
+                <option value="archived" <?= (isset($_GET['list']) && $_GET['list'] == 'archived') ? 'selected' : ''; ?>>Archived</option>
+            </select>
+        </form>
+    </div>
+
+   
+<?php if ($list === 'active') { ?>
+    <?php
+
+$sql = "SELECT * FROM tbl_clearance WHERE doc_status = :doc_status";
+$stmt = $conn->prepare($sql);
+
+// Bind the parameter
+$doc_status = 'accepted';
+$stmt->bindParam(':doc_status', $doc_status, PDO::PARAM_STR);
+
+// Execute the statement
+$stmt->execute();
+
+// Fetch all rows
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+ 
+
+if (count($result) == 0) {
+    echo '
+    <div style="text-align: center; padding: 20px !important; margin-top: 20px; margin-bottom: 50px">
+        <img src="assets/emptystate.png" alt="No Data Available" style="max-width: 600px; display: block; padding: 0 !important; margin: 0 auto;">
+        <p class="norec">Oops! No active requests right now.</p>
+        <p class="norec2">Currently, there are no active requests in your list. Click the button below to scan a QR code and quickly add a new request.</p>
+        <!-- Button added below the text -->
+<button class="btnqr" onclick="window.location.href=\'admn_scanqrcode.php\';">
+    <i class="fas fa-qrcode" style="margin-right: 8px;"></i> Scan QR Code
+</button>
+    </div>';
+
+    return;
+} 
+?>
+<?php } ?>
+
+<?php if ($list === 'archived') { ?>
+    <?php
+
+$sql = "SELECT * FROM tbl_clearance WHERE doc_status = :doc_status";
+$stmt = $conn->prepare($sql);
+
+// Bind the parameter
+$doc_status = 'archived';
+$stmt->bindParam(':doc_status', $doc_status, PDO::PARAM_STR);
+
+// Execute the statement
+$stmt->execute();
+
+// Fetch all rows
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+if (count($result) == 0) {
+    echo '
+    <div style="text-align: center; padding: 20px !important; margin-top: 20px; margin-bottom: 50px">
+        <img src="assets/emptystate.png" alt="No Data Available" style="max-width: 600px; display: block; padding: 0 !important; margin: 0 auto;">
+        <p class="norec">There are currently no archived requests.</p>
+        <p class="norec2">It looks like there are no archived requests in your list. You can add new requests or check back later.</p>
+        <!-- Button added below the text -->
+<button class="btnqr" onclick="window.location.href=\'admn_scanqrcode.php\';">
+    <i class="fas fa-qrcode" style="margin-right: 8px;"></i> Scan QR Code
+</button>
+    </div>';
+
+    return;
+} 
+?>
+<?php } ?>
+
 <?php
     $from = isset($_POST['from']) ? date('Y-m-d', strtotime($_POST['from'])) : date('Y-m-d');
     $to = isset($_POST['to']) ? date('Y-m-d', strtotime($_POST['to'])) : date('Y-m-d');
@@ -39,16 +120,6 @@ td:nth-child(11) { /* Business Name */
         <?php if (!empty($toast)): ?>
         <?= $toast; ?>
     <?php endif; ?>
-    <div style="float: right; align-items:right; margin-bottom: -40px; position: relative; z-index: 10;">
-        <form class="form-select" method="GET" action="">
-            <label for="list">Select List: </label>
-            <select name="list" id="list" onchange="this.form.submit()">
-                <option value="active" <?= (isset($_GET['list']) && $_GET['list'] == 'active') ? 'selected' : ''; ?>>Active</option>
-                <option value="archived" <?= (isset($_GET['list']) && $_GET['list'] == 'archived') ? 'selected' : ''; ?>>Archived</option>
-            </select>
-        </form>
-    </div>
-
  
 <table class="table table-border table-striped custom-table datatable mb-0" id="myTable">
 <thead class="alert-info">
@@ -189,8 +260,8 @@ echo $list === 'active' ?
 ?>
  <div style="float: right; align-items:right; margin-bottom: -40px; position: relative; z-index: 10;">
     <form class="form-select" method="GET" action="">
-        <label for="list">Select List: </label>
-        <select name="list" id="list" onchange="this.form.submit()">
+        <label class = "selectlabel" for="list">Select List: </label>
+        <select name="list" id="list" class = "selectlist" onchange="this.form.submit()">
             <option value="active" <?= (isset($_GET['list']) && $_GET['list'] == 'active') ? 'selected' : ''; ?>>Active</option>
             <option value="archived" <?= (isset($_GET['list']) && $_GET['list'] == 'archived') ? 'selected' : ''; ?>>Archived</option>
         </select>
