@@ -166,7 +166,7 @@ $results = $stmt->fetchAll();
     <?php } else { ?>
     </div>
     <div style="text-align: center; padding: 20px !important; background-color: transparent !important; margin-bottom: 20px;">
-                    <img src="assets/notfound.png" alt="No Data Available" style="max-width: 500px; display: block;  padding: 0 !important; margin: 0 auto;">
+                    <img src="assets/notfound.png" alt="No Data Available" style="max-width: 700px; display: block;  padding: 0 !important; margin: 0 auto;">
                         
                     <p class="norec">No staff found matching your search criteria.<p>
                         <p class="norec2">It seems no staff match your search. Try adjusting your search criteria or check back later.</p>
