@@ -210,7 +210,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 <head>
 <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Villa Gilda Resort || Forgot Password</title>
+  <title>Sinalhan Document Issuance System | Forgot Password</title>
 
   <!-- Favicon -->
   <link rel="icon" href="images/villa-gilda-logo3.png">
