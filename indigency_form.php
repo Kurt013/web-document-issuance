@@ -8,7 +8,6 @@
 
     $staffbmis->update_certofindigency();
     $staffbmis->accept_indigency();
-    $staffbmis->priceUpdate_indigency();
 
     $resident = $staffbmis->get_single_certofindigency();
 

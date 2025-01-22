@@ -15,7 +15,6 @@
     $staffcountf = $staffbmis->count_fstaff();
 
     $total_pending = $staffbmis->count_total_day();
-    $totalDailyEarnings = $staffbmis->getDailyEarnings();
 
 
    // Fetch document issuance counts for each month from January to the selected month

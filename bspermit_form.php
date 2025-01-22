@@ -8,7 +8,6 @@
 
     $staffbmis->update_bspermit();
     $staffbmis->accept_bspermit();
-    $staffbmis->priceUpdate_bspermit();
 
 
     $resident = $staffbmis->get_single_bspermit();

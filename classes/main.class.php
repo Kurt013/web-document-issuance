@@ -848,25 +848,6 @@ class BMISClass {
         }
     }
 
-
-    public function priceUpdate_rescert() {
-        if (isset($_GET['payment'])) {
-            $docID = $_GET['id_rescert'];
-            $payment = $_GET['payment'];
-            if ($payment === 'free') {
-                $price = 0;
-            }
-            else {
-                $price = 20;
-            }
-
-            $connection = $this->openConn();
-    
-            $stmt = $connection->prepare('UPDATE tbl_rescert SET price = ? WHERE id_rescert = ?');
-            $stmt->execute([$price, $docID]);
-        }
-    }
-    
     
     
  
@@ -1323,23 +1304,6 @@ class BMISClass {
     }
 
 
-    public function priceUpdate_indigency() {
-        if (isset($_GET['payment'])) {
-            $docID = $_GET['id_indigency'];
-            $payment = $_GET['payment'];
-            if ($payment === 'free') {
-                $price = 0;
-            }
-            else {
-                $price = 20;
-            }
-
-            $connection = $this->openConn();
-    
-            $stmt = $connection->prepare('UPDATE tbl_indigency SET price = ? WHERE id_indigency = ?');
-            $stmt->execute([$price, $docID]);
-        }
-    }
 
      //------------------------------------------ BRGY CLEARANCE CRUD -----------------------------------------------
 
@@ -1883,25 +1847,6 @@ class BMISClass {
     }
 
 
-public function priceUpdate_clearance() {
-    if (isset($_GET['payment'])) {
-        $docID = $_GET['id_clearance'];
-        $payment = $_GET['payment'];
-        if ($payment === 'free') {
-            $price = 0;
-        }
-        else {
-            $price = 20;
-        }
-
-        $connection = $this->openConn();
-
-        $stmt = $connection->prepare('UPDATE tbl_clearance SET price = ? WHERE id_clearance = ?');
-        $stmt->execute([$price, $docID]);
-    }
-}
-
-
   //------------------------------------------ Business Permit CRUD -----------------------------------------------
 
   public function get_latest_bspermit($id) {
@@ -2367,24 +2312,6 @@ public function priceUpdate_clearance() {
         }
     }
 
-    public function priceUpdate_bspermit() {
-        if (isset($_GET['payment'])) {
-            $docID = $_GET['id_bspermit'];
-            $payment = $_GET['payment'];
-            if ($payment === 'free') {
-                $price = 0;
-            }
-            else {
-                $price = 20;
-            }
-
-            $connection = $this->openConn();
-    
-            $stmt = $connection->prepare('UPDATE tbl_bspermit SET price = ? WHERE id_bspermit = ?');
-            $stmt->execute([$price, $docID]);
-        }
-    }
-
 
   //------------------------------------------ BRGY ID CRUD -----------------------------------------------
 
@@ -2485,23 +2412,6 @@ public function priceUpdate_clearance() {
         }  
     }
 
-    public function priceUpdate_brgyid() {
-        if (isset($_GET['payment'])) {
-            $docID = $_GET['id_brgyid'];
-            $payment = $_GET['payment'];
-            if ($payment === 'free') {
-                $price = 0;
-            }
-            else {
-                $price = 50;
-            }
-
-            $connection = $this->openConn();
-    
-            $stmt = $connection->prepare('UPDATE tbl_brgyid SET price = ? WHERE id_brgyid = ?');
-            $stmt->execute([$price, $docID]);
-        }
-    }
 
     public function set_temp_link($image) {
         $url = 'https://api.imgbb.com/1/upload';
@@ -3148,15 +3058,15 @@ public function priceUpdate_clearance() {
         $stmt = $connection->prepare("
             SELECT COUNT(*) 
             FROM (
-                SELECT id_rescert AS id FROM tbl_rescert WHERE doc_status = 'accepted' AND MONTH(created_on) = MONTH(CURDATE()) AND YEAR(created_on) = YEAR(CURDATE())
+                SELECT id_rescert AS id FROM tbl_rescert WHERE doc_status = 'archived' AND MONTH(created_on) = MONTH(CURDATE()) AND YEAR(created_on) = YEAR(CURDATE())
                 UNION ALL
-                SELECT id_bspermit AS id FROM tbl_bspermit WHERE doc_status = 'accepted' AND MONTH(created_on) = MONTH(CURDATE()) AND YEAR(created_on) = YEAR(CURDATE())
+                SELECT id_bspermit AS id FROM tbl_bspermit WHERE doc_status = 'archived' AND MONTH(created_on) = MONTH(CURDATE()) AND YEAR(created_on) = YEAR(CURDATE())
                 UNION ALL
-                SELECT id_clearance AS id FROM tbl_clearance WHERE doc_status = 'accepted' AND MONTH(created_on) = MONTH(CURDATE()) AND YEAR(created_on) = YEAR(CURDATE())
+                SELECT id_clearance AS id FROM tbl_clearance WHERE doc_status = 'archived' AND MONTH(created_on) = MONTH(CURDATE()) AND YEAR(created_on) = YEAR(CURDATE())
                 UNION ALL
-                SELECT id_indigency AS id FROM tbl_indigency WHERE doc_status = 'accepted' AND MONTH(created_on) = MONTH(CURDATE()) AND YEAR(created_on) = YEAR(CURDATE())
+                SELECT id_indigency AS id FROM tbl_indigency WHERE doc_status = 'archived' AND MONTH(created_on) = MONTH(CURDATE()) AND YEAR(created_on) = YEAR(CURDATE())
                 UNION ALL
-                SELECT id_brgyid AS id FROM tbl_brgyid WHERE doc_status = 'accepted' AND MONTH(created_on) = MONTH(CURDATE()) AND YEAR(created_on) = YEAR(CURDATE())
+                SELECT id_brgyid AS id FROM tbl_brgyid WHERE doc_status = 'archived' AND MONTH(created_on) = MONTH(CURDATE()) AND YEAR(created_on) = YEAR(CURDATE())
             ) AS combined_counts
         ");
         $stmt->execute();
@@ -3245,29 +3155,6 @@ public function priceUpdate_clearance() {
     }
 
     // -------------------------- DASHBOARD GENERATION REPORT ----------------------
-    public function getDailyEarnings() {
-       $conn = $this->openConn();       
-       
-       $stmt = $conn->prepare("
-    SELECT SUM(price) as total 
-         FROM (
-          SELECT price FROM tbl_rescert WHERE doc_status = 'archived' AND DATE(created_on) = CURDATE()
-          UNION ALL
-          SELECT price FROM tbl_indigency WHERE doc_status = 'archived' AND DATE(created_on) = CURDATE()
-          UNION ALL
-          SELECT price FROM tbl_clearance WHERE doc_status = 'archived' AND DATE(created_on) = CURDATE()
-          UNION ALL
-          SELECT price FROM tbl_bspermit WHERE doc_status = 'archived' AND DATE(created_on) = CURDATE()
-          UNION ALL
-          SELECT price FROM tbl_brgyid WHERE doc_status = 'archived' AND DATE(created_on) = CURDATE()
-         ) AS combined_prices
-    ");
-
-    $stmt->execute();
-    $totalEarnings = $stmt->fetchColumn();
-    return $totalEarnings;
-
-    }    
 
 
     public function daily_rescert_list() {

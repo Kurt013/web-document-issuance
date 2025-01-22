@@ -230,7 +230,6 @@ if (count($result) == 0) {
                         inc_city LIKE ? OR
                         inc_municipality LIKE ? OR
                         valid_until LIKE ? OR
-                        price LIKE ? OR
                         created_on LIKE ? OR
                         created_by LIKE ?) 
                     AND `doc_status` = ? ORDER BY created_on DESC
@@ -262,7 +261,6 @@ if (count($result) == 0) {
                         inc_city LIKE ? OR
                         inc_municipality LIKE ? OR
                         valid_until LIKE ? OR
-                        price LIKE ? OR
                         created_on LIKE ? OR
                         created_by LIKE ?)
                     AND doc_status = ?
@@ -280,7 +278,7 @@ if (count($result) == 0) {
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike,
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike,
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike,
-                $keywordLike, $pendingStatus,
+                $pendingStatus,
             ]):
             $stmt->execute([
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
@@ -289,7 +287,7 @@ if (count($result) == 0) {
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike,
-                $keywordLike, $list, $from, $to
+                $list, $from, $to
             ]);
         
         $views = $stmt->fetchAll();

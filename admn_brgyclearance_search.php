@@ -204,7 +204,6 @@ if (count($result) == 0) {
                         `city` LIKE ? OR 
                         `municipality` LIKE ? OR 
                         purpose LIKE ? OR
-                        price LIKE ? OR
                         created_by LIKE ? OR
                         created_on LIKE ?) 
                     AND `doc_status` = ? ORDER BY created_on DESC
@@ -225,7 +224,6 @@ if (count($result) == 0) {
                     `city` LIKE ? OR 
                     `municipality` LIKE ? OR 
                     purpose LIKE ? OR
-                    price LIKE ? OR
                     created_on LIKE ? OR
                     created_by LIKE ?)
                         AND doc_status = ?
@@ -238,14 +236,14 @@ if (count($result) == 0) {
         $list === 'active' ?
             $stmt->execute([
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
-                $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
+                $keywordLike, $keywordLike, $keywordLike, 
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike,
                 $keywordLike, $keywordLike, $pendingStatus,
             ]):
             $stmt->execute([
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
-                $keywordLike, $keywordLike, $keywordLike, $keywordLike,
+                $keywordLike, $keywordLike, $keywordLike,
                 $keywordLike, $keywordLike, $list, $from, $to
             ]);
         
