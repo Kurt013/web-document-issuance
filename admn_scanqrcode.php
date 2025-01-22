@@ -1,5 +1,7 @@
 <?php
   include('dashboard_sidebar_start.php');
+  include('popup.php');
+  include('table_design.php');
 ?>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="./js-components/instascan.min.js"></script>
@@ -76,6 +78,21 @@
         </div>
       </div>
     </div>
+
+
+      
+    <div class="toasterr" id = "toasterr" style = "border-left: 6px solid #D32F2F;" >
+                <div class="toasterr-content">
+                    <i class="fas fa-exclamation-triangle check" style = "background-color: #D32F2F;"></i>
+                    <div class="message">
+                    <span class="text text-1">Invalid QR Code Format</span>
+                    <span class="text text-2">You scanned a QR code with an invalid format.</span>
+                    </div>
+                </div>
+                <i class="fa-solid fa-xmark close close-error"  onclick="closeToasterr()"></i>
+                <div class="progresserr progresserr-error"></div>
+            </div>
+        
     <!-- end of simple popup-->
     
     <script>
@@ -88,6 +105,8 @@
     </script>
 
     <script type="text/javascript">
+      const toast = document.querySelector(".toasterr");
+      const progress = document.querySelector(".progresserr");
 let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
 let cameras = [];
 let isScanning = false; // Track if the scanner is already active
@@ -110,8 +129,19 @@ scanner.addListener('scan', function (content) {
     });
 
   } else {
-    alert("Invalid QR code format.");
+    toast.classList.add("active");
+    progress.classList.add("active");
+
+    // Set timers to remove 'active' class after 5 seconds for toast and 5.5 seconds for progress bar
+    timer1 = setTimeout(() => {
+        toast.classList.remove("active");
+    }, 5000);
+
+    timer2 = setTimeout(() => {
+        progress.classList.remove("active");
+    }, 5000);
   }
+
 
   // try {
   //   $.ajax({
@@ -142,7 +172,13 @@ scanner.addListener('scan', function (content) {
   // }
 });
 
+function closeToasterr() {
+    const toast = document.querySelector(".toasterr");
+    const progress = document.querySelector(".progresserr");
 
+    toast.classList.remove("active");
+    progress.classList.remove("active");
+}
 // Fetch available cameras and populate the dropdown
 Instascan.Camera.getCameras().then(function (availableCameras) {
   if (availableCameras.length > 0) {
