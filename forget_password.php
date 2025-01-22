@@ -213,7 +213,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
   <title>Sinalhan Document Issuance System | Forgot Password</title>
 
   <!-- Favicon -->
-  <link rel="icon" href="images/villa-gilda-logo3.png">
+  <link rel="icon" href="./assets/sinlogo.png" type="image/x-icon" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <!-- Stylesheets -->
   <link rel="stylesheet" type="text/css" href="css/general.css">

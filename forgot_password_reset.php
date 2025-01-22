@@ -182,7 +182,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sinalhan Document Issuance System | Reset Password</title>
-  <link rel="icon" href="images/villa-gilda-logo3.png">
+  <link rel="icon" href="assets/sinlogo.png" type="image/x-icon">
   <link rel="stylesheet" type="text/css" href="css/forgot_password_reset.css">
   <link rel="stylesheet" type="text/css" href="css/general.css">
   <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
