@@ -1,7 +1,7 @@
 function changePic(openTab) {
    // Define the dimensions of the popup window
-    var width = 800;
-    var height = 600;
+    var width = 500;
+    var height = 400;
 
     // Calculate the position to place the window in the center
     var left = (window.screen.width - width) / 2;

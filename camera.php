@@ -1,7 +1,45 @@
-    <div class="form">
-        <video id="video" autoplay style="display: inline-block; width: 400px; height: 400px"></video>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take a Picture (2x2)</title>
+
+    <style>
+    .form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .camera-select {
+        width: 100%;
+        padding: 5px;
+    }
+
+    .capture-button {
+        padding: 10px;
+        background-color: #012049;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    .capture-button:hover {
+        background-color: #001f3f;
+    }
+</style>
+</head>
+<body style="background-color: #014bae;">
+    
+
+
+
+<div class="form">
+        <video id="video" autoplay style="display: inline-block; width: 200px; height: 200px; object-fit: cover;"></video>
         <canvas id="canvas" style="display:none;"></canvas>
-        <label>
+        <label style="text-align: center; font-family: 'Arial'; color: white; font-weight: bold;">
         Select Camera:
         <select id="cameraSelect" class="camera-select"></select>
         </label>
@@ -77,16 +115,16 @@
             const videoHeight = video.videoHeight;
             const videoAspectRatio = videoWidth / videoHeight;
 
-            // Calculate dimensions for drawing on the canvas while maintaining aspect ratio
+            // Calculate dimensions for drawing on the canvas with object-fit: cover effect
             let drawWidth, drawHeight;
             if (videoAspectRatio > 1) {
-                // Video is wider than it is tall
-                drawWidth = canvas.width;
-                drawHeight = canvas.width / videoAspectRatio;
-            } else {
-                // Video is taller than it is wide
+                // Video is wider than it is tall (landscape)
                 drawHeight = canvas.height;
                 drawWidth = canvas.height * videoAspectRatio;
+            } else {
+                // Video is taller than it is wide (portrait)
+                drawWidth = canvas.width;
+                drawHeight = canvas.width / videoAspectRatio;
             }
 
             // Calculate position to center the image on the canvas
@@ -104,3 +142,5 @@
 
         });
     </script>
+    </body>
+</html>
