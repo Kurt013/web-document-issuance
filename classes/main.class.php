@@ -2982,10 +2982,13 @@ class BMISClass {
         $finfo = new finfo(FILEINFO_MIME_TYPE);
         $mimeType = $finfo->buffer($dataImg); 
 
-        $dataImg = base64_encode($dataImg);
+        $dataImgEncode = base64_encode($dataImg);
 
-
-        echo "<img id='res_photo' style='width: 100px; height: 100px; object-fit: cover;' src='data:{$mimeType};base64,{$dataImg}' alt='profile_photo'>";
+        if ($dataImg !== null) {
+            echo "<img id='res_photo' style='width: 100px; height: 100px; object-fit: cover;' src='data:{$mimeType};base64,{$dataImgEncode}' alt='profile_photo'>";
+        } else {
+            echo "<img id='res_photo' style='width: 100px; height: 100px; object-fit: cover;' src='assets/default.png' alt='profile_photo'>";
+        }
     }
 
     public function convertToJSON($dataImg) {
