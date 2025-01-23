@@ -189,10 +189,6 @@ if (isset($_GET['id_clearance'])) {
                     </div>
                     <form id="archiveForm" action="" method="post">
             <div class="button-dtls text-center">
-
-            <a class="btn btn-success" title="Generate" target="_blank" style="width: 70px; font-size: 17px;" href="clearance_form.php?id_clearance=<?= $row['id_clearance'];?><?php if ($doc_status === 'archived') echo '&status=archived';?>">
-    <i class="fas fa-cogs"></i>
-</a>
                 <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
                 <input type="hidden" name="id_clearance" value="<?= $row['id_clearance'];?>">
                 <button type="submit" id="hiddenSubmitBtn" style="display:none;" name="unarchive_clearance">Submit</button>

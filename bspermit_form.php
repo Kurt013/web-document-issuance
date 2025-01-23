@@ -12,22 +12,12 @@
 
     $resident = $staffbmis->get_single_bspermit();
 
-  // try {
-  //   foreach ($resident as $key => $value) {
-  //     if (empty($key)) {
-  //       throw new Exception("Field {$resident} is missing in the data.");
-  //     }
-  //   }
-  // } catch(Exception $e) {
-  //   echo "<script>document.querySelector('body').innerText = '{$e->getMessage()}'";
-  // }
-
   ?>
 <!DOCTYPE html>
 <html id="bspermit">
  <head>
     <meta charset="UTF-8">
-    <title>Barangay Information System</title>
+    <title>Business Permit Form</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     
     <link rel="icon" href="./assets/sinlogo.png" type="image/x-icon">

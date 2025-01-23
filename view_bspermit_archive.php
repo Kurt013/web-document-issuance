@@ -198,10 +198,6 @@ if (isset($_GET['id_bspermit'])) {
                     </div>
                     <form id="archiveForm" action="" method="post">
             <div class="button-dtls text-center">
-
-            <a class="btn btn-success" target="_blank" title = "Generate" style="width: 70px; font-size: 17px;" href="bspermit_form.php?id_bspermit=<?= $row['id_bspermit'];?><?php if ($doc_status === 'archived') echo '&status=archived';?>">
-    <i class="fas fa-cogs"></i>
-</a>
                 <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
                 <input type="hidden" name="id_bspermit" value="<?= $row['id_bspermit'];?>">
                 <button type="submit" id="hiddenSubmitBtn" style="display:none;" name="unarchive_bspermit">Submit</button>

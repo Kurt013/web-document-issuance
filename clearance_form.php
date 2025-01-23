@@ -17,7 +17,7 @@
 <html id="clearance">
  <head>
     <meta charset="UTF-8">
-    <title>Barangay Information System</title>
+    <title>Barangay Clearance Form</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <link rel="icon" href="./assets/sinlogo.png" type="image/x-icon">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
