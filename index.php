@@ -43,11 +43,6 @@
 
         <!-- responsive tags for screen compatibility -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
-        <link href="../BarangaySystem/customcss/pagestyle.css" rel="stylesheet" type="text/css">
-        
-        <link href="../BarangaySystem/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
-        
         <script src="https://kit.fontawesome.com/67a9b7069e.js" crossorigin="anonymous"></script>
         
         <?php include('loading.php'); ?>

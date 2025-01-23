@@ -117,17 +117,7 @@ scanner.addListener('scan', function (content) {
   let regex = /.*\/([a-zA-Z]+)_form\.php\?id_\1=(\d{4}-\d{2}-\d{2}-\d{3}|\d{4}-\d{3})/;
 
   if (regex.test(content)) {
-    document.getElementById('payment-popup').style.display = 'block';
-
-    document.getElementById('free').addEventListener('click', () => {
-      document.getElementById('payment-popup').style.display = 'none';
-      window.open(content + '&payment=free', '_blank');
-    });
-    document.getElementById('paid').addEventListener('click', () => {
-      document.getElementById('payment-popup').style.display = 'none';
-      window.open(content + '&payment=paid', '_blank');
-    });
-
+    window.open(content, '_blank');
   } else {
     toast.classList.add("active");
     progress.classList.add("active");

@@ -24,8 +24,6 @@ if (isset($_SESSION['toast'])) {
 ?>
 
 
-
-
 <!-- Begin Page Content -->
 <?php if (!empty($toast)): ?>
         <?= $toast; ?>

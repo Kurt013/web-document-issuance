@@ -206,7 +206,6 @@ if (count($result) == 0) {
                         `city` LIKE ? OR 
                         `municipality` LIKE ? OR 
                         purpose LIKE ? OR
-                        price LIKE ? OR
                         created_by LIKE ? OR
                         created_on LIKE ?) 
                     AND `doc_status` = ? ORDER BY created_on DESC
@@ -228,7 +227,6 @@ if (count($result) == 0) {
                     `city` LIKE ? OR 
                     `municipality` LIKE ? OR 
                     purpose LIKE ? OR
-                    price LIKE ? OR
                     created_on LIKE ? OR
                     created_by LIKE ?)
                         AND doc_status = ?
@@ -243,13 +241,13 @@ if (count($result) == 0) {
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike,
-                $keywordLike, $keywordLike, $keywordLike, $pendingStatus
+                $keywordLike, $keywordLike, $pendingStatus
             ]):
             $stmt->execute([
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike,
-                $keywordLike, $keywordLike, $keywordLike, $list, $from, $to
+                $keywordLike, $keywordLike, $list, $from, $to
             ]);
         
         $views = $stmt->fetchAll();
@@ -273,12 +271,12 @@ if (count($result) == 0) {
             <!-- delete payment -->
             <td>    
             <form id="archiveForm" action="" method="post">
-                <a class="btn btn-success" target="_blank" title="Generate" style="width: 70px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" href="indigency_form.php?id_indigency=<?= $view['id_indigency'];?><?php if ($list === 'archived') echo '&status=archived';?>"> <i class="fas fa-cogs"></i></a> 
                 <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
                 <input type="hidden" name="id_indigency" value="<?= $view['id_indigency'];?>">
                 <?php
 echo $list === 'active' ? 
 // Display both buttons if the status is active
+'<a class="btn btn-success" target="_blank" title="Generate" style="width: 70px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" href="indigency_form.php?id_indigency='.$view['id_indigency'].'"> <i class="fas fa-cogs"></i></a>'. 
 
 '<a href="javascript:void(0);" class="btn btn-primary" title="View Details" onclick="openPopup(\'view_indigency.php?id_indigency=' . urlencode($view['id_indigency']) . '\')" style="width: 70px; font-size: 17px; border-radius:30px;">
 <i class="fa fa-eye"></i>
@@ -370,12 +368,12 @@ echo $list === 'active' ?
             <!-- delete payment -->
             <td>    
             <form id="archiveForm" action="" method="post">
-                <a class="btn btn-success" title="Generate" target="_blank" style="width: 70px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" href="indigency_form.php?id_indigency=<?= $view['id_indigency'];?><?php if ($list === 'archived') echo '&status=archived';?>"> <i class="fas fa-cogs"></i></a> 
                 <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
                 <input type="hidden" name="id_indigency" value="<?= $view['id_indigency'];?>">
                 <?php
 echo $list === 'active' ? 
     // Display both buttons if the status is active
+'<a class="btn btn-success" target="_blank" title="Generate" style="width: 70px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" href="indigency_form.php?id_indigency='.$view['id_indigency'].'"> <i class="fas fa-cogs"></i></a>'. 
     
 '<a href="javascript:void(0);" class="btn btn-primary" title="View Details" onclick="openPopup(\'view_indigency.php?id_indigency=' . urlencode($view['id_indigency']) . '\')" style="width: 70px; font-size: 17px; border-radius:30px;">
     <i class="fa fa-eye"></i>

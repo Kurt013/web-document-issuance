@@ -7,7 +7,6 @@
 
     $staffbmis->update_clearance();
     $staffbmis->accept_clearance();
-    $staffbmis->priceUpdate_clearance();
 
     $resident = $staffbmis->get_single_clearance();
 

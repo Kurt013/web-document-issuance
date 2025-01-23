@@ -230,7 +230,6 @@ if (count($result) == 0) {
                         inc_city LIKE ? OR
                         inc_municipality LIKE ? OR
                         valid_until LIKE ? OR
-                        price LIKE ? OR
                         created_on LIKE ? OR
                         created_by LIKE ?) 
                     AND `doc_status` = ? ORDER BY created_on DESC
@@ -262,7 +261,6 @@ if (count($result) == 0) {
                         inc_city LIKE ? OR
                         inc_municipality LIKE ? OR
                         valid_until LIKE ? OR
-                        price LIKE ? OR
                         created_on LIKE ? OR
                         created_by LIKE ?)
                     AND doc_status = ?
@@ -280,7 +278,7 @@ if (count($result) == 0) {
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike,
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike,
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike,
-                $keywordLike, $pendingStatus,
+                $pendingStatus,
             ]):
             $stmt->execute([
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
@@ -289,7 +287,7 @@ if (count($result) == 0) {
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike, 
                 $keywordLike, $keywordLike, $keywordLike, $keywordLike,
-                $keywordLike, $list, $from, $to
+                $list, $from, $to
             ]);
         
         $views = $stmt->fetchAll();
@@ -316,14 +314,13 @@ if (count($result) == 0) {
             <!-- delete payment -->
             <td>    
             <form id="archiveForm" action="" method="post">
-                <a class="btn btn-success" target="_blank" title = "Generate" style="width: 70px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" href="brgyid_form.php?id_brgyid=<?= $view['id_brgyid'];?><?php if ($list === 'archived') echo '&status=archived';?>"> <i class="fas fa-cogs"></i></a> 
                 <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
                 <input type="hidden" name="id_brgyid" value="<?= $view['id_brgyid'];?>">
                 <button type="submit" id="hiddenSubmitBtn" style="display:none;" name="archive_brgyid">Submit</button>
                 <?php
 echo $list === 'active' ? 
 // Display both buttons if the status is active
-
+'<a class="btn btn-success" target="_blank" title = "Generate" style="width: 70px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" href="brgyid_form.php?id_brgyid='.$view['id_brgyid'].'"> <i class="fas fa-cogs"></i></a>'.
 '<a href="javascript:void(0);" class="btn btn-primary" title = "View Details" onclick="openPopup(\'view_brgyid.php?id_brgyid=' . urlencode($view['id_brgyid']) . '\')" style="width: 70px; font-size: 17px; border-radius:30px;">
 <i class="fa fa-eye"></i>
 </a>' :
@@ -421,12 +418,12 @@ echo $list === 'active' ?
             <!-- delete payment -->
             <td>    
             <form id="archiveForm" action="" method="post">
-                <a class="btn btn-success" target="_blank" title = "Generate" style="width: 70px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" href="brgyid_form.php?id_brgyid=<?= $view['id_brgyid'];?><?php if ($list === 'archived') echo '&status=archived';?>"> <i class="fas fa-cogs"></i></a> 
                 <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
                 <input type="hidden" name="id_brgyid" value="<?= $view['id_brgyid'];?>">
                 <?php
 echo $list === 'active' ? 
     // Display both buttons if the status is active
+'<a class="btn btn-success" target="_blank" title = "Generate" style="width: 70px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" href="brgyid_form.php?id_brgyid='.$view['id_brgyid'].'"> <i class="fas fa-cogs"></i></a>'.
     
 '<a href="javascript:void(0);" class="btn btn-primary" title = "View Details" onclick="openPopup(\'view_brgyid.php?id_brgyid=' . urlencode($view['id_brgyid']) . '\')" style="width: 70px; font-size: 17px; border-radius:30px;">
     <i class="fa fa-eye"></i>

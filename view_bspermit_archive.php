@@ -44,7 +44,7 @@ $role = $user['role'];
     require 'vendor/autoload.php';
 
     $conn = $staffbmis->openConn();
-    $staffbmis->validate_admin();
+    $staffbmis->validate_staff();
     $staffbmis->view_unarchive_bspermit();
     // $staffbmis->archive_bspermit();
 

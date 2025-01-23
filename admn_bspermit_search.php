@@ -271,13 +271,12 @@ if (count($result) == 0) {
             <td> <?= $view['aoe'];?> </td>
             <td>    
             <form id="archiveForm" action="" method="post">
-                <a class="btn btn-success" title = "Generate" target="_blank" style="width: 70px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" href="bspermit_form.php?id_bspermit=<?= $view['id_bspermit'];?><?php if ($list === 'archived') echo '&status=archived';?>"> <i class="fas fa-cogs"></i></a> 
                 <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
                 <input type="hidden" name="id_bspermit" value="<?= $view['id_bspermit'];?>">
                 <?php
 echo $list === 'active' ? 
 // Display both buttons if the status is active
-
+'<a class="btn btn-success" target="_blank" title = "Generate" style="width: 70px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" href="bspermit_form.php?id_bspermit='.$view['id_bspermit'].'"> <i class="fas fa-cogs"></i></a>'.   
 '<a href="javascript:void(0);" class="btn btn-primary" title = "View Details" onclick="openPopup(\'view_bspermit.php?id_bspermit=' . urlencode($view['id_bspermit']) . '\')" style="width: 70px; font-size: 17px; border-radius:30px;">
 <i class="fa fa-eye"></i>
 </a>' :
@@ -370,13 +369,12 @@ echo $list === 'active' ?
             <td> <?= $view['aoe'];?> </td>
             <td>    
             <form id="archiveForm" action="" method="post">
-                <a class="btn btn-success" target="_blank" title = "Generate" style="width: 70px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" href="bspermit_form.php?id_bspermit=<?= $view['id_bspermit'];?><?php if ($list === 'archived') echo '&status=archived';?>"> <i class="fas fa-cogs"></i></a> 
                 <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
                 <input type="hidden" name="id_bspermit" value="<?= $view['id_bspermit'];?>">
                 <?php
 echo $list === 'active' ? 
     // Display both buttons if the status is active
-    
+    '<a class="btn btn-success" target="_blank" title = "Generate" style="width: 70px; font-size: 17px; border-radius:30px; margin-bottom: 2px;" href="bspermit_form.php?id_bspermit='.$view['id_bspermit'].'"> <i class="fas fa-cogs"></i></a>'.   
 '<a href="javascript:void(0);" class="btn btn-primary" title = "View Details" onclick="openPopup(\'view_bspermit.php?id_bspermit=' . urlencode($view['id_bspermit']) . '\')" style="width: 70px; font-size: 17px; border-radius:30px;">
     <i class="fa fa-eye"></i>
 </a>' :

@@ -34,7 +34,6 @@
       <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
       <!-- responsive tags for screen compatibility -->
       <meta name="viewport" content="width=device-width, initial-scale=1"><!-- bootstrap css --> 
-      <link href="../BarangaySystem/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
       <!-- fontawesome icons --> 
       <script src="https://kit.fontawesome.com/67a9b7069e.js" crossorigin="anonymous"></script>

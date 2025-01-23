@@ -3,6 +3,7 @@
     
     require('classes/main.class.php');
     $bmis->create_admin();
+    $bmis->validate_admin();
     $userdetails = $bmis->get_userdata();
 
     print_r($userdetails);
@@ -15,7 +16,7 @@
         <meta charset="UTF-8">
         <link href="css/sb-admin-2.min.css" rel="stylesheet">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title> Sinalhan Document Issuance System | Create Admin </title>
     </head>
     <body>
 
