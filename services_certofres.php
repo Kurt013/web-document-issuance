@@ -1033,5 +1033,5 @@ h2 {
     </body>
 </html>
   
-<?php include('validation_script.php')?>
+
         
