@@ -271,7 +271,7 @@ if (count($result) == 0) {
             <td> <?= $view['aoe'];?> </td>
             <td>    
             <form id="archiveForm" action="" method="post">
-                <input type="hidden" name="id" value="<?= $userdetails['fname']; ?> <?= $userdetails['lname'];?>">
+                <input type="hidden" name="id" value="<?= $userdetails['firstname']; ?> <?= $userdetails['surname'];?>">
                 <input type="hidden" name="id_bspermit" value="<?= $view['id_bspermit'];?>">
                 <?php
 echo $list === 'active' ? 
@@ -369,7 +369,7 @@ echo $list === 'active' ?
             <td> <?= $view['aoe'];?> </td>
             <td>    
             <form id="archiveForm" action="" method="post">
-                <input type="hidden" name="id" value="<?= $userdetails['fname']; ?> <?= $userdetails['lname'];?>">
+                <input type="hidden" name="id" value="<?= $userdetails['firstname']; ?> <?= $userdetails['surname'];?>">
                 <input type="hidden" name="id_bspermit" value="<?= $view['id_bspermit'];?>">
                 <?php
 echo $list === 'active' ? 

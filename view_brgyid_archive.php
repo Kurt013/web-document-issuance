@@ -257,7 +257,7 @@ if (isset($_GET['id_brgyid'])) {
                     <form id="archiveForm" action="" method="post">
             <div class="button-dtls text-center">
 
-                <input type="hidden" name="id" value="<?= $userdetails['fname']; ?> <?= $userdetails['lname'];?>">
+                <input type="hidden" name="id" value="<?= $userdetails['firstname']; ?> <?= $userdetails['surname'];?>">
                 <input type="hidden" name="id_brgyid" value="<?= $row['id_brgyid'];?>">
                 <button type="submit" id="hiddenSubmitBtn" style="display:none;" name="unarchive_brgyid">Submit</button>
                 

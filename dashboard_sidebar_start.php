@@ -7,7 +7,6 @@ include 'classes/staff.class.php';
 
 date_default_timezone_set('Asia/Manila');
 
-$staffbmis->validate_staff();
 
 // Fetch user details
 $userdetails = $staffbmis->get_userdata();
@@ -29,6 +28,7 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
     ]);
     exit; // Stop further execution for AJAX request
 }
+
 
 
 // Fetch user data for non-AJAX requests

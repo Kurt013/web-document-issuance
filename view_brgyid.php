@@ -264,7 +264,7 @@ if (isset($_GET['id_brgyid'])) {
             <a class="btn btn-success" target="_blank" title = "Generate" style="width: 70px; font-size: 17px;" href="brgyid_form.php?id_brgyid=<?= $row['id_brgyid'];?><?php if ($doc_status === 'archived') echo '&status=archived';?>">
     <i class="fas fa-cogs"></i>
 </a>
-                <input type="hidden" name="id" value="<?= $userdetails['fname']; ?> <?= $userdetails['lname'];?>">
+                <input type="hidden" name="id" value="<?= $userdetails['firstname']; ?> <?= $userdetails['surname'];?>">
                 <input type="hidden" name="id_brgyid" value="<?= $row['id_brgyid'];?>">
                 <button type="submit" id="hiddenSubmitBtn" style="display:none;" name="archive_brgyid">Submit</button>
                 

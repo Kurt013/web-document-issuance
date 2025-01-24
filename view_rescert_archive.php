@@ -188,7 +188,7 @@ if (isset($_GET['id_rescert'])) {
                     <form id="archiveForm" action="" method="post">
             <div class="button-dtls text-center">
 
-                <input type="hidden" name="id" value="<?= $userdetails['fname']; ?> <?= $userdetails['lname'];?>">
+                <input type="hidden" name="id" value="<?= $userdetails['firstname']; ?> <?= $userdetails['surname'];?>">
                 <input type="hidden" name="id_rescert" value="<?= $row['id_rescert'];?>">
                 <button type="submit" id="hiddenSubmitBtn" style="display:none;" name="unarchive_rescert">Submit</button>
                 

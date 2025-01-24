@@ -267,7 +267,7 @@ if (count($result) == 0) {
             <!-- delete payment -->
             <td>    
             <form id="archiveForm" action="" method="post">
-                <input type="hidden" name="id" value="<?= $userdetails['fname']; ?> <?= $userdetails['lname'];?>">
+                <input type="hidden" name="id" value="<?= $userdetails['firstname']; ?> <?= $userdetails['surname'];?>">
                 <input type="hidden" name="id_clearance" value="<?= $view['id_clearance'];?>">
                 <?php
 echo $list === 'active' ? 
@@ -362,7 +362,7 @@ echo $list === 'active' ?
             <!-- delete payment -->
             <td>    
             <form id="archiveForm" action="" method="post">
-                <input type="hidden" name="id" value="<?= $userdetails['fname']; ?> <?= $userdetails['lname'];?>">
+                <input type="hidden" name="id" value="<?= $userdetails['firstname']; ?> <?= $userdetails['surname'];?>">
                 <input type="hidden" name="id_clearance" value="<?= $view['id_clearance'];?>">
                 <?php
 echo $list === 'active' ? 
