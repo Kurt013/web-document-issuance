@@ -170,7 +170,7 @@ if (count($result) == 0) {
         <th> Issuance No. </th> 
         <th> Surname </th>
         <th> First Name </th>
-        <th> Middle Initial</th> 
+        <th> Middle Name</th> 
         <th> Age </th>
         <th> Nationality </th>
         <th> House No. </th> <!--hide -->
@@ -320,7 +320,7 @@ echo $list === 'active' ?
         <th> Issuance No.</th>
         <th> Surname </th>
         <th> First Name </th>
-        <th> Middle Initial </th> <!-- hide -->
+        <th> Middle Name </th> <!-- hide -->
         <th> Age </th> 
         <th> Nationality </th> <!-- hide -->
         <th> House No. </th> <!-- hide -->

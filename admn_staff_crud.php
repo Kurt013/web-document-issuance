@@ -56,8 +56,8 @@ if (isset($_SESSION['toast'])) {
 
                 <div class="col">
                     <div class="form-group">
-                        <label class="form-label">Middle Initial:</label>
-                        <input type="text" class="form-input mid-ini" name="mi" id = "mi" placeholder="Enter Middle Initial" data-tr-rules="required|length:1|only:string" required>
+                        <label class="form-label">Middle Name:</label>
+                        <input type="text" class="form-input mid-ini" name="mi" id = "mi" placeholder="Enter Middle Name" data-tr-rules="required|length:1|only:string" required>
                         <div class= "feedback-error" data-tr-feedback="mi"></div>
                     </div>
                 </div>

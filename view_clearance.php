@@ -108,7 +108,7 @@ if (isset($_GET['id_clearance'])) {
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label>Middle Initial</label>
+                <label>Middle Name</label>
                 <input class="form-control" type="text" value="<?php echo htmlspecialchars($row['mi']); ?>" readonly>
             </div>
         </div>

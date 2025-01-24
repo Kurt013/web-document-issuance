@@ -182,7 +182,7 @@ if (count($result) == 0) {
         <th> ID No. </th>
         <th> Surname </th>
         <th> First Name </th>
-        <th> Middle Initial</th>
+        <th> Middle Name</th>
         <th> House No. </th>
         <th> Street </th>
         <th> Barangay </th>
@@ -365,7 +365,7 @@ echo $list === 'active' ?
         <th> ID No. </th> 
         <th> Surname </th>
         <th> First Name </th>
-        <th> Middle Initial</th> <!-- hide -->
+        <th> Middle Name</th> <!-- hide -->
         <th> House No. </th> <!-- hide -->
         <th> Street </th> <!-- hide -->
         <th> Barangay </th> <!-- hide -->

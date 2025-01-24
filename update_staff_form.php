@@ -144,7 +144,7 @@ form input {
                       <div class="row mb-3">
                           <div class="col-md-11">
                               <div class="form-group">
-                                  <label> Middle Initial: </label> </br>
+                                  <label> Middle Name: </label> </br>
                                   <input type="text" class="form-dtls" name="mi" placeholder="Enter Middle Name" value="<?= $staff['mi']; ?>">
                               </div>
                           </div>

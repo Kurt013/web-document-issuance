@@ -1,28 +1,27 @@
+<style>
+input.is-invalid,
+textarea.is-invalid,
+select.is-invalid,
+input[type="file"].is-invalid {
+  border-left: 4px solid #ff0000 !important;
+  border-color: #ff0000 !important;
+}
+
+.invalid-feedback {
+    font-family: "PMedium";
+    color: red;
+    font-size: 0.8rem;
+    width: 80%;
+    margin-top: 1px;
+}
+
+
+</style>
+
 <script src="assets/index.umd.js"></script>
 <script>
   const tr = new Trivule();
   tr.init();
-</script>
-<script>
-try {
-  fetch(new Request("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js", { method: 'HEAD', mode: 'no-cors' })).then(function(response) {
-    return true;
-  }).catch(function(e) {
-    var carbonScript = document.createElement("script");
-    carbonScript.src = "//cdn.carbonads.com/carbon.js?serve=CE7DC2JW&placement=wwwcssscriptcom";
-    carbonScript.id = "_carbonads_js";
-    document.getElementById("carbon-block").appendChild(carbonScript);
-  });
-} catch (error) {
-  console.log(error);
-}
-</script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-LLWL5N9CSM"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-LLWL5N9CSM');
 </script>
 <script>
     function capitalizeName(inputElement) {
@@ -106,11 +105,28 @@ try {
                 return;
         });
     }
+    function capitalizeFirstWord(inputElement) {
+        inputElement.addEventListener('input', function () {
+            // let value = this.value;
+
+            // // Capitalize the first letter of the first word and leave the rest unchanged
+            // this.value = this.value
+            // .trim()
+            // .replace(/^\w/, letter => letter.toUpperCase());
+
+            // return;
+        });
+    }
 
     // Apply the capitalize function to both first name and last name
     capitalizeName(document.getElementById('fname'));
     capitalizeName(document.getElementById('lname'));
-    capitalizeNameNoSpace(document.getElementById('mi'));
+    capitalizeName(document.getElementById('street'));
+    capitalizeName(document.getElementById('houseno'));
+    capitalizeFirstWord(document.getElementById('custom_purpose'));
+    
+
+
     capitalizeNameNoSpace(document.getElementById('contact'));
     noSpace(document.getElementById('username'));
 </script>
@@ -356,4 +372,53 @@ function goback() {
     
 }
 </script>
+<script>
+    // Show feedback only when input is focused
+document.querySelectorAll("input, textarea").forEach((field) => {
+  const feedbackElement = field.closest(".form-group")?.querySelector(".invalid-feedback");
 
+  if (feedbackElement) {
+    // Add event listener for focus
+    field.addEventListener("focus", () => {
+      feedbackElement.style.display = "block"; // Show feedback on focus
+    });
+
+    // Add event listener for blur
+    field.addEventListener("blur", () => {
+      feedbackElement.style.display = "none"; // Hide feedback on blur
+    });
+  }
+});
+</script>
+<script>
+        function toggleNA(inputId) {
+        var inputField = document.getElementById(inputId);
+        var inputFeedback = document.getElementById('mi-feedback');
+
+        if (document.getElementById(inputId + '_na').checked) {
+            inputField.value = 'N/A';
+            inputField.readOnly = true;
+            inputField.classList.remove('is-invalid');
+            inputFeedback.innerHTML = '';
+            
+        } else {
+            inputField.value = '';
+            inputField.readOnly = false;
+        }
+    }
+</script>
+<script>
+        function toggleCustomPurpose() {
+            const purposeSelect = document.getElementById('purpose');
+            const customPurposeContainer = document.getElementById('customPurposeContainer');
+            const customPurposeInput = document.getElementById('custom_purpose');
+
+            if (purposeSelect.value === 'Other') {
+                customPurposeContainer.style.display = 'block';
+                customPurposeInput.required = true;
+            } else {
+                customPurposeContainer.style.display = 'none';
+                customPurposeInput.required = false;
+            }
+        }
+</script>

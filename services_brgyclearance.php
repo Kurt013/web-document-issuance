@@ -771,9 +771,9 @@ h2 {
                                     </div>
                                     <div class="col">
                                         <div class="form-group">
-                                            <label for="mi" class = "form-label">Middle Initial </label>
+                                            <label for="mi" class = "form-label">Middle Name </label>
                                             <input name="mi" type="text" class = "form-input"
-                                            placeholder="Enter Middle Initial" required>
+                                            placeholder="Enter Middle Name" required>
                                         </div>
                                     </div>
                                     <div class="col">
@@ -804,7 +804,7 @@ h2 {
                                 <div class="row">
                                     <div class="col">
                                         <div class="form-group">
-                                            <label class = "form-label"> Street: </label>
+                                            <label class = "form-label"> Street (Purok/Sitio/Village): </label>
                                             <input type="text" class = "form-input" name="street"  
                                             placeholder="Enter Street" required>
                                         </div>
