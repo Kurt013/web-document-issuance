@@ -905,7 +905,6 @@ h2 {
                                             <div id="customPurposeContainer" style="display:none; margin-top:10px;">
                                                 <input type="text" class="form-input" name="custom_purpose" id="custom_purpose" 
                                                 placeholder="Enter your purpose" >
-                                                <div class="invalid-feedback" data-tr-feedback="custom_purpose"></div>
                                             </div>
                                         </div>
                                     </div>  

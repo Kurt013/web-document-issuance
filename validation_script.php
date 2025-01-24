@@ -121,7 +121,8 @@ input[type="file"].is-invalid {
     // Apply the capitalize function to both first name and last name
     capitalizeName(document.getElementById('fname'));
     capitalizeName(document.getElementById('lname'));
-    capitalizeName(document.getElementById(''));
+    capitalizeName(document.getElementById('nationality'));
+    capitalizeName(document.getElementById('nationality'));
     capitalizeName(document.getElementById('street'));
     capitalizeName(document.getElementById('houseno'));
     capitalizeFirstWord(document.getElementById('custom_purpose'));
