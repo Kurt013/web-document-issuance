@@ -107,7 +107,7 @@ if (isset($_GET['id_indigency'])) {
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label>Middle Initial</label>
+                <label>Middle Name</label>
                 <input class="form-control" type="text" value="<?php echo htmlspecialchars($row['mi']); ?>" readonly>
             </div>
         </div>
@@ -197,7 +197,7 @@ if (isset($_GET['id_indigency'])) {
             <a class="btn btn-success" title="Generate" target="_blank" style="width: 70px; font-size: 17px;" href="indigency_form.php?id_indigency=<?= $row['id_indigency'];?><?php if ($doc_status === 'archived') echo '&status=archived';?>">
     <i class="fas fa-cogs"></i>
 </a>
-                <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
+                <input type="hidden" name="id" value="<?= $userdetails['fname']; ?> <?= $userdetails['lname'];?>">
                 <input type="hidden" name="id_indigency" value="<?= $row['id_indigency'];?>">
                 <button type="submit" id="hiddenSubmitBtn" style="display:none;" name="archive_certofindigency">Submit</button>
                 

@@ -182,7 +182,7 @@ if (count($result) == 0) {
         <th> ID No. </th>
         <th> Surname </th>
         <th> First Name </th>
-        <th> Middle Initial</th>
+        <th> Middle Name</th>
         <th> House No. </th>
         <th> Street </th>
         <th> Barangay </th>
@@ -314,7 +314,7 @@ if (count($result) == 0) {
             <!-- delete payment -->
             <td>    
             <form id="archiveForm" action="" method="post">
-                <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
+                <input type="hidden" name="id" value="<?= $userdetails['fname']; ?> <?= $userdetails['lname'];?>">
                 <input type="hidden" name="id_brgyid" value="<?= $view['id_brgyid'];?>">
                 <button type="submit" id="hiddenSubmitBtn" style="display:none;" name="archive_brgyid">Submit</button>
                 <?php
@@ -365,7 +365,7 @@ echo $list === 'active' ?
         <th> ID No. </th> 
         <th> Surname </th>
         <th> First Name </th>
-        <th> Middle Initial</th> <!-- hide -->
+        <th> Middle Name</th> <!-- hide -->
         <th> House No. </th> <!-- hide -->
         <th> Street </th> <!-- hide -->
         <th> Barangay </th> <!-- hide -->
@@ -418,7 +418,7 @@ echo $list === 'active' ?
             <!-- delete payment -->
             <td>    
             <form id="archiveForm" action="" method="post">
-                <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
+                <input type="hidden" name="id" value="<?= $userdetails['fname']; ?> <?= $userdetails['lname'];?>">
                 <input type="hidden" name="id_brgyid" value="<?= $view['id_brgyid'];?>">
                 <?php
 echo $list === 'active' ? 

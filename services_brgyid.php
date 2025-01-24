@@ -797,25 +797,59 @@ h2 {
                                 <div class="row"> 
                                     <div class="col">
                                         <div class="form-group">
-                                            <label class = "form-label" for="fname">First Name:</label>
-                                            <input name="fname" type="text" class="form-input" 
-                                            placeholder="Enter First Name" required>
-                                         
+                                            <label class= "form-label" for="fname">First Name:</label>
+                                            <input class= "form-input" name="fname" type="text" class="form-control" 
+                                            placeholder="Enter First Name"  
+                                            data-tr-rules="required|excludes:-,@,!,#,$,%,^,&,*,(,)|between:2,50|only:string"
+                                            id="fname"
+                                            required>
+                                            <div class="invalid-feedback" data-tr-feedback="fname"></div>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-group">
-                                            <label class ="form-label" for="mi" class="mtop">Middle Initial: </label>
-                                            <input name="mi" type="text" class="form-input" 
-                                            placeholder="Enter Middle Initial" required>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label class ="form-label" for="lname">Last Name:</label>
-                                            <input name="lname" type="text" class="form-input" 
-                                            placeholder="Enter Last Name"  required>
+                                            <label for="mi" class= "form-label">Middle Name: </label> <br>
+                                            <label for="mi_na" class="form-label">I have no middle name: </label>
+                                            <input type="checkbox" id="mi_na" onclick="toggleNA('mi')">
                                             
+                                            <input name="mi" type="text" class= "form-input" 
+                                            placeholder="Enter Middle Name"
+                                            data-tr-rules="required|excludes:-,@,!,#,$,%,^,&,*,(,)|between:2,25|only:string"
+                                            id="mi">
+                                            <div id="mi-feedback" class="invalid-feedback" data-tr-feedback="mi"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label class= "form-label" for="lname">Last Name:</label>
+                                            <input 
+                                            id="lname"
+                                            class = "form-input" 
+                                            name="lname" 
+                                            type="text" 
+                                            class="form-control" 
+                                            placeholder="Enter Last Name"  
+                                            data-tr-rules="required|excludes:-,@,!,#,$,%,^,&,*,(,)|between:2,25|only:string"
+                                            required
+                                            >
+                                            <div  class="invalid-feedback" data-tr-feedback="lname"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label class="form-label" for="suffix">Suffix:</label>
+                                            <select class="form-control" name="suffix" id="suffix" required>
+                                                <option value="">Select Suffix</option>
+                                                <option value="N/A">Not Applicable</option>
+                                                <option value="Jr.">Jr.</option>
+                                                <option value="Sr.">Sr.</option>
+                                                <option value="I">I</option>
+                                                <option value="II">II</option>
+                                                <option value="III">III</option>
+                                                <option value="IV">IV</option>
+                                                <option value="V">V</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -826,35 +860,44 @@ h2 {
                                         <div class="form-group">
                                             <label for="date"class ="form-label">Birthdate: </label>
                                             <input name="bdate" id="date" type="date" class="form-input" 
-                                             required>
-                                          
+                                            data-tr-rules="date|before:now"
+                                            required>
+                                            <div  class="invalid-feedback" data-tr-feedback="bdate"></div>
+                                            
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-group">
-                                            <label class ="form-label" for="precint_no">Precint No: </label>
-                                            <input name="precint_no" id="precint_no" class="form-input" required>
-                                          
+                                            <label class ="form-label" for="precint_no">Precint No (eg. 1234A): </label>
+                                            <input name="precint_no" id="precint_no" class="form-input"
+                                            data-tr-rules="required|excludes:-,@,!,#,$,%,^,&,*,(,)|regex:[0-9]{4}[A-D]|max:5"
+                                            required>
+                                            <div  class="invalid-feedback" data-tr-feedback="precint_no"></div>
                                         </div>
                                     </div>
                                 </div>
                                     
                                 <div class="row">
                                     <div class="col">
-                                        <div class="form-group">
-                                            <label class ="form-label"> House No: </label>
-                                            <input type="text" class="form-input" name="houseno"  
-                                            placeholder="Enter House No." required>
-                                           
+                                    <div class="form-group">
+                                            <label class= "form-label"> House No: </label>
+                                            <input id="houseno" type="text" class= "form-input" name="houseno"  
+                                            placeholder="Enter House No."  
+                                            data-tr-rules="required|excludes:-,@,!,#,$,%,^,&,*,(,)|maxlength:50"
+                                            required>
+                                            <div class="invalid-feedback" data-tr-feedback="houseno"></div>
                                         </div>
                                     </div>
 
                                     <div class="col">
                                         <div class="form-group">
-                                            <label class ="form-label"> Street: </label>
-                                            <input type="text" class="form-input" name="street"  
-                                            placeholder="Enter Street" required>
-                                           
+                                            <label class= "form-label"> Street (Purok/Sitio/Village): </label>
+                                            <input id="street" type="text" class= "form-input" name="street"  
+                                            placeholder="Enter Street"  
+                                            data-tr-rules="required|excludes:-,@,!,#,$,%,^,&,*,(,)|maxlength:50"
+                                            required>
+                                            <div class="invalid-feedback" data-tr-feedback="street"></div>
+
                                         </div>
                                     </div>
 
@@ -907,10 +950,9 @@ h2 {
                                 <div class="row">
 
                                     <div class="col">
-                                        <label class = "form-label">Barangay ID Photo:</label>
+                                        <label class = "form-label">Barangay ID Photo (Leave it blank if you want to take a pic in the Barangay Office):</label>
                                         <div class="custom-file mb-3 form-group">
-                                            <input type="file" onchange="readURL(this);" class ="form-input" id="customFile" name="res_photo" required>
-                                            
+                                            <input type="file" onchange="readURL(this);" class ="form-input" id="customFile" name="res_photo">
                                             
                                         </div>
                                     </div>
@@ -918,7 +960,7 @@ h2 {
                                     <div class="col">
                                      
                                         <br>
-                                        <img id="photoDisplay" src="assets/default.png" alt="your image" style="width: 40%; height: auto; margin-top: -10px" />
+                                        <img id="photoDisplay" src="assets/default.png" alt="your image" style="width: 200px; height: 200px; object-fit:cover;"  />
                                         <h6 class = "anq">Guidelines for ID Picture:</h6>
                                     <p>
                                         <ul style="font-size: 13.5px;">
@@ -971,10 +1013,14 @@ h2 {
 
                                 <div class="row">
                                     <div class="col">
-                                        <div class="form-group">
-                                            <label class ="form-label" for="inc_fname">First Name:</label>
-                                            <input id="inc_fname" name="inc_fname" type="text" class="form-input" placeholder="Enter First Name" required>
-
+                                    <div class="form-group">
+                                            <label class= "form-label" for="inc_fname">First Name:</label>
+                                            <input class= "form-input" name="inc_fname" type="text" class="form-control" 
+                                            placeholder="Enter First Name"  
+                                            data-tr-rules="required|excludes:-,@,!,#,$,%,^,&,*,(,)|between:2,50|only:string"
+                                            id="inc_fname"
+                                            required>
+                                            <div class="invalid-feedback" data-tr-feedback="inc_fname"></div>
                                         </div>
                                     </div>
 
@@ -983,24 +1029,42 @@ h2 {
                                 <div class="row">
 
                                     <div class="col">
-                                        <div class="form-group">
-                                            <label for="inc_mi" class ="form-label">Middle Name </label>
-                                            <input id="inc_mi" name="inc_mi" type="text" class="form-input" placeholder="Enter Middle Name" required>
-
+                                    <div class="form-group">
+                                            <label for="inc_mi" class= "form-label">Middle Name: </label> <br>
+                                            <label for="inc_mi_na" class="form-label">I have no middle name: </label>
+                                            <input type="checkbox" id="inc_mi_na" onclick="toggleNA('inc_mi')">
+                                            
+                                            <input name="inc_mi" type="text" class= "form-input" 
+                                            placeholder="Enter Middle Name"
+                                            data-tr-rules="required|excludes:-,@,!,#,$,%,^,&,*,(,)|between:2,25|only:string"
+                                            id="inc_mi">
+                                            <div id="inc_mi-feedback" class="invalid-feedback" data-tr-feedback="inc_mi"></div>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-group">
-                                            <label class ="form-label" for="inc_lname">Last Name:</label>
-                                            <input name="inc_lname" id="inc_lname" type="text" class="form-input" placeholder="Enter Last Name" required>
-
+                                                <label class= "form-label" for="inc_lname">Last Name:</label>
+                                                <input 
+                                                id="inc_lname"
+                                                class = "form-input" 
+                                                name="inc_lname" 
+                                                type="text" 
+                                                class="form-control" 
+                                                placeholder="Enter Last Name"  
+                                                data-tr-rules="required|excludes:-,@,!,#,$,%,^,&,*,(,)|between:2,25|only:string"
+                                                required
+                                                >
+                                                <div  class="invalid-feedback" data-tr-feedback="inc_lname"></div>
                                         </div>
                                     </div>
 
                                     <div class="col">
                                         <div class="form-group">            
                                             <label class ="form-label" for="cno">Contact Number:</label>
-                                            <input id="cno" name="inc_contact" type="text" maxlength="11" class="form-input" pattern="[0-9]{11}" placeholder="Enter Contact Number" required>
+                                            <input id="cno" name="inc_contact" type="text" class="form-input" placeholder="Enter Contact Number" 
+                                            data-tr-rules="required|regex:^09\d{9}$"
+                                            required>
+                                            <div  class="invalid-feedback" data-tr-feedback="inc_contact"></div>
 
                                         </div>
                                     </div>
@@ -1010,24 +1074,34 @@ h2 {
                                 <div class="row">
                                     <div class="col">
                                         <div class="form-group">
-                                            <label class ="form-label"> House No: </label>
-                                            <input type="text" class="form-input" name="inc_houseno"  placeholder="Enter House No." required>
-                                            
+                                            <label class= "form-label"> House No: </label>
+                                            <input id="inc_houseno" type="text" class= "form-input" name="inc_houseno"  
+                                            placeholder="Enter House No."  
+                                            data-tr-rules="required|excludes:-,@,!,#,$,%,^,&,*,(,)|maxlength:50"
+                                            required>
+                                            <div class="invalid-feedback" data-tr-feedback="inc_houseno"></div>
                                         </div>
                                     </div>
 
                                     <div class="col">
                                         <div class="form-group">
-                                            <label class ="form-label"> Street: </label>
-                                            <input type="text" class="form-input" name="inc_street"  placeholder="Enter Street" required>
-                                          
+                                            <label class= "form-label"> Street (Purok/Sitio/Village): </label>
+                                            <input id="inc_street" type="text" class= "form-input" name="inc_street"  
+                                            placeholder="Enter Street"  
+                                            data-tr-rules="required|excludes:-,@,!,#,$,%,^,&,*,(,)|maxlength:50"
+                                            required>
+                                            <div class="invalid-feedback" data-tr-feedback="inc_street"></div>
+
                                         </div>
                                     </div>
 
                                     <div class="col">
                                         <div class="form-group">
                                             <label class ="form-label"> Barangay: </label>
-                                            <input type="text" class="form-input" name="inc_brgy"  placeholder="Enter Barangay" required>
+                                            <input id="inc_brgy" type="text" class="form-input" name="inc_brgy"  
+                                            data-tr-rules="required|excludes:-,@,!,#,$,%,^,&,*,(,)|maxlength:30"
+                                            placeholder="Enter Barangay" required>
+                                            <div class="invalid-feedback" data-tr-feedback="inc_brgy"></div>
                                           
                                         </div>
                                     </div>
@@ -1035,16 +1109,20 @@ h2 {
                                     <div class="col">
                                         <div class="form-group">
                                             <label class ="form-label"> City: </label>
-                                            <input type="text" class="form-input" name="inc_city"  placeholder="Enter City" required>
-                                   
+                                            <input type="text" class="form-input" name="inc_city" id="inc_city" placeholder="Enter City" 
+                                            data-tr-rules="required|excludes:-,@,!,#,$,%,^,&,*,(,)|maxlength:40"
+                                            required>
+                                            <div class="invalid-feedback" data-tr-feedback="inc_city"></div>                                   
                                         </div>
                                     </div>
 
                                     <div class="col">
                                         <div class="form-group">
                                             <label class ="form-label"> Municipality: </label>
-                                            <input type="text" class="form-input" name="inc_municipality" placeholder="Enter Municipality" required>
-
+                                            <input type="text" class="form-input" name="inc_municipality" id="inc_municipality" placeholder="Enter municipality" 
+                                            data-tr-rules="required|excludes:-,@,!,#,$,%,^,&,*,(,)|maxlength:40"
+                                            required>
+                                            <div class="invalid-feedback" data-tr-feedback="inc_municipality"></div>                                   
                                         </div>
                                     </div>
                                 </div>
@@ -1086,7 +1164,10 @@ h2 {
 
 
         
-        <?php include('user-footer.php'); ?>
+        <?php include('user-footer.php'); 
+        
+        require('./validation_script.php');
+        ?>
         <script>
   document.getElementById('sidebar-toggle').addEventListener('click', function() {
         document.getElementById('sidebar').classList.remove('sidebar-hide');

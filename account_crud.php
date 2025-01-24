@@ -185,7 +185,7 @@ form input {
 
 <div class="row" >
                     <div class="col">
-                        <label class="form-group"> Middle Initial </label>
+                        <label class="form-group"> Middle Name </label>
                         <input style="text-transform: capitalize;" type="text" class="form-control" name="mi" Value="<?= $view['mi'];?>" readonly>
                     </div>
             

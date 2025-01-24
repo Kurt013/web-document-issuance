@@ -172,7 +172,7 @@ if (count($result) == 0) {
         <th> Issuance No. </th>
         <th> Surname </th>
         <th> First Name </th>
-        <th> Middle Initial</th>
+        <th> Middle Name</th>
         <th> Business Name </th>
         <th> House No. </th>
         <th> Street </th>
@@ -271,7 +271,7 @@ if (count($result) == 0) {
             <td> <?= $view['aoe'];?> </td>
             <td>    
             <form id="archiveForm" action="" method="post">
-                <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
+                <input type="hidden" name="id" value="<?= $userdetails['fname']; ?> <?= $userdetails['lname'];?>">
                 <input type="hidden" name="id_bspermit" value="<?= $view['id_bspermit'];?>">
                 <?php
 echo $list === 'active' ? 
@@ -323,7 +323,7 @@ echo $list === 'active' ?
         <th> Issuance No.</th>
         <th> Surname </th>
         <th> First Name </th>
-        <th> Middle Initial </th> <!-- hide -->
+        <th> Middle Name </th> <!-- hide -->
         <th> Business Name </th> 
         <th> House No. </th> <!-- hide -->
         <th> Street </th> <!-- hide -->
@@ -369,7 +369,7 @@ echo $list === 'active' ?
             <td> <?= $view['aoe'];?> </td>
             <td>    
             <form id="archiveForm" action="" method="post">
-                <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
+                <input type="hidden" name="id" value="<?= $userdetails['fname']; ?> <?= $userdetails['lname'];?>">
                 <input type="hidden" name="id_bspermit" value="<?= $view['id_bspermit'];?>">
                 <?php
 echo $list === 'active' ? 

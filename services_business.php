@@ -29,7 +29,6 @@
   <link rel="icon" href="./assets/sinlogo.png" type="image/x-icon">
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-modal/2.2.6/js/bootstrap-modalmanager.min.js" integrity="sha512-/HL24m2nmyI2+ccX+dSHphAHqLw60Oj5sK8jf59VWtFWZi9vx7jzoxbZmcBeeTeCUc7z1mTs3LfyXGuBU32t+w==" crossorigin="anonymous"></script>
-      <script src="./js-components/component-js-custompurpose.js"></script>
       <!-- responsive tags for screen compatibility -->
     
       <meta name="viewport" content="width=device-width, initial-scale=1"><!-- bootstrap css --> 
@@ -794,23 +793,58 @@ h2 {
                                 <div class="row"> 
                                     <div class="col">
                                         <div class="form-group">
-                                            <label class = "form-label" for="fname">First Name:</label>
-                                            <input class = "form-input" name="fname" type="text" class="form-control" placeholder="Enter your first name" required>
+                                            <label class= "form-label" for="fname">First Name:</label>
+                                            <input class= "form-input" name="fname" type="text" class="form-control" 
+                                            placeholder="Enter First Name"  
+                                            data-tr-rules="required|excludes:-,@,!,#,$,%,^,&,*,(,)|between:2,50|only:string"
+                                            id="fname"
+                                            required>
+                                            <div class="invalid-feedback" data-tr-feedback="fname"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                    <div class="form-group">
+                                            <label for="mi" class= "form-label">Middle Name: </label> <br>
+                                            <label for="mi_na" class="form-label">I have no middle name: </label>
+                                            <input type="checkbox" id="mi_na" onclick="toggleNA('mi')">
                                             
+                                            <input name="mi" type="text" class= "form-input" 
+                                            placeholder="Enter Middle Name"
+                                            data-tr-rules="required|excludes:-,@,!,#,$,%,^,&,*,(,)|between:2,25|only:string"
+                                            id="mi">
+                                            <div id="mi-feedback" class="invalid-feedback" data-tr-feedback="mi"></div>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-group">
-                                            <label for="mi" class = "form-label">Middle Initial </label>
-                                            <input name="mi" type="text" class = "form-input"  placeholder="Enter your middle initial" required>
-                                             
+                                            <label class= "form-label" for="lname">Last Name:</label>
+                                            <input 
+                                            id="lname"
+                                            class = "form-input" 
+                                            name="lname" 
+                                            type="text" 
+                                            class="form-control" 
+                                            placeholder="Enter Last Name"  
+                                            data-tr-rules="required|excludes:-,@,!,#,$,%,^,&,*,(,)|between:2,25|only:string"
+                                            required
+                                            >
+                                            <div  class="invalid-feedback" data-tr-feedback="lname"></div>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-group">
-                                            <label class = "form-label" for="lname">Last Name:</label>
-                                            <input name="lname" type="text" class = "form-input"  placeholder="Enter your last name" required>
-                                         
+                                            <label class="form-label" for="suffix">Suffix:</label>
+                                            <select class="form-control" name="suffix" id="suffix" required>
+                                                <option value="">Select Suffix</option>
+                                                <option value="N/A">Not Applicable</option>
+                                                <option value="Jr.">Jr.</option>
+                                                <option value="Sr.">Sr.</option>
+                                                <option value="I">I</option>
+                                                <option value="II">II</option>
+                                                <option value="III">III</option>
+                                                <option value="IV">IV</option>
+                                                <option value="V">V</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -819,7 +853,10 @@ h2 {
                                     <div class="col">
                                         <div class="form-group">
                                             <label class = "form-label" for="bsname">Business Name:</label>
-                                            <input name="bsname" type="text" class = "form-input" placeholder="Enter Business Name" required>
+                                            <input name="bsname" type="text" class = "form-input" placeholder="Enter Business Name" 
+                                            data-tr-rules="required|excludes:-,@,!,#,$,%,^,&,*,(,)|maxlength:30"
+                                            required>
+                                            <div class="invalid-feedback" data-tr-feedback="bsname"></div>
 
                                         </div>
                                     </div>
@@ -834,17 +871,24 @@ h2 {
                                 <div class="row">
                                     <div class="col">
                                         <div class="form-group">
-                                            <label class = "form-label"> House No: </label>
-                                            <input type="text" class = "form-input" name="bshouseno"  placeholder="Enter House No." required>
-                                           
+                                            <label class= "form-label"> House No: </label>
+                                            <input id="bshouseno" type="text" class= "form-input" name="bshouseno"  
+                                            placeholder="Enter House No."  
+                                            data-tr-rules="required|excludes:-,@,!,#,$,%,^,&,*,(,)|maxlength:50"
+                                            required>
+                                            <div class="invalid-feedback" data-tr-feedback="bshouseno"></div>
                                         </div>
                                     </div>
 
                                     <div class="col">
                                         <div class="form-group">
-                                            <label class = "form-label"> Street: </label>
-                                            <input type="text" class = "form-input" name="bsstreet"  placeholder="Enter Street" required>
-                                           
+                                            <label class= "form-label"> Street (Purok/Sitio/Village): </label>
+                                            <input id="bsstreet" type="text" class= "form-input" name="bsstreet"  
+                                            placeholder="Enter bsStreet"  
+                                            data-tr-rules="required|excludes:-,@,!,#,$,%,^,&,*,(,)|maxlength:50"
+                                            required>
+                                            <div class="invalid-feedback" data-tr-feedback="bsstreet"></div>
+
                                         </div>
                                     </div>
 
@@ -901,14 +945,17 @@ h2 {
                                                 <option value="Other">Others (Please Specify)</option>
                                             </select>
                                             <div id="customPurposeContainer" style="display:none; margin-top:10px;">
-                                                <input type="text" class="form-input" name="custom_purpose" id="custom_purpose" placeholder="Enter your purpose">
+                                                <input type="text" class="form-input" name="custom_purpose" id="custom_purpose" placeholder="Enter your business industry">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-group">
                                             <label class = "form-label" for="aoe">Area of Establishment (SqM): </label>
-                                            <input type="number" name="aoe" class="form-input" placeholder="Enter your AOE" required>
+                                            <input type="number" name="aoe" class="form-input" placeholder="Enter your AOE" 
+                                            data-tr-rules="required|number|greaterThan:0"
+                                            required>
+                                            <div class="invalid-feedback" data-tr-feedback="aoe"></div>
 
                                         </div>
                                     </div>
@@ -952,7 +999,10 @@ h2 {
       
         
      
-        <?php include('user-footer.php'); ?>
+        <?php include('user-footer.php'); 
+        
+        require('./validation_script.php');
+        ?>
         <script>
   document.getElementById('sidebar-toggle').addEventListener('click', function() {
         document.getElementById('sidebar').classList.remove('sidebar-hide');

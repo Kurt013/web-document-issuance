@@ -170,7 +170,7 @@ if (count($result) == 0) {
         <th> Issuance No. </th> 
         <th> Surname </th>
         <th> First Name </th>
-        <th> Middle Initial </th> 
+        <th> Middle Name </th> 
         <th> Age </th> 
         <th> House Number </th> <!-- hidden -->
         <th> Street </th> <!-- hidden -->
@@ -267,7 +267,7 @@ if (count($result) == 0) {
             <!-- delete payment -->
             <td>    
             <form id="archiveForm" action="" method="post">
-                <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
+                <input type="hidden" name="id" value="<?= $userdetails['fname']; ?> <?= $userdetails['lname'];?>">
                 <input type="hidden" name="id_clearance" value="<?= $view['id_clearance'];?>">
                 <?php
 echo $list === 'active' ? 
@@ -316,7 +316,7 @@ echo $list === 'active' ?
         <th> Issuance No. </th>
         <th> Surname </th>
         <th> First Name </th>
-        <th> Middle Initial </th>
+        <th> Middle Name </th>
         <th> Age </th>
         <th> House Number </th>
         <th> Street </th>
@@ -362,7 +362,7 @@ echo $list === 'active' ?
             <!-- delete payment -->
             <td>    
             <form id="archiveForm" action="" method="post">
-                <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
+                <input type="hidden" name="id" value="<?= $userdetails['fname']; ?> <?= $userdetails['lname'];?>">
                 <input type="hidden" name="id_clearance" value="<?= $view['id_clearance'];?>">
                 <?php
 echo $list === 'active' ? 

@@ -107,7 +107,7 @@ if (isset($_GET['id_rescert'])) {
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label>Middle Initial</label>
+                <label>Middle Name</label>
                 <input class="form-control" type="text" value="<?php echo htmlspecialchars($row['mi']); ?>" readonly>
             </div>
         </div>
@@ -188,7 +188,7 @@ if (isset($_GET['id_rescert'])) {
                     <form id="archiveForm" action="" method="post">
             <div class="button-dtls text-center">
 
-                <input type="hidden" name="id" value="<?= $userdetails['id'];?>">
+                <input type="hidden" name="id" value="<?= $userdetails['fname']; ?> <?= $userdetails['lname'];?>">
                 <input type="hidden" name="id_rescert" value="<?= $row['id_rescert'];?>">
                 <button type="submit" id="hiddenSubmitBtn" style="display:none;" name="unarchive_rescert">Submit</button>
                 
