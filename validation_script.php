@@ -121,10 +121,20 @@ input[type="file"].is-invalid {
     // Apply the capitalize function to both first name and last name
     capitalizeName(document.getElementById('fname'));
     capitalizeName(document.getElementById('lname'));
-    capitalizeName(document.getElementById('nationality'));
-    capitalizeName(document.getElementById('nationality'));
+    capitalizeNameNoSpace(document.getElementById('nationality'));
+    capitalizeName(document.getElementById('mi'));
     capitalizeName(document.getElementById('street'));
     capitalizeName(document.getElementById('houseno'));
+
+    capitalizeName(document.getElementById('inc_fname'));
+    capitalizeName(document.getElementById('inc_lname'));
+    capitalizeName(document.getElementById('inc_mi'));
+    capitalizeName(document.getElementById('inc_houseno'));
+    capitalizeName(document.getElementById('inc_street'));
+    capitalizeName(document.getElementById('inc_brgy'));
+    capitalizeName(document.getElementById('inc_city'));
+    capitalizeName(document.getElementById('inc_municipality'));
+
     capitalizeFirstWord(document.getElementById('custom_purpose'));
     
 
@@ -395,7 +405,7 @@ document.querySelectorAll("input, textarea").forEach((field) => {
 <script>
         function toggleNA(inputId) {
         var inputField = document.getElementById(inputId);
-        var inputFeedback = document.getElementById('mi-feedback');
+        var inputFeedback = document.getElementById(inputId + '-feedback');
 
         if (document.getElementById(inputId + '_na').checked) {
             inputField.value = 'N/A';
@@ -408,6 +418,8 @@ document.querySelectorAll("input, textarea").forEach((field) => {
             inputField.readOnly = false;
         }
     }
+
+    
 </script>
 <script>
         function toggleCustomPurpose() {
