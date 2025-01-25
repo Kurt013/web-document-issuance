@@ -489,15 +489,13 @@ echo $list === 'active' ?
 
 <?php if ($list === 'archived') { ?>
     <div class="form-buttons">
-        <form action="./export_to_pdf.php" method="POST" target="_blank">
-            <button name="export_pdf" class="btnexpdf" ><i class="fas fa-file-pdf"></i>Export to PDF</button>
+        <form action="./pdf_brgyid.php" method="POST" target="_blank">
+            <button name="pdf_brgyid" class="btnexpdf" ><i class="fas fa-file-pdf"></i>Export to PDF</button>
             <input type="hidden" name="views_data" value="<?php echo htmlspecialchars($viewsJson, ENT_QUOTES, 'UTF-8'); ?>">
-            <input type="hidden" name="table_name" value="<?= $tableName ?>">
         </form>
-        <form action="./export_to_excel.php" method="POST" target="_blank">
-            <button name="export_excel" class="btnexpex"><i class="fas fa-file-excel"></i>Export to Excel</button>
+        <form action="./excel_brgyid.php" method="POST" target="_blank">
+            <button name="excel_brgyid" class="btnexpex"><i class="fas fa-file-excel"></i>Export to Excel</button>
             <input type="hidden" name="views_data" value="<?php echo htmlspecialchars($viewsJson, ENT_QUOTES, 'UTF-8'); ?>">
-            <input type="hidden" name="table_name" value="<?= $tableName ?>">
         </form>
     </div>
 <?php } ?>
