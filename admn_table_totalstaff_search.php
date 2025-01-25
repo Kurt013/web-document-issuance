@@ -68,6 +68,7 @@
 }
 
 </style>
+<?php include ('logout_script.php'); ?>
 
 <?php
 
@@ -207,6 +208,7 @@ $conn = null;
 
 
 ?>
+
 
 
 <?php include('table_script.php'); ?>

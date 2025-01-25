@@ -11,6 +11,7 @@ if (isset($_SESSION['toast'])) {
     include('table_design.php');
     include('popup-confirm.php');
     include('popup.php');
+    include('logout_script.php');
 
     $conn = $staffbmis->openConn();
     $staffbmis->validate_admin();
@@ -508,6 +509,7 @@ input[type="file"].success {
 
     <hr>
     <br><br>
+    
     <?php include ('validation_script.php'); ?>
     <div class="search-row"> 
     <div class="cols">
@@ -530,7 +532,7 @@ input[type="file"].success {
     <br>
 
 
-
+    
     <?php
 
 $sql = "SELECT * FROM tbl_user WHERE role = :role";
@@ -748,6 +750,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 </script>
+
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>

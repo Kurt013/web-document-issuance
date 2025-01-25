@@ -1,6 +1,8 @@
 <?php
     include('dashboard_sidebar_start.php');
     include('table_design.php');
+    include('popup-confirm.php');
+    include('logout_script.php');
 
     $conn = $staffbmis->openConn();
     $bmis->validate_admin();

@@ -1,6 +1,7 @@
 <?php
     include('dashboard_sidebar_start.php');
     include('table_design.php');
+    include('popup-confirm.php');
     
     $conn = $staffbmis->openConn();
 

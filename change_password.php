@@ -1,5 +1,7 @@
 <?php
     include('dashboard_sidebar_start.php');
+    include('popup-confirm.php');
+    include('logout_script.php');
 
     $id_user = $userdetails['id'];
 
