@@ -1364,7 +1364,8 @@ class BMISClass {
             id_clearance,
             fname,
             mi,
-            lname, suffix,
+            lname, 
+            suffix,
             age,
             houseno,
             street,
@@ -1611,7 +1612,7 @@ class BMISClass {
             try {                
                 $connection = $this->openConn();
                 $stmt = $connection->prepare("UPDATE tbl_clearance SET 
-                    lname = ?, suffix = ?
+                    lname = ?, suffix = ?,
                     fname = ?,
                     mi = ?,
                     age = ?,
@@ -2074,7 +2075,7 @@ class BMISClass {
             try {                
                 $connection = $this->openConn();
                 $stmt = $connection->prepare("UPDATE tbl_bspermit SET 
-                    lname = ?, suffix = ?
+                    lname = ?, suffix = ?,
                     fname = ?,
                     mi = ?,
                     bshouseno = ?,

@@ -76,7 +76,7 @@
         <span contenteditable="true" id="mi"><?= $resident['mi'] === 'N/A' ? '' : $resident['mi']; ?></span>
 
 
-        <span contenteditable="true" id="lname"><?= $resident['lname'] ?></span>, 
+        <span contenteditable="true" id="lname"><?= $resident['lname'] ?></span>
         <span contenteditable="true" id="suffix"><?= $resident['suffix'] ?></span>, 
         
         is officially recognized as a legitimate resident of
@@ -161,6 +161,7 @@
                 lname: $('#lname').text().trim(),
                 fname: $('#fname').text().trim(),
                 mi: $('#mi').text().trim(),
+                suffix: $('#suffix').text().trim(),
                 bsname: $('#bsname').text().trim(),
                 bsindustry: $('#bsindustry').text().trim(),
                 bshouseno: $('#bshouseno').text().trim(),
