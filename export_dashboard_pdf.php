@@ -8,14 +8,14 @@ class MYPDF extends TCPDF {
     // Page header
     public function Header() {
         // Path to the header image
-        $image_file = __DIR__ . '/assets/pdfheader2.png';
+        $image_file = __DIR__ . '/assets/pdfheader7.jpg';
 
         // Check if the image file exists
         if (file_exists($image_file)) {
             // Get the page width
             $pageWidth = $this->getPageWidth();
             // Set the image on the top-left corner with the width of the page
-            $this->Image($image_file, 0, 0, $pageWidth, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+            $this->Image($image_file, 0, 0, $pageWidth, '', 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
         } else {
             // Handle the case where the image file does not exist
             $this->SetFont('helvetica', 'B', 12);
@@ -33,7 +33,7 @@ $pdf->SetTitle('Daily Report');
 $pdf->SetSubject('Daily Report for ' . date('F j, Y'));
 
 // Set document information
-$pdf->SetMargins(15, 15, 15); // Set margins
+$pdf->SetMargins(15, 25, 15); // Set margins
 $pdf->AddPage(); // Add a page to the PDF
 
 $dateToday = date('F j, Y'); // e.g., January 14, 2025
@@ -57,7 +57,7 @@ $pdf->SetFont('helvetica', 'B', 16);
 $pdf->Cell(0, 10, "Daily Report ($dateToday)", 0, 1, 'C');
 
 // Add Total Document Issued section
-$pdf->SetY(50); // Sets the vertical position to 50 units from the top
+$pdf->SetY(45); // Sets the vertical position to 50 units from the top
 $pdf->SetFont('helvetica', 'B', 12);
 $pdf->Cell(0, 10, 'Total Document Issued', 0, 1, 'L');
 
