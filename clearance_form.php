@@ -72,7 +72,9 @@
     <p>TO WHOM IT MAY CONCERN:</p>
     <p> This document hereby certifies that
         <span contenteditable="true" id="fname"><?= $resident['fname'];?></span>
-        <span contenteditable="true" id="mi"><?= $resident['mi']?></span>.
+                               <span contenteditable="true" id="mi"><?= $resident['mi'] === 'N/A' ? '' : $resident['mi']; ?></span>
+
+.
         <span contenteditable="true" id="lname"><?= $resident['lname'] ?></span>, aged
         <span contenteditable="true" id="age"><?= $resident['age'] ?></span>,
         is officially recognized as a legitimate resident of
