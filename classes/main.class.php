@@ -61,14 +61,16 @@ class BMISClass {
                     <div class="toast-content">
                         <i class="fas fa-exclamation-triangle check" style = "background-color: #D32F2F;"></i>
                         <div class="message">
-                            <span class="text text-1">Wrong Credentials</span>
-                            <span class="text text-2">Invalid username or password </span>
+                            <span class="text text-1">Cannot save changes </span>
+                            <span class="text text-2">The email address you entered is already use by another account </span>
                         </div>
                     </div>
                     <i class="fa-solid fa-xmark close close-error"  onclick="closeToast()"></i>
                     <div class="progress progress-error"></div>
                 </div>
            ';
+
+           $_SESSION['toast'] = $toast;
 
             // Redirect to prevent form re-submission
             header("Location: account_crud.php");
@@ -109,28 +111,101 @@ class BMISClass {
             $oldpassword = $_POST['oldpassword'];
             $newpassword = $_POST['newpassword'];
             $checkpassword = $_POST['checkpassword'];
+    
+            // Validate new password strength
+            $passwordError = $this->validatePasswordStrength($newpassword);
 
+    
             $connection = $this->openConn();
             $stmt = $connection->prepare("SELECT `password` FROM tbl_user WHERE id_user = ?");
             $stmt->execute([$id_user]);
             $result = $stmt->fetch();
-
+    
             if (!$result || !password_verify($oldpassword, $result['password'])) {
-                echo "<script type='text/javascript'>alert('Old Password is Incorrect');</script>";
+                echo '                      <div class="toast" style = "border-left: 6px solid #D32F2F;">
+                <div class="toast-content">
+                    <i class="fas fa-exclamation-triangle check" style = "background-color: #D32F2F;"></i>
+                    <div class="message">
+                        <span class="text text-1">Incorrect Old Password</span>
+<span class="text text-2">The old password you entered is incorrect.</span>
+                    </div>
+                </div>
+                <i class="fa-solid fa-xmark close close-error"  onclick="closeToast()"></i>
+                <div class="progress progress-error"></div>
+            </div>';
+
+
             } elseif ($newpassword !== $checkpassword) {
-                echo "<script type='text/javascript'>alert('New Password and Confirm Password do not Match');</script>";
+                echo '                      <div class="toast" style = "border-left: 6px solid #D32F2F;">
+                <div class="toast-content">
+                    <i class="fas fa-exclamation-triangle check" style = "background-color: #D32F2F;"></i>
+                    <div class="message">
+                        <span class="text text-1">Passwords Do Not Match</span>
+                                    <span class="text text-2">The new password and confirm password fields must be identical. Please try again.</span>
+                    </div>
+                </div>
+                <i class="fa-solid fa-xmark close close-error"  onclick="closeToast()"></i>
+                <div class="progress progress-error"></div>
+            </div>';
+
+
+            }       elseif ($passwordError) {
+echo '                      <div class="toast" style = "border-left: 6px solid #D32F2F;">
+                            <div class="toast-content">
+                                <i class="fas fa-exclamation-triangle check" style = "background-color: #D32F2F;"></i>
+                                <div class="message">
+                                    <span class="text text-1">Weak Password</span>
+                                    <span class="text text-2">Password must be 8 characters or more, and include letters, numbers, and special characters</span>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-xmark close close-error"  onclick="closeToast()"></i>
+                            <div class="progress progress-error"></div>
+                        </div>';
+
             } else {
                 $hashedPassword = password_hash($newpassword, PASSWORD_DEFAULT);
                 $stmt = $connection->prepare("UPDATE tbl_user SET password = ? WHERE id_user = ?");
                 $stmt->execute([$hashedPassword, $id_user]);
-
-                $message2 = "Password Updated";
-                echo "<script type='text/javascript'>alert('$message2');</script>";
-                header("refresh: 0");
+    
+                echo '
+                <body>
+                    <div class="toast">
+                        <div class="toast-content">
+                            <i class="fas fa-solid fa-check check"></i>
+                            <div class="message">
+                                <span class="text text-1">Success</span>
+                                <span class="text text-2">Your password is updated successfully</span>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-xmark close" onclick="closeToast()"></i>
+                        <div class="progress"></div>
+                    </div>
+                </body>';
+            
+   
             }
         }
     }
-
+    
+    private function validatePasswordStrength($password) {
+        if (strlen($password) < 8) {
+            return "Password must be at least 8 characters long.";
+        }
+        if (!preg_match('/[A-Z]/', $password)) {
+            return "Password must include at least one uppercase letter.";
+        }
+        if (!preg_match('/[a-z]/', $password)) {
+            return "Password must include at least one lowercase letter.";
+        }
+        if (!preg_match('/[0-9]/', $password)) {
+            return "Password must include at least one number.";
+        }
+        if (!preg_match('/[\W]/', $password)) {
+            return "Password must include at least one special character.";
+        }
+        return null;
+    }
+    
 
 
 

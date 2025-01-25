@@ -2,6 +2,7 @@
     include('dashboard_sidebar_start.php');
     include('popup-confirm.php');
     include('logout_script.php');
+    include('popup.php');
 
     $id_user = $userdetails['id'];
 
@@ -15,6 +16,18 @@
     $staffbmis->update_account_profile();
     $staffbmis->update_account_password();
 ?>
+
+<?php
+$errormsg = '';
+if (isset($_SESSION['toast'])) {
+    $errormsg = $_SESSION['toast'];
+    unset($_SESSION['toast']); // Clear the session after displaying
+}
+?>
+
+<?php if (!empty($errormsg)): ?>
+        <?= $errormsg; ?>
+    <?php endif; ?>
 
 <style>
 .col-md-12 h1 {
