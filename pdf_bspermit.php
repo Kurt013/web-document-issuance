@@ -38,14 +38,25 @@ if (isset($_POST['views_data'])) {
         // Add the rescert list
         $pdf->SetFont('helvetica', '', 12);
         foreach ($columns as $column) {
-            $pdf->Cell(35, 10, $column['id_bspermit'], 1, 0, 'L');
-            $pdf->Cell(50, 10, $column['fname'], 1, 0, 'L');
-            $pdf->Cell(10, 10, $column['mi'], 1, 0, 'L');
-            $pdf->Cell(30, 10, $column['lname'], 1, 0, 'L');
-            $pdf->Cell(20, 10, $column['suffix'], 1, 0, 'L');
-            $pdf->Cell(40, 10, $column['bsname'], 1, 0, 'L');
-            $pdf->Cell(40, 10, $column['bsindustry'], 1, 0, 'L');
-            $pdf->Cell(30, 10, $column['aoe'] . ' sqm.', 1, 1, 'L');
+            $rowHeight = max(
+                $pdf->getStringHeight(35, $column['id_bspermit']),
+                $pdf->getStringHeight(50, $column['fname']),
+                $pdf->getStringHeight(10, $column['mi']),
+                $pdf->getStringHeight(30, $column['lname']),
+                $pdf->getStringHeight(20, $column['suffix']),
+                $pdf->getStringHeight(40, $column['bsname']),
+                $pdf->getStringHeight(40, $column['bsindustry']),
+                $pdf->getStringHeight(30, $column['aoe'] . ' sqm.')
+            );
+
+            $pdf->MultiCell(35, $rowHeight, $column['id_bspermit'], 1, 'L', 0, 0);
+            $pdf->MultiCell(50, $rowHeight, $column['fname'], 1, 'L', 0, 0);
+            $pdf->MultiCell(10, $rowHeight, $column['mi'], 1, 'L', 0, 0);
+            $pdf->MultiCell(30, $rowHeight, $column['lname'], 1, 'L', 0, 0);
+            $pdf->MultiCell(20, $rowHeight, $column['suffix'], 1, 'L', 0, 0);
+            $pdf->MultiCell(40, $rowHeight, $column['bsname'], 1, 'L', 0, 0);
+            $pdf->MultiCell(40, $rowHeight, $column['bsindustry'], 1, 'L', 0, 0);
+            $pdf->MultiCell(30, $rowHeight, $column['aoe'] . ' sqm.', 1, 'L', 0, 1);
         }
 
         // Correct Output method to ensure proper file download

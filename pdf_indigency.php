@@ -37,16 +37,29 @@ if (isset($_POST['views_data'])) {
         // Add the rescert list
         $pdf->SetFont('helvetica', '', 12);
         foreach ($columns as $column) {
-            $pdf->Cell(35, 10, $column['id_indigency'], 1, 0, 'L');
-            $pdf->Cell(50, 10, $column['fname'], 1, 0, 'L');
-            $pdf->Cell(10, 10, $column['mi'], 1, 0, 'L');
-            $pdf->Cell(30, 10, $column['lname'], 1, 0, 'L');
-            $pdf->Cell(20, 10, $column['suffix'], 1, 0, 'L');
-            $pdf->Cell(20, 10, $column['nationality'], 1, 0, 'L');
-            $pdf->Cell(20, 10, $column['age'], 1, 0, 'L');
-            $pdf->Cell(30, 10, $column['houseno'], 1, 0, 'L');
-            $pdf->Cell(40, 10, $column['street'], 1, 0, 'L');
-            $pdf->Cell(40, 10, $column['purpose'], 1, 0, 'L');
+            $maxHeight = max(
+                $pdf->getStringHeight(35, $column['id_indigency']),
+                $pdf->getStringHeight(50, $column['fname']),
+                $pdf->getStringHeight(10, $column['mi']),
+                $pdf->getStringHeight(30, $column['lname']),
+                $pdf->getStringHeight(20, $column['suffix']),
+                $pdf->getStringHeight(20, $column['nationality']),
+                $pdf->getStringHeight(20, $column['age']),
+                $pdf->getStringHeight(30, $column['houseno']),
+                $pdf->getStringHeight(40, $column['street']),
+                $pdf->getStringHeight(40, $column['purpose'])
+            );
+
+            $pdf->MultiCell(35, $maxHeight, $column['id_indigency'], 1, 'L', 0, 0);
+            $pdf->MultiCell(50, $maxHeight, $column['fname'], 1, 'L', 0, 0);
+            $pdf->MultiCell(10, $maxHeight, $column['mi'], 1, 'L', 0, 0);
+            $pdf->MultiCell(30, $maxHeight, $column['lname'], 1, 'L', 0, 0);
+            $pdf->MultiCell(20, $maxHeight, $column['suffix'], 1, 'L', 0, 0);
+            $pdf->MultiCell(20, $maxHeight, $column['nationality'], 1, 'L', 0, 0);
+            $pdf->MultiCell(20, $maxHeight, $column['age'], 1, 'L', 0, 0);
+            $pdf->MultiCell(30, $maxHeight, $column['houseno'], 1, 'L', 0, 0);
+            $pdf->MultiCell(40, $maxHeight, $column['street'], 1, 'L', 0, 0);
+            $pdf->MultiCell(40, $maxHeight, $column['purpose'], 1, 'L', 0, 1);
         }
 
         // Correct Output method to ensure proper file download
