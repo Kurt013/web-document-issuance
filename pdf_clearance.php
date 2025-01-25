@@ -25,7 +25,6 @@ if (isset($_POST['views_data'])) {
         $pdf->SetFont('helvetica', 'B', 12);
         $pdf->Cell(35, 10, 'ID Clearance', 1, 0, 'C');
         $pdf->Cell(50, 10, 'First Name', 1, 0, 'C');
-        $pdf->Cell(10, 10, 'Middle Name', 1, 0, 'C');
         $pdf->Cell(30, 10, 'Last Name', 1, 0, 'C');
         $pdf->Cell(20, 10, 'Suffix', 1, 0, 'C');
         $pdf->Cell(20, 10, 'Age', 1, 0, 'C');
@@ -39,7 +38,6 @@ if (isset($_POST['views_data'])) {
             $maxHeight = max(
                 $pdf->getStringHeight(35, $column['id_clearance']),
                 $pdf->getStringHeight(50, $column['fname']),
-                $pdf->getStringHeight(10, $column['mi']),
                 $pdf->getStringHeight(30, $column['lname']),
                 $pdf->getStringHeight(20, $column['suffix']),
                 $pdf->getStringHeight(20, $column['age']),
@@ -50,7 +48,6 @@ if (isset($_POST['views_data'])) {
 
             $pdf->MultiCell(35, $maxHeight, $column['id_clearance'], 1, 'L', 0, 0);
             $pdf->MultiCell(50, $maxHeight, $column['fname'], 1, 'L', 0, 0);
-            $pdf->MultiCell(10, $maxHeight, $column['mi'], 1, 'L', 0, 0);
             $pdf->MultiCell(30, $maxHeight, $column['lname'], 1, 'L', 0, 0);
             $pdf->MultiCell(20, $maxHeight, $column['suffix'], 1, 'L', 0, 0);
             $pdf->MultiCell(20, $maxHeight, $column['age'], 1, 'L', 0, 0);

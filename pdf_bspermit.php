@@ -28,7 +28,6 @@ if (isset($_POST['views_data'])) {
         $pdf->SetFont('helvetica', 'B', 12);
         $pdf->Cell(35, 10, 'ID', 1, 0, 'C');
         $pdf->Cell(50, 10, 'First Name', 1, 0, 'C');
-        $pdf->Cell(10, 10, 'Middle Name', 1, 0, 'C');
         $pdf->Cell(30, 10, 'Last Name', 1, 0, 'C');
         $pdf->Cell(20, 10, 'Suffix', 1, 0, 'C');
         $pdf->Cell(40, 10, 'Business Name', 1, 0, 'C');
@@ -41,7 +40,6 @@ if (isset($_POST['views_data'])) {
             $rowHeight = max(
                 $pdf->getStringHeight(35, $column['id_bspermit']),
                 $pdf->getStringHeight(50, $column['fname']),
-                $pdf->getStringHeight(10, $column['mi']),
                 $pdf->getStringHeight(30, $column['lname']),
                 $pdf->getStringHeight(20, $column['suffix']),
                 $pdf->getStringHeight(40, $column['bsname']),
