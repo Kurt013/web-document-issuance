@@ -88,8 +88,8 @@
 
     }
 
-    #fname, #lname {
-      font-size: 16px;
+    #fname, #lname, #suffix {
+      font-size: 14px;
       font-family: "Arial";
     }
 
@@ -180,6 +180,8 @@
             <p class="name-container" style="margin-bottom: 10px; display: flex; justify-content: center; letter-spacing: 1.5px; column-gap: 10px; height: 30px; background-color: #0A3981; color: white; align-items: center; width: 100%">
               <span contenteditable="true" id="fname"><?= $resident['fname'] ?></span>
               <span contenteditable="true" id="lname"><?= $resident['lname'] ?></span>
+              <span contenteditable="true" id="suffix"><?= $resident['suffix'] ?></span>
+
             </p>
             <p class="address-container" style="display: flex; column-gap: 2px; justify-content: center; align-items: center; padding-bottom: 10px; ">
               <span contenteditable="true" id="houseno"><?= $resident['houseno'] ?></span>

@@ -2774,7 +2774,7 @@ class BMISClass {
             $id_brgyid = $_GET['id_brgyid'];
             $fname = $_POST['fname'];
             $suffix = $_POST['suffix'];
-            $mi = $_POST['mi']; 
+            // $mi = $_POST['mi']; 
             $lname = $_POST['lname'];
             $houseno = $_POST['houseno'];
             $street = $_POST['street'];
@@ -2804,7 +2804,7 @@ class BMISClass {
                 $stmt = $connection->prepare("UPDATE tbl_brgyid SET 
                     res_photo = ?,
                     fname = ?,
-                    mi = ?, 
+                    -- mi = ?, 
                     lname = ?,  suffix = ?,
                     houseno = ?,
                     street = ?,
@@ -2830,7 +2830,7 @@ class BMISClass {
                 $stmt->execute([
                     $imageData,
                     $fname,
-                    $mi, 
+                    // $mi, 
                     $lname, $suffix,
                     $houseno,
                     $street,

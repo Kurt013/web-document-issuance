@@ -900,7 +900,7 @@ h2 {
 
     <div class="col">
             <div class="form-group">
-                <label class= "form-label"> Street (Purok/Sitio/Village): </label>
+                <label class= "form-label"> Street/Purok (Include Village If Applicable)): </label>
                 <input id="street" type="text" class= "form-input" name="street"  
                 placeholder="Enter Street"  
                 data-tr-rules="required|excludes:-,@,!,#,$,%,^,&,*,(,)|maxlength:50"
