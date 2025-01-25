@@ -3,11 +3,31 @@
 require './vendor/autoload.php';
 require './classes/main.class.php';
 
+class MYPDF extends TCPDF {
+    // Page header
+    public function Header() {
+        // Path to the header image
+        $image_file = __DIR__ . '/assets/pdfheader6.png';
+
+        // Check if the image file exists
+        if (file_exists($image_file)) {
+            // Get the page width
+            $pageWidth = $this->getPageWidth();
+            // Set the image on the top-left corner with the width of the page
+            $this->Image($image_file, 0, 0, $pageWidth, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+        } else {
+            // Handle the case where the image file does not exist
+            $this->SetFont('helvetica', 'B', 12);
+            $this->Cell(0, 10, 'Header Image Not Found', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+        }
+    }
+}
+
 if (isset($_POST['views_data'])) {
     $columns = json_decode($_POST['views_data'], true); 
 
         // Initialize TCPDF object
-        $pdf = new TCPDF();
+        $pdf = new MYPDF();
         $pdf->SetCreator('TCPDF');
         $pdf->SetTitle('Daily Report');
         $pdf->SetSubject('Daily Report for ' . date('F j, Y'));
@@ -21,7 +41,7 @@ if (isset($_POST['views_data'])) {
         $pdf->Cell(0, 15, 'Generated List', 0, 1, 'C');
         
 
-        $pdf->Ln(5);
+        $pdf->SetY(40);
         $pdf->SetFont('helvetica', 'B', 12);
         $pdf->Cell(35, 10, 'ID Clearance', 1, 0, 'C');
         $pdf->Cell(50, 10, 'First Name', 1, 0, 'C');
