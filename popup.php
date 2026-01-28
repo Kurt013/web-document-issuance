@@ -80,7 +80,7 @@
         transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35), opacity 0.5s ease-out;
         width: auto;
         /* Adjust width based on content */
-        max-width: 650px;
+        max-width: 800px;
         /* Optional: limit the maximum width */
         white-space: nowrap;
         /* Prevent the text from wrapping to the next line */
